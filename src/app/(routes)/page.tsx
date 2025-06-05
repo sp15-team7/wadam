@@ -1,4 +1,5 @@
 import { SkeletonCard } from '@/shared/components/ui/skeleton-card';
+import { Spinner } from '@/shared/components/ui/spinner';
 
 const LandingPage = () => {
   return (
@@ -25,6 +26,11 @@ const LandingPage = () => {
       <div className='flex items-end p-[1.6rem] pr-[2rem] pl-[1.6rem] bg-orange-50 w-[34.3rem] rounded-md'>
         <SkeletonCard variant='detailList' />
       </div>
+
+      <br />
+      <br />
+      <Spinner size='large' color='primary' />
+      <Spinner size='small' color='primary' />
     </div>
   );
 };
