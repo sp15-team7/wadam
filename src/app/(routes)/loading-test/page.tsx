@@ -2,22 +2,23 @@
 
 // loading-test 파일 추후 삭제 예정
 
-// ✅ TanStack Query 상태를 이용해 로딩 시 SkeletonCard를 보여줌
-import { SkeletonCardLoader } from '@/shared/components/ui/skeleton-card-loader';
+// TanStack Query 상태를 이용해 로딩 시 SkeletonCard를 보여줌
+import { SkeletonCardLoader } from '@/shared/components/ui/skeleton/skeleton-card-loader';
 
 // 단독 UI 테스트용 - 로직 없이 단순 렌더링
-import { SkeletonCard } from '@/shared/components/ui/skeleton-card';
+import { SkeletonCard } from '@/shared/components/ui/skeleton/skeleton-card';
 
 // 와인 더미 데이터 (API 연동 전 테스트용)
 import { Wine, getWines } from '@/shared/libs/api/fake-wine-api';
 
 // TanStack Query 상태를 이용해 로딩 시 Spinner를 보여줌
-import { SpinnerLoader } from '@/shared/components/ui/spinner-loader';
+import { SpinnerLoader } from '@/shared/components/ui/spinner/spinner-loader';
 
 // 단독 UI 테스트용 - 로직 없이 단순 렌더링
-import { Spinner } from '@/shared/components/ui/spinner';
+import { Spinner } from '@/shared/components/ui/spinner/spinner';
 
-const LoadingTest = () => {
+
+export default function LoadingTest() {
   return (
     <div>
       <p className='text-xl-bold'>로딩 스피너</p>
@@ -50,7 +51,7 @@ const LoadingTest = () => {
           </ul>
         )}
       />
-
+      <br />
       <p className='text-xl-bold'>추천 와인</p>
       <div className='flex items-end p-[2.4rem] pb-0 bg-orange-50 w-[19.3rem] rounded-md'>
         {/* SkeletonCardLoader 사용 예시 */}
@@ -119,4 +120,3 @@ const LoadingTest = () => {
   );
 };
 
-export default LoadingTest;
