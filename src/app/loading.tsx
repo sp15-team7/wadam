@@ -6,6 +6,7 @@ const Loading = () => {
       <p className='text-xl-bold'>로딩 UI test 3초...</p>
       <br />
       <br />
+      <br />
       <Spinner />
     </div>
   );
