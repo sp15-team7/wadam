@@ -1,26 +1,157 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-primary: #ac271e;
+  --color-secondary: #e5e3d7;
+  --color-white: #fffdfa;
+  --color-black: #2d3034;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    font-family:
+      -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+      'Pretendard Variable', Pretendard, Roboto, 'Noto Sans KR', 'Segoe UI',
+      'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+      sans-serif;
+    font-size: 62.5%;
+    color: var(--color-black);
+    background-color: var(--color-white);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  /* layout */
+  .flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .item-justify-center {
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* typography */
+  .text-4xl-bold {
+    font-size: 4rem;
+    line-height: 4.8rem;
+    font-weight: 700;
+  }
+  .text-4xl-semibold {
+    font-size: 4rem;
+    line-height: 4.8rem;
+    font-weight: 600;
+  }
+  .text-4xl-regular {
+    font-size: 4rem;
+    line-height: 4.8rem;
+    font-weight: 500;
+  }
+  .text-3xl-bold {
+    font-size: 3.2rem;
+    line-height: 4rem;
+    font-weight: 700;
+  }
+  .text-3xl-semibold {
+    font-size: 3.2rem;
+    line-height: 4rem;
+    font-weight: 600;
+  }
+  .text-3xl-regular {
+    font-size: 3.2rem;
+    line-height: 4rem;
+    font-weight: 500;
+  }
+  .text-2xl-bold {
+    font-size: 2.4rem;
+    line-height: 3.2rem;
+    font-weight: 700;
+  }
+  .text-2xl-semibold {
+    font-size: 2.4rem;
+    line-height: 3.2rem;
+    font-weight: 600;
+  }
+  .text-2xl-regular {
+    font-size: 2.4rem;
+    line-height: 3.2rem;
+    font-weight: 500;
+  }
+  .text-xl-bold {
+    font-size: 2rem;
+    line-height: 2.8rem;
+    font-weight: 700;
+  }
+  .text-xl-semibold {
+    font-size: 2rem;
+    line-height: 2.8rem;
+    font-weight: 600;
+  }
+  .text-xl-regular {
+    font-size: 2rem;
+    line-height: 2.8rem;
+    font-weight: 500;
+  }
+  .text-2lg-bold {
+    font-size: 1.8rem;
+    line-height: 2.4rem;
+    font-weight: 700;
+  }
+  .text-2lg-semibold {
+    font-size: 1.8rem;
+    line-height: 2.4rem;
+    font-weight: 600;
+  }
+  .text-2lg-regular {
+    font-size: 1.8rem;
+    line-height: 2.4rem;
+    font-weight: 500;
+  }
+  .text-lg-bold {
+    font-size: 1.6rem;
+    line-height: 2.4rem;
+    font-weight: 700;
+  }
+  .text-lg-semibold {
+    font-size: 1.6rem;
+    line-height: 2.4rem;
+    font-weight: 600;
+  }
+  .text-lg-regular {
+    font-size: 1.6rem;
+    line-height: 2.4rem;
+    font-weight: 500;
+  }
+  .text-md-bold {
+    font-size: 1.4rem;
+    line-height: 2rem;
+    font-weight: 700;
+  }
+  .text-md-semibold {
+    font-size: 1.4rem;
+    line-height: 2rem;
+    font-weight: 600;
+  }
+  .text-md-regular {
+    font-size: 1.4rem;
+    line-height: 2rem;
+    font-weight: 500;
+  }
+  .text-sm-bold {
+    font-size: 1.2rem;
+    line-height: 1.6rem;
+    font-weight: 700;
+  }
+  .text-sm-semibold {
+    font-size: 1.2rem;
+    line-height: 1.6rem;
+    font-weight: 600;
+  }
+  .text-sm-regular {
+    font-size: 1.2rem;
+    line-height: 1.6rem;
+    font-weight: 500;
+  }
 }

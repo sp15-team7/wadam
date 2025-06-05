@@ -1,0 +1,26 @@
+# 최상위 설정임을 명시
+root = true
+
+# 기본 설정: 모든 파일에 적용
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+indent_style = space
+indent_size = 2
+trim_trailing_whitespace = true
+
+# 마크다운 파일은 개행 유지 (trailing space 허용)
+[*.md]
+trim_trailing_whitespace = false
+
+# JSON, YAML 등은 기본 설정 동일하게 적용
+[*.{json,yml,yaml}]
+indent_style = space
+indent_size = 2
+
+# JSX, TSX, TS 등 소스코드
+[*.{js,jsx,ts,tsx}]
+indent_style = space
+indent_size = 2
+quote_type = single
