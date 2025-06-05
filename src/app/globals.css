@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
+/* CSS 변수 */
 @theme {
   --color-primary: #ac271e;
   --color-secondary: #e5e3d7;
@@ -8,6 +9,7 @@
   --color-black: #2d3034;
 }
 
+/* 전역 CSS 기본 설정 */
 @layer base {
   html {
     font-family:
@@ -15,7 +17,7 @@
       'Pretendard Variable', Pretendard, Roboto, 'Noto Sans KR', 'Segoe UI',
       'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
       sans-serif;
-    font-size: 62.5%;
+    font-size: 62.5%; /* 10px */
     color: var(--color-black);
     background-color: var(--color-white);
   }
@@ -24,13 +26,7 @@
 @layer utilities {
   /* layout */
   .flex-center {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .item-justify-center {
-    align-items: center;
-    justify-content: center;
+    @apply flex items-center justify-center;
   }
 
   /* typography */
