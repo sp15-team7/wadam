@@ -1,3 +1,4 @@
+// 추후 삭제 예정
 export interface Wine {
   id: number;
   name: string;
