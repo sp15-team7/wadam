@@ -71,9 +71,7 @@ export function SkeletonCard({ variant, className }: SkeletonCardProps) {
           <div className='mb-[1.6rem] flex flex-col gap-[0.8rem]'>
             <Skeleton className='h-[1.4rem] w-full' />
             <Skeleton className='h-[1.4rem] w-full' />
-            <Skeleton className='h-[1.4rem] w-full' />
             <Skeleton className='h-[1.4rem] w-5/6' />
-            <Skeleton className='h-[1.4rem] w-full' />
             <Skeleton className='h-[1.4rem] w-full' />
             <Skeleton className='h-[1.4rem] w-1/2' />
           </div>
