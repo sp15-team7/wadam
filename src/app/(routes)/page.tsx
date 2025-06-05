@@ -1,5 +1,14 @@
+import { SkeletonCard } from '@/shared/components/ui/skeleton-card';
+
 const LandingPage = () => {
-  return <div className='text-4xl-bold md:text-2xl-bold'>Hello World</div>;
+  return (
+    <div>
+      <SkeletonCard variant='recommend' />
+      <SkeletonCard variant='list' />
+      <SkeletonCard variant='detailTop' />
+      <SkeletonCard variant='detailList' />
+    </div>
+  );
 };
 
 export default LandingPage;
