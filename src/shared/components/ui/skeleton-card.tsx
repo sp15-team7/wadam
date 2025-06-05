@@ -43,12 +43,11 @@ export function SkeletonCard({ variant, className }: SkeletonCardProps) {
       return (
         <div className={cn(classes, 'flex-row items-end gap-[2.5rem]')}>
           <Skeleton className='h-[20.9rem] w-[5.8rem]' />
-          <div className='flex flex-col flex-1'>
-            <Skeleton className='h-[1.2rem] w-[6rem] mb-[0.7rem]' />
-            <Skeleton className='h-[1rem] w-[4rem] mb-[0.5rem]' />
-            <Skeleton className='h-[1rem] w-[8rem] mb-[0.5rem]' />
-            <Skeleton className='h-[1rem] w-[8rem] mb-[1.2rem]' />
-            <Skeleton className='h-[2.8rem] w-[4.5rem]' />
+          <div className='flex flex-col flex-1 pb-[2.95rem]'>
+            <Skeleton className='h-[2rem] w-[13rem] mb-[0.7rem]' />
+            <Skeleton className='h-[2rem] w-[18rem] mb-[1.5rem]' />
+            <Skeleton className='h-[1.4rem] w-[17.3rem] mb-[1rem]' />
+            <Skeleton className='h-[2.8rem] w-[8.6rem] rounded-2xl' />
           </div>
         </div>
       );
