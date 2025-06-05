@@ -4,12 +4,13 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { Skeleton } from '@/shared/components/ui/skeleton';
 
 const skeletonCardVariants = cva('rounded-md flex flex-col gap-2', {
+  // 각 카드 내부 패딩값 제외한 너비 입니다.
   variants: {
     variant: {
       recommend: 'w-[14.3rem]',
       list: 'w-[30.3rem]',
-      detailTop: 'w-100 h-62',
-      detailList: 'w-60 h-78',
+      detailTop: 'w-[30.3rem]',
+      detailList: 'w-[30.3rem]',
     },
   },
   defaultVariants: {
@@ -40,55 +41,59 @@ export function SkeletonCard({ variant, className }: SkeletonCardProps) {
       );
     case 'detailTop':
       return (
-        <div className={classes}>
-          <Skeleton className='h-6 w-full rounded-md' />
-          <Skeleton className='h-4 w-5/6' />
-          <Skeleton className='h-4 w-2/3' />
-          <Skeleton className='h-4 w-1/2' />
+        <div className={cn(classes, 'flex-row items-end gap-[2.5rem]')}>
+          <Skeleton className='h-[20.9rem] w-[5.8rem]' />
+          <div className='flex flex-col flex-1'>
+            <Skeleton className='h-[1.2rem] w-[6rem] mb-[0.7rem]' />
+            <Skeleton className='h-[1rem] w-[4rem] mb-[0.5rem]' />
+            <Skeleton className='h-[1rem] w-[8rem] mb-[0.5rem]' />
+            <Skeleton className='h-[1rem] w-[8rem] mb-[1.2rem]' />
+            <Skeleton className='h-[2.8rem] w-[4.5rem]' />
+          </div>
         </div>
       );
     case 'detailList':
       return (
-        <div className={classes}>
-          <div>
-            <Skeleton className='rounded-full size-24 mb-4' />
-            <div>
-              <Skeleton className='h-4 w-3/5' />
-              <Skeleton className='h-3 w-2/4' />
+        <div className={cn(classes, 'flex flex-col gap-[2rem]')}>
+          <div className='mb-[2rem] flex items-center gap-[1.6rem]'>
+            <Skeleton className='rounded-full w-[4.2rem] h-[4.2rem]' />
+            <div className='flex flex-col gap-[0.8rem] flex-1'>
+              <Skeleton className='h-[1.6rem] w-[5.6rem]' />
+              <Skeleton className='h-[1.4rem] w-[5.6rem]' />
             </div>
           </div>
-          <div>
-            <Skeleton className='h-4 w-3/5' />
-            <Skeleton className='h-4 w-3/5' />
-            <Skeleton className='h-4 w-3/5' />
-            <Skeleton className='h-4 w-3/5' />
-            <Skeleton className='h-4 w-3/5' />
+          <div className='mb-[1.6rem] flex gap-[0.6rem]'>
+            <Skeleton className='h-[3.6rem] rounded-full w-3/5' />
+            <Skeleton className='h-[3.6rem] rounded-full w-3/5' />
+            <Skeleton className='h-[3.6rem] rounded-full w-3/5' />
+            <Skeleton className='h-[3.6rem] rounded-full w-3/5' />
+            <Skeleton className='h-[3.6rem] rounded-2xl w-3/5' />
           </div>
-          <div>
-            <Skeleton className='h-4 w-3/5' />
-            <Skeleton className='h-4 w-3/5' />
-            <Skeleton className='h-4 w-3/5' />
-            <Skeleton className='h-4 w-3/5' />
-            <Skeleton className='h-4 w-3/5' />
-            <Skeleton className='h-4 w-3/5' />
-            <Skeleton className='h-4 w-3/5' />
+          <div className='mb-[1.6rem] flex flex-col gap-[0.8rem]'>
+            <Skeleton className='h-[1.4rem] w-full' />
+            <Skeleton className='h-[1.4rem] w-full' />
+            <Skeleton className='h-[1.4rem] w-full' />
+            <Skeleton className='h-[1.4rem] w-5/6' />
+            <Skeleton className='h-[1.4rem] w-full' />
+            <Skeleton className='h-[1.4rem] w-full' />
+            <Skeleton className='h-[1.4rem] w-1/2' />
           </div>
-          <div>
-            <div>
-              <Skeleton className='h-4 w-3/5' />
-              <Skeleton className='h-4 w-3/5' />
+          <div className='flex flex-col gap-[1.2rem]'>
+            <div className='flex gap-[0.9rem] items-center'>
+              <Skeleton className='h-[3rem] w-[4.8rem]' />
+              <Skeleton className='h-[2rem] flex-1' />
             </div>
-            <div>
-              <Skeleton className='h-4 w-3/5' />
-              <Skeleton className='h-4 w-3/5' />
+            <div className='flex gap-[0.9rem] item'>
+              <Skeleton className='h-[3rem] w-[4.8rem]' />
+              <Skeleton className='h-[2rem] flex-1' />
             </div>
-            <div>
-              <Skeleton className='h-4 w-3/5' />
-              <Skeleton className='h-4 w-3/5' />
+            <div className='flex gap-[0.9rem] item'>
+              <Skeleton className='h-[3rem] w-[4.8rem]' />
+              <Skeleton className='h-[2rem] flex-1' />
             </div>
-            <div>
-              <Skeleton className='h-4 w-3/5' />
-              <Skeleton className='h-4 w-3/5' />
+            <div className='flex gap-[0.9rem] item'>
+              <Skeleton className='h-[3rem] w-[4.8rem]' />
+              <Skeleton className='h-[2rem] flex-1' />
             </div>
           </div>
         </div>
