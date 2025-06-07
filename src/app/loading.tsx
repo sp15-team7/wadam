@@ -1,4 +1,4 @@
-import { Spinner } from '@/shared/components/ui/spinner/Spinner';
+import Spinner from '@/shared/components/ui/spinner/Spinner';
 
 const Loading = () => {
   return (

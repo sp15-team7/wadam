@@ -3,19 +3,19 @@
 // loading-test 파일 추후 삭제 예정
 
 // TanStack Query 상태를 이용해 로딩 시 SkeletonCard를 보여줌
-import { SkeletonCardLoader } from '@/shared/components/ui/skeleton/SkeletonCardLoader';
+import SkeletonCardLoader from '@/shared/components/ui/skeleton/SkeletonCardLoader';
 
 // 단독 UI 테스트용 - 로직 없이 단순 렌더링
-import { SkeletonCard } from '@/shared/components/ui/skeleton/SkeletonCard';
+import SkeletonCard from '@/shared/components/ui/skeleton/SkeletonCard';
 
 // 와인 더미 데이터 (API 연동 전 테스트용)
 import { Wine, getWines } from '@/shared/libs/api/fake-wine-api';
 
 // TanStack Query 상태를 이용해 로딩 시 Spinner를 보여줌
-import { SpinnerLoader } from '@/shared/components/ui/spinner/SpinnerLoader';
+import SpinnerLoader from '@/shared/components/ui/spinner/SpinnerLoader';
 
 // 단독 UI 테스트용 - 로직 없이 단순 렌더링
-import { Spinner } from '@/shared/components/ui/spinner/Spinner';
+import Spinner from '@/shared/components/ui/spinner/Spinner';
 
 
 export default function LoadingTest() {

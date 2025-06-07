@@ -1,6 +1,6 @@
 import { cn } from '@/shared/libs/utils/cn';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { Skeleton } from './Skeleton';
+import Skeleton from './Skeleton';
 
 const skeletonCardVariants = cva('rounded-md flex flex-col gap-2', {
   // 각 카드 내부 패딩값 제외한 너비 입니다.

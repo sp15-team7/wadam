@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { SkeletonCard } from './SkeletonCard';
+import SkeletonCard from './SkeletonCard';
 
 interface SkeletonCardLoaderProps {
   queryKey: any[];
