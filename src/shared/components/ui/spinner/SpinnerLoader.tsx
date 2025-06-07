@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { Spinner } from './spinner';
+import { Spinner } from './Spinner';
 
 interface SpinnerLoaderProps {
   queryKey: any[];
