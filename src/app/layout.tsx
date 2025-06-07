@@ -1,8 +1,9 @@
-import QueryProvider from '@/shared/libs/provider/queryProvider';
 import './globals.css';
 
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
+
+import QueryProvider from '@/shared/libs/provider/queryProvider';
 
 const pretendard = localFont({
   src: '../../public/fonts/PretendardVariable.woff2',

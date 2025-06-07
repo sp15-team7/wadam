@@ -1,36 +1,39 @@
 import ky from 'ky';
 
 const apiClient = ky.create({
-  prefixUrl: 'http://localhost:3000/api',
-  throwHttpErrors: false,
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  prefixUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
   hooks: {
-    beforeRequest: [],
-    afterResponse: [],
-    beforeError: [],
+    beforeRequest: [
+      (request) => {
+        const accessToken = useAuthStore.getState().session?.accessToken;
+        if (accessToken) {
+          request.headers.set('Authorization', `Bearer ${accessToken}`);
+        }
+      },
+    ],
+    beforeError: [
+      async (error) => {
+        console.error('API Error:', error);
+        return error;
+      },
+    ],
   },
 });
 
-const get = (path: string) => {
-  return apiClient.get(path).json();
-};
+const get = <T>(path: string): Promise<T> => apiClient.get(path).json<T>();
+const post = <TRequest, TResponse>(
+  path: string,
+  body: TRequest,
+): Promise<TResponse> => apiClient.post(path, { json: body }).json<TResponse>();
+const put = <TRequest, TResponse>(
+  path: string,
+  body: TRequest,
+): Promise<TResponse> => apiClient.put(path, { json: body }).json<TResponse>();
+const patch = <TRequest, TResponse>(
+  path: string,
+  body: TRequest,
+): Promise<TResponse> =>
+  apiClient.patch(path, { json: body }).json<TResponse>();
+const del = <T>(path: string): Promise<T> => apiClient.delete(path).json<T>();
 
-const post = (path: string, body: any) => {
-  return apiClient.post(path, { json: body }).json();
-};
-
-const put = (path: string, body: any) => {
-  return apiClient.put(path, { json: body }).json();
-};
-
-const del = (path: string) => {
-  return apiClient.delete(path).json();
-};
-
-const patch = (path: string, body: any) => {
-  return apiClient.patch(path, { json: body }).json();
-};
-
-export { get, post, put, del, patch };
+export { del, get, patch, post, put };
