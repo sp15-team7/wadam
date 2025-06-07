@@ -1,5 +1,15 @@
+import Spinner from '@/shared/components/ui/spinner/Spinner';
+
 const Loading = () => {
-  return <div>Loading</div>;
+  return (
+    <div className='flex flex-col items-center justify-center h-screen'>
+      <p className='text-xl-bold'>로딩 UI test 3초...</p>
+      <br />
+      <br />
+      <br />
+      <Spinner />
+    </div>
+  );
 };
 
 export default Loading;
