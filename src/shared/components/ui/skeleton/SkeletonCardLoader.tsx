@@ -14,15 +14,13 @@ const SkeletonCardLoader = ({
   variant,
   render,
 }: SkeletonCardLoaderProps) => {
-  const { data, isLoading, isFetching } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey,
     queryFn,
   });
 
-  // 최초 로딩 또는 리패칭 중일 때 스켈레톤 노출
-  const shouldShowSkeleton = isLoading || isFetching;
-
-  if (shouldShowSkeleton) return <SkeletonCard variant={variant} />;
+  // 최초 로딩일 때만 스켈레톤 노출
+  if (isLoading) return <SkeletonCard variant={variant} />;
 
   return <>{render(data)}</>;
 }
