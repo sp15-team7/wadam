@@ -21,7 +21,7 @@ type SkeletonCardProps = {
   className?: string;
 } & VariantProps<typeof skeletonCardVariants>;
 
-export function SkeletonCard({ variant, className }: SkeletonCardProps) {
+const SkeletonCard = ({ variant, className }: SkeletonCardProps) => {
   const classes = cn(skeletonCardVariants({ variant }), className);
 
   switch (variant) {
@@ -117,3 +117,5 @@ export function SkeletonCard({ variant, className }: SkeletonCardProps) {
       );
   }
 }
+
+export default SkeletonCard;

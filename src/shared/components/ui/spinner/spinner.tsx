@@ -25,7 +25,7 @@ type SpinnerProps = {
   className?: string;
 } & VariantProps<typeof spinnerVariants>;
 
-export function Spinner({ size, className, color }: SpinnerProps) {
+const Spinner = ({ size, className, color }: SpinnerProps) => {
   return (
     <div className={cn(spinnerVariants({ size, color }), className)} role="status">
       <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
@@ -34,3 +34,5 @@ export function Spinner({ size, className, color }: SpinnerProps) {
     </div>
   );
 }
+
+export default Spinner;

@@ -11,7 +11,7 @@ interface SpinnerLoaderProps {
   spinnerWrapperClassName?: string;
 }
 
-export function SpinnerLoader({
+const SpinnerLoader = ({
   queryKey,
   queryFn,
   render,
@@ -19,7 +19,7 @@ export function SpinnerLoader({
   color = 'primary',
   className = '',
   spinnerWrapperClassName = 'flex justify-center items-center p-4',
-}: SpinnerLoaderProps) {
+}: SpinnerLoaderProps) => {
   const { data, isLoading, isFetching } = useQuery({
     queryKey,
     queryFn,
@@ -37,3 +37,5 @@ export function SpinnerLoader({
 
   return <>{render(data)}</>;
 }
+
+export default SpinnerLoader;

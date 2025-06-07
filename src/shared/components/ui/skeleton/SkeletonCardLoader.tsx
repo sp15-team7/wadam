@@ -8,12 +8,12 @@ interface SkeletonCardLoaderProps {
   render: (data: any) => React.ReactNode;
 }
 
-export function SkeletonCardLoader({
+const SkeletonCardLoader = ({
   queryKey,
   queryFn,
   variant,
   render,
-}: SkeletonCardLoaderProps) {
+}: SkeletonCardLoaderProps) => {
   const { data, isLoading, isFetching } = useQuery({
     queryKey,
     queryFn,
@@ -26,3 +26,5 @@ export function SkeletonCardLoader({
 
   return <>{render(data)}</>;
 }
+
+export default SkeletonCardLoader;
