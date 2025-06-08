@@ -11,9 +11,4 @@ import { authConfig } from '@/feature/auth/libs/auth.config';
  * - auth: 서버 컴포넌트나 서버 액션 내에서 현재 세션 정보를 가져오는 함수
  */
 
-export const {
-  handlers: { GET, POST },
-  signIn,
-  signOut,
-  auth,
-} = NextAuth(authConfig);
+export const { handlers, signIn, signOut, auth } = NextAuth(authConfig);
