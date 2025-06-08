@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@auth/core':
-        specifier: ^0.39.1
-        version: 0.39.1
       '@hookform/resolvers':
         specifier: ^5.0.1
         version: 5.0.1(react-hook-form@7.57.0(react@19.1.0))

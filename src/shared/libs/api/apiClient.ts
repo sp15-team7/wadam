@@ -1,7 +1,12 @@
+import { API_BASE_URL } from '@/shared/constants/api.config';
 import ky from 'ky';
 
+/**
+ * ky 인스턴스 생성
+ * @description 공통 헤더 및 에러 처리 설정
+ */
 const apiClient = ky.create({
-  prefixUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
+  prefixUrl: API_BASE_URL,
   hooks: {
     beforeRequest: [
       (request) => {
