@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { userSchema, dateStringSchema } from './commonSchema';
+import { dateStringSchema } from './commonSchema';
 import type {
   SignUpRequestBody,
   SignInRequestBody,
@@ -46,7 +46,7 @@ const _typeCheckSignIn: SignInRequestBody = {} as SignInRequestBodySchema;
 void _typeCheckSignIn; // 읽히지 않음 오류를 해결하기 위한 코드
 
 // 인증된 사용자 정보 스키마
-export const authUserSchema = userSchema.extend({
+export const authUserSchema = z.object({
   id: z.number(),
   email: z.string().email(),
   nickname: z.string(),
