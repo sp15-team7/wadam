@@ -1,4 +1,4 @@
-import { API_BASE_URL } from '@/shared/constants/api.config';
+import { API_BASE_URL } from '@/shared/constants/apiConfig';
 import ky from 'ky';
 
 /**
@@ -7,18 +7,17 @@ import ky from 'ky';
  */
 const apiClient = ky.create({
   prefixUrl: API_BASE_URL,
+  headers: {
+    'Content-type': 'application/json',
+  },
   hooks: {
-    beforeRequest: [
-      (request) => {
-        const accessToken = useAuthStore.getState().session?.accessToken;
-        if (accessToken) {
-          request.headers.set('Authorization', `Bearer ${accessToken}`);
-        }
-      },
-    ],
     beforeError: [
-      async (error) => {
-        console.error('API Error:', error);
+      (error) => {
+        const { response } = error;
+        if (response && response.body) {
+          error.name = 'APIError';
+          error.message = `${response.status} ${response.statusText}`;
+        }
         return error;
       },
     ],
