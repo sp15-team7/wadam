@@ -1,6 +1,6 @@
-import { z } from 'zod/v4';
+import { z } from 'zod';
 
-export const emailSchema = z.email('이메일 형식으로 작성해주세요.');
+export const emailSchema = z.string().email('이메일 형식으로 작성해주세요.');
 
 export const passwordSchema = z
   .string()
@@ -29,7 +29,7 @@ export const signUpSchema = z
     passwordConfirmation: z.string().min(1, '비밀번호 확인을 입력해주세요.'),
   })
   .refine((data) => data.password === data.passwordConfirmation, {
-    error: '비밀번호가 일치하지 않습니다.',
+    message: '비밀번호가 일치하지 않습니다.',
     path: ['passwordConfirmation'],
   });
 

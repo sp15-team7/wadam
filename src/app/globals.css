@@ -21,6 +21,13 @@
     color: var(--color-black);
     background-color: var(--color-white);
   }
+
+  body {
+    -ms-overflow-style: none;
+  }
+  ::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @layer utilities {
