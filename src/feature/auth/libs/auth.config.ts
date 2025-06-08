@@ -2,8 +2,8 @@ import { jwtDecode } from 'jwt-decode';
 import { NextAuthConfig } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 
-import { refreshToken, signIn } from '@/feature/auth/services/auth.service';
 import { signInSchema } from '@/feature/auth/schema/auth.schema';
+import { refreshToken, signIn } from '@/feature/auth/services/auth.service';
 import { AuthResponse } from '@/feature/auth/types/auth.types';
 
 /**

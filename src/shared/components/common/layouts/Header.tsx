@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
+
 import { auth } from '@/feature/auth/libs/auth';
+
 import HeaderLogo from './HeaderLogo';
 
 const Header = async () => {

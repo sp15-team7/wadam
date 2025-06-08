@@ -1,4 +1,5 @@
 import NextAuth from 'next-auth';
+
 import { authConfig } from '@/feature/auth/libs/auth.config';
 
 /**

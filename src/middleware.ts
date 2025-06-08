@@ -1,4 +1,5 @@
 import NextAuth from 'next-auth';
+
 import { authConfig } from '@/feature/auth/libs/auth.config';
 
 /**
@@ -29,13 +30,13 @@ export default auth((req) => {
   // 경로별 접근 제어 로직
   /**
    * Case 1: 로그인한 사용자가 로그인/회원가입 페이지에 접근하려는 경우
-   * -> 기본 경로('/')로 리다이렉트시킵니다.
+   * -> 기본 경로('/wines')로 리다이렉트시킵니다.
    */
   if (
     isLoggedIn &&
     (pathname.startsWith('/signin') || pathname.startsWith('/signup'))
   ) {
-    return Response.redirect(new URL('/', nextUrl));
+    return Response.redirect(new URL('/wines', nextUrl));
   }
 
   /**

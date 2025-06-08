@@ -1,5 +1,5 @@
 import 'next-auth';
-import { JWT as NextAuthJWT } from 'next-auth/jwt';
+
 import { User as CustomUser } from '@/feature/auth/types/auth.types';
 
 declare module 'next-auth' {

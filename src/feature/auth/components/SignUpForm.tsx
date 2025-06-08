@@ -1,11 +1,12 @@
 'use client';
 
+import { useActionState } from 'react';
 import { useFormStatus } from 'react-dom';
+
 import { signUpAction } from '@/feature/auth/actions/auth.action';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
 import { Label } from '@/shared/components/ui/label';
-import { useActionState } from 'react';
 
 function SubmitButton() {
   const { pending } = useFormStatus();

@@ -1,8 +1,8 @@
-// 📜 feature/auth/components/SignInForm.tsx (초간단 버전)
-
 'use client';
 
-import { useFormState, useFormStatus } from 'react-dom';
+import { useActionState } from 'react';
+import { useFormStatus } from 'react-dom';
+
 import { signInAction } from '@/feature/auth/actions/auth.action';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
@@ -18,7 +18,7 @@ function SubmitButton() {
 }
 
 export function SignInForm() {
-  const [state, formAction] = useFormState(signInAction, null);
+  const [state, formAction] = useActionState(signInAction, null);
 
   return (
     <form action={formAction} className='space-y-6'>
@@ -31,7 +31,7 @@ export function SignInForm() {
         <Input id='password' name='password' type='password' required />
       </div>
       {state?.message && (
-        <p className='text-sm font-medium text-destructive'>{state.message}</p>
+        <p className='text-destructive text-sm font-medium'>{state.message}</p>
       )}
       <SubmitButton />
     </form>

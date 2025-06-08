@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+
 import { useDeviceSize } from '@/shared/hooks/useDeviceSize'; // 실제 경로에 맞게 조정
 
 const HeaderLogo = () => {
