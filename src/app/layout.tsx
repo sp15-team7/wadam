@@ -3,6 +3,7 @@ import './globals.css';
 
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
+import { Toaster } from '@/shared/components/ui/sonner';
 
 const pretendard = localFont({
   src: '../../public/fonts/PretendardVariable.woff2',
@@ -20,7 +21,10 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang='kr'>
       <QueryProvider>
-        <body className={pretendard.className}>{children}</body>
+        <body className={pretendard.className}>
+          {children}
+          <Toaster />
+        </body>
       </QueryProvider>
     </html>
   );
