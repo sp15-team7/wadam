@@ -6,28 +6,20 @@ import {
   SignInRequest,
   SignUpRequest,
 } from '@/feature/auth/types/auth.types';
-
-const serverApiClient = ky.create({
-  prefixUrl: process.env.NEXT_PUBLIC_API_URL,
-  headers: { 'Content-Type': 'application/json' },
-});
+import { apiClient } from '@/shared/libs/api/apiClient';
 
 export const signUp = async (data: SignUpRequest): Promise<AuthResponse> => {
-  return serverApiClient
-    .post('auth/signUp', { json: data })
-    .json<AuthResponse>();
+  return apiClient.post('auth/signUp', { json: data }).json<AuthResponse>();
 };
 
 export const signIn = async (data: SignInRequest): Promise<AuthResponse> => {
-  return serverApiClient
-    .post('auth/signIn', { json: data })
-    .json<AuthResponse>();
+  return apiClient.post('auth/signIn', { json: data }).json<AuthResponse>();
 };
 
 export const refreshToken = async (
   data: RefreshTokenRequest,
 ): Promise<RefreshTokenResponse> => {
-  return serverApiClient
+  return apiClient
     .post('auth/refresh-token', { json: data })
     .json<RefreshTokenResponse>();
 };
