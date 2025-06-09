@@ -61,8 +61,8 @@ export default auth((req) => {
 });
 ```
 
-**보호된 경로**: `/myprofile` (자동 로그인 페이지로 리다이렉트)
-**인증 후 리다이렉트**: `/wines` (기본 홈 페이지)
+- **보호된 경로**: `/myprofile` (자동 로그인 페이지로 리다이렉트)
+- **인증 후 리다이렉트**: `/wines` (기본 홈 페이지)
 
 ### 2. 서버 컴포넌트에서 세션 사용
 
@@ -535,25 +535,3 @@ function DebugSession() {
 - [Next.js 15 문서](https://nextjs.org/docs)
 - [Zod 유효성 검사](https://zod.dev/)
 - [React Hook Form](https://react-hook-form.com/)
-
-## ❓ FAQ
-
-### Q: 로그인 후 세션이 유지되지 않아요
-
-A: `auth.config.ts`의 `session.maxAge` 설정과 쿠키 설정을 확인하세요.
-
-### Q: 토큰이 자동으로 갱신되지 않아요
-
-A: `useAuthSession` 훅이 토큰 만료를 감지하고 자동으로 로그아웃을 처리합니다. 백엔드의 refresh 엔드포인트가 정상 작동하는지 확인하세요.
-
-### Q: 회원가입 후 자동 로그인이 안 돼요
-
-A: `signUpAction`에서 회원가입 성공 후 `signIn` 함수가 호출되는지 확인하세요.
-
-### Q: 폼 유효성 검사가 작동하지 않아요
-
-A: Zod 스키마가 올바르게 import되고 적용되었는지 확인하세요. `safeParse` 결과의 `success` 속성을 체크해보세요.
-
----
-
-이 문서는 2025년 6월 현재 기준 최신 Next.js 15와 NextAuth.js 5 사양에 맞춰 작성되었습니다. 궁금한 점이 있으시면 팀 슬랙 채널에서 언제든 문의해 주세요! 🚀
