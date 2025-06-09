@@ -11,4 +11,5 @@ export default {
   bracketSameLine: false,
   bracketSpacing: true,
   endOfLine: 'lf',
+  plugins: ['prettier-plugin-tailwindcss'],
 };
