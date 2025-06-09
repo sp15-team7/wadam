@@ -2,14 +2,13 @@ import { cn } from '@/shared/libs/utils/cn';
 import { cva, type VariantProps } from 'class-variance-authority';
 import Skeleton from './Skeleton';
 
-const skeletonCardVariants = cva('rounded-md flex flex-col gap-2', {
-  // 각 카드 내부 패딩값 제외한 너비 입니다.
+const skeletonCardVariants = cva('rounded-[30px] flex flex-col', {
   variants: {
     variant: {
-      recommend: 'w-[14.3rem]',
-      list: 'w-[30.3rem]',
-      detailTop: 'w-[30.3rem]',
-      detailList: 'w-[30.3rem]',
+      recommend: 'w-[19.3rem] h-[16rem] p-[2.4rem] pb-0 bg-white border-secondary border-1',
+      list: 'w-[34.3rem] h-[36rem] p-[3rem] pr-[2rem] pl-[2rem] bg-white border-secondary border-1',
+      detailTop: 'w-[34.3rem] h-[20.9rem] p-[2.4rem] pb-0',
+      detailList: 'w-[34.3rem] p-[2rem] bg-white border-secondary border-1',
     },
   },
   defaultVariants: {
@@ -33,14 +32,19 @@ const SkeletonCard = ({ variant, className }: SkeletonCardProps) => {
             <Skeleton className='h-[2.8rem] w-[4.5rem] mb-[1.2rem]' />
             <Skeleton className='h-[1.2rem] w-[6rem] mb-[0.7rem]' />
             <Skeleton className='h-[1rem] w-[4rem] mb-[0.5rem]' />
-            <Skeleton className='h-[1rem] w-[8rem] mb-[0.5rem]' />
+            <Skeleton className='h-[1rem] w-[8rem] mb-[0.5rem]' /> 
             <Skeleton className='h-[1rem] w-[8rem]' />
           </div>
         </div>
       );
     case 'detailTop':
       return (
-        <div className={cn(classes, 'flex-row items-end gap-[2.5rem]')}>
+        <div
+          className={cn(
+            classes,
+            'flex-row items-end gap-[2.5rem] relative z-2 after:content-[""] after:block after:w-full after:h-[19rem] after: bg-white after:border-secondary after:border-1 after:absolute after:bottom-0 after:left-0 after:z-[-1] after:rounded-[30px]',
+          )}
+        >
           <Skeleton className='h-[20.9rem] w-[5.8rem]' />
           <div className='flex flex-col flex-1 pb-[2.95rem]'>
             <Skeleton className='h-[2rem] w-[13rem] mb-[0.7rem]' />
