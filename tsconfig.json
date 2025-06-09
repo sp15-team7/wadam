@@ -1,65 +1,27 @@
 {
   "compilerOptions": {
-    /* 기본 옵션 */
-    "target": "es2020", // 최신 브라우저에서 지원하는 ECMAScript 버전 (Next.js가 하위 호환성 처리)
-    "lib": ["dom", "dom.iterable", "esnext"], // TypeScript 컴파일 시 포함할 라이브러리 파일 목록
-    "allowJs": true, // JavaScript 파일 허용 여부 (점진적 마이그레이션 시 유용)
-    "skipLibCheck": true, // 모든 선언 파일(*.d.ts)의 타입 검사 생략 (빌드 속도 향상)
-    "esModuleInterop": true, // ES6 모듈 사양을 준수하여 CommonJS 모듈을 가져올 수 있게 함
-    "allowSyntheticDefaultImports": true, // default export가 없는 모듈에서 default import를 허용 (esModuleInterop이 true일 때 자동 활성화되기도 함)
-    "forceConsistentCasingInFileNames": true, // 파일 이름의 대소문자 일관성 강제
-
-    /* 엄격한 타입 검사 (매우 권장) */
-    "strict": true, // 모든 엄격한 타입 검사 옵션 활성화 (noImplicitAny, strictNullChecks, strictFunctionTypes, strictBindCallApply, strictPropertyInitialization, noImplicitThis, useUnknownInCatchVariables, alwaysStrict)
-    "noUnusedLocals": true, // 사용되지 않는 지역 변수 에러 처리
-    "noUnusedParameters": true, // 사용되지 않는 매개 변수 에러 처리
-    "noImplicitReturns": true, // 모든 코드 경로에서 값을 반환하지 않는 함수에 대해 에러 처리
-    "noFallthroughCasesInSwitch": true, // switch 문에서 fallthrough case 발생 시 에러 처리
-    // "noUncheckedIndexedAccess": true, // (선택적 강화) 인덱스 시그니처를 통한 접근 시 undefined 가능성 명시 (프로젝트 특성에 따라 적용 고려)
-
-    /* 모듈 설정 */
-    "module": "esnext", // 모듈 시스템 (Next.js는 ES 모듈 사용)
-    "moduleResolution": "bundler", // 모듈 해석 전략 (최신 Next.js 권장, Node.js의 ESM 해석 방식과 유사하게 동작)
-    "resolveJsonModule": true, // .json 파일을 모듈처럼 가져올 수 있게 함
-    "isolatedModules": true, // 각 파일을 별도의 모듈로 트랜스파일 (Babel과 같은 외부 트랜스파일러와 함께 사용 시 필요)
-
-    /* 경로 및 baseUrl (src 디렉토리 및 shadcn/ui 사용에 중요) */
-    "baseUrl": ".", // 경로 별칭의 기준 디렉토리
-    "paths": {
-      "@/*": ["src/*"] // 예: @/components/Button -> src/components/Button
-    },
-
-    /* JSX 설정 (React 17+ 및 Next.js) */
-    "jsx": "preserve", // JSX 코드를 변경하지 않고 출력 (Next.js/Babel이 처리)
-    // React 19에서는 jsxImportSource가 필수는 아니지만, 명시적으로 설정할 수도 있습니다.
-    // "jsxImportSource": "react", // 또는 프로젝트 특정 설정
-
-    /* 실험적 옵션 및 기타 */
-    "incremental": true, // 증분 컴파일 활성화 (빌드 속도 향상)
-
-    /* Next.js 필수 플러그인 (타입 시스템 강화 및 경로 별칭 자동 완성 등) */
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
     "plugins": [
       {
         "name": "next"
       }
     ],
-
-    /* 소스맵 (디버깅 시 필요) */
-    // "sourceMap": true, // 개발 중에는 유용하지만, 프로덕션 빌드에서는 Next.js가 관리
-    // "inlineSources": true, // sourceMap과 함께 사용
-
-    /* Emit 설정 (Next.js가 빌드 결과물 생성을 담당하므로 TypeScript는 타입 검사만) */
-    "noEmit": true // 타입 검사만 하고 JavaScript 파일은 생성하지 않음
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
-  "include": [
-    "next-env.d.ts", // Next.js 환경 타입 선언 파일
-    "src/**/*.ts", // src 디렉토리 내의 모든 .ts 파일
-    "src/**/*.tsx", // src 디렉토리 내의 모든 .tsx 파일
-    ".next/types/**/*.ts" // Next.js 13.4+ 에서 자동 생성되는 타입 파일 (라우트 타입 등)
-    // 필요한 경우 다른 경로 추가 (예: "lib/**/*.ts", "tests/**/*.ts")
-  ],
-  "exclude": [
-    "node_modules" // node_modules 디렉토리는 검사에서 제외
-    // 기타 제외할 디렉토리 (예: "dist", "build", "cypress")
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
 }
