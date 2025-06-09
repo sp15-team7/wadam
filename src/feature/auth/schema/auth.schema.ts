@@ -9,7 +9,10 @@ import { z } from 'zod';
  *
  * 예시: "user@example.com" → ✅, "abc" → ❌ "이메일 형식으로 작성해주세요."
  */
-export const emailSchema = z.string().email('이메일 형식으로 작성해주세요.');
+export const emailSchema = z
+  .string()
+  .min(1, '이메일은 필수 입력입니다.')
+  .email('이메일 형식으로 작성해주세요.');
 
 /**
  * 비밀번호 유효성 검사 스키마
@@ -27,9 +30,13 @@ export const passwordSchema = z
   .min(1, '비밀번호는 필수 입력입니다.') // 공백 입력 방지
   .min(8, '비밀번호는 최소 8자 이상힙니다.') // 보안 강화
   .regex(
-    /^[a-zA-Z0-9!@#$%^&*]+$/,
+    /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/,
     '비밀번호는 숫자, 영문, 특수문자로만 가능합니다.', // 허용된 문자 외 입력 방지
   );
+
+export const passwordConfirmationSchema = z
+  .string()
+  .min(1, '비밀번호 확인을 입력해주세요.');
 
 /**
  * 닉네임 유효성 검사 스키마
@@ -67,12 +74,12 @@ export const signInSchema = z.object({
  *
  * ⚠️ refine은 객체 수준에서 커스텀 검증할 때 사용 (단일 필드 이상 연관 검증에 유리)
  */
-export const signUpSchema = z
+export const SignupSchema = z
   .object({
     email: emailSchema,
     nickname: nicknameSchema,
     password: passwordSchema,
-    passwordConfirmation: z.string().min(1, '비밀번호 확인을 입력해주세요.'),
+    passwordConfirmation: passwordConfirmationSchema,
   })
   .refine((data) => data.password === data.passwordConfirmation, {
     message: '비밀번호가 일치하지 않습니다.', // 불일치 시 사용자 피드백
@@ -105,4 +112,4 @@ export type SignInFormData = z.infer<typeof signInSchema>;
  *   passwordConfirmation: string;
  * }
  */
-export type SignUpFormData = z.infer<typeof signUpSchema>;
+export type SignUpFormData = z.infer<typeof SignupSchema>;
