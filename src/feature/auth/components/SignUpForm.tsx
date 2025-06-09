@@ -52,7 +52,7 @@ export function SignUpForm() {
       </div>
 
       {state?.message && (
-        <p className='text-sm font-medium text-destructive'>{state.message}</p>
+        <p className='text-destructive text-sm font-medium'>{state.message}</p>
       )}
       <SubmitButton />
     </form>

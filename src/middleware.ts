@@ -43,10 +43,7 @@ export default auth((req) => {
    * Case 2: 로그인하지 않은 사용자가 보호된 경로에 접근하려는 경우
    * -> 로그인 페이지('/signin')로 리다이렉트시킵니다.
    */
-  if (
-    !isLoggedIn &&
-    (pathname.startsWith('/myprofile') || pathname.startsWith('/wines'))
-  ) {
+  if (!isLoggedIn && pathname.startsWith('/myprofile')) {
     // 여기에 더 많은 보호된 경로를 추가할 수 있습니다. 예: pathname.startsWith('/dashboard')
     return Response.redirect(new URL('/signin', nextUrl));
   }
