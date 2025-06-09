@@ -1,6 +1,6 @@
 import { cn } from '@/shared/libs/utils/cn';
 import { cva, type VariantProps } from 'class-variance-authority';
-import Skeleton from './Skeleton';
+import Skeleton from '../../ui/Skeleton';
 
 const skeletonCardVariants = cva('rounded-[30px] flex flex-col', {
   variants: {
