@@ -9,5 +9,14 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "typescript.preferences.importModuleSpecifier": "relative",
-  "cSpell.words": ["JAEHYUN", "JINHYUNG", "SARANG", "SUMIN", "YUNGHYUN"]
+  "cSpell.words": [
+    "CODEIT",
+    "colour",
+    "JAEHYUN",
+    "JINHYUNG",
+    "SARANG",
+    "SUMIN",
+    "WHYNE",
+    "YUNGHYUN"
+  ]
 }
