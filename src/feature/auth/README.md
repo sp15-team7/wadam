@@ -1,159 +1,456 @@
-# Auth Feature Module
+# 🔐 Auth 인증 시스템
 
-이 모듈은 NextAuth.js를 기반으로 한 인증 시스템을 제공합니다. JWT 토큰 기반 인증과 자동 토큰 갱신 기능을 포함합니다.
+Next.js 15와 NextAuth.js 5(Auth.js)를 기반으로 구현된 JWT 인증 시스템입니다. 이메일/비밀번호 기반의 자격증명 인증을 지원하며, Server Actions와 React Server Components를 활용한 현대적인 인증 아키텍처를 제공합니다.
 
-## 📁 파일 구조
+## 🏗️ 전체 구조
 
 ```
 src/feature/auth/
-├── actions/                 # Server Actions
-│   └── auth.action.ts      # 회원가입 액션
-├── constants/              # 상수 정의
-│   └── auth.message.ts     # 에러/성공 메시지
-├── hooks/                  # 커스텀 훅
+├── index.ts                 # 통합 export (바렐 패턴)
+├── libs/                    # 핵심 인증 로직
+│   ├── auth.ts             # NextAuth 초기화 및 exports
+│   └── auth.config.ts      # NextAuth 설정 객체
+├── types/                   # TypeScript 타입 정의
+│   ├── auth.types.ts       # 인증 관련 interface
+│   └── auth.d.ts           # NextAuth 모듈 확장
+├── schema/                  # Zod 유효성 검사 스키마
+│   └── auth.schema.ts      # 로그인/회원가입 폼 스키마
+├── services/                # API 통신 서비스
+│   └── auth.service.ts     # 백엔드 인증 API 호출
+├── hooks/                   # React 커스텀 훅
 │   └── useAuthSession.ts   # 세션 관리 훅
-├── libs/                   # 핵심 라이브러리
-│   ├── auth.config.ts      # NextAuth 설정
-│   └── auth.ts            # NextAuth 인스턴스
-├── schema/                 # Zod 스키마
-│   └── auth.schema.ts      # 유효성 검사 스키마
-├── services/              # API 서비스
-│   └── auth.service.ts     # 인증 관련 API 호출
-├── types/                 # 타입 정의
-│   ├── auth.types.ts      # 인증 관련 타입
-│   └── auth.d.ts          # NextAuth 타입 확장
-├── utils/                 # 유틸리티 함수
-│   ├── auth-callbacks.utils.ts  # JWT/Session 콜백
-│   ├── auth-providers.utils.ts  # 인증 제공자
-│   └── jwt.utils.ts            # JWT 관련 유틸리티
-└── index.ts               # 모듈 진입점
+├── components/              # 인증 UI 컴포넌트
+│   ├── SignInForm.tsx      # 로그인 폼
+│   └── SignUpForm.tsx      # 회원가입 폼
+├── actions/                 # Server Actions
+│   └── auth.action.ts      # 로그인/회원가입 서버 액션
+├── utils/                   # 유틸리티 함수들
+│   ├── callbacks.utils.ts  # NextAuth 콜백 함수
+│   ├── jwt.utils.ts        # JWT 토큰 관련 유틸
+│   └── providers.utils.ts  # 인증 프로바이더 설정
+├── constants/               # 상수 정의
+│   └── auth.message.ts     # 에러/성공 메시지
+└── README.md               # 이 문서
 ```
 
-## 🚀 주요 기능
+## 🚀 빠른 시작
 
-### 1. 타입 안전성
+### 1. Middleware 기반 인증 시스템
 
-- 완전한 TypeScript 지원
-- NextAuth 타입 확장으로 커스텀 필드 지원
-- Zod를 이용한 런타임 유효성 검사
-
-### 2. 모듈화된 구조
-
-- 관심사별로 분리된 파일 구조
-- 재사용 가능한 유틸리티 함수
-- 명확한 의존성 관리
-
-### 3. 자동 토큰 관리
-
-- JWT 토큰 자동 갱신
-- 토큰 만료 감지 및 처리
-- 에러 시 자동 로그아웃
-
-### 4. 향상된 에러 처리
-
-- 명확한 에러 메시지
-- 타입 안전한 에러 상태 관리
-- 사용자 친화적인 에러 처리
-
-## 📖 사용법
-
-### 기본 사용
+이 프로젝트는 **middleware를 통한 자동 리다이렉팅**으로 인증을 처리합니다:
 
 ```typescript
-import { useAuthSession } from '@/feature/auth';
-
-function MyComponent() {
-  const {
-    isAuthenticated,
-    isLoading,
-    user,
-    errorMessage
-  } = useAuthSession();
-
-  if (isLoading) return <div>로딩 중...</div>;
-  if (!isAuthenticated) return <div>로그인이 필요합니다.</div>;
-  if (errorMessage) return <div>오류: {errorMessage}</div>;
-
-  return <div>안녕하세요, {user.nickname}님!</div>;
-}
-```
-
-### 서버 컴포넌트에서 세션 확인
-
-```typescript
-import { auth } from '@/feature/auth';
-
-export default async function ServerComponent() {
-  const session = await auth();
-
-  if (!session?.user) {
-    return <div>로그인이 필요합니다.</div>;
-  }
-
-  return <div>서버에서 렌더링: {session.user.nickname}</div>;
-}
-```
-
-### API 라우트에서 인증 확인
-
-```typescript
-import { auth } from '@/feature/auth';
-
-export async function GET() {
-  const session = await auth();
-
-  if (!session?.user) {
-    return Response.json({ error: '인증이 필요합니다.' }, { status: 401 });
-  }
-
-  return Response.json({ user: session.user });
-}
-```
-
-## 🔧 설정
-
-### 환경 변수
-
-```env
-NEXTAUTH_SECRET=your-secret-key
-NEXTAUTH_URL=http://localhost:3000
-NEXT_PUBLIC_API_URL=http://localhost:3001/api
-```
-
-### 미들웨어 설정
-
-```typescript
-// middleware.ts
-import { authConfig } from '@/feature/auth';
-import NextAuth from 'next-auth';
-
-const { auth } = NextAuth(authConfig);
-
+// src/middleware.ts - 자동 경로 보호
 export default auth((req) => {
-  // 인증 로직...
+  const session = req.auth;
+  const isLoggedIn = !!session?.user;
+  const { pathname } = req.nextUrl;
+
+  // 로그인한 사용자 → 로그인/회원가입 페이지 접근 시
+  if (
+    isLoggedIn &&
+    (pathname.startsWith('/signin') || pathname.startsWith('/signup'))
+  ) {
+    return Response.redirect(new URL('/wines', nextUrl));
+  }
+
+  // 미인증 사용자 → 보호된 페이지 접근 시
+  if (!isLoggedIn && pathname.startsWith('/myprofile')) {
+    return Response.redirect(new URL('/signin', nextUrl));
+  }
 });
 ```
 
-## 🔄 토큰 갱신 플로우
+**보호된 경로**: `/myprofile` (자동 로그인 페이지로 리다이렉트)
+**인증 후 리다이렉트**: `/wines` (기본 홈 페이지)
 
-1. **토큰 만료 감지**: JWT 콜백에서 자동으로 토큰 만료 시간 확인
-2. **자동 갱신 시도**: refreshToken을 사용하여 새로운 accessToken 요청
-3. **에러 처리**: 갱신 실패 시 RefreshAccessTokenError 설정
-4. **자동 로그아웃**: 클라이언트에서 에러 감지 시 자동 로그아웃 처리
+### 2. 서버 컴포넌트에서 세션 사용
 
-## 🛡️ 보안 기능
+**보호된 페이지**: middleware가 인증을 보장하므로 조건부 렌더링 불필요
 
-- HTTP-Only 쿠키로 토큰 저장
-- CSRF 보호
-- 안전한 쿠키 설정 (production 환경에서 secure 플래그)
-- 토큰 만료 시 자동 로그아웃
+```tsx
+// 보호된 페이지 (/myprofile 등)
+import { auth } from '@/feature/auth';
 
-## 📝 확장 가능성
+export default async function MyProfilePage() {
+  const session = await auth();
 
-### OAuth 제공자 추가
+  // middleware가 인증을 보장하므로 session은 항상 존재
+  return (
+    <div>
+      <h1>마이 프로필</h1>
+      <p>안녕하세요, {session!.user.nickname}님!</p>
+      <p>팀 ID: {session!.user.teamId}</p>
+      <p>이메일: {session!.user.email}</p>
+    </div>
+  );
+}
+```
+
+**공개 페이지**: 선택적 인증 확인
+
+```tsx
+// 공개 페이지 (/, /wines 등)
+import { auth } from '@/feature/auth';
+
+export default async function HomePage() {
+  const session = await auth();
+
+  if (session) {
+    return <div>안녕하세요, {session.user.nickname}님! 와인을 둘러보세요.</div>;
+  }
+
+  return (
+    <div>
+      <h1>와인 커뮤니티에 오신 것을 환영합니다!</h1>
+      <p>로그인하여 더 많은 기능을 이용해보세요.</p>
+    </div>
+  );
+}
+```
+
+### 3. 클라이언트 컴포넌트에서 세션 사용
+
+```tsx
+'use client';
+
+import { useAuthSession } from '@/feature/auth';
+
+export default function UserProfile() {
+  const { user, isLoading, accessToken } = useAuthSession();
+
+  if (isLoading) return <div>로딩 중...</div>;
+
+  // 보호된 페이지에서는 user가 항상 존재
+  return (
+    <div>
+      <h2>현재 사용자: {user!.nickname}</h2>
+      <p>액세스 토큰: {accessToken ? '✅ 유효' : '❌ 없음'}</p>
+    </div>
+  );
+}
+```
+
+### 4. 로그인/회원가입 폼 사용
+
+```tsx
+// 로그인 페이지
+import { SignInForm } from '@/feature/auth';
+
+export default function SignInPage() {
+  return (
+    <div className='mx-auto max-w-md'>
+      <h1>로그인</h1>
+      <SignInForm />
+    </div>
+  );
+}
+```
+
+```tsx
+// 회원가입 페이지
+import { SignUpForm } from '@/feature/auth';
+
+export default function SignUpPage() {
+  return (
+    <div className='mx-auto max-w-md'>
+      <h1>회원가입</h1>
+      <SignUpForm />
+    </div>
+  );
+}
+```
+
+## 🔧 주요 컴포넌트
+
+### 인증 설정 (`libs/auth.config.ts`)
+
+NextAuth.js의 핵심 설정을 관리합니다:
+
+- **프로바이더**: Credentials 기반 이메일/비밀번호 인증
+- **세션 전략**: JWT 기반 (데이터베이스 불필요)
+- **세션 수명**: 30일
+- **콜백**: JWT 토큰 생성/갱신, 세션 객체 변환
+- **보안**: HTTPS 강제 (프로덕션), httpOnly 쿠키
+
+### 타입 시스템 (`types/auth.types.ts`)
+
+완전한 타입 안전성을 제공하는 인터페이스들:
 
 ```typescript
-// utils/auth-providers.utils.ts
+// 사용자 정보
+interface User {
+  id: number;
+  nickname: string;
+  teamId: string;
+  email: string;
+  image: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// 인증 응답 (로그인/회원가입 후)
+interface AuthResponse {
+  user: User;
+  accessToken: string;
+  refreshToken: string;
+}
+
+// 로그인 요청
+interface SignInRequest {
+  email: string;
+  password: string;
+}
+
+// 회원가입 요청
+interface SignUpRequest {
+  email: string;
+  nickname: string;
+  password: string;
+  passwordConfirmation: string;
+}
+```
+
+### 유효성 검사 (`schema/auth.schema.ts`)
+
+Zod를 활용한 강력한 폼 유효성 검사:
+
+```typescript
+// 이메일 검증
+const emailSchema = z.string().email('이메일 형식으로 작성해주세요.');
+
+// 비밀번호 검증 (8자 이상, 영문/숫자/특수문자만)
+const passwordSchema = z
+  .string()
+  .min(8, '비밀번호는 최소 8자 이상입니다.')
+  .regex(/^[a-zA-Z0-9!@#$%^&*]+$/, '허용되지 않은 문자가 포함되어 있습니다.');
+
+// 회원가입 스키마 (비밀번호 일치 검증 포함)
+const signUpSchema = z
+  .object({
+    email: emailSchema,
+    nickname: nicknameSchema,
+    password: passwordSchema,
+    passwordConfirmation: z.string().min(1, '비밀번호 확인을 입력해주세요.'),
+  })
+  .refine((data) => data.password === data.passwordConfirmation, {
+    message: '비밀번호가 일치하지 않습니다.',
+    path: ['passwordConfirmation'],
+  });
+```
+
+## 🔒 보안 기능
+
+### 1. JWT 토큰 관리
+
+- **Access Token**: 짧은 수명의 API 인증 토큰
+- **Refresh Token**: 긴 수명의 토큰 갱신용 토큰
+- **자동 갱신**: 토큰 만료 시 자동으로 새 토큰 발급
+- **토큰 검증**: 만료 시간 및 유효성 자동 확인
+
+### 2. 세션 보안
+
+```typescript
+// useAuthSession 훅의 자동 로그아웃 기능
+useEffect(() => {
+  if (session?.error === 'RefreshAccessTokenError') {
+    console.warn('토큰 갱신 오류 감지. 로그아웃을 진행합니다.');
+    signOut({
+      callbackUrl: '/signin',
+      redirect: true,
+    });
+  }
+}, [session?.error]);
+```
+
+### 3. 쿠키 보안 설정
+
+```typescript
+cookies: {
+  sessionToken: {
+    name: 'next-auth.session-token',
+    options: {
+      httpOnly: true,        // XSS 공격 방지
+      sameSite: 'lax',       // CSRF 공격 방지
+      path: '/',
+      secure: process.env.NODE_ENV === 'production', // HTTPS 강제
+    },
+  },
+}
+```
+
+## 📋 Server Actions
+
+### 회원가입 액션
+
+```typescript
+export async function signUpAction(
+  prevState: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  // 1. 입력값 유효성 검사
+  const validatedFields = signUpSchema.safeParse(
+    Object.fromEntries(formData.entries()),
+  );
+
+  if (!validatedFields.success) {
+    return { message: '입력 값이 유효하지 않습니다.' };
+  }
+
+  try {
+    // 2. 회원가입 API 호출
+    await signUp(validatedFields.data);
+
+    // 3. 자동 로그인
+    await signIn('credentials', {
+      email: validatedFields.data.email,
+      password: validatedFields.data.password,
+      redirect: false,
+    });
+  } catch {
+    return { message: '회원가입에 실패했습니다.' };
+  }
+
+  // 4. 성공 시 홈으로 리다이렉트
+  redirect('/wines');
+}
+```
+
+### 로그인 액션
+
+```typescript
+export async function signInAction(
+  prevState: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  try {
+    await signIn('credentials', formData);
+  } catch (error) {
+    if (error instanceof AuthError) {
+      return { message: '이메일 또는 비밀번호가 올바르지 않습니다.' };
+    }
+    throw error;
+  }
+  return {};
+}
+```
+
+## 🎯 커스텀 훅 사용법
+
+### `useAuthSession`
+
+세션 상태를 관리하는 강력한 커스텀 훅:
+
+```typescript
+const {
+  session, // 전체 세션 객체
+  status, // 'loading' | 'authenticated' | 'unauthenticated'
+  isAuthenticated, // 인증 여부 (boolean)
+  isLoading, // 로딩 상태 (boolean)
+  refreshSession, // 세션 강제 갱신 함수
+  errorMessage, // 에러 메시지 (string | null)
+  user, // 사용자 정보 (User | null)
+  accessToken, // API 요청용 토큰 (string | null)
+} = useAuthSession();
+```
+
+**사용 예시**:
+
+```tsx
+function UserDashboard() {
+  const { isAuthenticated, user, isLoading, refreshSession } = useAuthSession();
+
+  if (isLoading) {
+    return <div>세션 확인 중...</div>;
+  }
+
+  if (!isAuthenticated) {
+    return <div>로그인이 필요합니다.</div>;
+  }
+
+  return (
+    <div>
+      <h1>안녕하세요, {user?.nickname}님!</h1>
+      <p>팀 ID: {user?.teamId}</p>
+      <button onClick={refreshSession}>세션 새로고침</button>
+    </div>
+  );
+}
+```
+
+## 🌐 API 통신
+
+### 서비스 함수들
+
+백엔드와의 통신을 담당하는 타입 안전한 서비스 함수들:
+
+```typescript
+// 회원가입
+const authResponse = await signUp({
+  email: 'user@example.com',
+  nickname: '사용자',
+  password: 'password123',
+  passwordConfirmation: 'password123',
+});
+
+// 로그인
+const authResponse = await signIn({
+  email: 'user@example.com',
+  password: 'password123',
+});
+
+// 토큰 갱신
+const tokenResponse = await refreshToken({
+  refreshToken: 'your-refresh-token',
+});
+```
+
+### API 클라이언트 설정
+
+```typescript
+// apiClient는 자동으로 Authorization 헤더를 추가
+const response = await apiClient
+  .post('auth/signIn', { json: credentials })
+  .json<AuthResponse>();
+```
+
+## 🚨 에러 처리
+
+### 메시지 상수
+
+```typescript
+// 에러 메시지
+export const ERROR_MESSAGES = {
+  INVALID_INPUT: '입력 값이 유효하지 않습니다.',
+  SIGN_UP_FAILED: '회원가입에 실패했습니다.',
+  INVALID_CREDENTIALS: '이메일 또는 비밀번호가 올바르지 않습니다.',
+  TOKEN_REFRESH_FAILED: '토큰 갱신에 실패했습니다. 다시 로그인해주세요.',
+} as const;
+
+// 성공 메시지
+export const SUCCESS_MESSAGES = {
+  SIGN_UP_SUCCESS: '회원가입이 완료되었습니다.',
+  SIGN_IN_SUCCESS: '로그인되었습니다.',
+} as const;
+```
+
+### 에러 핸들링 예시
+
+```typescript
+try {
+  await signUpAction(null, formData);
+} catch (error) {
+  const errorMessage = handleApiError(error);
+  console.error('회원가입 실패:', errorMessage);
+}
+```
+
+## 🔧 커스터마이징
+
+### 새로운 인증 프로바이더 추가
+
+```typescript
+// utils/providers.utils.ts에 추가
 import Google from 'next-auth/providers/google';
 
 export const authProviders = [
@@ -165,37 +462,98 @@ export const authProviders = [
 ];
 ```
 
-### 커스텀 콜백 추가
+### 세션 데이터 확장
 
 ```typescript
-// utils/auth-callbacks.utils.ts
-export const signInCallback = async ({ user, account }) => {
-  // 커스텀 로그인 로직
-  return true;
-};
+// types/auth.d.ts에 타입 확장
+declare module 'next-auth' {
+  interface Session {
+    accessToken: string;
+    refreshToken: string;
+    user: {
+      id: number;
+      nickname: string;
+      teamId: string;
+      email: string;
+      image: string | null;
+    };
+  }
+}
 ```
 
-## ⚠️ 주의사항
+## 🧪 테스트 가이드
 
-1. **RefreshToken 만료**: RefreshToken이 만료된 경우 사용자는 다시 로그인해야 합니다.
-2. **환경 변수**: 모든 필수 환경 변수가 설정되어 있는지 확인하세요.
-3. **HTTPS**: Production 환경에서는 반드시 HTTPS를 사용하세요.
-4. **세션 시간**: 세션 만료 시간을 적절히 설정하세요.
+### 단위 테스트 예시
 
-## 🐛 트러블슈팅
+```typescript
+// __tests__/auth.test.ts
+import { signInSchema, signUpSchema } from '@/feature/auth';
 
-### 토큰 갱신 실패
+describe('Auth Schema', () => {
+  test('유효한 이메일 검증', () => {
+    const result = signInSchema.safeParse({
+      email: 'test@example.com',
+      password: 'password123',
+    });
+    expect(result.success).toBe(true);
+  });
 
-- 백엔드 API 상태 확인
-- RefreshToken 유효성 확인
-- 네트워크 연결 상태 확인
+  test('비밀번호 길이 검증', () => {
+    const result = signUpSchema.safeParse({
+      email: 'test@example.com',
+      nickname: 'testuser',
+      password: '123', // 너무 짧음
+      passwordConfirmation: '123',
+    });
+    expect(result.success).toBe(false);
+  });
+});
+```
 
-### 세션 정보 불일치
+## 🔍 디버깅
 
-- 브라우저 쿠키 삭제 후 재로그인
-- 세션 강제 갱신 (`refreshSession()` 호출)
+### 개발 환경 로깅
 
-### 타입 에러
+```typescript
+// auth.config.ts
+debug: process.env.NODE_ENV === 'development',
+```
 
-- `auth.d.ts` 파일이 올바르게 import되는지 확인
-- TypeScript 컴파일러 재시작
+### 세션 상태 확인
+
+```tsx
+function DebugSession() {
+  const session = useSession();
+
+  return <pre>{JSON.stringify(session, null, 2)}</pre>;
+}
+```
+
+## 📚 참고 자료
+
+- [NextAuth.js 공식 문서](https://authjs.dev/)
+- [Next.js 15 문서](https://nextjs.org/docs)
+- [Zod 유효성 검사](https://zod.dev/)
+- [React Hook Form](https://react-hook-form.com/)
+
+## ❓ FAQ
+
+### Q: 로그인 후 세션이 유지되지 않아요
+
+A: `auth.config.ts`의 `session.maxAge` 설정과 쿠키 설정을 확인하세요.
+
+### Q: 토큰이 자동으로 갱신되지 않아요
+
+A: `useAuthSession` 훅이 토큰 만료를 감지하고 자동으로 로그아웃을 처리합니다. 백엔드의 refresh 엔드포인트가 정상 작동하는지 확인하세요.
+
+### Q: 회원가입 후 자동 로그인이 안 돼요
+
+A: `signUpAction`에서 회원가입 성공 후 `signIn` 함수가 호출되는지 확인하세요.
+
+### Q: 폼 유효성 검사가 작동하지 않아요
+
+A: Zod 스키마가 올바르게 import되고 적용되었는지 확인하세요. `safeParse` 결과의 `success` 속성을 체크해보세요.
+
+---
+
+이 문서는 2025년 6월 현재 기준 최신 Next.js 15와 NextAuth.js 5 사양에 맞춰 작성되었습니다. 궁금한 점이 있으시면 팀 슬랙 채널에서 언제든 문의해 주세요! 🚀
