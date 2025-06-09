@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import * as motion from 'motion/react-client';
 
 const LandingPage = () => {
   const listItemClass =
@@ -12,16 +13,24 @@ const LandingPage = () => {
     <div className='mx-auto min-w-[34.3rem] px-[1.6rem]'>
       <section>
         <div className='mx-auto h-full w-[34.3rem] pt-[5.6rem]'>
-          <Image
+          <motion.img
             src='/logos/logo-red-landing.png'
             alt='logo'
             width={343}
             height={200}
+            initial={{ opacity: 0, filter: 'blur(10px)' }}
+            animate={{ opacity: 1, filter: 'blur(0px)' }}
+            transition={{ duration: 0.5 }}
           />
         </div>
-        <p className='text-primary mt-[2rem] text-center text-[2.4rem] font-light'>
+        <motion.p
+          className='text-primary mt-[2rem] text-center text-[2.4rem] font-light'
+          initial={{ opacity: 0, filter: 'blur(10px)' }}
+          animate={{ opacity: 1, filter: 'blur(0px)' }}
+          transition={{ delay: 0.5, duration: 1 }}
+        >
           와인의 미학과 담론
-        </p>
+        </motion.p>
         <Link
           href='/wines'
           className='border-primary mx-auto mt-[1.4rem] flex h-[3.9rem] w-[3.9rem] cursor-pointer items-center justify-center rounded-full border-2'
