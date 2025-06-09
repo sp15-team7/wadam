@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { useScroll, useTransform } from 'motion/react';
 import * as motion from 'motion/react-client';
 
 const LandingPage = () => {
@@ -9,6 +10,97 @@ const LandingPage = () => {
     'text-primary text-[4.8rem] font-extrabold leading-[4rem]';
   const sectionSubTitleClass =
     'text-primary text-[1.4rem] font-light mt-[0.4rem] leading-[1.8rem]';
+  const iconVariants = {
+    hidden: { opacity: 0, x: -30 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { type: 'spring', stiffness: 300, damping: 20 },
+    },
+  };
+
+  const iconsVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        delay: 0.3,
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const grapesVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        delay: 1,
+        staggerChildren: 0.08,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const grapeVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: 'spring',
+        stiffness: 300,
+        damping: 20,
+      },
+    },
+  };
+  const grapeTopVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      rotate: [0, -10, 50, -3, 43, 0],
+      transition: {
+        y: { type: 'spring', stiffness: 300, damping: 20 },
+        rotate: { duration: 1.2, ease: 'easeInOut' },
+        opacity: { duration: 0.3 },
+        delay: 1,
+      },
+    },
+  };
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const sentenceVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: 'spring',
+        stiffness: 300,
+        damping: 20,
+      },
+    },
+  };
+  const textLines = ['CODEIT SPRINT FRONTEND', 'PART3 TEAM7'];
+
+  const paragraphLines = [
+    'This is a rebranding of ‘WHYNE’',
+    'from the intermediate project theme.',
+    'The vintage beige colour is',
+    'used to complement',
+    'the warm red colour of wine,',
+    'and we want to give users a',
+    'warm wine',
+    'research experience.',
+  ];
   return (
     <div className='mx-auto min-w-[34.3rem] px-[1.6rem]'>
       <section>
@@ -20,62 +112,122 @@ const LandingPage = () => {
             height={200}
             initial={{ opacity: 0, filter: 'blur(10px)' }}
             animate={{ opacity: 1, filter: 'blur(0px)' }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.3 }}
           />
         </div>
         <motion.p
           className='text-primary mt-[2rem] text-center text-[2.4rem] font-light'
           initial={{ opacity: 0, filter: 'blur(10px)' }}
           animate={{ opacity: 1, filter: 'blur(0px)' }}
-          transition={{ delay: 0.5, duration: 1 }}
+          transition={{ delay: 0.3, duration: 1 }}
         >
           와인의 미학과 담론
         </motion.p>
-        <Link
-          href='/wines'
-          className='border-primary mx-auto mt-[1.4rem] flex h-[3.9rem] w-[3.9rem] cursor-pointer items-center justify-center rounded-full border-2'
+        <motion.div
+          className='mt-[1.4rem] flex items-center'
+          variants={{
+            hidden: { opacity: 0, y: 20 },
+            visible: {
+              opacity: 1,
+              y: 0,
+              transition: {
+                type: 'spring',
+                stiffness: 300,
+                damping: 20,
+                delay: 0.3,
+              },
+            },
+          }}
+          initial='hidden'
+          animate='visible'
         >
-          <img
-            src='/icons/ui/icon-arrow-landing.svg'
-            alt='arrow'
-            className='h-[2.15rem] w-[1.266rem]'
-          />
-        </Link>
+          <Link
+            href='/wines'
+            className='border-primary mx-auto flex h-[3.9rem] w-[3.9rem] cursor-pointer items-center justify-center rounded-full border-2'
+          >
+            <img
+              src='/icons/ui/icon-arrow-right.svg'
+              alt='arrow'
+              className='h-[2.3rem] w-[2.3rem]'
+            />
+          </Link>
+        </motion.div>
         <div className='mt-[2.6rem] flex items-center justify-between'>
           <div>
-            <ul className='mb-[0.7rem] flex items-center gap-[1.3rem]'>
-              <li>
+            <motion.ul
+              className='mb-[0.7rem] flex items-center gap-[1.3rem]'
+              variants={iconsVariants}
+              initial='hidden'
+              animate='visible'
+            >
+              <motion.li variants={iconVariants}>
                 <img src='/icons/ui/icon-oak.svg' alt='oak' />
-              </li>
-              <li>
+              </motion.li>
+              <motion.li variants={iconVariants}>
                 <img src='/icons/ui/icon-grape.svg' alt='grape' />
-              </li>
-              <li>
+              </motion.li>
+              <motion.li variants={iconVariants}>
                 <img src='/icons/ui/icon-wine.svg' alt='wine' />
-              </li>
-            </ul>
-            <p className='text-primary mb-[1.5rem] text-[1.1rem] font-light'>
-              CODEIT SPRINT FRONTEND <br />
-              PART3 TEAM7
-            </p>
-            <p className='text-primary text-[1.1rem] font-light'>
-              This is a rebranding of ‘WHYNE’ <br />
-              from the intermediate project theme. <br />
-              The vintage beige colour is <br />
-              used to complement <br />
-              the warm red colour of wine, <br />
-              and we want to give users a <br />
-              warm wine <br />
-              research experience.
-            </p>
+              </motion.li>
+            </motion.ul>
+            <motion.div
+              initial='hidden'
+              animate='visible'
+              variants={containerVariants}
+            >
+              <motion.p className='text-primary mb-[1.5rem] text-[1.1rem] font-light'>
+                {textLines.map((line, i) => (
+                  <motion.span
+                    key={i}
+                    variants={sentenceVariants}
+                    className='block'
+                  >
+                    {line}
+                  </motion.span>
+                ))}
+              </motion.p>
+
+              <motion.p className='text-primary text-[1.1rem] font-light'>
+                {paragraphLines.map((line, i) => (
+                  <motion.span
+                    key={i}
+                    variants={sentenceVariants}
+                    className='block'
+                  >
+                    {line}
+                  </motion.span>
+                ))}
+              </motion.p>
+            </motion.div>
           </div>
-          <ul className='relative pt-[1.5rem] after:absolute after:top-0 after:right-[50%] after:h-[1.5rem] after:w-[2.1rem] after:bg-[url("/icons/ui/icon-grape-top.svg")] after:bg-center after:bg-no-repeat after:content-[""]'>
-            <li className={listItemClass}>JAEHYUN</li>
-            <li className={listItemClass}>SUMIN</li>
-            <li className={listItemClass}>YUNGHYUN</li>
-            <li className={listItemClass}>JINHYUNG</li>
-            <li className={listItemClass}>SARANG</li>
-          </ul>
+          <motion.div
+            className='relative pt-[1.5rem]'
+            variants={grapesVariants}
+            initial='hidden'
+            animate='visible'
+          >
+            <motion.div
+              className='absolute top-0 right-[50%] h-[1.5rem] w-[2.1rem] bg-[url("/icons/ui/icon-grape-top.svg")] bg-center bg-no-repeat'
+              variants={grapeTopVariants}
+              initial='hidden'
+              animate='visible'
+            />
+            <motion.div className={listItemClass} variants={grapeVariants}>
+              JAEHYUN
+            </motion.div>
+            <motion.div className={listItemClass} variants={grapeVariants}>
+              SUMIN
+            </motion.div>
+            <motion.div className={listItemClass} variants={grapeVariants}>
+              YUNGHYUN
+            </motion.div>
+            <motion.div className={listItemClass} variants={grapeVariants}>
+              JINHYUNG
+            </motion.div>
+            <motion.div className={listItemClass} variants={grapeVariants}>
+              SARANG
+            </motion.div>
+          </motion.div>
         </div>
       </section>
       <section className='relative mx-auto mt-[5rem] flex h-[50.8rem] max-w-[34.3rem] justify-center pt-[13rem]'>
