@@ -46,7 +46,7 @@ const StarRating = ({
 
   return (
     <ul
-      className='flex gap-0.5'
+      className='flex gap-[0.7rem]'
       onMouseLeave={handleMouseLeave}
       role='radiogroup'
       aria-label='별점 선택'
@@ -64,7 +64,7 @@ const StarRating = ({
             disabled={readOnly}
             onMouseEnter={() => handleMouseEnter(i + 0.5)}
             onClick={() => handleClick(i + 0.5)}
-            className='flex-1 h-full transition-opacity duration-300 ease-in-out cursor-pointer'
+            className={`flex-1 h-full transition-opacity duration-300 ease-in-out ${!readOnly ? 'cursor-pointer' : ''}`}
             style={{ opacity: getStarPartOpacity(i, true) }}
           >
             <img
@@ -80,7 +80,7 @@ const StarRating = ({
             disabled={readOnly}
             onMouseEnter={() => handleMouseEnter(i + 1)}
             onClick={() => handleClick(i + 1)}
-            className='flex-1 h-full transition-opacity duration-300 ease-in-out cursor-pointer'
+            className={`flex-1 h-full transition-opacity duration-300 ease-in-out ${!readOnly ? 'cursor-pointer' : ''}`}
             style={{ opacity: getStarPartOpacity(i, false) }}
           >
             <img

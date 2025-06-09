@@ -1,5 +1,3 @@
-
-
 const UserAvatar = ({
   src = '/icons/ui/icon-default-user.svg',
   alt = 'user-avatar',
@@ -12,7 +10,7 @@ const UserAvatar = ({
   return (
     <>
       {isLoggedIn ? (
-        <button className='w-[4.7rem] h-[4.7rem] rounded-full overflow-hidden'>
+        <button className='w-[4.7rem] h-[4.7rem] rounded-full relative overflow-hidden after:content-[""] after:absolute after:inset-[0.1rem] after:rounded-full after:z-10 after:border-1 after:border-secondary'>
           <img
             src={src}
             alt={alt}
@@ -21,7 +19,7 @@ const UserAvatar = ({
         </button>
       ) : (
         <img
-          src={'/images/icons/ui/icon-burst.svg'}
+          src={'/icons/ui/icon-burst.svg'}
           alt='login'
           className='w-[4.7rem] h-[4.7rem]'
         />
