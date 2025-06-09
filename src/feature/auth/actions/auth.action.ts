@@ -52,7 +52,7 @@ export async function signUpAction(
       password,
       redirect: false, // 수동으로 redirect 제어하기 위해 false
     });
-  } catch (error) {
+  } catch {
     // 4. 서버 에러 처리 (예: 닉네임 중복 등)
     return { message: '회원가입에 실패했습니다. (닉네임 중복 등)' };
   }
