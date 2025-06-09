@@ -1,5 +1,4 @@
 const LandingPage = () => {
-  return  <div className='text-4xl-bold md:text-2xl-bold'>Hello World</div>
+    return <div>LandingPage</div>;
 };
-
 export default LandingPage;
