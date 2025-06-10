@@ -1,30 +1,26 @@
+import Link from 'next/link';
+import Image from 'next/image';
+
 const UserAvatar = ({
   src = '/icons/ui/icon-default-user.svg',
-  alt = 'user-avatar',
-  isLoggedIn = true,
+  className = '',
 }: {
   src?: string;
-  alt?: string;
-  isLoggedIn?: boolean;
+  className?: string;
 }) => {
   return (
-    <>
-      {isLoggedIn ? (
-        <button className='w-[4.7rem] h-[4.7rem] rounded-full relative overflow-hidden after:content-[""] after:absolute after:inset-[0.1rem] after:rounded-full after:z-10 after:border-1 after:border-secondary'>
-          <img
-            src={src}
-            alt={alt}
-            className='object-cover object-center w-full h-full'
-          />
-        </button>
-      ) : (
-        <img
-          src={'/icons/ui/icon-burst.svg'}
-          alt='login'
-          className='w-[4.7rem] h-[4.7rem]'
-        />
-      )}
-    </>
+    <Link
+      href='/myprofile'
+      className={`after:border-secondary relative h-[4.7rem] w-[4.7rem] overflow-hidden rounded-full after:absolute after:inset-[0.1rem] after:z-10 after:rounded-full after:border-1 after:content-[""] ${className}`}
+    >
+      <Image
+        src={src}
+        alt='user-avatar'
+        className='h-full w-full object-cover object-center'
+        width={47}
+        height={47}
+      />
+    </Link>
   );
 };
 
