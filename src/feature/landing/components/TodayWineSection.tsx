@@ -3,10 +3,7 @@ import Image from 'next/image';
 import { useScroll, useTransform, useInView } from 'motion/react';
 import * as motion from 'motion/react-client';
 import { useRef } from 'react';
-import {
-  section2TitleVariants,
-  section2SubTitleVariants,
-} from '../utils/animations';
+import { sectionVariants } from '../utils/animations';
 import { STYLES } from '../constants/styles';
 
 const TodayWineSection = () => {
@@ -55,7 +52,7 @@ const TodayWineSection = () => {
       <div className='w-[16.5rem] overflow-hidden'>
         <motion.h2
           className={STYLES.sectionTitle}
-          variants={section2TitleVariants}
+          variants={sectionVariants.todayWine.title}
           initial='hidden'
           animate={isInView2 ? 'visible' : 'hidden'}
         >
@@ -63,7 +60,7 @@ const TodayWineSection = () => {
         </motion.h2>
         <motion.p
           className={STYLES.sectionSubTitle}
-          variants={section2SubTitleVariants}
+          variants={sectionVariants.todayWine.subTitle}
           initial='hidden'
           animate={isInView2 ? 'visible' : 'hidden'}
         >

@@ -4,11 +4,7 @@ import Image from 'next/image';
 import { useInView } from 'motion/react';
 import * as motion from 'motion/react-client';
 import { useRef } from 'react';
-import {
-  section4ImageVariants,
-  section4SubTitleVariants,
-  charVariants,
-} from '../utils/animations';
+import { sectionVariants } from '../utils/animations';
 import { splitText } from '../utils/text';
 import { STYLES } from '../constants/styles';
 
@@ -25,7 +21,7 @@ const WineReviewSection = () => {
   return (
     <section ref={section4Ref} className='relative mt-[5rem]'>
       <motion.div
-        variants={section4ImageVariants}
+        variants={sectionVariants.wineReview.image}
         initial='hidden'
         animate={isInView4 ? 'visible' : 'hidden'}
         className='absolute top-0 left-0 z-[-1]'
@@ -48,7 +44,7 @@ const WineReviewSection = () => {
               <motion.span
                 key={key}
                 custom={i}
-                variants={charVariants}
+                variants={sectionVariants.wineReview.title}
                 initial='hidden'
                 animate={isInView4 ? 'visible' : 'hidden'}
                 className='inline-block'
@@ -60,7 +56,7 @@ const WineReviewSection = () => {
         </motion.h2>
 
         <motion.p
-          variants={section4SubTitleVariants}
+          variants={sectionVariants.wineReview.subTitle}
           initial='hidden'
           animate={isInView4 ? 'visible' : 'hidden'}
           className={STYLES.sectionSubTitle}

@@ -5,12 +5,12 @@ import WineReviewSection from '@/feature/landing/components/WineReviewSection';
 
 const LandingPage = () => {
   return (
-    <div className='mx-auto min-w-[34.3rem] overflow-hidden px-[1.6rem] pb-[4.5rem]'>
+    <main className='mx-auto min-w-[34.3rem] overflow-hidden px-[1.6rem] pb-[4.5rem]'>
       <Hero />
       <TodayWineSection />
       <FilterMyWineSection />
       <WineReviewSection />
-    </div>
+    </main>
   );
 };
 

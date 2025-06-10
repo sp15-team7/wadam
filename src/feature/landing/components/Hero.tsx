@@ -1,15 +1,7 @@
 'use client';
 import Link from 'next/link';
 import * as motion from 'motion/react-client';
-import {
-  iconVariants,
-  iconsVariants,
-  containerVariants,
-  sentenceVariants,
-  grapesVariants,
-  grapeVariants,
-  grapeTopVariants,
-} from '../utils/animations';
+import { HeroVariants } from '../utils/animations';
 import {
   HERO_TEXT_LINES,
   HERO_PARAGRAPH_LINES,
@@ -75,17 +67,17 @@ const Hero = () => {
         <div>
           <motion.ul
             className='mb-[0.7rem] flex items-center gap-[1.3rem]'
-            variants={iconsVariants}
+            variants={HeroVariants.icons}
             initial='hidden'
             animate='visible'
           >
-            <motion.li variants={iconVariants}>
+            <motion.li variants={HeroVariants.icon}>
               <img src='/icons/ui/icon-oak.svg' alt='oak' />
             </motion.li>
-            <motion.li variants={iconVariants}>
+            <motion.li variants={HeroVariants.icon}>
               <img src='/icons/ui/icon-grape.svg' alt='grape' />
             </motion.li>
-            <motion.li variants={iconVariants}>
+            <motion.li variants={HeroVariants.icon}>
               <img src='/icons/ui/icon-wine.svg' alt='wine' />
             </motion.li>
           </motion.ul>
@@ -93,13 +85,13 @@ const Hero = () => {
           <motion.div
             initial='hidden'
             animate='visible'
-            variants={containerVariants}
+            variants={HeroVariants.container}
           >
             <motion.p className='text-primary mb-[1.5rem] text-[1.1rem] font-light'>
               {HERO_TEXT_LINES.map((line, i) => (
                 <motion.span
                   key={i}
-                  variants={sentenceVariants}
+                  variants={HeroVariants.sentence}
                   className='block'
                 >
                   {line}
@@ -111,7 +103,7 @@ const Hero = () => {
               {HERO_PARAGRAPH_LINES.map((line, i) => (
                 <motion.span
                   key={i}
-                  variants={sentenceVariants}
+                  variants={HeroVariants.sentence}
                   className='block'
                 >
                   {line}
@@ -123,13 +115,13 @@ const Hero = () => {
 
         <motion.div
           className='relative pt-[1.5rem]'
-          variants={grapesVariants}
+          variants={HeroVariants.grapes}
           initial='hidden'
           animate='visible'
         >
           <motion.div
             className='absolute top-0 right-[50%] h-[1.5rem] w-[2.1rem] bg-[url("/icons/ui/icon-grape-top.svg")] bg-center bg-no-repeat'
-            variants={grapeTopVariants}
+            variants={HeroVariants.grapeTop}
             initial='hidden'
             animate='visible'
           />
@@ -137,7 +129,7 @@ const Hero = () => {
             <motion.div
               key={member}
               className={STYLES.listItem}
-              variants={grapeVariants}
+              variants={HeroVariants.grape}
             >
               {member}
             </motion.div>
