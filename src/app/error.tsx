@@ -1,6 +1,7 @@
 'use client'; // 클라이언트 컴포넌트임을 명시
 
 import { useEffect } from 'react';
+
 import { HttpError } from '@/shared/libs/api/apiClient';
 
 interface ErrorProps {
@@ -22,8 +23,10 @@ const Error = ({ error, reset }: ErrorProps) => {
   // 에러 메시지를 사용자에게 친화적으로 표시
   let displayMessage = '알 수 없는 오류가 발생했습니다.';
   if (error instanceof HttpError) {
+    // HttpError라면 해당 에러의 메시지를 사용
     displayMessage = error.message;
   } else if (error.message) {
+    // 일반 Error라면 해당 에러의 메시지를 사용
     displayMessage = error.message;
   }
 
@@ -48,6 +51,9 @@ const Error = ({ error, reset }: ErrorProps) => {
       </h2>
       <p style={{ fontSize: '1.1em', marginBottom: '20px' }}>
         죄송합니다. 페이지를 불러오거나 작업하는 데 문제가 생겼습니다.
+      </p>
+      <p style={{ fontSize: '1em', color: '#a03b44', marginBottom: '30px' }}>
+        상세: {displayMessage}
       </p>
 
       <button

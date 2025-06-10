@@ -1,6 +1,11 @@
 import { z } from 'zod';
-import { userSchema, wineTypeSchema, dateStringSchema } from './commonSchema';
-import type { CreateWineRequestBody } from '../types/api'; // Zod 추론과 일치하는지 확인용
+
+import {
+  dateStringSchema,
+  userSchema,
+  wineTypeSchema,
+} from '@/shared/schemas/commonSchema';
+import type { CreateWineRequestBody } from '@/shared/types/api'; // Zod 추론과 일치하는지 확인용
 
 // 와인 생성 요청 Body 스키마
 export const createWineRequestBodySchema = z.object({

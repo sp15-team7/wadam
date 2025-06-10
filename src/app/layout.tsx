@@ -1,9 +1,11 @@
-import QueryProvider from '@/shared/libs/provider/queryProvider';
 import './globals.css';
 
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
+
+import Header from '@/shared/components/common/layouts/Header';
 import { Toaster } from '@/shared/components/ui/sonner';
+import QueryProvider from '@/shared/libs/provider/queryProvider';
 
 const pretendard = localFont({
   src: '../../public/fonts/PretendardVariable.woff2',
@@ -22,6 +24,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     <html lang='kr'>
       <QueryProvider>
         <body className={pretendard.className}>
+          <Header />
           {children}
           <Toaster />
         </body>
