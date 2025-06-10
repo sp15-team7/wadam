@@ -1,6 +1,17 @@
+/**
+ * @author Sumin
+ * @since 2025-06-10
+ * @description 유저 아바타 컴포넌트
+ */
+
 import Link from 'next/link';
 import Image from 'next/image';
 
+/**
+ * 유저의 프로필 이미지를 표시하는 아바타 컴포넌트
+ * @param {UserAvatarProps} props - 컴포넌트 props
+ * @returns {JSX.Element} 유저 아바타 컴포넌트
+ */
 const UserAvatar = ({
   src = '/icons/ui/icon-default-user.svg',
   className = '',
