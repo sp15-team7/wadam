@@ -4,7 +4,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/shared/libs/utils/cn';
 
 const buttonVariants = cva(
-  'flex-center rounded-full cursor-pointer h-[5.2rem] py-[1.4rem]has-[>svg]:px-3 text-lg-bold',
+  'flex-center rounded-full cursor-pointer h-[5.2rem] py-[1.4rem]has-[>svg]:px-3 font-lg-bold',
   {
     variants: {
       variant: {

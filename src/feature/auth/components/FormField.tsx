@@ -38,7 +38,7 @@ const FormField = <T extends FieldValues>({
   errors,
 }: FormFieldProps<T>) => {
   return (
-    <div>
+    <div className='w-full'>
       <Label htmlFor={name}>{label}</Label>
       <Input
         id={name}
