@@ -23,6 +23,7 @@ import {
   SignUpFormData,
 } from '@/feature/auth/schema/auth.schema';
 import SubmitButton from './buttons/SubmitButton';
+import { Label } from '@/shared/components/ui/label';
 
 const SignUpForm: () => JSX.Element = () => {
   const [state, formAction] = useActionState(signUpAction, null);
@@ -53,10 +54,14 @@ const SignUpForm: () => JSX.Element = () => {
           className='flex w-full flex-col gap-5 px-4'
         >
           <div>
-            <label className='text-md-bold md:text-lg-bold lg:text-2lg-bold'>
+            <Label
+              htmlFor='email'
+              className='text-md-bold md:text-lg-bold lg:text-2lg-bold'
+            >
               이메일
-            </label>
+            </Label>
             <Input
+              id='email'
               {...register('email')}
               type='email'
               placeholder='whyne@email.com'
@@ -69,10 +74,14 @@ const SignUpForm: () => JSX.Element = () => {
             )}
           </div>
           <div>
-            <label className='text-md-bold md:text-lg-bold lg:text-2lg-bold'>
+            <Label
+              htmlFor='nickname'
+              className='text-md-bold md:text-lg-bold lg:text-2lg-bold'
+            >
               닉네임
-            </label>
+            </Label>
             <Input
+              id='nickname'
               {...register('nickname')}
               placeholder='whyne'
               className='text-lg-small mt-1 h-[42px] w-[303px] rounded-full border px-5 md:h-[52px] md:w-[400px] lg:w-[500px]'
@@ -84,10 +93,14 @@ const SignUpForm: () => JSX.Element = () => {
             )}
           </div>
           <div>
-            <label className='text-md-bold md:text-lg-bold lg:text-2lg-bold'>
+            <Label
+              htmlFor='password'
+              className='text-md-bold md:text-lg-bold lg:text-2lg-bold'
+            >
               비밀번호
-            </label>
+            </Label>
             <Input
+              id='password'
               {...register('password')}
               type='password'
               placeholder='영문, 숫자, 특수문자(!@#$%^&*) 입력'
@@ -100,10 +113,14 @@ const SignUpForm: () => JSX.Element = () => {
             )}
           </div>
           <div>
-            <label className='text-md-bold md:text-lg-bold lg:text-2lg-bold'>
+            <Label
+              htmlFor='passwordConfirmation'
+              className='text-md-bold md:text-lg-bold lg:text-2lg-bold'
+            >
               비밀번호 확인
-            </label>
+            </Label>
             <Input
+              id='passwordConfirmation'
               {...register('passwordConfirmation')}
               type='password'
               placeholder='비밀번호 확인'
