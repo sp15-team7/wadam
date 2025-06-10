@@ -1,3 +1,9 @@
+/**
+ * @author Hyun
+ * @since 2025-06-10
+ * @description: 로그인/회원가입 페이지에서 공통으로 사용되는 링크 컴포넌트(로그인하러가기, 회원가입 하러가기 같은..)
+ */
+
 import Link from 'next/link';
 
 interface AuthLinkProps {
