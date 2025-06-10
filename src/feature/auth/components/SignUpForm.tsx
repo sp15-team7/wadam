@@ -25,6 +25,9 @@ import {
 import SubmitButton from './buttons/SubmitButton';
 import { Label } from '@/shared/components/ui/label';
 
+const ERROR_MESSAGE_STYLE =
+  'text-sm-small text-primary md:text-md-small lg:text-md-small pt-2';
+
 const SignUpForm: () => JSX.Element = () => {
   const [state, formAction] = useActionState(signUpAction, null);
 
@@ -68,9 +71,7 @@ const SignUpForm: () => JSX.Element = () => {
               className='text-lg-small mt-1 h-[42px] w-[303px] rounded-full border px-5 md:h-[52px] md:w-[400px] lg:w-[500px]'
             />
             {errors.email && (
-              <p className='text-sm-small text-primary md:text-md-small lg:text-md-small pt-2'>
-                {errors.email.message}
-              </p>
+              <p className={ERROR_MESSAGE_STYLE}>{errors.email.message}</p>
             )}
           </div>
           <div>
@@ -87,9 +88,7 @@ const SignUpForm: () => JSX.Element = () => {
               className='text-lg-small mt-1 h-[42px] w-[303px] rounded-full border px-5 md:h-[52px] md:w-[400px] lg:w-[500px]'
             />
             {errors.nickname && (
-              <p className='text-sm-small text-primary md:text-md-small lg:text-md-small pt-2'>
-                {errors.nickname.message}
-              </p>
+              <p className={ERROR_MESSAGE_STYLE}>{errors.nickname.message}</p>
             )}
           </div>
           <div>
@@ -107,9 +106,7 @@ const SignUpForm: () => JSX.Element = () => {
               className='text-lg-small mt-1 h-[42px] w-[303px] rounded-full border px-5 md:h-[52px] md:w-[400px] lg:w-[500px]'
             />
             {errors.password && (
-              <p className='text-sm-small text-primary md:text-md-small lg:text-md-small pt-2'>
-                {errors.password.message}
-              </p>
+              <p className={ERROR_MESSAGE_STYLE}>{errors.password.message}</p>
             )}
           </div>
           <div>
@@ -127,7 +124,7 @@ const SignUpForm: () => JSX.Element = () => {
               className='text-lg-small mt-1 h-[42px] w-[303px] rounded-full border px-5 md:h-[52px] md:w-[400px] lg:w-[500px]'
             />
             {errors.passwordConfirmation && (
-              <p className='text-sm-small text-primary md:text-md-small lg:text-md-small pt-2'>
+              <p className={ERROR_MESSAGE_STYLE}>
                 {errors.passwordConfirmation.message}
               </p>
             )}
