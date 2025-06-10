@@ -5,7 +5,7 @@ import { cn } from '@/shared/libs/utils/cn';
 
 // destructive, outline, ghost, link 고려
 const buttonVariants = cva(
-  'items-center justify-center rounded-full cursor-pointer disabled:cursor-not-allowed',
+  'flex-center rounded-full cursor-pointer disabled:cursor-not-allowed',
   {
     variants: {
       variant: {
