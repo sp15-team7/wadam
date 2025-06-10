@@ -14,8 +14,6 @@ import { JSX, useActionState } from 'react';
 
 import { signUpAction } from '@/feature/auth/actions/auth.action';
 
-import { Input } from '@/shared/components/ui/input';
-import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -23,10 +21,10 @@ import {
   SignUpFormData,
 } from '@/feature/auth/schema/auth.schema';
 import SubmitButton from './buttons/SubmitButton';
-import { Label } from '@/shared/components/ui/label';
 
-const ERROR_MESSAGE_STYLE =
-  'text-sm-small text-primary md:text-md-small lg:text-md-small pt-2';
+import FormField from './FormField';
+import AuthLink from './AuthLink';
+import ErrorMessage from './ErrorMessage';
 
 const SignUpForm: () => JSX.Element = () => {
   const [state, formAction] = useActionState(signUpAction, null);
@@ -56,97 +54,50 @@ const SignUpForm: () => JSX.Element = () => {
           onSubmit={handleSubmit(onSubmit)}
           className='flex w-full flex-col gap-5 px-4'
         >
-          <div>
-            <Label
-              htmlFor='email'
-              className='text-md-bold md:text-lg-bold lg:text-2lg-bold'
-            >
-              이메일
-            </Label>
-            <Input
-              id='email'
-              {...register('email')}
-              type='email'
-              placeholder='whyne@email.com'
-              className='text-lg-small mt-1 h-[42px] w-[303px] rounded-full border px-5 md:h-[52px] md:w-[400px] lg:w-[500px]'
-            />
-            {errors.email && (
-              <p className={ERROR_MESSAGE_STYLE}>{errors.email.message}</p>
-            )}
-          </div>
-          <div>
-            <Label
-              htmlFor='nickname'
-              className='text-md-bold md:text-lg-bold lg:text-2lg-bold'
-            >
-              닉네임
-            </Label>
-            <Input
-              id='nickname'
-              {...register('nickname')}
-              placeholder='whyne'
-              className='text-lg-small mt-1 h-[42px] w-[303px] rounded-full border px-5 md:h-[52px] md:w-[400px] lg:w-[500px]'
-            />
-            {errors.nickname && (
-              <p className={ERROR_MESSAGE_STYLE}>{errors.nickname.message}</p>
-            )}
-          </div>
-          <div>
-            <Label
-              htmlFor='password'
-              className='text-md-bold md:text-lg-bold lg:text-2lg-bold'
-            >
-              비밀번호
-            </Label>
-            <Input
-              id='password'
-              {...register('password')}
-              type='password'
-              placeholder='영문, 숫자, 특수문자(!@#$%^&*) 입력'
-              className='text-lg-small mt-1 h-[42px] w-[303px] rounded-full border px-5 md:h-[52px] md:w-[400px] lg:w-[500px]'
-            />
-            {errors.password && (
-              <p className={ERROR_MESSAGE_STYLE}>{errors.password.message}</p>
-            )}
-          </div>
-          <div>
-            <Label
-              htmlFor='passwordConfirmation'
-              className='text-md-bold md:text-lg-bold lg:text-2lg-bold'
-            >
-              비밀번호 확인
-            </Label>
-            <Input
-              id='passwordConfirmation'
-              {...register('passwordConfirmation')}
-              type='password'
-              placeholder='비밀번호 확인'
-              className='text-lg-small mt-1 h-[42px] w-[303px] rounded-full border px-5 md:h-[52px] md:w-[400px] lg:w-[500px]'
-            />
-            {errors.passwordConfirmation && (
-              <p className={ERROR_MESSAGE_STYLE}>
-                {errors.passwordConfirmation.message}
-              </p>
-            )}
-          </div>
+          <FormField
+            label='이메일'
+            name='email'
+            type='email'
+            placeholder='whyne@email.com'
+            register={register}
+            errors={errors}
+          />
+
+          <FormField
+            label='닉네임'
+            name='nickname'
+            type='text'
+            placeholder='whyne'
+            register={register}
+            errors={errors}
+          />
+
+          <FormField
+            label='비밀번호'
+            name='password'
+            type='password'
+            placeholder='영문, 숫자, 특수문자(!@#$%^&*) 제한'
+            register={register}
+            errors={errors}
+          />
+
+          <FormField
+            label='비밀번호 확인'
+            name='passwordConfirmation'
+            type='password'
+            placeholder='비밀번호 확인'
+            register={register}
+            errors={errors}
+          />
+
           <SubmitButton>가입하기</SubmitButton>
-          {state?.message && (
-            <p className='text-destructive text-sm font-medium'>
-              {state.message}
-            </p>
-          )}
+          <ErrorMessage message={state?.message} />
         </form>
-        <div className='mt-2 flex flex-row items-center justify-center gap-x-4'>
-          <span className='text-secondary text-md-small'>
-            계정이 이미 있으신가요?
-          </span>
-          <Link
-            href='/signin'
-            className='text-primary text-md-regular underline'
-          >
-            로그인 하러가기
-          </Link>
-        </div>
+        <AuthLink
+          label='계정이 이미 있으신가요?'
+          linkText='로그인 하러가기'
+          href='/signin'
+        />
       </div>
     </div>
   );
