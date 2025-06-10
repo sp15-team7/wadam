@@ -18,13 +18,7 @@ const SubmitButton = ({ children, className }: SubmitButtonProps) => {
   const { pending } = useFormStatus();
 
   return (
-    <Button
-      type='submit'
-      variant='primary'
-      size='sm'
-      className={`text-md-bold mt-4 flex h-[42px] w-[303px] px-14 md:w-[400px] lg:w-[500px] ${className ?? ''}`}
-      disabled={pending}
-    >
+    <Button type='submit' variant='primary' size='full' disabled={pending}>
       {pending ? '처리 중...' : children}
     </Button>
   );
