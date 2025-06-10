@@ -24,7 +24,7 @@ import {
 } from '@/feature/auth/schema/auth.schema';
 import SubmitButton from './buttons/SubmitButton';
 
-const SignUpForm = () => {
+const SignUpForm: () => JSX.Element = () => {
   const [state, formAction] = useActionState(signUpAction, null);
 
   const {
