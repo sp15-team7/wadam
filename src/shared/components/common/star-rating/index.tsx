@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 
 // 사용자가 선택할 수 있는 값 (0.5점 단위)
-type StarValue = 0 | 0.5 | 1 | 1.5 | 2 | 2.5 | 3 | 3.5 | 4 | 4.5 | 5;
+type StarValue = 0.5 | 1 | 1.5 | 2 | 2.5 | 3 | 3.5 | 4 | 4.5 | 5;
 
 type StarRatingProps = {
   value: number;
@@ -13,22 +13,22 @@ type StarRatingProps = {
 
 // StarValue 유효성 검사 함수
 const isValidStarValue = (val: number): val is StarValue => {
-  const validValues: StarValue[] = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5];
+  const validValues: StarValue[] = [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5];
   return validValues.includes(val as StarValue);
 };
 
 // number를 0.5점 단위 반올림
 const roundToStarValue = (val: number): StarValue => {
-  if (val <= 0) return 0;
+  if (val <= 0.5) return 0.5;
   if (val >= 5) return 5;
 
   // 0.5 단위로 반올림
   const rounded = Math.round(val * 2) / 2;
-  return isValidStarValue(rounded) ? rounded : 0;
+  return isValidStarValue(rounded) ? rounded : 0.5;
 };
 
 const StarRating = ({
-  value = 0,
+  value,
   readOnly = false,
   onChange,
 }: StarRatingProps) => {
@@ -50,11 +50,6 @@ const StarRating = ({
     }
   })();
 
-  const getStarPartOpacity = (index: number, isHalf: boolean) => {
-    const current = index + (isHalf ? 0.5 : 1);
-    return displayValue >= current ? 1 : 0;
-  };
-
   const handleMouseEnter = (val: StarValue) => {
     if (!readOnly) setHoverValue(val);
   };
@@ -75,7 +70,6 @@ const StarRating = ({
       // 편집 가능 모드에서만 selectedValue 업데이트
       setSelectedValue(roundToStarValue(value));
     }
-    // readOnly 모드에서는 displayValue에서 직접 처리하므로 state 업데이트 불필요
   }, [value, readOnly]);
 
   return (
