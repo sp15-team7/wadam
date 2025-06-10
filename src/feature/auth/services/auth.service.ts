@@ -8,11 +8,11 @@ import {
 import { apiClient } from '@/shared/libs/api/apiClient';
 
 export const signUp = async (data: SignUpRequest): Promise<AuthResponse> => {
-  return apiClient.post('auth/signUp', { json: data }).json<AuthResponse>();
+  return apiClient.post('auth/signup', { json: data }).json<AuthResponse>();
 };
 
 export const signIn = async (data: SignInRequest): Promise<AuthResponse> => {
-  return apiClient.post('auth/signIn', { json: data }).json<AuthResponse>();
+  return apiClient.post('auth/signin', { json: data }).json<AuthResponse>();
 };
 
 export const refreshToken = async (

@@ -1,11 +1,12 @@
 // src/feature/auth/utils/providers.utils.ts
 
-import { AuthResponse } from '@/feature/auth/types/auth.types';
-import { transformUserForNextAuth } from '@/feature/auth/utils/jwt.utils';
 import type { User } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
-// 수정된 부분: 'SignInSchema' 대신 'signInSchema'로 임포트 이름을 변경하고 세미콜론을 추가했습니다.
-import { signInSchema } from '@/feature/auth/schema/auth.schema'; // <-- 이 부분을 이렇게 수정하세요.
+
+import { signInSchema } from '@/feature/auth/schema/auth.schema';
+import { signIn } from '@/feature/auth/services/auth.service';
+import { AuthResponse } from '@/feature/auth/types/auth.types';
+import { transformUserForNextAuth } from '@/feature/auth/utils/jwt.utils';
 
 /**
  * 사용자 자격증명을 검증하고 인증을 처리합니다.
@@ -16,52 +17,42 @@ import { signInSchema } from '@/feature/auth/schema/auth.schema'; // <-- 이 부
 const authorizeUser = async (
   credentials: Record<string, unknown>,
 ): Promise<User | null> => {
+  console.log('🔍 authorizeUser 호출됨:', credentials);
+
   // 1. 입력값 유효성 검사
-  // signInSchema를 사용하여 credentials를 검사합니다.
-  const validatedFields = signInSchema.safeParse(credentials); // <-- 여기서 signInSchema 사용
+  const validatedFields = signInSchema.safeParse(credentials);
 
   if (!validatedFields.success) {
-    console.warn('로그인 입력값 유효성 검사 실패:', validatedFields.error);
+    console.warn('❌ 로그인 입력값 유효성 검사 실패:', validatedFields.error);
     return null;
   }
 
+  console.log('✅ 유효성 검사 통과:', validatedFields.data);
+
   try {
-    // 2. 백엔드 인증 API 호출 (실제 auth.service에서 signIn 함수를 임포트해야 합니다.)
-    // 이 예시에서는 signIn 함수가 정의되어 있지 않으므로, 더미로 대체합니다.
-    // import { signIn } from '@/feature/auth/services/auth.service'; <- 이 줄을 추가해야 합니다.
-    const signIn = async (data: any): Promise<AuthResponse | null> => {
-      // 실제 백엔드 로그인 로직을 여기에 구현하세요.
-      // 예시: const response = await fetch('/api/auth/login', { method: 'POST', body: JSON.stringify(data) });
-      // 예시: if (!response.ok) throw new Error('인증 실패');
-      // 예시: return response.json();
-      await new Promise((resolve) => setTimeout(resolve, 500)); // 네트워크 지연 흉내
-      if (
-        data.email === 'test@example.com' &&
-        data.password === 'password123'
-      ) {
-        return {
-          user: { id: '1', email: 'test@example.com', name: 'Test User' },
-          accessToken: 'fake_access_token',
-          refreshToken: 'fake_refresh_token',
-        };
-      }
-      return null;
-    };
-
-    const authResponse: AuthResponse | null = await signIn(
-      validatedFields.data,
-    );
-
-    if (!authResponse) {
-      console.warn('백엔드에서 빈 응답을 받았습니다.');
-      return null;
-    }
+    // 2. 백엔드 인증 API 호출
+    console.log('🌐 백엔드 API 호출 시작...');
+    const authResponse: AuthResponse = await signIn(validatedFields.data);
+    console.log('✅ 백엔드 API 응답 받음:', {
+      userId: authResponse.user.id,
+      email: authResponse.user.email,
+    });
 
     // 3. NextAuth 호환 형식으로 변환
     const { user, accessToken, refreshToken } = authResponse;
-    return transformUserForNextAuth(user, accessToken, refreshToken);
+    const transformedUser = transformUserForNextAuth(
+      user,
+      accessToken,
+      refreshToken,
+    );
+    console.log('✅ NextAuth 형식으로 변환 완료:', {
+      id: transformedUser.id,
+      email: transformedUser.email,
+    });
+
+    return transformedUser;
   } catch (error) {
-    console.error('로그인 인증 오류:', error);
+    console.error('❌ 로그인 인증 오류:', error);
     return null;
   }
 };
@@ -73,6 +64,10 @@ const authorizeUser = async (
 export const credentialsProvider = Credentials({
   id: 'credentials',
   name: 'Credentials',
+  credentials: {
+    email: { label: 'Email', type: 'email' },
+    password: { label: 'Password', type: 'password' },
+  },
   authorize: authorizeUser,
 });
 

@@ -1,5 +1,6 @@
-import { cn } from '@/shared/libs/utils/cn';
 import { cva, type VariantProps } from 'class-variance-authority';
+
+import { cn } from '@/shared/libs/utils/cn';
 
 const spinnerVariants = cva(
   'inline-block animate-[spin_0.6s_linear_infinite] rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]',
@@ -18,7 +19,7 @@ const spinnerVariants = cva(
       size: 'small',
       color: 'primary',
     },
-  }
+  },
 );
 
 type SpinnerProps = {
@@ -27,12 +28,15 @@ type SpinnerProps = {
 
 const Spinner = ({ size, className, color }: SpinnerProps) => {
   return (
-    <div className={cn(spinnerVariants({ size, color }), className)} role="status">
-      <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+    <div
+      className={cn(spinnerVariants({ size, color }), className)}
+      role='status'
+    >
+      <span className='!absolute !-m-px !h-px !w-px !overflow-hidden !border-0 !p-0 !whitespace-nowrap ![clip:rect(0,0,0,0)]'>
         Loading...
       </span>
     </div>
   );
-}
+};
 
 export default Spinner;

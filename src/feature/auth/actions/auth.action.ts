@@ -1,7 +1,7 @@
 'use server';
 
-import { AuthError } from 'next-auth';
 import { redirect } from 'next/navigation';
+import { AuthError } from 'next-auth';
 
 import { signIn } from '@/feature/auth/libs/auth';
 import { SignupSchema } from '@/feature/auth/schema/auth.schema';
@@ -79,7 +79,11 @@ export async function signInAction(
 ): Promise<ActionState> {
   try {
     // Auth.js Credentials Provider로 로그인 시도
-    await signIn('credentials', formData);
+    await signIn('credentials', {
+      email: formData.get('email') as string,
+      password: formData.get('password') as string,
+      redirect: false, // 수동으로 redirect 제어하기 위해 false
+    });
   } catch (error) {
     // 인증 실패 시 에러 종류에 따라 사용자 메시지 반환
     if (error instanceof AuthError) {
@@ -90,6 +94,6 @@ export async function signInAction(
     throw error;
   }
 
-  // 로그인 성공: 에러 없음
-  return {};
+  // 로그인 성공 시 홈으로 리다이렉트
+  redirect('/wines');
 }

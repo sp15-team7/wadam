@@ -10,21 +10,20 @@
 
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { JSX, useActionState } from 'react';
+import { useForm } from 'react-hook-form';
 
 import { signUpAction } from '@/feature/auth/actions/auth.action';
-
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import {
-  SignupSchema,
   SignUpFormData,
+  SignupSchema,
 } from '@/feature/auth/schema/auth.schema';
-import SubmitButton from './buttons/SubmitButton';
 
-import FormField from './FormField';
 import AuthLink from './AuthLink';
+import SubmitButton from './buttons/SubmitButton';
 import ErrorMessage from './ErrorMessage';
+import FormField from './FormField';
 
 const SignUpForm: () => JSX.Element = () => {
   const [state, formAction] = useActionState(signUpAction, null);
@@ -44,6 +43,7 @@ const SignUpForm: () => JSX.Element = () => {
     Object.entries(data).forEach(([key, value]) => {
       formData.append(key, value);
     });
+
     formAction(formData);
   };
 

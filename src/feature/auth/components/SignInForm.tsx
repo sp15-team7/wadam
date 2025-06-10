@@ -17,15 +17,15 @@ import { useForm } from 'react-hook-form';
 
 import { signInAction } from '@/feature/auth/actions/auth.action';
 import {
-  signInSchema,
   type SignInFormData,
+  signInSchema,
 } from '@/feature/auth/schema/auth.schema';
 
 import { Button } from '../../../shared/components/ui/button';
 import AuthLink from './AuthLink';
+import SubmitButton from './buttons/SubmitButton';
 import ErrorMessage from './ErrorMessage';
 import FormField from './FormField';
-import SubmitButton from './buttons/SubmitButton';
 
 const SignInForm: () => JSX.Element = () => {
   const [state, formAction] = useActionState(signInAction, null);
