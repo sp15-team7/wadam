@@ -10,5 +10,5 @@ export default {
     () => 'tsc --noEmit',
   ],
   '**/*.{json,css,md,yml,yaml,html}': ['prettier --write'],
-  // '**/*.{png,jpg,jpeg,gif,svg,ico,webp}': ['imagemin-lint-staged'],
+  '**/*.{png,jpg,jpeg,gif,svg,ico,webp}': ['imagemin-lint-staged'],
 };
