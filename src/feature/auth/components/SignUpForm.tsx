@@ -48,58 +48,54 @@ const SignUpForm: () => JSX.Element = () => {
   };
 
   return (
-    <div className='flex min-h-screen items-start justify-center pt-8 md:items-center md:pt-0'>
-      <div className='w-full max-w-[400px] space-y-8 rounded-lg bg-white p-8 md:max-w-[500px] md:p-12 lg:max-w-[600px] lg:p-16'>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className='flex w-full flex-col gap-5 px-4'
-        >
-          <FormField
-            label='이메일'
-            name='email'
-            type='email'
-            placeholder='whyne@email.com'
-            register={register}
-            errors={errors}
-          />
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className='flex-center flex h-[67.9rem] w-[34.3rem] flex-col gap-5 px-4 md:h-[76.2rem] md:w-[49.6rem] lg:h-[79.4rem] lg:w-[50rem]'
+    >
+      <FormField
+        label='이메일'
+        name='email'
+        type='email'
+        placeholder='whyne@email.com'
+        register={register}
+        errors={errors}
+      />
 
-          <FormField
-            label='닉네임'
-            name='nickname'
-            type='text'
-            placeholder='whyne'
-            register={register}
-            errors={errors}
-          />
+      <FormField
+        label='닉네임'
+        name='nickname'
+        type='text'
+        placeholder='whyne'
+        register={register}
+        errors={errors}
+      />
 
-          <FormField
-            label='비밀번호'
-            name='password'
-            type='password'
-            placeholder='영문, 숫자, 특수문자(!@#$%^&*) 제한'
-            register={register}
-            errors={errors}
-          />
+      <FormField
+        label='비밀번호'
+        name='password'
+        type='password'
+        placeholder='영문, 숫자, 특수문자(!@#$%^&*) 제한'
+        register={register}
+        errors={errors}
+      />
 
-          <FormField
-            label='비밀번호 확인'
-            name='passwordConfirmation'
-            type='password'
-            placeholder='비밀번호 확인'
-            register={register}
-            errors={errors}
-          />
+      <FormField
+        label='비밀번호 확인'
+        name='passwordConfirmation'
+        type='password'
+        placeholder='비밀번호 확인'
+        register={register}
+        errors={errors}
+      />
 
-          <SubmitButton>가입하기</SubmitButton>
-          <ErrorMessage message={state?.message} />
-        </form>
-        <AuthLink
-          label='계정이 이미 있으신가요?'
-          linkText='로그인 하러가기'
-          href='/signin'
-        />
-      </div>
-    </div>
+      <SubmitButton>가입하기</SubmitButton>
+      <ErrorMessage message={state?.message} />
+      <AuthLink
+        label='계정이 이미 있으신가요?'
+        linkText='로그인 하러가기'
+        href='/signin'
+      />
+    </form>
   );
 };
 
