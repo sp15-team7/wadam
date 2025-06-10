@@ -127,6 +127,11 @@
     line-height: 2.4rem;
     font-weight: 500;
   }
+  .text-lg-small {
+    font-size: 1.6rem;
+    line-height: 2.4rem;
+    font-weight: 400;
+  }
   .text-md-bold {
     font-size: 1.4rem;
     line-height: 2rem;
@@ -142,6 +147,11 @@
     line-height: 2rem;
     font-weight: 500;
   }
+  .text-md-small {
+    font-size: 1.4rem;
+    line-height: 2rem;
+    font-weight: 400;
+  }
   .text-sm-bold {
     font-size: 1.2rem;
     line-height: 1.6rem;
@@ -156,5 +166,10 @@
     font-size: 1.2rem;
     line-height: 1.6rem;
     font-weight: 500;
+  }
+  .text-sm-small {
+    font-size: 1.2rem;
+    line-height: 1.6rem;
+    font-weight: 400;
   }
 }

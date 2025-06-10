@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 import { AuthError } from 'next-auth';
 
 import { signIn } from '@/feature/auth/libs/auth';
-import { signUpSchema } from '@/feature/auth/schema/auth.schema';
+import { SignupSchema } from '@/feature/auth/schema/auth.schema';
 import { signUp } from '@/feature/auth/services/auth.service';
 
 /**
@@ -30,7 +30,7 @@ export async function signUpAction(
   formData: FormData,
 ): Promise<ActionState> {
   // 1. FormData → JS 객체로 변환 후 유효성 검사
-  const validatedFields = signUpSchema.safeParse(
+  const validatedFields = SignupSchema.safeParse(
     Object.fromEntries(formData.entries()),
   );
 
