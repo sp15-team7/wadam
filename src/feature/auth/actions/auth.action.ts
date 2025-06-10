@@ -5,7 +5,10 @@ import { AuthError } from 'next-auth';
 
 import { signIn } from '@/feature/auth/libs/auth';
 import { SignupSchema } from '@/feature/auth/schema/auth.schema';
-import { signUp } from '@/feature/auth/services/auth.service';
+import {
+  getAuthErrorMessage,
+  signUp,
+} from '@/feature/auth/services/auth.service';
 
 /**
  * Server Action에서 클라이언트에 전달할 상태 형태 정의
@@ -52,9 +55,10 @@ export async function signUpAction(
       password,
       redirect: false, // 수동으로 redirect 제어하기 위해 false
     });
-  } catch {
-    // 4. 서버 에러 처리 (예: 닉네임 중복 등)
-    return { message: '회원가입에 실패했습니다. (닉네임 중복 등)' };
+  } catch (error) {
+    // 4. 서버 에러 처리 - 구체적인 에러 메시지 반환
+    console.error('회원가입 오류:', error);
+    return { message: getAuthErrorMessage(error) };
   }
 
   // 5. 홈으로 리다이렉트 (인증 성공 후)
@@ -85,13 +89,28 @@ export async function signInAction(
       redirect: false, // 수동으로 redirect 제어하기 위해 false
     });
   } catch (error) {
+    console.error('로그인 오류:', error);
+
     // 인증 실패 시 에러 종류에 따라 사용자 메시지 반환
     if (error instanceof AuthError) {
-      return { message: '이메일 또는 비밀번호가 올바르지 않습니다.' };
+      // NextAuth 에러의 경우 더 구체적인 메시지 제공
+      switch (error.type) {
+        case 'CredentialsSignin':
+          return { message: '이메일 또는 비밀번호를 확인해주세요.' };
+        case 'CallbackRouteError':
+          return {
+            message: '로그인 처리 중 오류가 발생했습니다. 다시 시도해주세요.',
+          };
+        case 'AccessDenied':
+          return { message: '접근이 거부되었습니다.' };
+        default:
+          return { message: '로그인에 실패했습니다. 다시 시도해주세요.' };
+      }
     }
 
-    // 알 수 없는 예외는 상위로 throw (에러 경계에서 잡히게 됨)
-    throw error;
+    // 기타 에러 처리
+    const errorMessage = getAuthErrorMessage(error);
+    return { message: errorMessage };
   }
 
   // 로그인 성공 시 홈으로 리다이렉트

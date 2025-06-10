@@ -12,7 +12,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { JSX, useActionState } from 'react';
+import { JSX, useActionState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { signInAction } from '@/feature/auth/actions/auth.action';
@@ -29,6 +29,8 @@ import FormField from './FormField';
 
 const SignInForm: () => JSX.Element = () => {
   const [state, formAction] = useActionState(signInAction, null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_isPending, startTransition] = useTransition();
 
   const {
     register,
@@ -44,7 +46,10 @@ const SignInForm: () => JSX.Element = () => {
     Object.entries(data).forEach(([key, value]) => {
       formData.append(key, value);
     });
-    formAction(formData);
+
+    startTransition(() => {
+      formAction(formData);
+    });
   };
 
   return (

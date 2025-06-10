@@ -4,7 +4,10 @@ import type { User } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 
 import { signInSchema } from '@/feature/auth/schema/auth.schema';
-import { signIn } from '@/feature/auth/services/auth.service';
+import {
+  getAuthErrorMessage,
+  signIn,
+} from '@/feature/auth/services/auth.service';
 import { AuthResponse } from '@/feature/auth/types/auth.types';
 import { transformUserForNextAuth } from '@/feature/auth/utils/jwt.utils';
 
@@ -17,7 +20,10 @@ import { transformUserForNextAuth } from '@/feature/auth/utils/jwt.utils';
 const authorizeUser = async (
   credentials: Record<string, unknown>,
 ): Promise<User | null> => {
-  console.log('🔍 authorizeUser 호출됨:', credentials);
+  console.log('🔍 authorizeUser 호출됨:', {
+    email: credentials.email,
+    hasPassword: !!credentials.password,
+  });
 
   // 1. 입력값 유효성 검사
   const validatedFields = signInSchema.safeParse(credentials);
@@ -53,6 +59,10 @@ const authorizeUser = async (
     return transformedUser;
   } catch (error) {
     console.error('❌ 로그인 인증 오류:', error);
+    // NextAuth provider에서는 더 상세한 로그만 남기고 null 반환
+    // 실제 에러 메시지는 signInAction에서 처리됨
+    const errorMessage = getAuthErrorMessage(error);
+    console.error('❌ 구체적인 에러 메시지:', errorMessage);
     return null;
   }
 };
