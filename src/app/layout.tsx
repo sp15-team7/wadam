@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <html lang='kr'>
+    <html lang='ko'>
       <QueryProvider>
         <body className={pretendard.className}>
           <Header />
