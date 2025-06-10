@@ -19,8 +19,8 @@ import { STYLES } from '../constants/styles';
 
 const Hero = () => {
   return (
-    <section>
-      <div className='mx-auto h-full w-[34.3rem] pt-[5.6rem]'>
+    <section className='pt-[5.6rem]'>
+      <div className='mx-auto h-full w-[34.3rem]'>
         <motion.img
           src='/logos/logo-red-landing.png'
           alt='logo'
@@ -71,7 +71,7 @@ const Hero = () => {
         </Link>
       </motion.div>
 
-      <div className='mt-[2.6rem] flex items-center justify-between'>
+      <div className='mt-[3.6rem] flex items-center justify-between'>
         <div>
           <motion.ul
             className='mb-[0.7rem] flex items-center gap-[1.3rem]'

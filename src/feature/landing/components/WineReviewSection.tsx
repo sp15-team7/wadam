@@ -82,7 +82,7 @@ const WineReviewSection = () => {
       >
         <Link
           href='/wines'
-          className='bg-primary mt-[25.3rem] flex h-[4.8rem] items-center justify-center rounded-full text-[1.4rem] font-bold text-white'
+          className='bg-primary mt-[20rem] flex h-[4.8rem] items-center justify-center rounded-full text-[1.4rem] font-bold text-white'
         >
           시작하기
         </Link>
