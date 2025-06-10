@@ -6,44 +6,49 @@
 
 import { Input } from '@/shared/components/ui/input';
 import { Label } from '@/shared/components/ui/label';
+import {
+  FieldErrors,
+  FieldValues,
+  Path,
+  UseFormRegister,
+} from 'react-hook-form';
 
 // auth - signup 공통 스타일
-const LABEL_STYLE = 'text-md-bold md:text-lg-bold lg:text-2lg-bold';
-const INPUT_STYLE =
-  'text-lg-small mt-1 h-[42px] w-[303px] rounded-full border px-5 md:h-[52px] md:w-[400px] lg:w-[500px]';
+// const LABEL_STYLE = 'text-md-bold md:text-lg-bold lg:text-2lg-bold';
+// const INPUT_STYLE =
+//   'text-lg-small mt-1 h-[42px] w-[303px] rounded-full border px-5 md:h-[52px] md:w-[400px] lg:w-[500px]';
 const ERROR_STYLE =
   'text-sm-small text-primary md:text-md-small lg:text-md-small pt-2';
 
-interface FormFieldProps {
+interface FormFieldProps<T extends FieldValues> {
   label: string;
-  name: string;
+  name: Path<T>;
   type?: string;
   placeholder?: string;
-  register: any;
-  errors: any;
+  register: UseFormRegister<T>;
+  errors: FieldErrors<T>;
 }
 
-const FormField = ({
+const FormField = <T extends FieldValues>({
   label,
   name,
   type = 'text',
   placeholder,
   register,
   errors,
-}: FormFieldProps) => {
+}: FormFieldProps<T>) => {
   return (
     <div>
-      <Label htmlFor={name} className={LABEL_STYLE}>
-        {label}
-      </Label>
+      <Label htmlFor={name}>{label}</Label>
       <Input
         id={name}
         {...register(name)}
         type={type}
         placeholder={placeholder}
-        className={INPUT_STYLE}
       />
-      {errors[name] && <p className={ERROR_STYLE}>{errors[name].message}</p>}
+      {errors[name] && (
+        <p className={ERROR_STYLE}>{String(errors[name]?.message)}</p>
+      )}
     </div>
   );
 };

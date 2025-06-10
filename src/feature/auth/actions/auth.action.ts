@@ -1,7 +1,7 @@
 'use server';
 
-import { redirect } from 'next/navigation';
 import { AuthError } from 'next-auth';
+import { redirect } from 'next/navigation';
 
 import { signIn } from '@/feature/auth/libs/auth';
 import { SignupSchema } from '@/feature/auth/schema/auth.schema';
