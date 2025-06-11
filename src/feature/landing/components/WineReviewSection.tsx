@@ -2,8 +2,9 @@
 import { useInView } from 'motion/react';
 import * as motion from 'motion/react-client';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useRef } from 'react';
+
+import { Button } from '@/shared/components/ui/button';
 
 import { STYLES } from '../constants/styles';
 import { sectionVariants } from '../utils/animations';
@@ -20,7 +21,7 @@ const WineReviewSection = () => {
   const section4Characters = splitText(section4Title);
 
   return (
-    <section ref={section4Ref} className='relative mt-[5rem]'>
+    <section ref={section4Ref} className='relative mt-[5rem] md:mt-[20dvh]'>
       <motion.div
         variants={sectionVariants.wineReview.image}
         initial='hidden'
@@ -77,12 +78,18 @@ const WineReviewSection = () => {
         }
         transition={{ duration: 0.6, delay: 0.5 }}
       >
-        <Link
+        {/* <Link
           href='/wines'
           className='bg-primary mt-[20rem] flex h-[4.8rem] items-center justify-center rounded-full text-[1.4rem] font-bold text-white'
         >
           시작하기
-        </Link>
+        </Link> */}
+        <Button
+          size='full'
+          className='mt-[20rem] text-[1.4rem] md:mt-[40rem] md:text-[1.8rem]'
+        >
+          시작하기
+        </Button>
       </motion.div>
     </section>
   );
