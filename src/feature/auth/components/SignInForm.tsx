@@ -89,7 +89,7 @@ const SignInForm: () => JSX.Element = () => {
         >
           <div className='flex-center gap-[2rem]'>
             <Image
-              src='/logos/logo-kakao-lg.png'
+              src='/icons/ui/icon-kakao.svg'
               alt='카카오 아이콘'
               width={24}
               height={24}
