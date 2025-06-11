@@ -35,12 +35,7 @@ const Error = ({ error, reset }: ErrorProps) => {
       <p className='txt-lg-regular mb-5'>
         죄송합니다. 페이지를 불러오거나 작업하는 데 문제가 생겼습니다.
       </p>
-      <p
-        className='txt-md-regular mb-8'
-        style={{ color: 'var(--color-primary)' }}
-      >
-        상세: {displayMessage}
-      </p>
+      <p className='txt-md-regular text-primary mb-8'>상세: {displayMessage}</p>
 
       <Button
         onClick={
