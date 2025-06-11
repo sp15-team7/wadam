@@ -1,5 +1,5 @@
 /**
- * @author Hyun
+ * @author Hyun, Zin
  * @since 2025-06-10
  * @description: 반복되는 Form 내부 구조 분리 (style, label, input, error message)
  */
