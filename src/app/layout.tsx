@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 
 import Header from '@/shared/components/common/header';
+import { Toaster } from '@/shared/components/ui/sonner';
 import QueryProvider from '@/shared/libs/provider/queryProvider';
 
 const pretendard = localFont({
@@ -25,6 +26,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <body className={pretendard.className}>
           <Header />
           {children}
+          <Toaster />
         </body>
       </QueryProvider>
     </html>

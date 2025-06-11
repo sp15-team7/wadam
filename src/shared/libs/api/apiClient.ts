@@ -1,5 +1,6 @@
 import ky from 'ky';
 import { toast } from 'sonner';
+import { z } from 'zod';
 
 import { authResponseSchema } from '@/feature/auth/schema/auth.schema';
 import {
@@ -26,17 +27,48 @@ export class HttpError extends Error {
     Object.setPrototypeOf(this, HttpError.prototype);
   }
 }
-
+/**
+ * API 클라이언트 인스턴스
+ *
+ * @description
+ * - `ky`는 fetch 기반의 경량 HTTP 클라이언트 라이브러리입니다.
+ * - 본 인스턴스는 **모든 요청에 공통 설정**을 적용하며, 주로 클라이언트 컴포넌트에서 API 요청 시 사용합니다.
+ * - 인증 토큰은 **HTTP-Only 쿠키**로 전달되므로, `credentials: 'include'` 옵션이 필수입니다.
+ * - 서버가 응답한 JSON 에러 메시지를 클라이언트에 **직관적인 형태로 전달**하기 위해 `beforeError` 훅을 사용합니다.
+ */
 export const apiClient = ky.create({
-  prefixUrl: 'http://localhost:3000/api',
+  /**
+   * API 요청의 기본 URL 경로
+   * 환경 변수에서 가져오며, 접두사로 모든 요청에 자동으로 붙습니다.
+   */
+  prefixUrl: process.env.NEXT_PUBLIC_API_URL,
   throwHttpErrors: false, // Ky가 4xx/5xx 응답 시 자동으로 에러를 throw하지 않도록
+
+  /**
+   * 기본 요청 헤더 설정
+   * 모든 요청에서 Content-Type을 JSON으로 명시
+   */
   headers: {
     'Content-Type': 'application/json',
   },
+
+  /**
+   * 쿠키 기반 인증을 위한 설정
+   * - 브라우저가 cross-origin 요청에서도 인증 쿠키를 자동 포함하도록 함
+   * - 서버에서 accessToken/refreshToken을 HTTP-Only 쿠키로 전달하는 구조에서 필수
+   */
+  credentials: 'include',
+
+  /**
+   * 에러 응답 전처리 훅
+   * - ky는 네트워크 오류나 HTTP 상태 코드 400 이상일 때 예외를 throw함
+   * - 이 훅은 그런 예외를 커스터마이징하여 클라이언트에 더 유용한 메시지를 전달
+   */
+
   hooks: {
     beforeRequest: [],
     afterResponse: [
-      async (_, __, response) => {
+      async (request, _, response) => {
         // HTTP 응답 상태 코드가 2xx (성공) 범위가 아닌 경우 (4xx, 5xx 에러)
         if (!response.ok) {
           let errorBody: unknown;
@@ -170,28 +202,32 @@ export const apiClient = ky.create({
 
         try {
           _data = await clonedResponse.json();
-          authResponseSchema.parse(_data); // Zod 유효성 검사 추가
-          void _data;
-        } catch {
-          // 성공 응답이지만 JSON 파싱에 실패한 경우 (예: 서버가 JSON이 아닌 응답을 줬을 때)
-          console.error('성공 응답이지만 JSON 파싱에 실패했습니다:');
-          const errorMessage = '서버 응답 형식이 올바르지 않습니다.';
-          toast.error(errorMessage);
-          throw new HttpError(errorMessage, 500, undefined);
-        }
+          if (
+            request.url.includes('/auth/signin') ||
+            request.url.includes('/auth/signup')
+          ) {
+            authResponseSchema.parse(_data); // 로그인/회원가입 응답 스키마 검증
+          }
+        } catch (_e: unknown) {
+          // JSON 파싱 실패 또는 Zod 유효성 검사 실패 (특정 엔드포인트에만 적용)
+          console.error('API 응답 파싱 또는 Zod 유효성 검사 오류:', _e);
 
-        try {
-        } catch (_zodError: unknown) {
-          console.error(
-            'Zod 유효성 검사 오류 (성공 응답이지만 스키마 불일치):',
-            _zodError,
-          );
-          const errorMessage =
-            '응답 데이터 형식이 올바르지 않습니다. (내부 스키마 불일치)';
-          toast.error(errorMessage);
-          throw new HttpError(errorMessage, 500, undefined);
-        }
+          let errorMessage =
+            '서버 응답 형식이 올바르지 않거나 내부 스키마와 불일치합니다.';
+          // ZodError는 일반 Error의 하위 클래스가 아니므로 instanceof z.ZodError를 사용하여 정확히 체크하는 것이 좋습니다.
+          // 💡 여기에 `import { z } from 'zod';` 가 필요합니다! (최상단에 추가해주세요)
+          if (_e instanceof z.ZodError) {
+            errorMessage = `응답 데이터 형식이 올바르지 않습니다. (스키마 불일치: ${_e.errors[0]?.message || '상세 오류 없음'})`;
+          } else if (_e instanceof TypeError) {
+            // JSON 파싱 실패는 TypeError일 수 있음
+            errorMessage = '서버 응답 형식 오류: JSON 파싱 실패';
+          }
 
+          toast.error(errorMessage);
+          throw new HttpError(errorMessage, response.status || 500, {
+            message: errorMessage,
+          });
+        }
         // 성공적인 응답은 다음 체인으로 전달.
         return response;
       },

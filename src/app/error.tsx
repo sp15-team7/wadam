@@ -32,13 +32,7 @@ const Error = ({ error, reset }: ErrorProps) => {
   }
 
   return (
-    <div
-      className='flex-center flex min-h-screen flex-col rounded-lg border border-red-300 p-5 text-center'
-      style={{
-        backgroundColor: 'var(--color-secondary)',
-        color: 'var(--color-primary)',
-      }}
-    >
+    <div className='flex-center flex min-h-screen flex-col rounded-lg border border-red-300 p-5 text-center'>
       <h2 className='txt-2xl-bold mb-4'>😟 앗! 문제가 발생했어요</h2>
       <p className='txt-lg-regular mb-5'>
         죄송합니다. 페이지를 불러오거나 작업하는 데 문제가 생겼습니다.
