@@ -12,8 +12,5 @@ export default {
   '**/*.{json,css,md,yml,yaml,html}': ['prettier --write'],
   '**/*.{png,jpg,jpeg,gif,svg,ico,webp}': ['imagemin-lint-staged'],
   'package.json': ['pnpm audit --audit-level=high', 'prettier --write'],
-  '**/.env*': [
-    () =>
-      'echo "⚠️  환경 변수 파일이 변경되었습니다. 민감한 정보가 포함되지 않았는지 확인해주세요."',
-  ],
+  '**/.env*': [() => 'echo "⚠️  환경 변수 파일이 변경이 감지되었습니다.'],
 };
