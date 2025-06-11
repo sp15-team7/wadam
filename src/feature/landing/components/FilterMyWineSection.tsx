@@ -39,7 +39,7 @@ const FilterMyWineSection = () => {
         </motion.p>
       </div>
 
-      <ul className='mx-auto mt-[0.5rem] grid max-w-[34.3rem] grid-cols-4 gap-2'>
+      <ul className='mx-auto mt-[0.5rem] grid max-w-[34.3rem] grid-cols-4 md:mt-[4rem] md:max-w-[57.6rem] md:gap-[1rem]'>
         {NOTE_IMAGES.map((name, i) => (
           <motion.li
             key={name}
@@ -53,6 +53,7 @@ const FilterMyWineSection = () => {
               alt={name}
               width={85}
               height={85}
+              className='md:h-[auto] md:w-full'
             />
           </motion.li>
         ))}
