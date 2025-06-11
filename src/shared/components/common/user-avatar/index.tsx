@@ -7,6 +7,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { cn } from '@/shared/libs/utils/cn';
+
 /**
  * 유저의 프로필 이미지를 표시하는 아바타 컴포넌트
  * @param {UserAvatarProps} props - 컴포넌트 props
@@ -22,7 +24,10 @@ const UserAvatar = ({
   return (
     <Link
       href='/myprofile'
-      className={`after:border-secondary relative h-[4.7rem] w-[4.7rem] overflow-hidden rounded-full after:absolute after:inset-[0.1rem] after:z-10 after:rounded-full after:border-1 after:content-[""] ${className}`}
+      className={cn(
+        'after:border-secondary relative h-[4.7rem] w-[4.7rem] overflow-hidden rounded-full after:absolute after:inset-[0.1rem] after:z-10 after:rounded-full after:border-1 after:content-[""]',
+        className,
+      )}
     >
       <Image
         src={src}
