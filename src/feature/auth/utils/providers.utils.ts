@@ -29,19 +29,18 @@ const authorizeUser = async (
   const validatedFields = signInSchema.safeParse(credentials);
 
   if (!validatedFields.success) {
-    console.warn('❌ 로그인 입력값 유효성 검사 실패:', validatedFields.error);
+    console.warn('❌ 로그인 입력값 유효성 검사 실패 :', validatedFields.error);
     return null;
   }
 
-  console.log('✅ 유효성 검사 통과:', validatedFields.data);
+  console.log('✅ 클라이언트 유효성 검사 통과  : ', validatedFields.data);
 
   try {
     // 2. 백엔드 인증 API 호출
     console.log('🌐 백엔드 API 호출 시작...');
     const authResponse: AuthResponse = await signIn(validatedFields.data);
-    console.log('✅ 백엔드 API 응답 받음:', {
-      userId: authResponse.user.id,
-      email: authResponse.user.email,
+    console.log('✅ 백엔드 API 응답 완료 : ', {
+      ...authResponse,
     });
 
     // 3. NextAuth 호환 형식으로 변환
@@ -51,18 +50,18 @@ const authorizeUser = async (
       accessToken,
       refreshToken,
     );
-    console.log('✅ NextAuth 형식으로 변환 완료:', {
+    console.log('✅ NextAuth 형식으로 변환 완료 :', {
       id: transformedUser.id,
       email: transformedUser.email,
     });
 
     return transformedUser;
   } catch (error) {
-    console.error('❌ 로그인 인증 오류:', error);
+    console.error('🚨', error);
     // NextAuth provider에서는 더 상세한 로그만 남기고 null 반환
     // 실제 에러 메시지는 signInAction에서 처리됨
     const errorMessage = getAuthErrorMessage(error);
-    console.error('❌ 구체적인 에러 메시지:', errorMessage);
+    console.error('🚨 에러 메시지 : ', errorMessage);
     return null;
   }
 };
