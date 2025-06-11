@@ -19,6 +19,7 @@ import {
   SignUpFormData,
   SignupSchema,
 } from '@/feature/auth/schema/auth.schema';
+import Logo from '@/shared/components/common/logo';
 import Spinner from '@/shared/components/common/spinner';
 
 import AuthLink from './AuthLink';
@@ -83,9 +84,12 @@ const SignUpForm: () => JSX.Element = () => {
       )}
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className='flex-center flex w-[34.3rem] flex-col gap-5 px-4 md:w-[49.6rem] lg:w-[50rem]'
+        className='flex-center w-[34.3rem] flex-col px-4 md:w-[49.6rem] lg:w-[50rem]'
       >
-        <div className='w-full'>
+        <div className='mb-20'>
+          <Logo />
+        </div>
+        <div className='flex w-full flex-col gap-8'>
           <FormField
             label='이메일'
             name='email'
@@ -97,42 +101,43 @@ const SignUpForm: () => JSX.Element = () => {
           {state?.message?.includes('이미 가입된 이메일') && (
             <ErrorMessage message={state.message} />
           )}
+
+          <FormField
+            label='닉네임'
+            name='nickname'
+            type='text'
+            placeholder='whyne'
+            register={register}
+            errors={errors}
+          />
+
+          <FormField
+            label='비밀번호'
+            name='password'
+            type='password'
+            placeholder='영문, 숫자, 특수문자(!@#$%^&*) 제한'
+            register={register}
+            errors={errors}
+          />
+
+          <FormField
+            label='비밀번호 확인'
+            name='passwordConfirmation'
+            type='password'
+            placeholder='비밀번호 확인'
+            register={register}
+            errors={errors}
+          />
         </div>
+        <div className='mt-20 flex w-full flex-col gap-4'>
+          <SubmitButton isPending={isPending}>가입하기</SubmitButton>
 
-        <FormField
-          label='닉네임'
-          name='nickname'
-          type='text'
-          placeholder='whyne'
-          register={register}
-          errors={errors}
-        />
-
-        <FormField
-          label='비밀번호'
-          name='password'
-          type='password'
-          placeholder='영문, 숫자, 특수문자(!@#$%^&*) 제한'
-          register={register}
-          errors={errors}
-        />
-
-        <FormField
-          label='비밀번호 확인'
-          name='passwordConfirmation'
-          type='password'
-          placeholder='비밀번호 확인'
-          register={register}
-          errors={errors}
-        />
-
-        <SubmitButton isPending={isPending}>가입하기</SubmitButton>
-
-        <AuthLink
-          label='계정이 이미 있으신가요?'
-          linkText='로그인 하러가기'
-          href='/signin'
-        />
+          <AuthLink
+            label='계정이 이미 있으신가요?'
+            linkText='로그인 하러가기'
+            href='/signin'
+          />
+        </div>
       </form>
     </>
   );
