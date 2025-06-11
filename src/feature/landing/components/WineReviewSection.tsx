@@ -1,12 +1,13 @@
 'use client';
-import Link from 'next/link';
-import Image from 'next/image';
 import { useInView } from 'motion/react';
 import * as motion from 'motion/react-client';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useRef } from 'react';
+
+import { STYLES } from '../constants/styles';
 import { sectionVariants } from '../utils/animations';
 import { splitText } from '../utils/text';
-import { STYLES } from '../constants/styles';
 
 const WineReviewSection = () => {
   const section4Ref = useRef(null);

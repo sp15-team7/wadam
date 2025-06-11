@@ -1,11 +1,12 @@
 'use client';
-import Image from 'next/image';
 import { useInView } from 'motion/react';
 import * as motion from 'motion/react-client';
+import Image from 'next/image';
 import { useRef } from 'react';
-import { sectionVariants } from '../utils/animations';
+
 import { NOTE_IMAGES } from '../constants/content';
 import { STYLES } from '../constants/styles';
+import { sectionVariants } from '../utils/animations';
 
 const FilterMyWineSection = () => {
   const filterWineRef = useRef(null);
