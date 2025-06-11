@@ -12,7 +12,7 @@ export type {
 
 // Schemas and validation
 export type { SignInFormData, SignUpFormData } from './schema/auth.schema';
-export { signInFormSchema, signUpFormSchema } from './schema/auth.schema';
+export { signInSchema, SignupSchema } from './schema/auth.schema';
 
 // Services
 export {

@@ -1,0 +1,66 @@
+[33m194417c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mchore/global-error-handling-and-schema-setup[m[33m)[m HEAD@{0}: reset: moving to 194417c
+[33m32f8ded[m[33m ([m[1;31morigin/chore/global-error-handling-and-schema-setup[m[33m)[m HEAD@{1}: commit: chore: 린트 및 포맷팅 오류 수정
+[33m315768e[m HEAD@{2}: commit (merge): chore: dev를 pull하여 chore/global-error-handling-and-schema-setup 브랜치 최신화
+[33m194417c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mchore/global-error-handling-and-schema-setup[m[33m)[m HEAD@{3}: reset: moving to HEAD
+[33m194417c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mchore/global-error-handling-and-schema-setup[m[33m)[m HEAD@{4}: reset: moving to HEAD
+[33m194417c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mchore/global-error-handling-and-schema-setup[m[33m)[m HEAD@{5}: reset: moving to HEAD
+[33m194417c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mchore/global-error-handling-and-schema-setup[m[33m)[m HEAD@{6}: reset: moving to HEAD
+[33m194417c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mchore/global-error-handling-and-schema-setup[m[33m)[m HEAD@{7}: reset: moving to 194417c
+[33ma060f02[m HEAD@{8}: commit: feat: 스키마 및 타입에 대한 리뷰 의견 반영
+[33m3574ff7[m HEAD@{9}: reset: moving to HEAD
+[33m3574ff7[m HEAD@{10}: reset: moving to HEAD
+[33m3574ff7[m HEAD@{11}: reset: moving to HEAD
+[33m3574ff7[m HEAD@{12}: reset: moving to HEAD
+[33m3574ff7[m HEAD@{13}: commit: chore: testpage 삭제
+[33m032d1eb[m HEAD@{14}: commit (merge): chore: ky인스턴스 상세에러처리 방향 구현 및 스키마 위치 변경
+[33mde03264[m HEAD@{15}: reset: moving to HEAD
+[33mde03264[m HEAD@{16}: reset: moving to HEAD
+[33mde03264[m HEAD@{17}: reset: moving to HEAD
+[33mde03264[m HEAD@{18}: reset: moving to HEAD
+[33mde03264[m HEAD@{19}: reset: moving to HEAD
+[33mde03264[m HEAD@{20}: reset: moving to HEAD
+[33mde03264[m HEAD@{21}: reset: moving to HEAD
+[33mde03264[m HEAD@{22}: reset: moving to HEAD
+[33mde03264[m HEAD@{23}: reset: moving to HEAD
+[33mde03264[m HEAD@{24}: reset: moving to HEAD
+[33mde03264[m HEAD@{25}: reset: moving to HEAD
+[33mde03264[m HEAD@{26}: reset: moving to HEAD
+[33mde03264[m HEAD@{27}: reset: moving to HEAD
+[33mde03264[m HEAD@{28}: reset: moving to HEAD
+[33mde03264[m HEAD@{29}: reset: moving to HEAD
+[33mde03264[m HEAD@{30}: reset: moving to HEAD
+[33mde03264[m HEAD@{31}: reset: moving to HEAD
+[33mde03264[m HEAD@{32}: reset: moving to HEAD
+[33mde03264[m HEAD@{33}: reset: moving to HEAD
+[33mde03264[m HEAD@{34}: reset: moving to HEAD
+[33mde03264[m HEAD@{35}: reset: moving to HEAD
+[33mde03264[m HEAD@{36}: reset: moving to HEAD
+[33mde03264[m HEAD@{37}: reset: moving to HEAD
+[33mde03264[m HEAD@{38}: reset: moving to HEAD
+[33mde03264[m HEAD@{39}: reset: moving to HEAD
+[33mde03264[m HEAD@{40}: reset: moving to HEAD
+[33mde03264[m HEAD@{41}: reset: moving to HEAD
+[33mde03264[m HEAD@{42}: reset: moving to HEAD
+[33mde03264[m HEAD@{43}: reset: moving to HEAD
+[33mde03264[m HEAD@{44}: commit: feat: 전역 에러 처리 및 알림 시스템 구현
+[33m26dd9f9[m HEAD@{45}: commit (amend): chore: sonner 컴포넌트 설치
+[33m417b014[m HEAD@{46}: commit: chore/ sonner컴포넌트 설치
+[33m194417c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mchore/global-error-handling-and-schema-setup[m[33m)[m HEAD@{47}: checkout: moving from dev to chore/global-error-handling-and-schema-setup
+[33m32a64d2[m[33m ([m[1;32mmain[m[33m, [m[1;32mdev[m[33m)[m HEAD@{48}: checkout: moving from chore/global-error-handling-and-schema-setup to dev
+[33m194417c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mchore/global-error-handling-and-schema-setup[m[33m)[m HEAD@{49}: Branch: renamed refs/heads/feat/define-api-dto-zod-schema to refs/heads/chore/global-error-handling-and-schema-setup
+[33m194417c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mchore/global-error-handling-and-schema-setup[m[33m)[m HEAD@{51}: commit: chore: API 응답 DTO 및 Zod 스키마 정의
+[33m32a64d2[m[33m ([m[1;32mmain[m[33m, [m[1;32mdev[m[33m)[m HEAD@{52}: reset: moving to HEAD~1
+[33mfef4799[m HEAD@{53}: commit: chore: API 응답 DTO 및 Zod 스키마 정의
+[33m32a64d2[m[33m ([m[1;32mmain[m[33m, [m[1;32mdev[m[33m)[m HEAD@{54}: reset: moving to HEAD~1
+[33me24e67d[m HEAD@{55}: commit: feat: typescript 인터페이스/타입 정의
+[33m32a64d2[m[33m ([m[1;32mmain[m[33m, [m[1;32mdev[m[33m)[m HEAD@{56}: reset: moving to HEAD~1
+[33m37636f8[m HEAD@{57}: commit: Feat: API 요청/응답 데이터의 TypeScript 인터페이스/타입 정의
+[33m32a64d2[m[33m ([m[1;32mmain[m[33m, [m[1;32mdev[m[33m)[m HEAD@{58}: checkout: moving from dev to feat/define-api-dto-zod-schema
+[33m32a64d2[m[33m ([m[1;32mmain[m[33m, [m[1;32mdev[m[33m)[m HEAD@{59}: pull: Fast-forward
+[33m1192c9c[m HEAD@{60}: checkout: moving from main to dev
+[33m32a64d2[m[33m ([m[1;32mmain[m[33m, [m[1;32mdev[m[33m)[m HEAD@{61}: pull: Fast-forward
+[33m1192c9c[m HEAD@{62}: checkout: moving from dev to main
+[33m1192c9c[m HEAD@{63}: checkout: moving from main to dev
+[33m1192c9c[m HEAD@{64}: pull origin main: Fast-forward
+[33m42e9dc0[m HEAD@{65}: reset: moving to HEAD
+[33m42e9dc0[m HEAD@{66}: clone: from https://github.com/sp15-team7/wadam.git

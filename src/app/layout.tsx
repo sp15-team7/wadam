@@ -2,9 +2,9 @@ import './globals.css';
 
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
+import { Toaster } from 'sonner';
 
 import Header from '@/shared/components/common/layouts/Header';
-import { Toaster } from '@/shared/components/ui/sonner';
 import QueryProvider from '@/shared/libs/provider/queryProvider';
 
 const pretendard = localFont({
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <html lang='kr'>
+    <html lang='ko'>
       <QueryProvider>
         <body className={pretendard.className}>
           <Header />

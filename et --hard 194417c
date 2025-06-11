@@ -1,0 +1,23 @@
+* [33m32f8ded[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mchore/global-error-handling-and-schema-setup[m[33m, [m[1;31morigin/chore/global-error-handling-and-schema-setup[m[33m)[m chore: 린트 및 포맷팅 오류 수정
+*   [33m315768e[m chore: dev를 pull하여 chore/global-error-handling-and-schema-setup 브랜치 최신화
+[32m|[m[33m\[m  
+[32m|[m * [33mf363f65[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/feat/auth-ux-spinner-focus[m[33m, [m[1;31morigin/dev[m[33m, [m[1;31morigin/HEAD[m[33m)[m Fix/deploy (#35) (#36)
+[32m|[m * [33mad969d0[m Fix/deploy (#34)
+[32m|[m * [33m56339d3[m Fix Release (#33)
+[32m|[m * [33m68c0f11[m fix: deploy 수정 (#32)
+[32m|[m * [33mfccfc27[m Sprint1 mvp main release (#30)
+[32m|[m * [33mfefaab4[m Create deploy.yml
+[32m|[m * [33mcd37c5a[m Revert "test"
+[32m|[m * [33m65f7e37[m Auth.js 기반 인증 시스템 구현 (#12)
+* [33m|[m [33m194417c[m chore: API 응답 DTO 및 Zod 스키마 정의
+[33m|[m[33m/[m  
+* [33m32a64d2[m[33m ([m[1;32mmain[m[33m, [m[1;32mdev[m[33m)[m test
+* [33md3fbde6[m test
+* [33m68503f9[m chore: 이슈 템플릿 수정
+* [33m345ea18[m chore: Update issue templates
+* [33mc33e814[m chore: 깃허브 템플릿 수정
+* [33m0077ce9[m chore: 깃허브 템플릿 추가
+* [33m1192c9c[m chore: 프로젝트 2차 초기 설정
+* [33maf0d1d3[m chore: 프로젝트 1차 초기 설정
+* [33m42e9dc0[m chore: Next.js 프로젝트 초기화
+* [33mdb912df[m Initial commit from Create Next App

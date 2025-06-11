@@ -8,5 +8,16 @@
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
-  "typescript.preferences.importModuleSpecifier": "relative"
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "cSpell.words": [
+    "CODEIT",
+    "colour",
+    "JAEHYUN",
+    "JINHYUNG",
+    "Pretendard",
+    "SARANG",
+    "SUMIN",
+    "WHYNE",
+    "YUNGHYUN"
+  ]
 }
