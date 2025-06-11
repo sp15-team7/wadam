@@ -18,13 +18,13 @@ const TodayWineSection = () => {
   const whiteWineRotate = useTransform(scrollYProgress, [0, 1], [-30, 5]);
   const isInView2 = useInView(section2Ref, {
     once: true,
-    margin: '0px 0px -30% 0px',
+    margin: '0px 0px -20% 0px',
   });
 
   return (
     <section
       ref={section2Ref}
-      className='relative mx-auto mt-[10rem] flex h-[50.8rem] max-w-[34.3rem] justify-center pt-[13rem]'
+      className='relative mx-auto mb-[30dvh] flex h-[50.8rem] max-w-[34.3rem] justify-center pt-[13rem]'
     >
       <motion.div
         style={{ rotate: redWineRotate }}
