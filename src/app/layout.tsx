@@ -3,7 +3,6 @@ import './globals.css';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 
-import Header from '@/shared/components/common/header';
 import QueryProvider from '@/shared/libs/provider/queryProvider';
 
 const pretendard = localFont({
@@ -22,10 +21,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang='ko'>
       <QueryProvider>
-        <body className={pretendard.className}>
-          <Header />
-          {children}
-        </body>
+        <body className={pretendard.className}>{children}</body>
       </QueryProvider>
     </html>
   );
