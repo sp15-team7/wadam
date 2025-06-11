@@ -1,7 +1,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-const Logo = ({ color = 'red' }: { color?: 'red' | 'ivory' }) => {
+const Logo = ({
+  color = 'red',
+  className = '',
+}: {
+  color?: 'red' | 'ivory';
+  className?: string;
+}) => {
   const logoSrc =
     color === 'red' ? '/logos/logo-red.svg' : '/logos/logo-ivory.svg';
 
@@ -13,7 +19,7 @@ const Logo = ({ color = 'red' }: { color?: 'red' | 'ivory' }) => {
         width={150}
         height={27.8}
         priority
-        className='h-[2.78rem] w-[15rem] md:h-[5.57rem] md:w-[30rem]'
+        className={`h-[2.78rem] w-[15rem] md:h-[5.57rem] md:w-[30rem] ${className}`}
       />
     </Link>
   );
