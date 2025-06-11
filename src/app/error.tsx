@@ -3,7 +3,6 @@
 import { useEffect } from 'react';
 
 import { Button } from '@/shared/components/ui/button';
-import { HttpError } from '@/shared/libs/api/apiClient';
 
 interface ErrorProps {
   error: Error & { digest?: string };
@@ -16,18 +15,17 @@ const Error = ({ error, reset }: ErrorProps) => {
     console.error('클라이언트 측 에러 발생:', error);
 
     // HttpError 인스턴스인지 확인
-    if (error instanceof HttpError) {
-      console.error(`HTTP 에러 발생 (상태 코드: ${error.statusCode})`);
+    if (error.name === 'APIError') {
+      console.error(`API 에러 발생: ${error.message}`);
     }
-  }, [error]);
+  }, [error]); // error 객체가 변경될 때마다 훅이 다시 실행.
 
-  // 에러 메시지를 사용자에게 친화적으로 표시
   let displayMessage = '알 수 없는 오류가 발생했습니다.';
-  if (error instanceof HttpError) {
-    // HttpError라면 해당 에러의 메시지를 사용
+  if (error.name === 'APIError') {
     displayMessage = error.message;
-  } else if (error.message) {
-    // 일반 Error라면 해당 에러의 메시지를 사용
+  }
+  // 일반 Error 인스턴스인 경우 (런타임 에러), 해당 Error의 메시지를 사용.
+  else if (error.message) {
     displayMessage = error.message;
   }
 
