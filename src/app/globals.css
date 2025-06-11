@@ -36,152 +36,151 @@
     @apply flex items-center justify-center;
   }
 
-  /* 색상 유틸리티 */
-  .text-black {
+  /* typography */
+  .txt-black {
     color: var(--color-black);
   }
-  .text-white {
+  .txt-white {
     color: var(--color-white);
   }
-  .text-primary {
+  .txt-primary {
     color: var(--color-primary);
   }
-  .text-secondary {
+  .txt-secondary {
     color: var(--color-secondary);
   }
 
-  /* typography */
-  .font-4xl-bold {
-    font-size: 4rem;
+  .txt-4xl-bold {
+    fonfontt-size: 4rem;
     line-height: 4.8rem;
     font-weight: 700;
   }
-  .font-4xl-semibold {
+  .txt-4xl-semibold {
     font-size: 4rem;
     line-height: 4.8rem;
     font-weight: 600;
   }
-  .font-4xl-regular {
+  .txt-4xl-regular {
     font-size: 4rem;
     line-height: 4.8rem;
     font-weight: 500;
   }
-  .font-3xl-bold {
+  .txt-3xl-bold {
     font-size: 3.2rem;
     line-height: 4rem;
     font-weight: 700;
   }
-  .font-3xl-semibold {
+  .txt-3xl-semibold {
     font-size: 3.2rem;
     line-height: 4rem;
     font-weight: 600;
   }
-  .font-3xl-regular {
+  .txt-3xl-regular {
     font-size: 3.2rem;
     line-height: 4rem;
     font-weight: 500;
   }
-  .font-2xl-bold {
+  .txt-2xl-bold {
     font-size: 2.4rem;
     line-height: 3.2rem;
     font-weight: 700;
   }
-  .font-2xl-semibold {
+  .txt-2xl-semibold {
     font-size: 2.4rem;
     line-height: 3.2rem;
     font-weight: 600;
   }
-  .font-2xl-regular {
+  .txt-2xl-regular {
     font-size: 2.4rem;
     line-height: 3.2rem;
     font-weight: 500;
   }
-  .font-xl-bold {
+  .txt-xl-bold {
     font-size: 2rem;
     line-height: 2.8rem;
     font-weight: 700;
   }
-  .font-xl-semibold {
+  .txt-xl-semibold {
     font-size: 2rem;
     line-height: 2.8rem;
     font-weight: 600;
   }
-  .font-xl-regular {
+  .txt-xl-regular {
     font-size: 2rem;
     line-height: 2.8rem;
     font-weight: 500;
   }
-  .font-2lg-bold {
+  .txt-2lg-bold {
     font-size: 1.8rem;
     line-height: 2.4rem;
     font-weight: 700;
   }
-  .font-2lg-semibold {
+  .txt-2lg-semibold {
     font-size: 1.8rem;
     line-height: 2.4rem;
     font-weight: 600;
   }
-  .font-2lg-regular {
+  .txt-2lg-regular {
     font-size: 1.8rem;
     line-height: 2.4rem;
     font-weight: 500;
   }
-  .font-lg-bold {
+  .txt-lg-bold {
     font-size: 1.6rem;
     line-height: 2.4rem;
     font-weight: 700;
   }
-  .font-lg-semibold {
+  .txt-lg-semibold {
     font-size: 1.6rem;
     line-height: 2.4rem;
     font-weight: 600;
   }
-  .font-lg-regular {
+  .txt-lg-regular {
     font-size: 1.6rem;
     line-height: 2.4rem;
     font-weight: 500;
   }
-  .font-lg-small {
+  .txt-lg-small {
     font-size: 1.6rem;
     line-height: 2.4rem;
     font-weight: 400;
   }
-  .font-md-bold {
+  .txt-md-bold {
     font-size: 1.4rem;
     line-height: 2rem;
     font-weight: 700;
   }
-  .font-md-semibold {
+  .txt-md-semibold {
     font-size: 1.4rem;
     line-height: 2rem;
     font-weight: 600;
   }
-  .font-md-regular {
+  .txt-md-regular {
     font-size: 1.4rem;
     line-height: 2rem;
     font-weight: 500;
   }
-  .font-md-small {
+  .txt-md-small {
     font-size: 1.4rem;
     line-height: 2rem;
     font-weight: 400;
   }
-  .font-sm-bold {
+  .txt-sm-bold {
     font-size: 1.2rem;
     line-height: 1.6rem;
     font-weight: 700;
   }
-  .font-sm-semibold {
+  .txt-sm-semibold {
     font-size: 1.2rem;
     line-height: 1.6rem;
     font-weight: 600;
   }
-  .font-sm-regular {
+  .txt-sm-regular {
     font-size: 1.2rem;
     line-height: 1.6rem;
     font-weight: 500;
   }
-  .font-sm-small {
+  .txt-sm-small {
     font-size: 1.2rem;
     line-height: 1.6rem;
     font-weight: 400;
