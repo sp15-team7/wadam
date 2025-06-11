@@ -1,27 +1,32 @@
 'use client';
-import Link from 'next/link';
 import * as motion from 'motion/react-client';
-import { HeroVariants } from '../utils/animations';
+import Image from 'next/image';
+import Link from 'next/link';
+
 import {
-  HERO_TEXT_LINES,
   HERO_PARAGRAPH_LINES,
+  HERO_TEXT_LINES,
   TEAM_MEMBERS,
 } from '../constants/content';
 import { STYLES } from '../constants/styles';
+import { HeroVariants } from '../utils/animations';
 
 const Hero = () => {
   return (
     <section className='pt-[5.6rem]'>
       <div className='mx-auto h-full w-[34.3rem]'>
-        <motion.img
-          src='/logos/logo-red-landing.png'
-          alt='logo'
-          width={343}
-          height={200}
+        <motion.div
           initial={{ opacity: 0, filter: 'blur(10px)' }}
           animate={{ opacity: 1, filter: 'blur(0px)' }}
           transition={{ duration: 0.3 }}
-        />
+        >
+          <Image
+            src='/logos/logo-red-landing.png'
+            alt='logo'
+            width={343}
+            height={200}
+          />
+        </motion.div>
       </div>
 
       <motion.p
@@ -55,10 +60,12 @@ const Hero = () => {
           href='/wines'
           className='border-primary mx-auto flex h-[3.9rem] w-[3.9rem] cursor-pointer items-center justify-center rounded-full border-2'
         >
-          <img
+          <Image
             src='/icons/ui/icon-arrow-right.svg'
             alt='arrow'
             className='h-[2.3rem] w-[2.3rem]'
+            width={23}
+            height={23}
           />
         </Link>
       </motion.div>
@@ -72,13 +79,28 @@ const Hero = () => {
             animate='visible'
           >
             <motion.li variants={HeroVariants.icon}>
-              <img src='/icons/ui/icon-oak.svg' alt='oak' />
+              <Image
+                src='/icons/ui/icon-oak.svg'
+                alt='oak'
+                width={24}
+                height={24}
+              />
             </motion.li>
             <motion.li variants={HeroVariants.icon}>
-              <img src='/icons/ui/icon-grape.svg' alt='grape' />
+              <Image
+                src='/icons/ui/icon-grape.svg'
+                alt='grape'
+                width={24}
+                height={24}
+              />
             </motion.li>
             <motion.li variants={HeroVariants.icon}>
-              <img src='/icons/ui/icon-wine.svg' alt='wine' />
+              <Image
+                src='/icons/ui/icon-wine.svg'
+                alt='wine'
+                width={24}
+                height={24}
+              />
             </motion.li>
           </motion.ul>
 

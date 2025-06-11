@@ -70,6 +70,20 @@ const StarRating = ({ value, readOnly = false, onChange }: StarRatingProps) => {
     }
   };
 
+  /**
+   * 키보드 이벤트 핸들러
+   * @param {React.KeyboardEvent} event - 키보드 이벤트
+   * @param {number} starValue - 별의 값
+   */
+  const handleKeyDown = (event: React.KeyboardEvent, starValue: number) => {
+    if (readOnly) return;
+
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      handleChange(starValue);
+    }
+  };
+
   // 현재 표시할 값
   const processedValue = getDisplayValue(value);
   const displayValue = hoveredValue !== null ? hoveredValue : processedValue;
@@ -93,7 +107,11 @@ const StarRating = ({ value, readOnly = false, onChange }: StarRatingProps) => {
             {/* 왼쪽 반 (0.5점) */}
             <div
               className='relative w-1/2'
+              role={readOnly ? 'presentation' : 'button'}
+              tabIndex={readOnly ? -1 : 0}
+              aria-label={`${leftHalfValue}점 별점`}
               onMouseEnter={() => handleMouseEnter(leftHalfValue)}
+              onKeyDown={(event) => handleKeyDown(event, leftHalfValue)}
             >
               <label htmlFor={`star-${i}-left`} className='block h-full'>
                 <Image
@@ -121,7 +139,11 @@ const StarRating = ({ value, readOnly = false, onChange }: StarRatingProps) => {
             {/* 오른쪽 반 (1점) */}
             <div
               className='relative w-1/2'
+              role={readOnly ? 'presentation' : 'button'}
+              tabIndex={readOnly ? -1 : 0}
+              aria-label={`${rightHalfValue}점 별점`}
               onMouseEnter={() => handleMouseEnter(rightHalfValue)}
+              onKeyDown={(event) => handleKeyDown(event, rightHalfValue)}
             >
               <label htmlFor={`star-${i}-right`} className='block h-full'>
                 <Image
