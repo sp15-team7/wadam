@@ -25,7 +25,7 @@ const Header = async () => {
             // 로그인된 상태: UserAvatar 표시
             <UserAvatar
               src={session.user.image || undefined}
-              className='h-[3.2rem] w-[3.2rem] md:h-[4.5rem] md:w-[4.5rem]'
+              className='h-14 w-14 md:h-16 md:w-16'
             />
           ) : (
             // 로그인되지 않은 상태: LOGIN 버튼 표시
