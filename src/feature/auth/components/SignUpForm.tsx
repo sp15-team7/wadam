@@ -77,7 +77,7 @@ const SignUpForm: () => JSX.Element = () => {
         <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/70'>
           <div className='flex flex-col items-center gap-4 rounded-lg bg-white p-8 shadow-lg'>
             <Spinner size='large' color='primary' />
-            <span className='text-primary text-xl font-bold'>처리 중...</span>
+            <span className='txt-primary txt-xl font-bold'>처리 중...</span>
           </div>
         </div>
       )}
