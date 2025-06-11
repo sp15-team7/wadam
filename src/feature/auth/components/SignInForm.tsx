@@ -2,7 +2,7 @@
 
 /**
  * @author: Jin
- * @since: 2025-06-10
+ * @since: 2025-06-12
  * @description: 로그인 폼 컴포넌트 (react-hook-form -> zod -> server action)
  *
  * handleSubmit: 폼 제출 시 동작, onSubmit 함수 호출
@@ -20,7 +20,7 @@ import {
   type SignInFormData,
   signInSchema,
 } from '@/feature/auth/schema/auth.schema';
-import Spinner from '@/shared/components/common/spinner';
+import Logo from '@/shared/components/common/logo';
 
 import { Button } from '../../../shared/components/ui/button';
 import AuthLink from './AuthLink';
@@ -30,7 +30,8 @@ import FormField from './FormField';
 
 const SignInForm: () => JSX.Element = () => {
   const [state, formAction] = useActionState(signInAction, null);
-  const [isPending, startTransition] = useTransition();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_isPending, startTransition] = useTransition();
 
   const {
     register,
@@ -53,19 +54,14 @@ const SignInForm: () => JSX.Element = () => {
   };
 
   return (
-    <>
-      {isPending && (
-        <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/70'>
-          <div className='flex flex-col items-center gap-4 rounded-lg bg-white p-8 shadow-lg'>
-            <Spinner size='large' color='primary' />
-            <span className='text-primary text-xl font-bold'>처리 중...</span>
-          </div>
-        </div>
-      )}
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className='flex-center flex h-[67.9rem] w-[34.3rem] flex-col gap-5 px-4 md:h-[76.2rem] md:w-[49.6rem] lg:h-[79.4rem] lg:w-[50rem]'
-      >
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className='flex-center h-[67.9rem] w-[34.3rem] flex-col gap-5 px-4 md:h-[76.2rem] md:w-[49.6rem] lg:h-[79.4rem] lg:w-[50rem]'
+    >
+      <div className='mb-20 flex'>
+        <Logo className='' />
+      </div>
+      <div className='flex w-full flex-col gap-8'>
         <FormField<SignInFormData>
           label='이메일'
           name='email'
@@ -83,8 +79,9 @@ const SignInForm: () => JSX.Element = () => {
           register={register}
           errors={errors}
         />
-
-        <SubmitButton isPending={isPending}>로그인</SubmitButton>
+      </div>
+      <div className='mt-20 flex w-full flex-col gap-8'>
+        <SubmitButton>로그인</SubmitButton>
         <Button
           size='full'
           className='bg-[#FFDB00] !text-black hover:bg-[#FFDB00]/60'
@@ -99,8 +96,8 @@ const SignInForm: () => JSX.Element = () => {
           linkText='회원가입하기'
           href='/signup'
         />
-      </form>
-    </>
+      </div>
+    </form>
   );
 };
 
