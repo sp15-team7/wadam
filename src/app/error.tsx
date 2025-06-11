@@ -14,7 +14,6 @@ const Error = ({ error, reset }: ErrorProps) => {
     // 개발자 콘솔에 에러 상세 로그 출력
     console.error('클라이언트 측 에러 발생:', error);
 
-    // HttpError 인스턴스인지 확인
     if (error.name === 'APIError') {
       console.error(`API 에러 발생: ${error.message}`);
     }
