@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { cn } from '@/shared/libs/utils/cn';
+
 const Logo = ({
   color = 'red',
   className = '',
@@ -16,10 +18,10 @@ const Logo = ({
       <Image
         src={logoSrc}
         alt='logo'
-        width={150}
-        height={27.8}
+        width={100}
+        height={20}
         priority
-        className={`h-[2.78rem] w-[15rem] md:h-[5.57rem] md:w-[30rem] ${className}`}
+        className={cn('h-14 w-auto md:h-16', className)}
       />
     </Link>
   );
