@@ -1,8 +1,13 @@
+// src/feature/auth/utils/providers.utils.ts
+
 import type { User } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 
 import { signInSchema } from '@/feature/auth/schema/auth.schema';
-import { signIn } from '@/feature/auth/services/auth.service';
+import {
+  getAuthErrorMessage,
+  signIn,
+} from '@/feature/auth/services/auth.service';
 import { AuthResponse } from '@/feature/auth/types/auth.types';
 import { transformUserForNextAuth } from '@/feature/auth/utils/jwt.utils';
 
@@ -15,28 +20,48 @@ import { transformUserForNextAuth } from '@/feature/auth/utils/jwt.utils';
 const authorizeUser = async (
   credentials: Record<string, unknown>,
 ): Promise<User | null> => {
+  console.log('🔍 authorizeUser 호출됨:', {
+    email: credentials.email,
+    hasPassword: !!credentials.password,
+  });
+
   // 1. 입력값 유효성 검사
   const validatedFields = signInSchema.safeParse(credentials);
 
   if (!validatedFields.success) {
-    console.warn('로그인 입력값 유효성 검사 실패:', validatedFields.error);
+    console.warn('❌ 로그인 입력값 유효성 검사 실패 :', validatedFields.error);
     return null;
   }
 
+  console.log('✅ 클라이언트 유효성 검사 통과  : ', validatedFields.data);
+
   try {
     // 2. 백엔드 인증 API 호출
+    console.log('🌐 백엔드 API 호출 시작...');
     const authResponse: AuthResponse = await signIn(validatedFields.data);
-
-    if (!authResponse) {
-      console.warn('백엔드에서 빈 응답을 받았습니다.');
-      return null;
-    }
+    console.log('✅ 백엔드 API 응답 완료 : ', {
+      ...authResponse,
+    });
 
     // 3. NextAuth 호환 형식으로 변환
     const { user, accessToken, refreshToken } = authResponse;
-    return transformUserForNextAuth(user, accessToken, refreshToken);
+    const transformedUser = transformUserForNextAuth(
+      user,
+      accessToken,
+      refreshToken,
+    );
+    console.log('✅ NextAuth 형식으로 변환 완료 :', {
+      id: transformedUser.id,
+      email: transformedUser.email,
+    });
+
+    return transformedUser;
   } catch (error) {
-    console.error('로그인 인증 오류:', error);
+    console.error('🚨', error);
+    // NextAuth provider에서는 더 상세한 로그만 남기고 null 반환
+    // 실제 에러 메시지는 signInAction에서 처리됨
+    const errorMessage = getAuthErrorMessage(error);
+    console.error('🚨 에러 메시지 : ', errorMessage);
     return null;
   }
 };
@@ -48,6 +73,10 @@ const authorizeUser = async (
 export const credentialsProvider = Credentials({
   id: 'credentials',
   name: 'Credentials',
+  credentials: {
+    email: { label: 'Email', type: 'email' },
+    password: { label: 'Password', type: 'password' },
+  },
   authorize: authorizeUser,
 });
 

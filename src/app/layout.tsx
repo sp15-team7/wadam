@@ -3,8 +3,8 @@ import './globals.css';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 
-import QueryProvider from '@/shared/libs/provider/queryProvider';
 import Header from '@/shared/components/common/layouts/Header';
+import QueryProvider from '@/shared/libs/provider/queryProvider';
 
 const pretendard = localFont({
   src: '../../public/fonts/PretendardVariable.woff2',
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <html lang='kr'>
+    <html lang='ko'>
       <QueryProvider>
         <body className={pretendard.className}>
           <Header />

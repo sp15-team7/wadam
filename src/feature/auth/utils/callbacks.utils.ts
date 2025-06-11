@@ -6,7 +6,6 @@ import { User as CustomUser } from '@/feature/auth/types/auth.types';
 import {
   getTokenExpiration,
   isTokenExpired,
-  transformUserFromNextAuth,
 } from '@/feature/auth/utils/jwt.utils';
 
 /**
@@ -20,10 +19,16 @@ const initializeJwtToken = (token: JWT, user: User): JWT => {
     token.refreshToken = user.refreshToken;
     token.accessTokenExpires = getTokenExpiration(user.accessToken);
 
-    // 사용자 정보 변환 및 저장
-    token.user = transformUserFromNextAuth(
-      user as unknown as Record<string, unknown>,
-    );
+    // 사용자 정보 저장 (이미 변환된 형태이므로 추가 변환 불필요)
+    token.user = {
+      id: parseInt(user.id as string),
+      email: user.email as string,
+      nickname: user.nickname as string,
+      image: user.image as string | null,
+      createdAt: user.createdAt as string,
+      updatedAt: user.updatedAt as string,
+      teamId: user.teamId as string,
+    };
 
     // 에러 상태 초기화
     delete token.error;
