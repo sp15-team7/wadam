@@ -1,10 +1,11 @@
 'use client';
-import Image from 'next/image';
-import { useScroll, useTransform, useInView } from 'motion/react';
+import { useInView, useScroll, useTransform } from 'motion/react';
 import * as motion from 'motion/react-client';
+import Image from 'next/image';
 import { useRef } from 'react';
-import { sectionVariants } from '../utils/animations';
+
 import { STYLES } from '../constants/styles';
+import { sectionVariants } from '../utils/animations';
 
 const TodayWineSection = () => {
   const section2Ref = useRef(null);

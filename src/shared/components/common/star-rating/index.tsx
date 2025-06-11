@@ -101,9 +101,7 @@ const StarRating = ({ value, readOnly = false, onChange }: StarRatingProps) => {
                   alt='0.5점'
                   width={16}
                   height={16}
-                  className={`h-full ${readOnly ? '' : 'cursor-pointer'} 
-                  // transition-opacity duration-150
-                   ${
+                  className={`h-full ${readOnly ? '' : 'cursor-pointer'} // transition-opacity duration-150 ${
                     isLeftHalfActive ? 'opacity-100' : 'opacity-0'
                   }`}
                 />
@@ -131,9 +129,7 @@ const StarRating = ({ value, readOnly = false, onChange }: StarRatingProps) => {
                   alt='1점'
                   width={16}
                   height={16}
-                  className={`h-full ${readOnly ? '' : 'cursor-pointer'} 
-                  // transition-opacity duration-150
-                   ${
+                  className={`h-full ${readOnly ? '' : 'cursor-pointer'} // transition-opacity duration-150 ${
                     isRightHalfActive ? 'opacity-100' : 'opacity-0'
                   }`}
                 />

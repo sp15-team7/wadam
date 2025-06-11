@@ -4,8 +4,8 @@
  * @description 유저 아바타 컴포넌트
  */
 
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
 
 /**
  * 유저의 프로필 이미지를 표시하는 아바타 컴포넌트
