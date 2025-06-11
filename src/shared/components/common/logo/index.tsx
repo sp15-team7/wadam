@@ -10,10 +10,10 @@ const Logo = ({ color = 'red' }: { color?: 'red' | 'ivory' }) => {
       <Image
         src={logoSrc}
         alt='logo'
-        width={150}
-        height={27.8}
+        width={100}
+        height={20}
         priority
-        className='h-[2.78rem] w-[15rem] md:h-[5.57rem] md:w-[30rem]'
+        className='h-12 w-auto md:h-16'
       />
     </Link>
   );
