@@ -1,4 +1,10 @@
 {
+<<<<<<< HEAD
+  "cSpell.words": [
+    "Sumin"
+  ]
+}
+=======
   "eslint.useFlatConfig": true,
   "eslint.options": {
     "overrideConfigFile": "eslint.config.js"
@@ -10,3 +16,4 @@
   "editor.formatOnSave": true,
   "typescript.preferences.importModuleSpecifier": "relative"
 }
+>>>>>>> f4110595921760c508cf805f0f05dc242b1459c1
