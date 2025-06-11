@@ -12,6 +12,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import Image from 'next/image';
 import { JSX, useActionState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -86,7 +87,16 @@ const SignInForm: () => JSX.Element = () => {
           size='full'
           className='bg-[#FFDB00] !text-black hover:bg-[#FFDB00]/60'
         >
-          카카오로 시작하기
+          <div className='flex-center gap-[2rem]'>
+            <Image
+              src='/logos/logo-kakao-lg.png'
+              alt='카카오 아이콘'
+              width={24}
+              height={24}
+              className='h-[2rem] w-[2rem] md:w-[2.4rem]'
+            />
+            카카오로 시작하기
+          </div>
         </Button>
 
         {state?.message && <ErrorMessage message={state.message} />}
