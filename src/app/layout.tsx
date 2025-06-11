@@ -2,9 +2,8 @@ import './globals.css';
 
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
+import { Toaster } from 'sonner';
 
-import Header from '@/shared/components/common/header';
-import { Toaster } from '@/shared/components/ui/sonner';
 import QueryProvider from '@/shared/libs/provider/queryProvider';
 
 const pretendard = localFont({
@@ -24,9 +23,8 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     <html lang='ko'>
       <QueryProvider>
         <body className={pretendard.className}>
-          <Header />
-          {children}
           <Toaster />
+          {children}
         </body>
       </QueryProvider>
     </html>
