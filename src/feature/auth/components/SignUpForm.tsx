@@ -52,7 +52,7 @@ const SignUpForm: () => JSX.Element = () => {
         formAction(new FormData());
       });
     }
-  }, [email, formAction, startTransition]);
+  }, [email, formAction, startTransition, state?.message]);
 
   // 이메일 중복 에러 발생 시 포커스
   useEffect(() => {
