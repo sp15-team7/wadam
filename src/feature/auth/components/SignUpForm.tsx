@@ -83,7 +83,7 @@ const SignUpForm: () => JSX.Element = () => {
       )}
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className='flex-center flex h-[67.9rem] w-[34.3rem] flex-col gap-5 px-4 md:h-[76.2rem] md:w-[49.6rem] lg:h-[79.4rem] lg:w-[50rem]'
+        className='flex-center flex w-[34.3rem] flex-col gap-5 px-4 md:w-[49.6rem] lg:w-[50rem]'
       >
         <FormField
           label='이메일'
