@@ -20,6 +20,7 @@ import {
   type SignInFormData,
   signInSchema,
 } from '@/feature/auth/schema/auth.schema';
+import Logo from '@/shared/components/common/logo';
 
 import { Button } from '../../../shared/components/ui/button';
 import AuthLink from './AuthLink';
@@ -55,41 +56,47 @@ const SignInForm: () => JSX.Element = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className='flex-center flex h-[67.9rem] w-[34.3rem] flex-col gap-5 px-4 md:h-[76.2rem] md:w-[49.6rem] lg:h-[79.4rem] lg:w-[50rem]'
+      className='flex-center h-[67.9rem] w-[34.3rem] flex-col gap-5 px-4 md:h-[76.2rem] md:w-[49.6rem] lg:h-[79.4rem] lg:w-[50rem]'
     >
-      <FormField<SignInFormData>
-        label='이메일'
-        name='email'
-        type='email'
-        placeholder='이메일 입력'
-        register={register}
-        errors={errors}
-      />
+      <div className='mb-20 flex'>
+        <Logo className='' />
+      </div>
+      <div className='flex w-full flex-col gap-8'>
+        <FormField<SignInFormData>
+          label='이메일'
+          name='email'
+          type='email'
+          placeholder='이메일 입력'
+          register={register}
+          errors={errors}
+        />
 
-      <FormField<SignInFormData>
-        label='비밀번호'
-        name='password'
-        type='password'
-        placeholder='비밀번호 입력'
-        register={register}
-        errors={errors}
-      />
+        <FormField<SignInFormData>
+          label='비밀번호'
+          name='password'
+          type='password'
+          placeholder='비밀번호 입력'
+          register={register}
+          errors={errors}
+        />
+      </div>
+      <div className='mt-20 flex w-full flex-col gap-8'>
+        <SubmitButton>로그인</SubmitButton>
+        <Button
+          size='full'
+          className='bg-[#FFDB00] !text-black hover:bg-[#FFDB00]/60'
+        >
+          카카오로 시작하기
+        </Button>
 
-      <SubmitButton>로그인</SubmitButton>
-      <Button
-        size='full'
-        className='bg-[#FFDB00] !text-black hover:bg-[#FFDB00]/60'
-      >
-        카카오로 시작하기
-      </Button>
+        {state?.message && <ErrorMessage message={state.message} />}
 
-      {state?.message && <ErrorMessage message={state.message} />}
-
-      <AuthLink
-        label='계정이 없으신가요?'
-        linkText='회원가입하기'
-        href='/signup'
-      />
+        <AuthLink
+          label='계정이 없으신가요?'
+          linkText='회원가입하기'
+          href='/signup'
+        />
+      </div>
     </form>
   );
 };
