@@ -85,17 +85,19 @@ const SignUpForm: () => JSX.Element = () => {
         onSubmit={handleSubmit(onSubmit)}
         className='flex-center flex w-[34.3rem] flex-col gap-5 px-4 md:w-[49.6rem] lg:w-[50rem]'
       >
-        <FormField
-          label='이메일'
-          name='email'
-          type='email'
-          placeholder='whyne@email.com'
-          register={register}
-          errors={errors}
-        />
-        {state?.message?.includes('이미 가입된 이메일') && (
-          <ErrorMessage message={state.message} />
-        )}
+        <div className='w-full'>
+          <FormField
+            label='이메일'
+            name='email'
+            type='email'
+            placeholder='whyne@email.com'
+            register={register}
+            errors={errors}
+          />
+          {state?.message?.includes('이미 가입된 이메일') && (
+            <ErrorMessage message={state.message} />
+          )}
+        </div>
 
         <FormField
           label='닉네임'
