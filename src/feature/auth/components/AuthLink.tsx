@@ -14,7 +14,7 @@ interface AuthLinkProps {
 
 const DIV_STYLE = 'mt-2 flex flex-row items-center justify-center gap-x-4';
 const LINK_STYLE = 'txt-primary txt-md-regular underline';
-const SPAN_STYLE = 'txt-secondary txt-md-small';
+const SPAN_STYLE = 'txt-gray txt-md-small';
 
 const AuthLink = ({ label, linkText, href }: AuthLinkProps) => {
   return (
