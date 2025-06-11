@@ -26,7 +26,7 @@ const WineReviewSection = () => {
         variants={sectionVariants.wineReview.image}
         initial='hidden'
         animate={isInView4 ? 'visible' : 'hidden'}
-        className='absolute top-0 left-0 z-[-1]'
+        className='absolute top-0 left-0 z-[-1] md:top-[30%] md:left-[50%] md:translate-x-[-50%] md:translate-y-[-50%]'
         style={{ perspective: 800 }}
       >
         <Image
@@ -34,6 +34,7 @@ const WineReviewSection = () => {
           alt='wine'
           width={375}
           height={498}
+          className='md:h-[auto] md:w-[60rem]'
         />
       </motion.div>
 
@@ -78,12 +79,6 @@ const WineReviewSection = () => {
         }
         transition={{ duration: 0.6, delay: 0.5 }}
       >
-        {/* <Link
-          href='/wines'
-          className='bg-primary mt-[20rem] flex h-[4.8rem] items-center justify-center rounded-full text-[1.4rem] font-bold text-white'
-        >
-          시작하기
-        </Link> */}
         <Button
           size='full'
           className='mt-[20rem] text-[1.4rem] md:mt-[40rem] md:text-[1.8rem]'
