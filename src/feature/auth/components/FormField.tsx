@@ -19,7 +19,7 @@ import { Label } from '@/shared/components/ui/label';
 // const INPUT_STYLE =
 //   'text-lg-small mt-1 h-[42px] w-[303px] rounded-full border px-5 md:h-[52px] md:w-[400px] lg:w-[500px]';
 const ERROR_STYLE =
-  'text-sm-small text-primary md:text-md-small lg:text-md-small pt-2';
+  'txt-sm-small txt-primary md:txt-md-small lg:txt-md-small pt-2';
 
 interface FormFieldProps<T extends FieldValues> {
   label: string;

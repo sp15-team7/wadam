@@ -81,11 +81,11 @@ const SignInForm: () => JSX.Element = () => {
           errors={errors}
         />
       </div>
-      <div className='mt-20 flex w-full flex-col gap-8'>
+      <div className='txt-md-bold mt-20 flex w-full flex-col gap-8'>
         <SubmitButton>로그인</SubmitButton>
         <Button
           size='full'
-          className='bg-[#FFDB00] !text-black hover:bg-[#FFDB00]/60'
+          className='txt-md-bold bg-[#FFDB00] !text-black hover:bg-[#FFDB00]/60'
         >
           <div className='flex-center gap-[2rem]'>
             <Image
@@ -93,7 +93,7 @@ const SignInForm: () => JSX.Element = () => {
               alt='카카오 아이콘'
               width={24}
               height={24}
-              className='h-[2rem] w-[2rem] md:w-[2.4rem]'
+              className='h-[2rem] w-[2rem] md:h-[2.4rem] md:w-[2.4rem] lg:h-[2.8rem] lg:w-[2.8rem]'
             />
             카카오로 시작하기
           </div>
