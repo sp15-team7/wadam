@@ -1,4 +1,10 @@
 {
+<<<<<<< HEAD
+  "cSpell.words": [
+    "Sumin"
+  ]
+}
+=======
   "eslint.useFlatConfig": true,
   "eslint.options": {
     "overrideConfigFile": "eslint.config.js"
@@ -21,3 +27,4 @@
     "YUNGHYUN"
   ]
 }
+>>>>>>> f4110595921760c508cf805f0f05dc242b1459c1

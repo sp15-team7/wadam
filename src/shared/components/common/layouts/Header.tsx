@@ -9,7 +9,7 @@ const Header = async () => {
   const session = await auth();
 
   return (
-    <header className='relative mx-auto flex h-[5rem] min-w-[34.3rem] items-center px-4 py-14 md:w-[70rem] lg:h-[7rem] lg:w-[114rem] lg:py-24'>
+    <header className='fixed mx-auto flex h-[5rem] min-w-[34.3rem] items-center px-4 py-14 md:w-[70rem] lg:h-[7rem] lg:w-[114rem] lg:py-24'>
       {/* 왼쪽: 빈 공간 (공간 확보용) */}
       <div className='flex flex-1' />
 
