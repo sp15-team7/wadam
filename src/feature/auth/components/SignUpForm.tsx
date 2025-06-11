@@ -11,7 +11,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { JSX, useActionState, useTransition } from 'react';
+import { JSX, useActionState, useEffect, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { signUpAction } from '@/feature/auth/actions/auth.action';
@@ -33,13 +33,33 @@ const SignUpForm: () => JSX.Element = () => {
   const {
     register,
     handleSubmit,
+    watch,
+    setFocus,
     formState: { errors },
   } = useForm<SignUpFormData>({
     resolver: zodResolver(SignupSchema),
     mode: 'onBlur',
   });
 
-  // 폼 제출 시 데이터를 FormData로 변환하여 서버 액션으로 전달
+  // 이메일 값 감시
+  const email = watch('email');
+
+  // 이메일 중복 에러 처리
+  useEffect(() => {
+    if (state?.message?.includes('이미 가입된 이메일')) {
+      startTransition(() => {
+        formAction(new FormData());
+      });
+    }
+  }, [email, formAction, startTransition]);
+
+  // 이메일 중복 에러 발생 시 포커스
+  useEffect(() => {
+    if (state?.message?.includes('이미 가입된 이메일')) {
+      setFocus('email');
+    }
+  }, [state?.message, setFocus]);
+
   const onSubmit = async (data: SignUpFormData) => {
     const formData = new FormData();
     Object.entries(data).forEach(([key, value]) => {
@@ -73,6 +93,9 @@ const SignUpForm: () => JSX.Element = () => {
           register={register}
           errors={errors}
         />
+        {state?.message?.includes('이미 가입된 이메일') && (
+          <ErrorMessage message={state.message} />
+        )}
 
         <FormField
           label='닉네임'
@@ -102,7 +125,7 @@ const SignUpForm: () => JSX.Element = () => {
         />
 
         <SubmitButton isPending={isPending}>가입하기</SubmitButton>
-        <ErrorMessage message={state?.message} />
+
         <AuthLink
           label='계정이 이미 있으신가요?'
           linkText='로그인 하러가기'
