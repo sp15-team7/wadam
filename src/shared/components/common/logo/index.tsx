@@ -13,7 +13,7 @@ const Logo = ({ color = 'red' }: { color?: 'red' | 'ivory' }) => {
         width={100}
         height={20}
         priority
-        className='h-12 w-auto md:h-16'
+        className='h-14 w-auto md:h-16'
       />
     </Link>
   );

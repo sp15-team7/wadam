@@ -12,10 +12,10 @@ const LoginButton = () => {
         alt='login'
         width={28}
         height={28}
-        className='inline-block transition-transform duration-300 group-hover:rotate-90 active:rotate-90 active:opacity-50 md:hidden'
+        className='transition-transform duration-300 group-hover:rotate-90 active:rotate-90 active:opacity-50 md:w-16 lg:hidden'
       />
       {/* 데스크탑에서만 보이는 텍스트 */}
-      <span className='text-primary hidden items-center text-5xl font-semibold md:flex'>
+      <span className='text-primary hidden items-center text-5xl font-semibold lg:flex'>
         L
         <Image
           src='/icons/ui/icon-burst.svg'
