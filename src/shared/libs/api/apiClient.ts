@@ -1,7 +1,10 @@
 import ky from 'ky';
 import { toast } from 'sonner'; // sonner 토스트 함수 임포트
 
-import { ErrorResponse, ValidationErrorResponse } from '@/shared/types/api';
+import {
+  ErrorResponse,
+  ValidationErrorResponse,
+} from '@/shared/types/api.types';
 
 // --- 💡 커스텀 HTTP 에러 클래스 정의 (HttpError) ---
 export class HttpError extends Error {
@@ -137,7 +140,7 @@ export const apiClient = ky.create({
             );
           }
           // 5xx Server Errors (서버 측 오류) 및 기타 예상치 못한 치명적인 에러
-          else if (response.status >= 500) {
+          else if (response.status >= 500 && response.status < 600) {
             displayMessage =
               '서버에 문제가 발생했습니다. 잠시 후 다시 시도해주세요.';
             toast.error(displayMessage); // 사용자에게 토스트 알림 표시
@@ -194,6 +197,5 @@ export const apiClient = ky.create({
         return response;
       },
     ],
-    beforeError: [],
   },
 });

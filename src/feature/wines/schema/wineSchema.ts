@@ -1,11 +1,15 @@
 import { z } from 'zod';
 
-import {
-  dateStringSchema,
-  userSchema,
-  wineTypeSchema,
-} from '@/shared/schemas/commonSchema';
-import type { CreateWineRequestBody } from '@/shared/types/api'; // Zod 추론과 일치하는지 확인용
+import { userSchema } from '@/feature/auth/schema/auth.schema';
+import type { CreateWineRequestBody } from '@/feature/wines/types/wine.types';
+
+export const wineTypeSchema = z.enum([
+  'RED',
+  'WHITE',
+  'SPARKLING',
+  'ROSE',
+  'ETC',
+]);
 
 // 와인 생성 요청 Body 스키마
 export const createWineRequestBodySchema = z.object({
@@ -34,8 +38,8 @@ void _typeCheck; // 읽히지 않음 오류를 해결하기 위한 코드
 export const recentReviewSchema = z
   .object({
     user: userSchema,
-    updatedAt: dateStringSchema,
-    createdAt: dateStringSchema,
+    updatedAt: z.string().datetime(),
+    createdAt: z.string().datetime(),
     content: z.string(),
     aroma: z.array(z.string()),
     rating: z.number(),
@@ -65,4 +69,5 @@ export const wineDetailSchema = z.object({
   avgRatings: z.record(wineTypeSchema, z.number()).optional(),
 });
 
+export type WineType = z.infer<typeof wineTypeSchema>;
 export type WineDetailSchema = z.infer<typeof wineDetailSchema>;

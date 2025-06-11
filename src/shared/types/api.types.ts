@@ -66,8 +66,8 @@ export interface WineDetail {
   body: number;
   tannin: number;
   aroma: string[];
-  reviews?: ReviewDetail[]; // 와인 상세 조회 시 포함될 수 있는 리뷰 목록
-  avgRatings?: Record<WineType, number>; // 와인 타입별 평균 점수
+  reviews?: ReviewDetail[];
+  avgRatings?: Record<WineType, number>;
 }
 
 // 리뷰 상세 정보 (ReviewDetail[]에 사용)
@@ -88,7 +88,6 @@ export interface SignUpRequestBody {
   email: string;
   nickname: string;
   password: string;
-  passwordConfirmation: string; // Zod 스키마에서만
 }
 
 // 로그인 요청 Body
@@ -97,7 +96,7 @@ export interface SignInRequestBody {
   password: string;
 }
 
-// 인증된 사용자 정보
+// 인증된 사용자 정보 (API 응답에서 사용)
 export interface AuthUser {
   id: number;
   email: string;
