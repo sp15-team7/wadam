@@ -1,6 +1,6 @@
 import './globals.css';
 
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
 
 import QueryProvider from '@/shared/libs/provider/queryProvider';
@@ -67,16 +67,17 @@ export const metadata: Metadata = {
       },
     ],
   },
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
-  },
   manifest: '/site.webmanifest',
   alternates: {
     canonical: 'https://wadam.vercel.app',
   },
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
