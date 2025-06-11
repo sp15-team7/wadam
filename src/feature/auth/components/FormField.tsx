@@ -4,14 +4,15 @@
  * @description: 반복되는 Form 내부 구조 분리 (style, label, input, error message)
  */
 
-import { Input } from '@/shared/components/ui/input';
-import { Label } from '@/shared/components/ui/label';
 import {
   FieldErrors,
   FieldValues,
   Path,
   UseFormRegister,
 } from 'react-hook-form';
+
+import { Input } from '@/shared/components/ui/input';
+import { Label } from '@/shared/components/ui/label';
 
 // auth - signup 공통 스타일
 // const LABEL_STYLE = 'text-md-bold md:text-lg-bold lg:text-2lg-bold';

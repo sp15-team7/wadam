@@ -6,15 +6,16 @@
 
 'use client';
 
-import { Button } from '@/shared/components/ui/button';
 import { useFormStatus } from 'react-dom';
+
+import { Button } from '@/shared/components/ui/button';
 
 interface SubmitButtonProps {
   children: React.ReactNode;
   className?: string;
 }
 
-const SubmitButton = ({ children, className }: SubmitButtonProps) => {
+const SubmitButton = ({ children }: SubmitButtonProps) => {
   const { pending } = useFormStatus();
 
   return (
