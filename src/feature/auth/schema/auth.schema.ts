@@ -15,7 +15,10 @@ import type {
  * 이메일 유효성 검사 스키마
  */
 
-export const emailSchema = z.string().email('이메일 형식으로 작성해주세요.');
+export const emailSchema = z
+  .string()
+  .min(1, '이메일은 필수 입력입니다.')
+  .email('이메일 형식으로 작성해주세요.');
 
 /**
  * 비밀번호 유효성 검사 스키마
@@ -23,6 +26,7 @@ export const emailSchema = z.string().email('이메일 형식으로 작성해주
 
 export const passwordSchema = z
   .string()
+  .min(1, '비밀번호는 필수 입력입니다.')
   .min(8, '비밀번호는 최소 8자 이상이어야 합니다.')
   .regex(
     /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[\da-zA-Z!@#$%^&*]{8,}$/,
@@ -55,7 +59,7 @@ export const nicknameSchema = z
  */
 export const signInSchema = z.object({
   email: emailSchema,
-  password: z.string().min(1, '비밀번호는 필수 입력입니다.'),
+  password: passwordSchema,
 });
 
 /**
