@@ -18,13 +18,13 @@ const TodayWineSection = () => {
   const whiteWineRotate = useTransform(scrollYProgress, [0, 1], [-30, 5]);
   const isInView2 = useInView(section2Ref, {
     once: true,
-    margin: '0px 0px -30% 0px',
+    margin: '0px 0px -20% 0px',
   });
 
   return (
     <section
       ref={section2Ref}
-      className='relative mx-auto mt-[10rem] flex h-[50.8rem] max-w-[34.3rem] justify-center pt-[13rem]'
+      className='relative mx-auto mb-[30dvh] flex h-[50.8rem] max-w-[34.3rem] justify-center pt-[15.8rem] md:max-w-[42.5rem]'
     >
       <motion.div
         style={{ rotate: redWineRotate }}
@@ -35,6 +35,7 @@ const TodayWineSection = () => {
           alt='wine-red'
           width={207}
           height={367}
+          className='md:h-auto md:w-[26.9rem]'
         />
       </motion.div>
 
@@ -47,10 +48,11 @@ const TodayWineSection = () => {
           alt='wine-white'
           width={375}
           height={364}
+          className='md:h-auto md:w-[60rem]'
         />
       </motion.div>
 
-      <div className='w-[16.5rem] overflow-hidden'>
+      <div className='w-[16.5rem] overflow-hidden md:w-[20.3rem]'>
         <motion.h2
           className={STYLES.sectionTitle}
           variants={sectionVariants.todayWine.title}

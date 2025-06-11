@@ -6,21 +6,18 @@
 
 'use client';
 
-import { useFormStatus } from 'react-dom';
-
 import { Button } from '@/shared/components/ui/button';
 
 interface SubmitButtonProps {
   children: React.ReactNode;
   className?: string;
+  isPending?: boolean;
 }
 
-const SubmitButton = ({ children }: SubmitButtonProps) => {
-  const { pending } = useFormStatus();
-
+const SubmitButton = ({ children, isPending }: SubmitButtonProps) => {
   return (
-    <Button type='submit' variant='primary' size='full' disabled={pending}>
-      {pending ? '처리 중...' : children}
+    <Button type='submit' variant='primary' size='full' disabled={isPending}>
+      {children}
     </Button>
   );
 };

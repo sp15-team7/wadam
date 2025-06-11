@@ -105,21 +105,22 @@ const StarRating = ({ value, readOnly = false, onChange }: StarRatingProps) => {
             className='flex h-[1.6rem] w-[1.6rem] bg-[url("/icons/ui/icon-star-empty.svg")] bg-cover bg-center'
           >
             {/* 왼쪽 반 (0.5점) */}
-            <div
-              className='relative w-1/2'
-              role={readOnly ? 'presentation' : 'button'}
-              tabIndex={readOnly ? -1 : 0}
-              aria-label={`${leftHalfValue}점 별점`}
-              onMouseEnter={() => handleMouseEnter(leftHalfValue)}
-              onKeyDown={(event) => handleKeyDown(event, leftHalfValue)}
-            >
-              <label htmlFor={`star-${i}-left`} className='block h-full'>
+            <div className='relative w-1/2'>
+              <label
+                htmlFor={`star-${i}-left`}
+                className='block h-full'
+                role={readOnly ? 'presentation' : 'button'}
+                tabIndex={readOnly ? -1 : 0}
+                aria-label={`${leftHalfValue}점 별점`}
+                onMouseEnter={() => handleMouseEnter(leftHalfValue)}
+                onKeyDown={(event) => handleKeyDown(event, leftHalfValue)}
+              >
                 <Image
                   src='/icons/ui/icon-star-filled-left.svg'
                   alt='0.5점'
                   width={16}
                   height={16}
-                  className={`h-full ${readOnly ? '' : 'cursor-pointer'} // transition-opacity duration-150 ${
+                  className={`h-full ${readOnly ? '' : 'cursor-pointer'} ${
                     isLeftHalfActive ? 'opacity-100' : 'opacity-0'
                   }`}
                 />
@@ -137,21 +138,22 @@ const StarRating = ({ value, readOnly = false, onChange }: StarRatingProps) => {
             </div>
 
             {/* 오른쪽 반 (1점) */}
-            <div
-              className='relative w-1/2'
-              role={readOnly ? 'presentation' : 'button'}
-              tabIndex={readOnly ? -1 : 0}
-              aria-label={`${rightHalfValue}점 별점`}
-              onMouseEnter={() => handleMouseEnter(rightHalfValue)}
-              onKeyDown={(event) => handleKeyDown(event, rightHalfValue)}
-            >
-              <label htmlFor={`star-${i}-right`} className='block h-full'>
+            <div className='relative w-1/2'>
+              <label
+                htmlFor={`star-${i}-right`}
+                className='block h-full'
+                role={readOnly ? 'presentation' : 'button'}
+                tabIndex={readOnly ? -1 : 0}
+                aria-label={`${rightHalfValue}점 별점`}
+                onMouseEnter={() => handleMouseEnter(rightHalfValue)}
+                onKeyDown={(event) => handleKeyDown(event, rightHalfValue)}
+              >
                 <Image
                   src='/icons/ui/icon-star-filled-right.svg'
                   alt='1점'
                   width={16}
                   height={16}
-                  className={`h-full ${readOnly ? '' : 'cursor-pointer'} // transition-opacity duration-150 ${
+                  className={`h-full ${readOnly ? '' : 'cursor-pointer'} ${
                     isRightHalfActive ? 'opacity-100' : 'opacity-0'
                   }`}
                 />

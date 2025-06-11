@@ -8,7 +8,9 @@ interface ErrorMessageProps {
   message?: string;
 }
 
-const ERROR_MESSAGE_STYLE = 'text-destructive text-sm font-medium';
+//const ERROR_MESSAGE_STYLE = 'text-destructive text-sm font-medium';
+const ERROR_MESSAGE_STYLE =
+  'text-sm-small text-primary md:text-md-small lg:text-md-small pt-2';
 
 const ErrorMessage = ({ message }: ErrorMessageProps) => {
   if (!message) return null;

@@ -1,7 +1,10 @@
 packages:
-  - "."
+  - .
 
 onlyBuiltDependencies:
-  - "@tailwindcss/oxide"
+  - '@tailwindcss/oxide'
+  - gifsicle
+  - jpegtran-bin
+  - optipng-bin
   - sharp
   - unrs-resolver
