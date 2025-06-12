@@ -19,7 +19,6 @@ import {
   SignUpFormData,
   SignupSchema,
 } from '@/feature/auth/schema/auth.schema';
-import Logo from '@/shared/components/common/logo';
 import Spinner from '@/shared/components/common/spinner';
 
 import AuthLink from './AuthLink';
@@ -52,7 +51,7 @@ const SignUpForm: () => JSX.Element = () => {
         formAction(new FormData());
       });
     }
-  }, [email, formAction, startTransition, state?.message]);
+  }, [email, formAction, startTransition]);
 
   // 이메일 중복 에러 발생 시 포커스
   useEffect(() => {
@@ -78,17 +77,14 @@ const SignUpForm: () => JSX.Element = () => {
         <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/70'>
           <div className='flex flex-col items-center gap-4 rounded-lg bg-white p-8 shadow-lg'>
             <Spinner size='large' color='primary' />
-            <span className='txt-primary txt-xl font-bold'>처리 중...</span>
+            <span className='text-primary text-xl font-bold'>처리 중...</span>
           </div>
         </div>
       )}
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className='flex-center w-[34.3rem] flex-col px-4 md:w-[49.6rem] lg:w-[50rem]'
+        className='flex-center flex w-[34.3rem] flex-col gap-5 px-4 md:w-[49.6rem] lg:w-[50rem]'
       >
-        <div className='mb-20'>
-          <Logo />
-        </div>
         <div className='flex w-full flex-col gap-8'>
           <FormField
             label='이메일'
@@ -129,15 +125,15 @@ const SignUpForm: () => JSX.Element = () => {
             errors={errors}
           />
         </div>
-        <div className='mt-20 flex w-full flex-col gap-4'>
+        <div className='txt-md-bold mt-30 flex w-full flex-col gap-8'>
           <SubmitButton isPending={isPending}>가입하기</SubmitButton>
-
-          <AuthLink
-            label='계정이 이미 있으신가요?'
-            linkText='로그인 하러가기'
-            href='/signin'
-          />
         </div>
+
+        <AuthLink
+          label='계정이 이미 있으신가요?'
+          linkText='로그인 하러가기'
+          href='/signin'
+        />
       </form>
     </>
   );
