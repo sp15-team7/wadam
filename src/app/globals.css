@@ -5,11 +5,11 @@
 
 /* CSS 변수 */
 @theme {
-  --color-primary: #ac271e;
-  --color-secondary: #e5e3d7;
-  --color-white: #fffdfa;
-  --color-black: #2d3034;
-  --color-gray: #b2ae98;
+  --color-primary: oklch(0.4892 0.1708 28.92);
+  --color-secondary: oklch(0.9141 0.0162 99.01);
+  --color-white: oklch(0.9947 0.0045 78.3);
+  --color-black: oklch(0.3078 0.0083 255.56);
+  --color-gray: oklch(0.7481 0.0309 98.61);
 
   --animate-flow-arrow: flowArrow 0.8s ease-in-out;
 }
