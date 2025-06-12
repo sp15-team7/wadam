@@ -92,7 +92,7 @@ const WineReviewSection = () => {
         <Button
           size='full'
           onClick={handleClick}
-          className='mx-auto mt-[20rem] text-[1.4rem] md:mt-[40rem] md:max-w-[57.6rem] md:text-[1.8rem] lg:max-w-[76.8rem]'
+          className='mx-auto mt-[20rem] text-[1.4rem] md:mt-[40rem] md:max-w-[57.6rem] md:text-[1.8rem] xl:max-w-[76.8rem]'
         >
           시작하기
         </Button>
