@@ -68,7 +68,7 @@ const Hero = () => {
             width={23}
             height={23}
           />
-          <span className='border-primary xl:transition-w xl:transition-h absolute top-[50%] left-[50%] hidden h-[100%] w-[100%] translate-[-50%] rounded-full border-2 xl:block xl:duration-300 xl:ease-in-out xl:group-hover:h-[110%] xl:group-hover:w-[110%]'></span>
+          <span className='border-primary absolute top-1/2 left-1/2 hidden h-full w-full -translate-x-1/2 -translate-y-1/2 rounded-full border-2 xl:block xl:transition-[width,height] xl:duration-300 xl:ease-in-out xl:group-hover:h-[110%] xl:group-hover:w-[110%]'></span>
         </Link>
       </motion.div>
 
