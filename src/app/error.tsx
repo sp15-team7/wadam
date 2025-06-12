@@ -41,7 +41,8 @@ const ErrorPage = ({ error, reset }: ErrorProps) => {
           // 에러 상태를 리셋하여 해당 라우트 세그먼트를 다시 렌더링 시도
           () => reset()
         }
-        className='bg-primary txt-white mt-6 cursor-pointer rounded-md px-6 py-3 text-lg transition-colors duration-300 hover:bg-red-700'
+        variant='primary'
+        className='mt-6 rounded-md px-6 py-3 text-lg'
       >
         다시 시도하기
       </Button>
