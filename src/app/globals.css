@@ -7,6 +7,8 @@
   --color-secondary: #e5e3d7;
   --color-white: #fffdfa;
   --color-black: #2d3034;
+
+  --animate-flow-arrow: flowArrow 0.8s ease-in-out;
 }
 
 /* 전역 CSS 기본 설정 */
@@ -27,6 +29,25 @@
   }
   ::-webkit-scrollbar {
     display: none;
+  }
+}
+
+@keyframes flowArrow {
+  0% {
+    opacity: 1;
+    transform: translateX(0px) scale(1);
+  }
+  30% {
+    opacity: 0;
+    transform: translateX(2rem) scale(0.9);
+  }
+  31% {
+    opacity: 0;
+    transform: translateX(-2rem) scale(0.9);
+  }
+  65% {
+    opacity: 1;
+    transform: translateX(0px) scale(1);
   }
 }
 

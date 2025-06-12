@@ -14,7 +14,7 @@ export const HERO_PARAGRAPH_LINES = [
 export const TEAM_MEMBERS = [
   'JAEHYUN',
   'SUMIN',
-  'YUNGHYUN',
+  'YOUNGHYUN',
   'JINHYUNG',
   'SARANG',
 ];

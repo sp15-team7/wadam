@@ -21,7 +21,10 @@ const WineReviewSection = () => {
   const section4Characters = splitText(section4Title);
 
   return (
-    <section ref={section4Ref} className='relative mt-[5rem] md:mt-[20dvh]'>
+    <section
+      ref={section4Ref}
+      className='relative mt-[5rem] md:mt-[20dvh] lg:mt-[30dvh] xl:mt-[40dvh]'
+    >
       <motion.div
         variants={sectionVariants.wineReview.image}
         initial='hidden'
@@ -81,7 +84,7 @@ const WineReviewSection = () => {
       >
         <Button
           size='full'
-          className='mt-[20rem] text-[1.4rem] md:mt-[40rem] md:text-[1.8rem]'
+          className='mx-auto mt-[20rem] text-[1.4rem] md:mt-[40rem] md:max-w-[57.6rem] md:text-[1.8rem] lg:max-w-[76.8rem]'
         >
           시작하기
         </Button>
