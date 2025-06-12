@@ -9,7 +9,7 @@ interface ErrorProps {
   reset: () => void;
 }
 
-const Error = ({ error, reset }: ErrorProps) => {
+const ErrorPage = ({ error, reset }: ErrorProps) => {
   useEffect(() => {
     // 개발자 콘솔에 에러 상세 로그 출력
     console.error('클라이언트 측 에러 발생:', error);
@@ -49,4 +49,4 @@ const Error = ({ error, reset }: ErrorProps) => {
   );
 };
 
-export default Error;
+export default ErrorPage;
