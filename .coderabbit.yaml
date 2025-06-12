@@ -1,7 +1,7 @@
 # .coderabbit.yaml
 # yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
 
-language: 'ko' # 리뷰 언어를 한국어로 설정
+language: 'ko-KR' # 리뷰 언어를 한국어로 설정
 
 tone_instructions: |
   한국어로 답변하세요. 영어로 답변하지 마세요.
@@ -23,10 +23,7 @@ reviews:
   auto_title_placeholder: '@coderabbitai'
   auto_title_instructions: 'PR 제목을 명확히 요약하세요.'
   review_status: true
-  commit_status:
-    pending: true
-    success: true
-    failure: true
+  commit_status: true
   collapse_walkthrough: true
   changed_files_summary: true
   sequence_diagrams: true
@@ -39,10 +36,10 @@ reviews:
   auto_assign_reviewers: true
   poem: false
 
-  labeling_instructions: |
-    - 버그 수정: bug
-    - 기능 추가: feature
-    - 리팩토링: refactor
+  labeling_instructions:
+    - '버그 수정: bug'
+    - '기능 추가: feature'
+    - '리팩토링: refactor'
 
   path_instructions:
     - path: 'src/feature/**/components/**/*.tsx'
@@ -98,11 +95,9 @@ reviews:
         - 타입 유추 가능성과 안정성 보장 여부 확인
 
   path_filters:
-    include:
-      - 'src/**'
-    exclude:
-      - 'dist/**'
-      - 'node_modules/**'
+    - 'src/**'
+    - '!dist/**'
+    - '!node_modules/**'
 
   abort_on_close: true
   disable_cache: false
@@ -146,7 +141,7 @@ chat:
   auto_reply: true
 
 docstrings:
-  language: 'ko'
+  language: 'ko-KR'
   path_instructions:
     - path: 'src/feature/**/*.ts'
       instructions: |
