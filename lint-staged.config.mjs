@@ -1,7 +1,7 @@
 import path from 'path';
 
 const buildEslintCommand = (filenames) =>
-  `next lint --file ${filenames.map((f) => path.relative(process.cwd(), f)).join(' --file  ')}`;
+  `next lint --fix --file ${filenames.map((f) => path.relative(process.cwd(), f)).join(' --file  ')}`;
 
 export default {
   '**/*.{js,jsx,ts,tsx}': [
@@ -11,4 +11,6 @@ export default {
   ],
   '**/*.{json,css,md,yml,yaml,html}': ['prettier --write'],
   '**/*.{png,jpg,jpeg,gif,svg,ico,webp}': ['imagemin-lint-staged'],
+  'package.json': ['pnpm audit --audit-level=high', 'prettier --write'],
+  '**/.env*': [() => 'echo "⚠️  환경 변수 파일이 변경이 감지되었습니다.'],
 };

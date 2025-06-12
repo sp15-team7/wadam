@@ -7,7 +7,8 @@
   --color-secondary: #e5e3d7;
   --color-white: #fffdfa;
   --color-black: #2d3034;
-
+  --color-gray: #b2ae98;
+  
   --animate-flow-arrow: flowArrow 0.8s ease-in-out;
 }
 
@@ -69,6 +70,9 @@
   }
   .txt-secondary {
     color: var(--color-secondary);
+  }
+  .txt-gray {
+    color: var(--color-gray);
   }
 
   .txt-4xl-bold {
