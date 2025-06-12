@@ -1,7 +1,9 @@
 'use client';
+
 import { useInView } from 'motion/react';
 import * as motion from 'motion/react-client';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
 
 import { Button } from '@/shared/components/ui/button';
@@ -20,8 +22,16 @@ const WineReviewSection = () => {
   const section4Title = 'WINE\nREVIEWS';
   const section4Characters = splitText(section4Title);
 
+  const router = useRouter();
+  const handleClick = () => {
+    router.push('/wines');
+  };
+
   return (
-    <section ref={section4Ref} className='relative mt-[5rem] md:mt-[20dvh]'>
+    <section
+      ref={section4Ref}
+      className='relative mt-[5rem] md:mt-[20dvh] lg:mt-[30dvh] xl:mt-[40dvh]'
+    >
       <motion.div
         variants={sectionVariants.wineReview.image}
         initial='hidden'
@@ -81,7 +91,8 @@ const WineReviewSection = () => {
       >
         <Button
           size='full'
-          className='mt-[20rem] text-[1.4rem] md:mt-[40rem] md:text-[1.8rem]'
+          onClick={handleClick}
+          className='mx-auto mt-[20rem] text-[1.4rem] md:mt-[40rem] md:max-w-[57.6rem] md:text-[1.8rem] xl:max-w-[76.8rem]'
         >
           시작하기
         </Button>

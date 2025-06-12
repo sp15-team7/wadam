@@ -13,7 +13,7 @@ import { HeroVariants } from '../utils/animations';
 
 const Hero = () => {
   return (
-    <section className='flex min-h-[100dvh] flex-col justify-center md:min-h-auto md:pt-[20rem] md:pb-[20rem]'>
+    <section className='flex min-h-[100dvh] flex-col justify-center md:min-h-auto md:py-[20rem] lg:min-h-[100dvh] lg:py-0'>
       <div className='h-full w-full'>
         <motion.div
           initial={{ opacity: 0, filter: 'blur(10px)' }}
@@ -25,13 +25,13 @@ const Hero = () => {
             alt='logo'
             width={343}
             height={200}
-            className='mx-auto'
+            className='mx-auto xl:w-[50rem]'
           />
         </motion.div>
       </div>
 
       <motion.p
-        className='text-primary mt-[2rem] text-center text-[2.4rem] font-light md:mt-[4rem] md:text-[3rem]'
+        className='text-primary mt-[2rem] text-center text-[2.4rem] font-light md:text-[3rem]'
         initial={{ opacity: 0, filter: 'blur(10px)' }}
         animate={{ opacity: 1, filter: 'blur(0px)' }}
         transition={{ delay: 0.3, duration: 1 }}
@@ -59,19 +59,20 @@ const Hero = () => {
       >
         <Link
           href='/wines'
-          className='border-primary mx-auto flex h-[3.9rem] w-[3.9rem] cursor-pointer items-center justify-center rounded-full border-2 md:h-[5.6rem] md:w-[5.6rem]'
+          className='border-primary group relative mx-auto flex h-[3.9rem] w-[3.9rem] cursor-pointer items-center justify-center rounded-full border-2 transition-all duration-75 md:h-[5.6rem] md:w-[5.6rem] xl:border-0'
         >
           <Image
             src='/icons/ui/icon-arrow-right.svg'
             alt='arrow'
-            className='h-[2.3rem] w-[2.3rem] md:h-[3.2rem] md:w-[3.2rem]'
+            className='h-[2.3rem] w-[2.3rem] transition-all duration-100 group-hover:animate-[flowArrow_0.8s_ease-in-out_2] md:h-[3.2rem] md:w-[3.2rem]'
             width={23}
             height={23}
           />
+          <span className='border-primary absolute top-1/2 left-1/2 hidden h-full w-full -translate-x-1/2 -translate-y-1/2 rounded-full border-2 xl:block xl:transition-[width,height] xl:duration-300 xl:ease-in-out xl:group-hover:h-[110%] xl:group-hover:w-[110%]'></span>
         </Link>
       </motion.div>
 
-      <div className='mt-[5rem] flex items-center justify-between md:mt-[10rem]'>
+      <div className='mt-[5rem] flex items-center justify-between md:mt-[10rem] xl:mt-[14dvh]'>
         <div>
           <motion.ul
             className='mb-[0.7rem] flex items-center gap-[1.3rem] md:mb-[3rem] md:gap-[2rem]'
@@ -85,7 +86,7 @@ const Hero = () => {
                 alt='oak'
                 width={24}
                 height={24}
-                className='w-auto md:h-[4rem]'
+                className='w-auto md:h-[4rem] xl:h-[5rem]'
               />
             </motion.li>
             <motion.li variants={HeroVariants.icon}>
@@ -94,7 +95,7 @@ const Hero = () => {
                 alt='grape'
                 width={24}
                 height={24}
-                className='w-auto md:h-[4rem]'
+                className='w-auto md:h-[4rem] xl:h-[5rem]'
               />
             </motion.li>
             <motion.li variants={HeroVariants.icon}>
@@ -103,7 +104,7 @@ const Hero = () => {
                 alt='wine'
                 width={24}
                 height={24}
-                className='w-auto md:h-[4rem]'
+                className='w-auto md:h-[4rem] xl:h-[5rem]'
               />
             </motion.li>
           </motion.ul>
