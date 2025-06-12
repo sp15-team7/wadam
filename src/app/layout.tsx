@@ -61,7 +61,7 @@ export const metadata: Metadata = {
     siteName: '와담',
     images: [
       {
-        url: '/images/image-og.png',
+        url: '/images/og/image-og.png',
         width: 1200,
         height: 630,
         alt: '와담 | 와인의 미학과 담론',
