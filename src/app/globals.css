@@ -61,22 +61,6 @@
   }
 
   /* typography */
-  .txt-black {
-    color: var(--color-black);
-  }
-  .txt-white {
-    color: var(--color-white);
-  }
-  .txt-primary {
-    color: var(--color-primary);
-  }
-  .txt-secondary {
-    color: var(--color-secondary);
-  }
-  .txt-gray {
-    color: var(--color-gray);
-  }
-
   .txt-4xl-bold {
     font-size: 4rem;
     line-height: 4.8rem;
