@@ -85,7 +85,7 @@ const SignUpForm: () => JSX.Element = () => {
         onSubmit={handleSubmit(onSubmit)}
         className='flex-center flex w-[34.3rem] flex-col gap-5 px-4 md:w-[49.6rem] lg:w-[50rem]'
       >
-        <div className='flex w-full flex-col gap-8'>
+        <div className='w-full'>
           <FormField
             label='이메일'
             name='email'
@@ -97,34 +97,34 @@ const SignUpForm: () => JSX.Element = () => {
           {state?.message?.includes('이미 가입된 이메일') && (
             <ErrorMessage message={state.message} />
           )}
-
-          <FormField
-            label='닉네임'
-            name='nickname'
-            type='text'
-            placeholder='whyne'
-            register={register}
-            errors={errors}
-          />
-
-          <FormField
-            label='비밀번호'
-            name='password'
-            type='password'
-            placeholder='영문, 숫자, 특수문자(!@#$%^&*) 제한'
-            register={register}
-            errors={errors}
-          />
-
-          <FormField
-            label='비밀번호 확인'
-            name='passwordConfirmation'
-            type='password'
-            placeholder='비밀번호 확인'
-            register={register}
-            errors={errors}
-          />
         </div>
+
+        <FormField
+          label='닉네임'
+          name='nickname'
+          type='text'
+          placeholder='whyne'
+          register={register}
+          errors={errors}
+        />
+
+        <FormField
+          label='비밀번호'
+          name='password'
+          type='password'
+          placeholder='영문, 숫자, 특수문자(!@#$%^&*) 제한'
+          register={register}
+          errors={errors}
+        />
+
+        <FormField
+          label='비밀번호 확인'
+          name='passwordConfirmation'
+          type='password'
+          placeholder='비밀번호 확인'
+          register={register}
+          errors={errors}
+        />
         <div className='txt-md-bold mt-30 flex w-full flex-col gap-8'>
           <SubmitButton isPending={isPending}>가입하기</SubmitButton>
         </div>
