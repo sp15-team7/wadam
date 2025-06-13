@@ -5,6 +5,7 @@ import TodayWineSection from '@/feature/landing/components/TodayWineSection';
 import WineReviewSection from '@/feature/landing/components/WineReviewSection';
 import {
   Modal,
+  ModalContent,
   ModalFooter,
 } from '@/shared/components/common/modal';
 import { Button } from '@/shared/components/ui/button';
@@ -19,8 +20,8 @@ const LandingPage = () => {
       <FilterMyWineSection />
       <WineReviewSection />
       <button onClick={() => open()}>open</button>
-      <Modal size='md' title='제목' showCloseButton={true}>
-        {/* <div>내용이 들어갑니다.</div> */}
+      <Modal size='md' title='제목' showCloseButton={true} hasContent={true}>
+        <ModalContent>내용이 들어갑니다.</ModalContent>
         <ModalFooter layout='secondary-primary'>
           <Button variant='secondary' size='full'>
             취소

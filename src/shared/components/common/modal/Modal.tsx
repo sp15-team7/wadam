@@ -22,6 +22,7 @@ import ModalTitle from './ModalTitle';
  * @property {string} sm - 작은 모달 크기 (Alert Dialog)
  * @property {string} md - 중간 모달 크기 (Dialog)
  */
+
 interface ModalProps {
   size?: 'sm' | 'md';
   title: string;
@@ -31,16 +32,16 @@ interface ModalProps {
 }
 
 const sizeClasses = {
-  sm: 'max-w-[35.3rem] md:max-w-[37.5rem]',
+  sm: 'max-w-[35.3rem]',
   md: 'max-w-[37.5rem] md:max-w-[40rem]',
 };
 
 const Modal = ({
   size = 'md',
-  children,
   title,
   showCloseButton = false,
   hasContent = false,
+  children,
 }: ModalProps) => {
   const { isOpen, close } = useModalStore();
 
@@ -67,18 +68,22 @@ const Modal = ({
       onClick={handleBackdropClick}
     >
       <div
-        className={`mx-4 w-full rounded-2xl bg-white p-[2.4rem] ${sizeClasses[size]} flex max-h-[90vh] flex-col overflow-hidden`}
+        className={cn(
+          'mx-4 flex max-h-[90vh] w-full flex-col overflow-hidden rounded-2xl bg-white',
+          hasContent ? 'p-[2.4rem]' : 'px-[1.6rem] py-[3.2rem]',
+          sizeClasses[size],
+        )}
       >
         <div
           className={cn(
-            'flex items-center',
+            'flex items-center justify-between',
             hasContent ? 'justify-between' : 'justify-center',
           )}
         >
-          <ModalTitle>{title}</ModalTitle>
-          {showCloseButton && hasContent && <ModalCloseButton />}
+          <ModalTitle hasContent={hasContent}>{title}</ModalTitle>
+          {showCloseButton && <ModalCloseButton />}
         </div>
-        <div className={cn(hasContent && 'mt-[3.2rem]')}>{children}</div>
+        {children}
       </div>
     </div>
   );

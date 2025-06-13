@@ -19,7 +19,7 @@ const ModalCloseButton = ({ className = '' }: ModalCloseButtonProps) => {
   const { close } = useModalStore();
 
   return (
-    <button onClick={close} className={`${className}`}>
+    <button onClick={close} className={`${className} cursor-pointer`}>
       <Image
         src='/icons/ui/icon-close.svg'
         alt='close'
