@@ -52,8 +52,11 @@ const Modal = ({
     };
 
     if (isOpen) {
-      document.addEventListener('keydown', onEsc);
-      return () => document.removeEventListener('keydown', onEsc);
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = '';
+        document.removeEventListener('keydown', onEsc);
+      };
     }
   }, [isOpen, close]);
 
@@ -61,7 +64,9 @@ const Modal = ({
 
   return (
     <div
-      className='bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-gray-900/30'
+      role='dialog'
+      aria-modal='true'
+      className='fixed inset-0 z-50 flex items-center justify-center bg-gray-900/30'
       onClick={handleBackdropClick}
     >
       <div
