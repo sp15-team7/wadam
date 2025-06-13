@@ -15,7 +15,6 @@ import ModalTitle from './ModalTitle';
  * @property {string} size - 모달 크기
  * @property {React.ReactNode} children - 모달 내용
  * @property {boolean} showCloseButton - 닫기 버튼 표시 여부
- * @property {boolean} hasContent - 내용 표시 여부
  */
 
 /**
@@ -28,7 +27,6 @@ interface ModalProps {
   title: string;
   showCloseButton?: boolean;
   children: React.ReactNode;
-  hasContent?: boolean;
 }
 
 const sizeClasses = {
@@ -40,7 +38,6 @@ const Modal = ({
   size = 'md',
   title,
   showCloseButton = false,
-  hasContent = false,
   children,
 }: ModalProps) => {
   const { isOpen, close } = useModalStore();
@@ -70,17 +67,17 @@ const Modal = ({
       <div
         className={cn(
           'mx-4 flex max-h-[90vh] w-full flex-col overflow-hidden rounded-2xl bg-white',
-          hasContent ? 'p-[2.4rem]' : 'px-[1.6rem] py-[3.2rem]',
+          size === 'md' ? 'p-[2.4rem]' : 'px-[1.6rem] py-[3.2rem]',
           sizeClasses[size],
         )}
       >
         <div
           className={cn(
             'flex items-center justify-between',
-            hasContent ? 'justify-between' : 'justify-center',
+            size === 'md' ? 'justify-between' : 'justify-center',
           )}
         >
-          <ModalTitle hasContent={hasContent}>{title}</ModalTitle>
+          <ModalTitle size={size}>{title}</ModalTitle>
           {showCloseButton && <ModalCloseButton />}
         </div>
         {children}

@@ -14,16 +14,12 @@ import React from 'react';
 interface ModalTitleProps {
   children: React.ReactNode;
   className?: string;
-  hasContent?: boolean;
+  size: 'sm' | 'md';
 }
 
-const ModalTitle = ({
-  children,
-  className = '',
-  hasContent = false,
-}: ModalTitleProps) => (
+const ModalTitle = ({ children, className = '', size }: ModalTitleProps) => (
   <h2
-    className={`${hasContent ? 'text-[2rem] md:text-[2.4rem]' : 'text-[1.8rem] md:text-[2rem]'} font-bold text-gray-800 ${className}`}
+    className={`${size === 'md' ? 'text-[2rem] md:text-[2.4rem]' : 'text-[1.8rem] md:text-[2rem]'} font-bold text-gray-800 ${className}`}
   >
     {children}
   </h2>
