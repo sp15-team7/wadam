@@ -247,7 +247,7 @@
   --primary: oklch(0.4892 0.1708 28.92);
   --primary-foreground: oklch(0.9947 0.0045 78.3);
   --secondary: oklch(0.9141 0.0162 99.01);
-  --secondary-foreground: oklch(0.3078 0.0083 255.56);
+  --secondary-foreground: oklch(0.4892 0.1708 28.92);
   --muted: oklch(0.9141 0.0162 99.01);
   --muted-foreground: oklch(0.7481 0.0309 98.61);
   --accent: oklch(0.9141 0.0162 99.01);
