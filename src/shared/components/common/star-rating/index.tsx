@@ -7,6 +7,8 @@
  * @param {boolean} [props.readOnly=false] - 읽기 전용 모드 여부
  * @param {function} [props.onChange] - 별점 변경 시 호출되는 콜백 함수
  * @returns {JSX.Element} 별점 컴포넌트
+ * @param {string} [props.size='sm'] - 별점 크기 ('sm' | 'md' | 'lg')
+ *
  */
 'use client';
 
@@ -121,11 +123,11 @@ const StarRating = ({
           <div
             key={`star-${i}`}
             className={cn(
-              'flex',
+              'flex bg-[url("/icons/ui/icon-star-empty.svg")] bg-cover bg-center',
               {
-                sm: 'gap-[0.4rem] md:gap-[0.5rem]',
-                md: 'gap-[0.5rem]',
-                lg: 'gap-[0.6rem] md:gap-[0.9rem]',
+                sm: 'h-[0.9rem] w-[0.9rem] md:h-[1.3rem] md:w-[1.3rem]',
+                md: 'h-[1.3rem] w-[1.3rem] md:h-[1.7rem] md:w-[1.7rem]',
+                lg: 'h-[1.7rem] w-[1.7rem] md:h-[2.4rem] md:w-[2.4rem]',
               }[size],
             )}
           >
