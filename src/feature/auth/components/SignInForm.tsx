@@ -67,12 +67,12 @@ const SignInForm: () => JSX.Element = () => {
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className='flex-center h-[67.9rem] w-[34.3rem] flex-col gap-5 px-4 md:h-[76.2rem] md:w-[49.6rem] lg:h-[79.4rem] lg:w-[50rem]'
+        className='flex h-[67.9rem] w-[34.3rem] flex-col items-center gap-5 px-4 pt-36 md:h-[76.2rem] md:w-[49.6rem] lg:h-[79.4rem] lg:w-[50rem]'
       >
         <div className='mb-20 flex'>
           <Logo className='' />
         </div>
-        <div className='flex w-full flex-col gap-8'>
+        <div className='flex w-full flex-col gap-8 pt-13'>
           <FormField<SignInFormData>
             label='이메일'
             name='email'
@@ -91,7 +91,7 @@ const SignInForm: () => JSX.Element = () => {
             errors={errors}
           />
         </div>
-        <div className='txt-md-bold mt-20 flex w-full flex-col gap-8'>
+        <div className='txt-md-bold flex w-full flex-col gap-8 pt-61'>
           <SubmitButton>로그인</SubmitButton>
           <Button
             size='full'
