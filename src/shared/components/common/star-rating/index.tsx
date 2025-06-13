@@ -16,10 +16,16 @@ import { useState } from 'react';
 type StarRatingProps = {
   value: number;
   readOnly?: boolean;
+  size?: 'sm' | 'md' | 'lg';
   onChange?: (value: number) => void;
 };
 
-const StarRating = ({ value, readOnly = false, onChange }: StarRatingProps) => {
+const StarRating = ({
+  value,
+  readOnly = false,
+  size = 'sm',
+  onChange,
+}: StarRatingProps) => {
   const [hoveredValue, setHoveredValue] = useState<number | null>(null);
 
   /**
@@ -89,7 +95,16 @@ const StarRating = ({ value, readOnly = false, onChange }: StarRatingProps) => {
   const displayValue = hoveredValue !== null ? hoveredValue : processedValue;
 
   return (
-    <form className='flex gap-[0.7rem]' onMouseLeave={handleMouseLeave}>
+    <form
+      className={`flex ${
+        size === 'sm'
+          ? 'gap-[0.4rem] md:gap-[0.5rem]'
+          : size === 'md'
+            ? 'gap-[0.5rem]'
+            : 'gap-[0.6rem] md:gap-[0.9rem]'
+      }`}
+      onMouseLeave={handleMouseLeave}
+    >
       {Array.from({ length: 5 }, (_, i) => {
         const starIndex = i + 1;
         const leftHalfValue = starIndex - 0.5;
@@ -102,7 +117,13 @@ const StarRating = ({ value, readOnly = false, onChange }: StarRatingProps) => {
         return (
           <div
             key={`star-${i}`}
-            className='flex h-[1.6rem] w-[1.6rem] bg-[url("/icons/ui/icon-star-empty.svg")] bg-cover bg-center'
+            className={`flex h-[0.9rem] w-[0.9rem] bg-[url("/icons/ui/icon-star-empty.svg")] bg-cover bg-center ${
+              size === 'sm'
+                ? 'h-[0.9rem] w-[0.9rem] md:h-[1.3rem] md:w-[1.3rem]'
+                : size === 'md'
+                  ? 'h-[1.3rem] w-[1.3rem] md:h-[1.7rem] md:w-[1.7rem]'
+                  : 'h-[1.7rem] w-[1.7rem] md:h-[2.4rem] md:w-[2.4rem]'
+            }`}
           >
             {/* 왼쪽 반 (0.5점) */}
             <div className='relative w-1/2'>

@@ -8,10 +8,10 @@ const skeletonCardVariants = cva('rounded-[30px] flex flex-col', {
   variants: {
     variant: {
       recommend:
-        'w-[19.3rem] h-[16rem] p-[2.4rem] pb-0 bg-white border-secondary border-1',
-      list: 'w-[34.3rem] h-[36rem] p-[3rem] pr-[2rem] pl-[2rem] bg-white border-secondary border-1',
-      detailTop: 'w-[34.3rem] h-[20.9rem] p-[2.4rem] pb-0',
-      detailList: 'w-[34.3rem] p-[2rem] bg-white border-secondary border-1',
+        'h-[16rem] p-[2.4rem] pb-0 bg-white border-secondary border-1 md:px-[3rem] md:h-[18.5rem]',
+      list: 'w-full h-[36rem] p-[3rem] pr-[2rem] pl-[2rem] bg-white border-secondary border-1',
+      detailTop: 'w-full h-[20.9rem] p-[2.4rem] py-0 md:h-[30.2rem]',
+      detailList: 'w-full p-[2rem] bg-white border-secondary border-1',
     },
   },
   defaultVariants: {
@@ -30,13 +30,13 @@ const SkeletonCard = ({ variant, className }: SkeletonCardProps) => {
     case 'recommend':
       return (
         <div className={cn(classes, 'flex-row gap-[2.5rem]')}>
-          <Skeleton className='h-[13.6rem] w-[3.8rem]' />
+          <Skeleton className='h-[13.6rem] w-[3.8rem] md:h-[16.1rem] md:w-[4.4rem]' />
           <div className='flex flex-1 flex-col'>
-            <Skeleton className='mb-[1.2rem] h-[2.8rem] w-[4.5rem]' />
-            <Skeleton className='mb-[0.7rem] h-[1.2rem] w-[6rem]' />
-            <Skeleton className='mb-[0.5rem] h-[1rem] w-[4rem]' />
-            <Skeleton className='mb-[0.5rem] h-[1rem] w-[8rem]' />
-            <Skeleton className='h-[1rem] w-[8rem]' />
+            <Skeleton className='mb-[1.2rem] h-[2.8rem] w-[4.5rem] md:mb-[1.6rem] md:h-[3.6rem] md:w-[5.7rem]' />
+            <Skeleton className='mb-[0.7rem] h-[1.2rem] w-[6rem] md:mb-[1.2rem] md:h-[1.6rem] md:w-[9rem]' />
+            <Skeleton className='mb-[0.5rem] h-[1rem] w-[4rem] md:mb-[0.7rem] md:h-[1.2rem] md:w-4/6' />
+            <Skeleton className='mb-[0.5rem] h-[1rem] w-[8rem] md:mb-[0.7rem] md:h-[1.2rem] md:w-6/7' />
+            <Skeleton className='h-[1rem] w-[8rem] md:h-[1.4rem] md:w-5/6' />
           </div>
         </div>
       );
@@ -45,15 +45,15 @@ const SkeletonCard = ({ variant, className }: SkeletonCardProps) => {
         <div
           className={cn(
             classes,
-            'after: after:border-secondary relative z-2 flex-row items-end gap-[2.5rem] bg-white after:absolute after:bottom-0 after:left-0 after:z-[-1] after:block after:h-[19rem] after:w-full after:rounded-[30px] after:border-1 after:content-[""]',
+            'after: after:border-secondary relative z-2 flex-row items-end gap-[2.5rem] bg-white after:absolute after:bottom-0 after:left-0 after:z-[-1] after:block after:h-[19rem] after:w-full after:rounded-[30px] after:border-1 after:content-[""] md:gap-[6rem] md:after:h-[26rem]',
           )}
         >
-          <Skeleton className='h-[20.9rem] w-[5.8rem]' />
-          <div className='flex flex-1 flex-col pb-[2.95rem]'>
-            <Skeleton className='mb-[0.7rem] h-[2rem] w-[13rem]' />
-            <Skeleton className='mb-[1.5rem] h-[2rem] w-[18rem]' />
-            <Skeleton className='mb-[1rem] h-[1.4rem] w-[17.3rem]' />
-            <Skeleton className='h-[2.8rem] w-[8.6rem] rounded-2xl' />
+          <Skeleton className='h-full w-[5.8rem]' />
+          <div className='flex flex-1 flex-col pb-[2.95rem] md:pb-[4rem]'>
+            <Skeleton className='mb-[0.7rem] h-[2rem] w-[13rem] md:mb-[1.2rem] md:h-[3.2rem] md:w-[30rem]' />
+            <Skeleton className='mb-[1.5rem] h-[2rem] w-[18rem] md:mb-[2rem] md:h-[3.2rem] md:w-[27rem]' />
+            <Skeleton className='mb-[1rem] h-[1.4rem] w-[17.3rem] md:mb-[2rem] md:h-[1.6rem] md:w-[20rem]' />
+            <Skeleton className='h-[2.8rem] w-[8.6rem] rounded-2xl md:h-[3.7rem] md:w-[11.4rem]' />
           </div>
         </div>
       );

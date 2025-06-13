@@ -25,7 +25,7 @@ const UserAvatar = ({
     <Link
       href='/myprofile'
       className={cn(
-        'after:border-secondary relative h-[4.7rem] w-[4.7rem] overflow-hidden rounded-full after:absolute after:inset-[0.1rem] after:z-10 after:rounded-full after:border-1 after:content-[""]',
+        'after:border-secondary relative h-[3.2rem] w-[3.2rem] overflow-hidden rounded-full after:absolute after:inset-[0.1rem] after:z-10 after:rounded-full after:border-1 after:content-[""] md:h-[4.7rem] md:w-[4.7rem]',
         className,
       )}
     >
