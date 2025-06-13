@@ -1,3 +1,4 @@
+'use client';
 import FilterMyWineSection from '@/feature/landing/components/FilterMyWineSection';
 import Hero from '@/feature/landing/components/Hero';
 import TodayWineSection from '@/feature/landing/components/TodayWineSection';
