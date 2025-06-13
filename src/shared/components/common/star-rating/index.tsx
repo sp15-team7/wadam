@@ -13,6 +13,8 @@
 import Image from 'next/image';
 import { useState } from 'react';
 
+import { cn } from '@/shared/libs/utils/cn';
+
 type StarRatingProps = {
   value: number;
   readOnly?: boolean;
@@ -96,13 +98,14 @@ const StarRating = ({
 
   return (
     <form
-      className={`flex ${
-        size === 'sm'
-          ? 'gap-[0.4rem] md:gap-[0.5rem]'
-          : size === 'md'
-            ? 'gap-[0.5rem]'
-            : 'gap-[0.6rem] md:gap-[0.9rem]'
-      }`}
+      className={cn(
+        'flex',
+        {
+          sm: 'gap-[0.4rem] md:gap-[0.5rem]',
+          md: 'gap-[0.5rem]',
+          lg: 'gap-[0.6rem] md:gap-[0.9rem]',
+        }[size],
+      )}
       onMouseLeave={handleMouseLeave}
     >
       {Array.from({ length: 5 }, (_, i) => {
@@ -117,13 +120,14 @@ const StarRating = ({
         return (
           <div
             key={`star-${i}`}
-            className={`flex h-[0.9rem] w-[0.9rem] bg-[url("/icons/ui/icon-star-empty.svg")] bg-cover bg-center ${
-              size === 'sm'
-                ? 'h-[0.9rem] w-[0.9rem] md:h-[1.3rem] md:w-[1.3rem]'
-                : size === 'md'
-                  ? 'h-[1.3rem] w-[1.3rem] md:h-[1.7rem] md:w-[1.7rem]'
-                  : 'h-[1.7rem] w-[1.7rem] md:h-[2.4rem] md:w-[2.4rem]'
-            }`}
+            className={cn(
+              'flex',
+              {
+                sm: 'gap-[0.4rem] md:gap-[0.5rem]',
+                md: 'gap-[0.5rem]',
+                lg: 'gap-[0.6rem] md:gap-[0.9rem]',
+              }[size],
+            )}
           >
             {/* 왼쪽 반 (0.5점) */}
             <div className='relative w-1/2'>

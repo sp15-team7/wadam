@@ -25,16 +25,17 @@ const UserAvatar = ({
     <Link
       href='/myprofile'
       className={cn(
-        'after:border-secondary relative h-[3.2rem] w-[3.2rem] overflow-hidden rounded-full after:absolute after:inset-[0.1rem] after:z-10 after:rounded-full after:border-1 after:content-[""] md:h-[4.7rem] md:w-[4.7rem]',
+        'after:border-secondary relative block h-[3.2rem] w-[3.2rem] overflow-hidden rounded-full after:absolute after:inset-[0.1rem] after:z-10 after:rounded-full after:border-1 after:content-[""] md:h-[4.7rem] md:w-[4.7rem]',
         className,
       )}
     >
       <Image
         src={src}
         alt='user-avatar'
-        className='h-full w-full object-cover object-center'
-        width={47}
-        height={47}
+        fill
+        className='object-cover object-center'
+        sizes='(min-width: 768px) 4.7rem, 3.2rem'
+        priority={false}
       />
     </Link>
   );
