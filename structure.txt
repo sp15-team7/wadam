@@ -1,0 +1,29 @@
+src
+├── app
+│   ├── (entry)
+│   ├── (main)
+│   ├── api
+│   ├── error.tsx
+│   ├── favicon.ico
+│   ├── globals.css
+│   ├── layout.tsx
+│   ├── loading.tsx
+│   ├── not-found.tsx
+│   └── pages
+├── feature
+│   ├── auth
+│   ├── landing
+│   ├── myprofile
+│   ├── reviews
+│   └── wines
+├── middleware.ts
+└── shared
+    ├── components
+    ├── hooks
+    ├── libs
+    ├── schemas
+    ├── stores
+    ├── types
+    └── utils
+
+20 directories, 7 files
