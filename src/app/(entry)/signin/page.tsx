@@ -1,4 +1,3 @@
-// src/app/page.tsx
 'use client';
 
 import SignInForm from '@/feature/auth/components/SignInForm';
