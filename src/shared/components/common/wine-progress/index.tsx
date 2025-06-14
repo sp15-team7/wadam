@@ -5,23 +5,30 @@
  */
 
 import { Progress } from '@/shared/components/ui/progress';
-import { mockWine } from '@/shared/mock/mockData';
 
 interface WineProgressProps {
   wineId: number;
 }
+const mockData = {
+  avgRatings: {
+    1: 3,
+    2: 8,
+    3: 11,
+    4: 14,
+    5: 19,
+  },
+  reviewCount: 55,
+};
 
+// 상위 컴포넌트에서 wineId를 전달받아서 커스텀 훅으로 api 통신을 통해 데이터 가져오기
 const WineProgress = ({ wineId }: WineProgressProps) => {
-  // 실제로는 wineId로 데이터 fetch, 지금은 mockWine 사용
-  const { avgRatings, reviewCount } = mockWine;
-
   const getPercentage = (count: number) =>
-    reviewCount === 0 ? 0 : (count / reviewCount) * 100;
+    mockData.reviewCount === 0 ? 0 : (count / mockData.reviewCount) * 100;
 
   return (
     <div className='flex flex-col items-center'>
       <p className='txt-2xl-bold flex justify-center'>
-        {reviewCount}명이 평가했습니다.
+        {mockData.reviewCount}명이 평가했습니다.
       </p>
       <div className='w-full max-w-md rounded-md bg-white p-6'>
         {[5, 4, 3, 2, 1].map((score) => (
@@ -29,7 +36,7 @@ const WineProgress = ({ wineId }: WineProgressProps) => {
             <span className='txt-xl-bold w-20 text-right'>{score}점</span>
             <Progress
               value={getPercentage(
-                avgRatings[score as keyof typeof avgRatings],
+                mockData.avgRatings[score as keyof typeof mockData.avgRatings],
               )}
             />
           </div>
