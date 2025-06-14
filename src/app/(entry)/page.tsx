@@ -2,13 +2,6 @@ import FilterMyWineSection from '@/feature/landing/components/FilterMyWineSectio
 import Hero from '@/feature/landing/components/Hero';
 import TodayWineSection from '@/feature/landing/components/TodayWineSection';
 import WineReviewSection from '@/feature/landing/components/WineReviewSection';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '@/shared/components/ui/Carousel';
 
 const LandingPage = () => {
   return (
@@ -17,21 +10,6 @@ const LandingPage = () => {
       <TodayWineSection />
       <FilterMyWineSection />
       <WineReviewSection />
-      <Carousel>
-        <CarouselContent>
-          <CarouselItem>
-            <div>1</div>
-          </CarouselItem>
-          <CarouselItem>
-            <div>2</div>
-          </CarouselItem>
-          <CarouselItem>
-            <div>3</div>
-          </CarouselItem>
-        </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
-      </Carousel>
     </main>
   );
 };
