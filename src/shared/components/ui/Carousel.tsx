@@ -7,7 +7,6 @@ import useEmblaCarousel, {
 import Image from 'next/image';
 import * as React from 'react';
 
-import { Button } from '@/shared/components/ui/button';
 import { cn } from '@/shared/libs/utils/cn';
 
 /**
@@ -139,6 +138,7 @@ function Carousel({
 
     return () => {
       api?.off('select', onSelect);
+      api?.off('reInit', onSelect);
     };
   }, [api, onSelect]);
 
@@ -158,16 +158,15 @@ function Carousel({
         autoplayDelay,
       }}
     >
-      <div
+      <section
         onKeyDownCapture={handleKeyDown}
         className={cn('relative', className)}
-        role='region'
         aria-roledescription='carousel'
         data-slot='carousel'
         {...props}
       >
         {children}
-      </div>
+      </section>
     </CarouselContext.Provider>
   );
 }
@@ -211,10 +210,7 @@ function CarouselItem({ className, ...props }: React.ComponentProps<'div'>) {
   );
 }
 
-function CarouselNext({
-  className,
-  ...props
-}: React.ComponentProps<typeof Button>) {
+function CarouselNext({ className, ...props }: React.ComponentProps<'button'>) {
   const { orientation, scrollNext, canScrollNext } = useCarousel();
 
   return (
@@ -227,6 +223,7 @@ function CarouselNext({
           : '-bottom-12 left-1/2 -translate-x-1/2 rotate-90',
         className,
       )}
+      aria-disabled={!canScrollNext}
       disabled={!canScrollNext}
       onClick={scrollNext}
       {...props}
