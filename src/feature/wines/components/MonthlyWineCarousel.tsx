@@ -1,3 +1,4 @@
+import SkeletonCard from '@/shared/components/common/skeleton-card';
 import {
   Carousel,
   CarouselContent,
@@ -11,13 +12,13 @@ const MonthlyWineCarousel = () => {
     <Carousel>
       <CarouselContent>
         <CarouselItem>
-          <div>1</div>
+          <SkeletonCard variant='recommend' />
         </CarouselItem>
         <CarouselItem>
-          <div>2</div>
+          <SkeletonCard variant='recommend' />
         </CarouselItem>
         <CarouselItem>
-          <div>3</div>
+          <SkeletonCard variant='recommend' />
         </CarouselItem>
       </CarouselContent>
       <CarouselPrevious />
