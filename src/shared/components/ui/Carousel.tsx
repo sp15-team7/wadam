@@ -3,7 +3,7 @@
 import useEmblaCarousel, {
   type UseEmblaCarouselType,
 } from 'embla-carousel-react';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import Image from 'next/image';
 import * as React from 'react';
 
 import { Button } from '@/shared/components/ui/button';
@@ -171,51 +171,17 @@ function CarouselItem({ className, ...props }: React.ComponentProps<'div'>) {
   );
 }
 
-function CarouselPrevious({
-  className,
-  variant = 'secondary',
-  size = 'icon',
-  ...props
-}: React.ComponentProps<typeof Button>) {
-  const { orientation, scrollPrev, canScrollPrev } = useCarousel();
-
-  return (
-    <Button
-      data-slot='carousel-previous'
-      variant={variant}
-      size={size}
-      className={cn(
-        'absolute size-8 rounded-full',
-        orientation === 'horizontal'
-          ? 'top-1/2 -left-12 -translate-y-1/2'
-          : '-top-12 left-1/2 -translate-x-1/2 rotate-90',
-        className,
-      )}
-      disabled={!canScrollPrev}
-      onClick={scrollPrev}
-      {...props}
-    >
-      <ArrowLeft />
-      <span className='sr-only'>Previous slide</span>
-    </Button>
-  );
-}
-
 function CarouselNext({
   className,
-  variant = 'secondary',
-  size = 'icon',
   ...props
 }: React.ComponentProps<typeof Button>) {
   const { orientation, scrollNext, canScrollNext } = useCarousel();
 
   return (
-    <Button
+    <button
       data-slot='carousel-next'
-      variant={variant}
-      size={size}
       className={cn(
-        'absolute size-8 rounded-full',
+        'border-primary flex-center group absolute h-[4.8rem] w-[4.8rem] cursor-pointer rounded-full border-1 bg-white shadow-[0rem_0.4rem_0.4rem_rgba(0,0,0,0.25)]',
         orientation === 'horizontal'
           ? 'top-1/2 -right-12 -translate-y-1/2'
           : '-bottom-12 left-1/2 -translate-x-1/2 rotate-90',
@@ -225,9 +191,15 @@ function CarouselNext({
       onClick={scrollNext}
       {...props}
     >
-      <ArrowRight />
+      <Image
+        src='/icons/ui/icon-arrow-right.svg'
+        alt='next'
+        width={24}
+        height={24}
+        className='group-hover:animate-[flowArrow_0.8s_ease-in-out_2]'
+      />
       <span className='sr-only'>Next slide</span>
-    </Button>
+    </button>
   );
 }
 
@@ -237,5 +209,4 @@ export {
   CarouselContent,
   CarouselItem,
   CarouselNext,
-  CarouselPrevious,
 };
