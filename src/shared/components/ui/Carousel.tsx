@@ -91,7 +91,12 @@ function Carousel({
   const [carouselRef, api] = useEmblaCarousel(
     {
       ...opts,
-      axis: orientation === 'horizontal' ? 'x' : 'y',
+      axis:
+        orientation === 'horizontal'
+          ? 'x'
+          : orientation === 'vertical'
+            ? 'y'
+            : (opts?.axis ?? 'x'),
     },
     finalPlugins, // autoplay가 포함된 plugins 사용
   );
