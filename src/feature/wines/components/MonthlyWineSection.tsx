@@ -9,7 +9,7 @@ import {
 const MonthlyWineSection = () => {
   return (
     <section className='bg-primary mx-auto mb-[2.4rem] max-w-[114rem] overflow-hidden rounded-[1.2rem] p-[2rem] pr-0 md:p-[3rem] md:pr-0'>
-      <h2 className='text-gray mb-[2rem] text-[1.8rem] font-bold md:text-[2rem]'>
+      <h2 className='mb-[2rem] text-[1.8rem] font-bold text-white md:text-[2rem]'>
         이번 달 추천 와인
       </h2>
       <Carousel opts={{ loop: true, align: 'start' }} autoplay>
