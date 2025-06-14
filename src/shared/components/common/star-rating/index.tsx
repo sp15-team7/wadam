@@ -7,19 +7,29 @@
  * @param {boolean} [props.readOnly=false] - 읽기 전용 모드 여부
  * @param {function} [props.onChange] - 별점 변경 시 호출되는 콜백 함수
  * @returns {JSX.Element} 별점 컴포넌트
+ * @param {string} [props.size='sm'] - 별점 크기 ('sm' | 'md' | 'lg')
+ *
  */
 'use client';
 
 import Image from 'next/image';
 import { useState } from 'react';
 
+import { cn } from '@/shared/libs/utils/cn';
+
 type StarRatingProps = {
   value: number;
   readOnly?: boolean;
+  size?: 'sm' | 'md' | 'lg';
   onChange?: (value: number) => void;
 };
 
-const StarRating = ({ value, readOnly = false, onChange }: StarRatingProps) => {
+const StarRating = ({
+  value,
+  readOnly = false,
+  size = 'sm',
+  onChange,
+}: StarRatingProps) => {
   const [hoveredValue, setHoveredValue] = useState<number | null>(null);
 
   /**
@@ -89,7 +99,17 @@ const StarRating = ({ value, readOnly = false, onChange }: StarRatingProps) => {
   const displayValue = hoveredValue !== null ? hoveredValue : processedValue;
 
   return (
-    <form className='flex gap-[0.7rem]' onMouseLeave={handleMouseLeave}>
+    <form
+      className={cn(
+        'flex',
+        {
+          sm: 'gap-[0.4rem] md:gap-[0.5rem]',
+          md: 'gap-[0.5rem]',
+          lg: 'gap-[0.6rem] md:gap-[0.9rem]',
+        }[size],
+      )}
+      onMouseLeave={handleMouseLeave}
+    >
       {Array.from({ length: 5 }, (_, i) => {
         const starIndex = i + 1;
         const leftHalfValue = starIndex - 0.5;
@@ -102,7 +122,14 @@ const StarRating = ({ value, readOnly = false, onChange }: StarRatingProps) => {
         return (
           <div
             key={`star-${i}`}
-            className='flex h-[1.6rem] w-[1.6rem] bg-[url("/icons/ui/icon-star-empty.svg")] bg-cover bg-center'
+            className={cn(
+              'flex bg-[url("/icons/ui/icon-star-empty.svg")] bg-cover bg-center',
+              {
+                sm: 'h-[0.9rem] w-[0.9rem] md:h-[1.3rem] md:w-[1.3rem]',
+                md: 'h-[1.3rem] w-[1.3rem] md:h-[1.7rem] md:w-[1.7rem]',
+                lg: 'h-[1.7rem] w-[1.7rem] md:h-[2.4rem] md:w-[2.4rem]',
+              }[size],
+            )}
           >
             {/* 왼쪽 반 (0.5점) */}
             <div className='relative w-1/2'>
