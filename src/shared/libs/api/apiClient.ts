@@ -1,4 +1,5 @@
 import ky from 'ky';
+
 /**
  * API 클라이언트 인스턴스
  *
@@ -22,12 +23,14 @@ export const apiClient = ky.create({
   headers: {
     'Content-Type': 'application/json',
   },
+
   /**
    * 쿠키 기반 인증을 위한 설정
    * - 브라우저가 cross-origin 요청에서도 인증 쿠키를 자동 포함하도록 함
    * - 서버에서 accessToken/refreshToken을 HTTP-Only 쿠키로 전달하는 구조에서 필수
    */
   credentials: 'include',
+
   /**
    * 에러 응답 전처리 훅
    * - ky는 네트워크 오류나 HTTP 상태 코드 400 이상일 때 예외를 throw함
@@ -41,9 +44,11 @@ export const apiClient = ky.create({
        */
       async (error) => {
         const { response } = error;
+
         // 서버 응답 본문이 JSON 형태일 경우, { message: '...' }를 추출하여 에러 메시지로 설정
         try {
           const data = (await response?.json()) as { message?: string };
+
           if (data?.message) {
             error.name = 'APIError'; // 에러 분류 명확히 설정
             error.message = data.message; // 사용자에게 보여줄 메시지로 덮어쓰기
@@ -55,6 +60,7 @@ export const apiClient = ky.create({
             error.message = `${response.status} ${response.statusText}`;
           }
         }
+
         return error;
       },
     ],

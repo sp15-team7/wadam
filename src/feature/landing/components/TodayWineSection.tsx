@@ -24,7 +24,7 @@ const TodayWineSection = () => {
   return (
     <section
       ref={section2Ref}
-      className='relative mx-auto mb-[30dvh] flex h-[50.8rem] max-w-[34.3rem] justify-center pt-[15.8rem] md:max-w-[42.5rem]'
+      className='relative mx-auto mb-[30dvh] flex h-[50.8rem] max-w-[34.3rem] justify-center pt-[13rem] md:mt-[10dvh] md:max-w-[42.5rem] md:pt-[15.8rem]'
     >
       <motion.div
         style={{ rotate: redWineRotate }}
