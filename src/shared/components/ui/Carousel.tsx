@@ -30,6 +30,7 @@ type CarouselOptions = UseCarouselParameters[0];
 type CarouselPlugin = UseCarouselParameters[1];
 
 type CarouselProps = {
+  ariaLabel?: string;
   opts?: CarouselOptions;
   plugins?: CarouselPlugin;
   orientation?: 'horizontal' | 'vertical';
@@ -68,6 +69,7 @@ function Carousel({
   children,
   autoplay = false,
   autoplayDelay = 3000, // 기본 3초
+  ariaLabel,
   ...props
 }: React.ComponentProps<'div'> & CarouselProps) {
   // autoplay가 true일 때 autoplay 플러그인을 생성
@@ -82,7 +84,11 @@ function Carousel({
   // plugins 배열 생성 - autoplay가 true면 autoplay 플러그인 추가
   const finalPlugins = React.useMemo(() => {
     const pluginArray = plugins ? [...plugins] : [];
-    if (autoplay && autoplayPlugin) {
+    if (
+      autoplay &&
+      autoplayPlugin &&
+      !pluginArray.some((p) => p.constructor === autoplayPlugin.constructor)
+    ) {
       pluginArray.push(autoplayPlugin);
     }
     return pluginArray;
@@ -162,11 +168,11 @@ function Carousel({
         canScrollNext,
         autoplay,
         autoplayDelay,
+        ariaLabel,
       }}
     >
       <section
-        role='region'
-        aria-label='추천 와인 캐러셀'
+        aria-label={ariaLabel ?? 'Carousel'}
         onKeyDownCapture={handleKeyDown}
         className={cn('relative', className)}
         aria-roledescription='carousel'

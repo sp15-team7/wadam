@@ -24,6 +24,7 @@ const MonthlyWineSection = () => {
         opts={{ loop: true, align: 'start' }}
         orientation='horizontal'
         autoplay
+        ariaLabel='이번 달 추천 와인 캐러셀'
       >
         <CarouselContent>
           {Array.from({ length: 10 }).map((_, index) => (
