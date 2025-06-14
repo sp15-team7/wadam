@@ -39,7 +39,7 @@ const FormField = <T extends FieldValues>({
   errors,
 }: FormFieldProps<T>) => {
   return (
-    <div className='w-full'>
+    <div className='txt-md-bold w-full'>
       <Label htmlFor={name}>{label}</Label>
       <Input
         id={name}
