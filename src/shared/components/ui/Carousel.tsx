@@ -166,6 +166,7 @@ function Carousel({
     >
       <section
         role='region'
+        aria-label='추천 와인 캐러셀'
         onKeyDownCapture={handleKeyDown}
         className={cn('relative', className)}
         aria-roledescription='carousel'
@@ -237,7 +238,8 @@ function CarouselNext({ className, ...props }: React.ComponentProps<'button'>) {
     >
       <Image
         src='/icons/ui/icon-arrow-right.svg'
-        alt='next'
+        alt=''
+        aria-hidden='true'
         width={24}
         height={24}
         className='group-hover:animate-[flowArrow_0.8s_ease-in-out_2]'
