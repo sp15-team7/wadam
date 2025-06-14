@@ -60,7 +60,7 @@ function useCarousel() {
 }
 
 function Carousel({
-  orientation = 'horizontal',
+  orientation,
   opts,
   setApi,
   plugins,
@@ -71,17 +71,18 @@ function Carousel({
   ...props
 }: React.ComponentProps<'div'> & CarouselProps) {
   // autoplay가 true일 때 autoplay 플러그인을 생성
-  const autoplayPlugin = React.useMemo(() => {
-    return Autoplay({
-      delay: autoplayDelay,
-      stopOnInteraction: false, // 사용자 상호작용 후에도 계속 재생
-    });
-  }, [autoplayDelay]);
+  const autoplayPlugin = React.useMemo(
+    () =>
+      autoplay
+        ? Autoplay({ delay: autoplayDelay, stopOnInteraction: false })
+        : undefined,
+    [autoplay, autoplayDelay],
+  );
 
   // plugins 배열 생성 - autoplay가 true면 autoplay 플러그인 추가
   const finalPlugins = React.useMemo(() => {
     const pluginArray = plugins ? [...plugins] : [];
-    if (autoplay) {
+    if (autoplay && autoplayPlugin) {
       pluginArray.push(autoplayPlugin);
     }
     return pluginArray;
@@ -149,7 +150,7 @@ function Carousel({
         api: api,
         opts,
         orientation:
-          orientation || (opts?.axis === 'y' ? 'vertical' : 'horizontal'),
+          orientation ?? (opts?.axis === 'y' ? 'vertical' : 'horizontal'),
         scrollPrev,
         scrollNext,
         canScrollPrev,
@@ -159,6 +160,7 @@ function Carousel({
       }}
     >
       <section
+        role='region'
         onKeyDownCapture={handleKeyDown}
         className={cn('relative', className)}
         aria-roledescription='carousel'

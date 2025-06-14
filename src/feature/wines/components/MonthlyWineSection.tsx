@@ -20,7 +20,11 @@ const MonthlyWineSection = () => {
       <h2 className='mb-[2rem] text-[1.8rem] font-bold text-white md:text-[2rem]'>
         이번 달 추천 와인
       </h2>
-      <Carousel opts={{ loop: true, align: 'start' }} autoplay>
+      <Carousel
+        opts={{ loop: true, align: 'start' }}
+        orientation='horizontal'
+        autoplay
+      >
         <CarouselContent>
           {Array.from({ length: 10 }).map((_, index) => (
             <CarouselItem
