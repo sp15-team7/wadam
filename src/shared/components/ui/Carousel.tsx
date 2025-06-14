@@ -12,7 +12,7 @@ import { cn } from '@/shared/libs/utils/cn';
 
 /**
  * @author Sumin
- * @since 2025-06-10
+ * @since 2025-06-14
  * @description 캐러셀 컴포넌트
  * @param {CarouselProps} props - 컴포넌트 props
  * @param {CarouselOptions} [props.opts] - 캐러셀 옵션
