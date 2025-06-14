@@ -1,7 +1,7 @@
 /**
  * @author: Hyun
  * @since: 2025-06-13
- * @description: 
+ * @description: 와인 타입 필터링 컴포넌트 (Red, White, Sparkling)
  */
 
 'use client';
