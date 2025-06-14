@@ -1,3 +1,9 @@
+/**
+ * @author: Hyun
+ * @since: 2025-06-13
+ * @description: 와인 점수 프로그레스 컴포넌트 (와인 점수 분포 표시 - 1점 ~ 5점) + 현재는 mockData 사용 (실제 사용 시 api 통신하는 커스텀 훅 연결 필요)
+ */
+
 import { Progress } from '@/shared/components/ui/progress';
 import { mockWine } from '@/shared/mock/mockData';
 
