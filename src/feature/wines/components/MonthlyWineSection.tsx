@@ -8,21 +8,20 @@ import {
 
 const MonthlyWineSection = () => {
   return (
-    <section className='bg-primary mb-[2.4rem] rounded-[1.2rem] p-[2rem]'>
-      <h2 className='text-gray mb-[2rem] text-[1.8rem] font-bold'>
+    <section className='bg-primary mx-auto mb-[2.4rem] max-w-[114rem] overflow-hidden rounded-[1.2rem] p-[2rem] pr-0 md:p-[3rem] md:pr-0'>
+      <h2 className='text-gray mb-[2rem] text-[1.8rem] font-bold md:text-[2rem]'>
         이번 달 추천 와인
       </h2>
-      <Carousel opts={{ loop: true }}>
+      <Carousel opts={{ loop: true, align: 'start' }} autoplay>
         <CarouselContent>
-          <CarouselItem>
-            <SkeletonCard variant='recommend' />
-          </CarouselItem>
-          <CarouselItem>
-            <SkeletonCard variant='recommend' />
-          </CarouselItem>
-          <CarouselItem>
-            <SkeletonCard variant='recommend' />
-          </CarouselItem>
+          {Array.from({ length: 10 }).map((_, index) => (
+            <CarouselItem
+              key={`item-${index}`}
+              className='basis-1/1.6 md:basis-1/2.5 xl:basis-1/4.5'
+            >
+              <SkeletonCard variant='recommend' />
+            </CarouselItem>
+          ))}
         </CarouselContent>
         <CarouselNext />
       </Carousel>

@@ -1,5 +1,6 @@
 'use client';
 
+import Autoplay from 'embla-carousel-autoplay';
 import useEmblaCarousel, {
   type UseEmblaCarouselType,
 } from 'embla-carousel-react';
@@ -8,6 +9,21 @@ import * as React from 'react';
 
 import { Button } from '@/shared/components/ui/button';
 import { cn } from '@/shared/libs/utils/cn';
+
+/**
+ * @author Sumin
+ * @since 2025-06-10
+ * @description 캐러셀 컴포넌트
+ * @param {CarouselProps} props - 컴포넌트 props
+ * @param {CarouselOptions} [props.opts] - 캐러셀 옵션
+ * @param {CarouselPlugin} [props.plugins] - 캐러셀 플러그인
+ * @param {string} [props.orientation] - 캐러셀 방향 ('horizontal' | 'vertical')
+ * @param {function} [props.setApi] - 캐러셀 API 설정 콜백
+ * @param {boolean} [props.autoplay] - 자동 재생 여부
+ * @param {number} [props.autoplayDelay] - 자동 재생 딜레이 시간
+ * @returns {JSX.Element} 캐러셀 컴포넌트
+ *
+ */
 
 type CarouselApi = UseEmblaCarouselType[1];
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
@@ -19,6 +35,8 @@ type CarouselProps = {
   plugins?: CarouselPlugin;
   orientation?: 'horizontal' | 'vertical';
   setApi?: (api: CarouselApi) => void;
+  autoplay?: boolean;
+  autoplayDelay?: number; // autoplay 딜레이 옵션 추가
 };
 
 type CarouselContextProps = {
@@ -49,15 +67,35 @@ function Carousel({
   plugins,
   className,
   children,
+  autoplay = false,
+  autoplayDelay = 3000, // 기본 3초
   ...props
 }: React.ComponentProps<'div'> & CarouselProps) {
+  // autoplay가 true일 때 autoplay 플러그인을 추가
+  const autoplayPlugin = React.useRef(
+    Autoplay({
+      delay: autoplayDelay,
+      stopOnInteraction: false, // 사용자 상호작용 후에도 계속 재생
+    }),
+  );
+
+  // plugins 배열 생성 - autoplay가 true면 autoplay 플러그인 추가
+  const finalPlugins = React.useMemo(() => {
+    const pluginArray = plugins ? [...plugins] : [];
+    if (autoplay) {
+      pluginArray.push(autoplayPlugin.current);
+    }
+    return pluginArray;
+  }, [plugins, autoplay]);
+
   const [carouselRef, api] = useEmblaCarousel(
     {
       ...opts,
       axis: orientation === 'horizontal' ? 'x' : 'y',
     },
-    plugins,
+    finalPlugins, // autoplay가 포함된 plugins 사용
   );
+
   const [canScrollPrev, setCanScrollPrev] = React.useState(false);
   const [canScrollNext, setCanScrollNext] = React.useState(false);
 
@@ -116,6 +154,8 @@ function Carousel({
         scrollNext,
         canScrollPrev,
         canScrollNext,
+        autoplay,
+        autoplayDelay,
       }}
     >
       <div
@@ -144,7 +184,7 @@ function CarouselContent({ className, ...props }: React.ComponentProps<'div'>) {
       <div
         className={cn(
           'flex',
-          orientation === 'horizontal' ? '-ml-4' : '-mt-4 flex-col',
+          orientation === 'horizontal' ? '' : 'flex-col',
           className,
         )}
         {...props}
@@ -163,7 +203,7 @@ function CarouselItem({ className, ...props }: React.ComponentProps<'div'>) {
       data-slot='carousel-item'
       className={cn(
         'min-w-0 shrink-0 grow-0 basis-full',
-        orientation === 'horizontal' ? 'pl-4' : 'pt-4',
+        orientation === 'horizontal' ? 'mr-[1rem]' : 'mt-4',
         className,
       )}
       {...props}
@@ -183,7 +223,7 @@ function CarouselNext({
       className={cn(
         'border-primary flex-center group absolute h-[4.8rem] w-[4.8rem] cursor-pointer rounded-full border-1 bg-white shadow-[0rem_0.4rem_0.4rem_rgba(0,0,0,0.25)]',
         orientation === 'horizontal'
-          ? 'top-1/2 -right-12 -translate-y-1/2'
+          ? 'top-1/2 right-[0.8rem] -translate-y-1/2'
           : '-bottom-12 left-1/2 -translate-x-1/2 rotate-90',
         className,
       )}
