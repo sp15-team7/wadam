@@ -1,5 +1,3 @@
-// src/feature/auth/components/SignInForm.tsx
-
 /**
  * @author: Jin
  * @since: 2025-06-12
