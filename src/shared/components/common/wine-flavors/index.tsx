@@ -12,6 +12,12 @@ import { FlavorLabel, FlavorLabelType } from '@/shared/types/flavor-label';
 // 서버에 바로 전송할 수 있도록 사용자가 체크한 값은 영어로 관리 ("CHERRY", "OAK"...)
 const FLAVOR_LABELS = Object.values(FlavorLabel);
 
+// 기존 O(n) 복잡도 코드를 O(1) 복잡도로 변경 (데이터 조회 시간 감소 - 피드백요소)
+const FLAVOR_LABEL_MAP = Object.entries(FlavorLabel).reduce(
+  (acc, [kr, en]) => ({ ...acc, [en]: kr }),
+  {} as Record<string, string>,
+);
+
 // 와인 향 필터링 컴포넌트 속성 타입
 interface WineFlavorProps {
   onChange?: (selected: string[]) => void;
@@ -40,10 +46,7 @@ export const WineFlavors = ({ onChange }: WineFlavorProps) => {
   }, [selected, onChange]);
 
   // 영어로 받은 데이터를 한글로 변환
-  const getKrData = (enData: string) =>
-    Object.keys(FlavorLabel).find(
-      (kr) => FlavorLabel[kr as FlavorLabelType] === enData,
-    ) || '';
+  const getKrData = (enData: string) => FLAVOR_LABEL_MAP[enData] || '';
 
   return (
     <div className='flex flex-wrap gap-2'>
