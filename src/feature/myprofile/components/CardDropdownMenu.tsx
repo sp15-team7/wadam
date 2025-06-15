@@ -9,7 +9,7 @@ import {
 import { cn } from '@/shared/libs/utils/cn';
 
 const DROPDOWN_STYLES = {
-  trigger: 'absolute top-12 right-0 cursor-pointer',
+  trigger: 'cursor-pointer',
   content:
     'flex h-[10.4rem] w-[12.6rem] flex-col items-center justify-center rounded-3xl',
   menuItem: cn(
