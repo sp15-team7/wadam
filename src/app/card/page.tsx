@@ -27,6 +27,11 @@ const CardPage = () => {
         nickname: '사용자1',
         image: null,
       },
+      lightBold: 4.2,
+      smoothTannic: 3.8,
+      drySweet: 4.0,
+      softAcidic: 3.9,
+      isLiked: false,
     },
     userId: 1,
     reviews: [],
@@ -43,7 +48,7 @@ const CardPage = () => {
       <MonthlyCard wine={mockWine} />
       <WineCard wine={mockWine} />
       <DetailCard wine={mockWine} />
-      <ReviewCard />
+      <ReviewCard review={mockWine.recentReview} />
     </div>
   );
 };

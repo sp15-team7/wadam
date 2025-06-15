@@ -1,15 +1,18 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
 
 import { cn } from '@/shared/libs/utils/cn';
 
-const LikeButton = ({ className }: { className?: string }) => {
-  const [isLiked, setIsLiked] = useState(false);
-
+const LikeButton = ({
+  isLiked,
+  className,
+}: {
+  isLiked: boolean;
+  className?: string;
+}) => {
   const handleLike = () => {
-    setIsLiked(!isLiked);
+    console.log('like');
   };
 
   return (

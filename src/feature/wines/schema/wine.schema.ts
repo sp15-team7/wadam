@@ -66,8 +66,6 @@ export const ReviewDetailSchema = z.object({
   updatedAt: z.string().datetime(),
   user: UserSummarySchema,
   isLiked: z.boolean(),
-  wineId: z.number(),
-  teamId: z.string(),
 });
 
 /**

@@ -5,6 +5,7 @@ import { useState } from 'react';
 
 import CardDropdownMenu from '@/feature/wines/components/button/CardDropdownMenu';
 import LikeButton from '@/feature/wines/components/button/LikeButton';
+import { ReviewDetail } from '@/feature/wines/schema/wine.schema';
 import UserAvatar from '@/shared/components/common/user-avatar';
 import {
   Collapsible,
@@ -12,8 +13,9 @@ import {
   CollapsibleTrigger,
 } from '@/shared/components/ui/collapsible';
 
-export function ReviewCard() {
+export function ReviewCard({ review }: { review: ReviewDetail }) {
   const [open, setOpen] = useState(false);
+  const { aroma, content, createdAt, rating, user, isLiked } = review;
 
   return (
     <Collapsible
@@ -27,17 +29,17 @@ export function ReviewCard() {
           <UserAvatar className='size-[4.2rem] md:size-[6.4rem]' />
           <div>
             <div className='text-[1.6rem] font-semibold md:text-[1.8rem]'>
-              와인러버
+              {user.nickname}
             </div>
             <div className='text-secondary text-[1.4rem] md:text-[1.6rem]'>
-              10시간 전
+              {createdAt}
             </div>
           </div>
         </div>
 
         {/* 평점, 좋아요, 메뉴 */}
         <div className='flex items-center gap-10'>
-          <LikeButton />
+          <LikeButton isLiked={isLiked} />
           <CardDropdownMenu />
         </div>
       </div>
@@ -45,7 +47,7 @@ export function ReviewCard() {
       {/* 태그 */}
       <div className='mt-6 flex justify-between'>
         <div className='flex flex-1 flex-wrap gap-2'>
-          {['체리', '오크', '카라멜', '시트러스', '꽃'].map((tag) => (
+          {aroma.map((tag) => (
             <span
               key={tag}
               className='flex-center border-secondary w-fit rounded-full border px-4 py-2 text-[1.4rem] font-semibold md:px-5 md:py-3 md:text-[1.6rem]'
@@ -55,19 +57,13 @@ export function ReviewCard() {
           ))}
         </div>
         <div className='flex-center bg-secondary text-primary w-[6rem] self-start rounded-full px-4 py-2 text-[1.4rem] font-semibold md:w-[7.2rem] md:px-5 md:py-3 md:text-[1.6rem]'>
-          ★ 5.0
+          ★ {rating}
         </div>
       </div>
 
       {/* 펼쳐진 내용 */}
       <CollapsibleContent className='space-y-4 pt-4 text-[1.4rem] md:space-y-8 md:pt-8 md:text-[1.6rem]'>
-        <p>
-          Deep maroon color, tasting notes of blackberry, dark chocolate, plum.
-          Super jammy and bold with some smoky after notes. Big flavor. Amazing
-          value (would pay three times the price for it), well balanced flavor.
-          Could drink all day everyday with or without food. I need more
-          immediately.
-        </p>
+        <p>{content}</p>
 
         {/* 슬라이더 UI (예시용, 실제 구현은 range input 또는 UI 라이브러리 사용) */}
         <div className='space-y-2'></div>
