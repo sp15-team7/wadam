@@ -7,7 +7,7 @@
  */
 
 import { useCallback, useEffect, useState } from 'react';
-import { FlavorLabel, FlavorLabelType } from '@/shared/types/flavor-label';
+import { FlavorLabel } from '@/shared/types/flavor-label';
 
 // 서버에 바로 전송할 수 있도록 사용자가 체크한 값은 영어로 관리 ("CHERRY", "OAK"...)
 const FLAVOR_LABELS = Object.values(FlavorLabel);
