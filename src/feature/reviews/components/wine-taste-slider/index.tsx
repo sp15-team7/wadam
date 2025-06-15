@@ -6,8 +6,8 @@
  * @description: 와인 맛 평가를 위한 슬라이더 컴포넌트 (4가지 맛을 각각 슬라이더로 보여주고, 각 맛의 값을 조정하거나 상위 컴포넌트에서 readonly에 따른 읽기 전용 모드 제공)
  */
 
-import { Slider } from '@/shared/components/ui/slider';
 import { cn } from '@/shared/libs/utils/cn';
+import { Slider } from '@/shared/components/ui/slider';
 import {
   defaultTasteValues,
   tasteLabels,
