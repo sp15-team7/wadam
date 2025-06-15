@@ -34,7 +34,7 @@ const CardPage = () => {
   return (
     <div className='flex flex-col gap-6'>
       <MonthlyCard wine={mockWine} />
-      <WineCard />
+      <WineCard wine={mockWine} />
       <DetailCard />
       <ReviewCard />
     </div>

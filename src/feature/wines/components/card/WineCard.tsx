@@ -2,6 +2,7 @@ import { cva } from 'class-variance-authority';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { WineListResponse } from '@/feature/wines/schema/wine.schema';
 import StarRating from '@/shared/components/common/star-rating';
 import { Card, CardContent, CardFooter } from '@/shared/components/ui/card';
 
@@ -15,13 +16,15 @@ const wineCardVariants = {
   ),
 };
 
-const WineCard = () => {
+const WineCard = ({ wine }: { wine: WineListResponse['list'][number] }) => {
+  const { name, region, image, price, avgRating, reviewCount, recentReview } =
+    wine;
   return (
     <Card className={wineCardVariants.card()} role='article'>
       <CardContent className={wineCardVariants.content()}>
         <figure className='flex flex-1 justify-center' aria-label='와인 이미지'>
           <Image
-            src='/images/wines/image-wine1.png'
+            src={image}
             alt='와인 이미지'
             width={60}
             height={200}
@@ -32,11 +35,11 @@ const WineCard = () => {
         <div className='flex flex-2 flex-col justify-center gap-10 md:flex-3 md:flex-row'>
           <header className='flex flex-col gap-3 md:flex-2 md:gap-6'>
             <h2 className='line-clamp-2 text-[2rem] leading-tight font-semibold md:text-[3rem]'>
-              Sentinel Carbernet Sauvignon 2016
+              {name}
             </h2>
-            <p className='text-[1.6rem]'>원산지</p>
+            <p className='text-[1.6rem]'>{region}</p>
             <strong className='text-primary bg-secondary w-fit rounded-full px-4 py-2 text-[1.4rem] font-bold md:text-[1.8rem]'>
-              ₩ 64,990
+              ₩ {price.toLocaleString()}
             </strong>
           </header>
 
@@ -46,12 +49,12 @@ const WineCard = () => {
               aria-label='평점 정보'
             >
               <span className='text-[2.8rem] font-extrabold md:text-[4.8rem]'>
-                4.8
+                {avgRating}
               </span>
               <div className='flex flex-col items-center gap-2 md:items-start md:justify-start md:gap-4'>
-                <StarRating value={4.8} readOnly size='md' />
+                <StarRating value={avgRating} readOnly size='md' />
                 <span className='text-gray text-[1.2rem] md:text-[1.4rem]'>
-                  47개의 후기
+                  {reviewCount}개의 후기
                 </span>
               </div>
             </div>
@@ -74,8 +77,7 @@ const WineCard = () => {
 
       <CardFooter className={wineCardVariants.footer()}>
         <p className='line-clamp-2 text-[1.4rem] md:text-[1.6rem]'>
-          Cherry, cocoa, vanilla and clove - beautiful red fruit driven Amarone.
-          Low acidity and medium tannins. Nice long velvety finish.
+          {recentReview.content}
         </p>
       </CardFooter>
     </Card>
