@@ -1,6 +1,6 @@
-import { EllipsisVertical } from 'lucide-react';
 import Image from 'next/image';
 
+import CardDropdownMenu from '@/feature/myprofile/components/CardDropdownMenu';
 import { Card, CardContent } from '@/shared/components/ui/card';
 
 const DetailCard = () => {
@@ -17,12 +17,8 @@ const DetailCard = () => {
           />
         </figure>
         <article className='relative flex flex-2 flex-col justify-between gap-2 py-12'>
-          <EllipsisVertical
-            size={28}
-            color='#ac271e'
-            className='absolute top-12 right-0'
-          />
           <div className='flex flex-col gap-4'>
+            <CardDropdownMenu />
             <h2 className='flex max-w-[19rem] items-start text-[2rem] leading-tight font-semibold md:max-w-[30rem] md:text-[3rem]'>
               Sentinel Carbernet Sauvignon 2016
             </h2>
