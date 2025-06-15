@@ -53,11 +53,11 @@ export const WineFlavors = ({ onChange }: WineFlavorProps) => {
         <label
           key={enData}
           className={`cursor-pointer rounded-full px-6 py-2 transition-colors ${selected.includes(enData) ? 'bg-primary text-white' : 'bg-secondary text-black'}`}
-          role='checkbox'
+          htmlFor={enData}
           aria-checked={selected.includes(enData)}
-          tabIndex={0}
         >
           <input
+            id={enData}
             type='checkbox'
             className='sr-only'
             checked={selected.includes(enData)}
