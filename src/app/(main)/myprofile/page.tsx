@@ -5,6 +5,7 @@ import { Button } from '@/shared/components/ui/button';
  * 마이페이지 컴포넌트입니다.
  * 이 페이지는 서버 컴포넌트로, 인증된 사용자만 접근할 수 있습니다.
  */
+
 const MyProfilePage = async () => {
   // 1. `auth()` 함수를 호출하여 현재 세션 정보를 가져옵니다.
   const session = await auth();
