@@ -1,10 +1,10 @@
+'use client';
+
 /**
  * @author: Hyun
  * @since: 2025-06-13
  * @description: 와인 향 필터링 컴포넌트 (상위 컴포넌트에서 핸들러 정의 하고 onChange 속성으로 전달)
  */
-
-'use client';
 
 import { FlavorLabel, FlavorLabelType } from '@/shared/types/flavor-label';
 import { useEffect, useState } from 'react';
@@ -51,12 +51,16 @@ export const WineFlavors = ({ onChange }: WineFlavorProps) => {
         <label
           key={enData}
           className={`cursor-pointer rounded-full px-6 py-2 transition-colors ${selected.includes(enData) ? 'bg-primary text-white' : 'bg-secondary text-black'}`}
+          role='checkbox'
+          aria-checked={selected.includes(enData)}
+          tabIndex={0}
         >
           <input
             type='checkbox'
-            className='hidden'
+            className='sr-only'
             checked={selected.includes(enData)}
             onChange={() => handleChange(enData)}
+            aria-label={`${getKrData(enData)} 향 선택`}
           />
           {getKrData(enData)}
         </label>
