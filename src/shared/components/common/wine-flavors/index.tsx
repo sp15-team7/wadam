@@ -6,8 +6,8 @@
  * @description: 와인 향 필터링 컴포넌트 (상위 컴포넌트에서 핸들러 정의 하고 onChange 속성으로 전달)
  */
 
+import { useCallback, useEffect, useState } from 'react';
 import { FlavorLabel, FlavorLabelType } from '@/shared/types/flavor-label';
-import { useEffect, useState } from 'react';
 
 // 서버에 바로 전송할 수 있도록 사용자가 체크한 값은 영어로 관리 ("CHERRY", "OAK"...)
 const FLAVOR_LABELS = Object.values(FlavorLabel);
@@ -26,13 +26,13 @@ export const WineFlavors = ({ onChange }: WineFlavorProps) => {
     클릭한 향이 이미 선택된 값인 경우 -> 배열에서 제거
     선택되지 않은 향 선택 시 -> 배열에 추가 (따라서 selected에는 현재 선택된 모든 영어 값 저장)
 */
-  const handleChange = (enData: string) => {
+  const handleChange = useCallback((enData: string) => {
     setSelected((prev) =>
       prev.includes(enData)
         ? prev.filter((data) => data !== enData)
         : [...prev, enData],
     );
-  };
+  }, []);
 
   // selected 배열이 바뀔 때마다 실행
   useEffect(() => {
