@@ -29,13 +29,20 @@ const CardPage = () => {
       },
     },
     userId: 1,
+    reviews: [],
+    avgRatings: {
+      lightBold: 4.2,
+      smoothTannic: 3.8,
+      drySweet: 4.0,
+      softAcidic: 3.9,
+    },
   };
 
   return (
     <div className='flex flex-col gap-6'>
       <MonthlyCard wine={mockWine} />
       <WineCard wine={mockWine} />
-      <DetailCard />
+      <DetailCard wine={mockWine} />
       <ReviewCard />
     </div>
   );
