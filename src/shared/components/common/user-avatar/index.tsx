@@ -5,7 +5,6 @@
  */
 
 import Image from 'next/image';
-import Link from 'next/link';
 
 import { cn } from '@/shared/libs/utils/cn';
 
@@ -22,9 +21,7 @@ const UserAvatar = ({
   className?: string;
 }) => {
   return (
-    <Link
-      href='/myprofile'
-      aria-label='내 프로필로 이동'
+    <div
       className={cn(
         'after:border-secondary focus-visible:outline-primary relative block h-[3.2rem] w-[3.2rem] overflow-hidden rounded-full after:absolute after:inset-[0.1rem] after:z-10 after:rounded-full after:border-1 after:content-[""] focus-visible:outline-2 md:h-[4.7rem] md:w-[4.7rem]',
         className,
@@ -37,7 +34,7 @@ const UserAvatar = ({
         className='object-cover object-center'
         sizes='(min-width: 768px) 4.7rem, 3.2rem'
       />
-    </Link>
+    </div>
   );
 };
 
