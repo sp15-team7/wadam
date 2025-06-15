@@ -6,7 +6,7 @@
 
 'use client';
 
-import { FlavorLabel } from '@/shared/types/flavor-label';
+import { FlavorLabel, FlavorLabelType } from '@/shared/types/flavor-label';
 import { useEffect, useState } from 'react';
 
 // 서버에 바로 전송할 수 있도록 사용자가 체크한 값은 영어로 관리 ("CHERRY", "OAK"...)
@@ -42,7 +42,7 @@ export const WineFlavors = ({ onChange }: WineFlavorProps) => {
   // 영어로 받은 데이터를 한글로 변환
   const getKrData = (enData: string) =>
     Object.keys(FlavorLabel).find(
-      (kr) => FlavorLabel[kr as keyof typeof FlavorLabel] === enData,
+      (kr) => FlavorLabel[kr as FlavorLabelType] === enData,
     ) || '';
 
   return (
