@@ -1,11 +1,11 @@
-// src/app/(auth)/signin/page.tsx
+'use client';
 
 import SignInForm from '@/feature/auth/components/SignInForm';
 
-export default async function SignInPage() {
+export default function Page() {
   return (
-    <div className='flex-center h-dvh w-dvw'>
+    <main className='flex h-full items-center justify-center'>
       <SignInForm />
-    </div>
+    </main>
   );
 }
