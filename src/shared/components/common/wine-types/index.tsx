@@ -1,10 +1,10 @@
+'use client';
+
 /**
  * @author: Hyun
  * @since: 2025-06-13
  * @description: 와인 타입 필터링 컴포넌트 (Red, White, Sparkling)
  */
-
-'use client';
 
 import { useState } from 'react';
 
@@ -13,14 +13,25 @@ type WineType = (typeof WINE_TYPES)[number];
 
 interface WineTypesProps {
   onChange?: (type: WineType) => void;
+  value?: WineType;
   defaultValue?: WineType;
 }
 
-const WineTypes = ({ onChange, defaultValue = 'Red' }: WineTypesProps) => {
-  const [selected, setSelected] = useState<WineType>(defaultValue);
+const WineTypes = ({
+  onChange,
+  value,
+  defaultValue = 'Red',
+}: WineTypesProps) => {
+  const [localSelected, setLocalSelected] = useState<WineType>(defaultValue);
+
+  // controlled 인지 확인
+  const isControlled = value !== undefined;
+  const selected = isControlled ? value : localSelected;
 
   const handleClick = (type: WineType) => {
-    setSelected(type);
+    if (!isControlled) {
+      setLocalSelected(type);
+    }
     if (onChange) onChange(type);
   };
 
