@@ -8,9 +8,9 @@ import { AromaType } from '@/feature/wines/schema/wine.schema';
 const CardPage = () => {
   const mockWine = {
     id: 1,
-    name: '샘플 와인',
-    region: '프랑스',
-    image: '/images/wine-placeholder.png',
+    name: 'Sentinel Carbernet Sauvignon 2016',
+    region: 'Western Cape, South Africa',
+    image: '/images/wines/image-wine1.png',
     price: 50000,
     type: 'RED',
     avgRating: 4.5,
@@ -19,7 +19,8 @@ const CardPage = () => {
       id: 1,
       rating: 4.5,
       aroma: ['CHERRY', 'BERRY'] as AromaType[],
-      content: '좋은 와인입니다.',
+      content:
+        'Deep maroon color, tasting notes of blackberry, dark chocolate, plum. Super jammy and bold with some smoky after notes. Big flavor. Amazing value (would pay three times the price for it), well balanced flavor. Could drink all day everyday with or without food. I need more immediately.',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       user: {
@@ -48,6 +49,7 @@ const CardPage = () => {
       <MonthlyCard wine={mockWine} />
       <WineCard wine={mockWine} />
       <DetailCard wine={mockWine} />
+      <ReviewCard review={mockWine.recentReview} />
       <ReviewCard review={mockWine.recentReview} />
     </div>
   );

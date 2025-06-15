@@ -3,9 +3,11 @@
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useState } from 'react';
 
+import { formatRelativeTime } from '@/feature/reviews/utils/formatRelativeTime';
 import CardDropdownMenu from '@/feature/wines/components/button/CardDropdownMenu';
 import LikeButton from '@/feature/wines/components/button/LikeButton';
 import { ReviewDetail } from '@/feature/wines/schema/wine.schema';
+import { formatAromaType } from '@/feature/wines/utils/formatWineType';
 import UserAvatar from '@/shared/components/common/user-avatar';
 import {
   Collapsible,
@@ -32,7 +34,7 @@ export function ReviewCard({ review }: { review: ReviewDetail }) {
               {user.nickname}
             </div>
             <div className='text-secondary text-[1.4rem] md:text-[1.6rem]'>
-              {createdAt}
+              {formatRelativeTime(createdAt)}
             </div>
           </div>
         </div>
@@ -52,7 +54,7 @@ export function ReviewCard({ review }: { review: ReviewDetail }) {
               key={tag}
               className='flex-center border-secondary w-fit rounded-full border px-4 py-2 text-[1.4rem] font-semibold md:px-5 md:py-3 md:text-[1.6rem]'
             >
-              {tag}
+              {formatAromaType(tag)}
             </span>
           ))}
         </div>

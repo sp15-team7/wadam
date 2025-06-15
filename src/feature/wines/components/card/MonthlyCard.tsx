@@ -5,7 +5,7 @@ import StarRating from '@/shared/components/common/star-rating';
 import { Card, CardContent } from '@/shared/components/ui/card';
 
 const MonthlyCard = ({ wine }: { wine: WineSummary }) => {
-  const { name, image, price, avgRating } = wine;
+  const { name, image, avgRating } = wine;
   return (
     <Card className='h-[16rem] w-[19.3rem] p-0 md:h-[18.5rem] md:w-[23.2rem]'>
       <CardContent className='flex h-full p-0 px-6'>
@@ -20,7 +20,7 @@ const MonthlyCard = ({ wine }: { wine: WineSummary }) => {
         </figure>
         <article className='flex flex-2 flex-col justify-center gap-2'>
           <h2 className='text-[2.8rem] font-bold md:text-[3.6rem]'>
-            ₩ {price.toLocaleString()}
+            {avgRating}
           </h2>
           <StarRating value={avgRating} />
           <p className='mt-2 line-clamp-3 text-[1.2rem] md:line-clamp-4'>
