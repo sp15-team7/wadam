@@ -1,8 +1,8 @@
 'use client';
-import { ReviewCard } from '@/feature/reviews/components/ReviewCard';
-import DetailCard from '@/feature/wines/components/DetailCard';
-import MonthlyCard from '@/feature/wines/components/MonthlyCard';
-import WineCard from '@/feature/wines/components/WineCard';
+import DetailCard from '@/feature/wines/components/card/DetailCard';
+import MonthlyCard from '@/feature/wines/components/card/MonthlyCard';
+import { ReviewCard } from '@/feature/wines/components/card/ReviewCard';
+import WineCard from '@/feature/wines/components/card/WineCard';
 
 const CardPage = () => {
   return (

@@ -3,8 +3,8 @@
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useState } from 'react';
 
-import CardDropdownMenu from '@/feature/myprofile/components/CardDropdownMenu';
-import LikeButton from '@/feature/reviews/components/LikeButton';
+import CardDropdownMenu from '@/feature/wines/components/button/CardDropdownMenu';
+import LikeButton from '@/feature/wines/components/button/LikeButton';
 import UserAvatar from '@/shared/components/common/user-avatar';
 import {
   Collapsible,

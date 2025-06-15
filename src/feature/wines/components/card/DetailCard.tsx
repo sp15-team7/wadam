@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import CardDropdownMenu from '@/feature/myprofile/components/CardDropdownMenu';
+import CardDropdownMenu from '@/feature/wines/components/button/CardDropdownMenu';
 import { Card, CardContent } from '@/shared/components/ui/card';
 
 const DetailCard = () => {
