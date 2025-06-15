@@ -12,10 +12,9 @@ import { FlavorLabel } from '@/shared/types/flavor-label';
 // 서버에 바로 전송할 수 있도록 사용자가 체크한 값은 영어로 관리 ("CHERRY", "OAK"...)
 const FLAVOR_LABELS = Object.values(FlavorLabel);
 
-// 기존 O(n) 복잡도 코드를 O(1) 복잡도로 변경 (데이터 조회 시간 감소 - 피드백요소)
-const FLAVOR_LABEL_MAP = Object.entries(FlavorLabel).reduce(
-  (acc, [kr, en]) => ({ ...acc, [en]: kr }),
-  {} as Record<string, string>,
+// 성능 최적화 (스프레드 연산자 사용 했던 기존 코드에서 수정 (O(n*n) -> O(n)))
+const FLAVOR_LABEL_MAP: Record<string, string> = Object.fromEntries(
+  Object.entries(FlavorLabel).map(([kr, en]) => [en, kr]),
 );
 
 // 와인 향 필터링 컴포넌트 속성 타입
@@ -45,7 +44,7 @@ export const WineFlavors = ({ onChange }: WineFlavorProps) => {
     if (onChange) onChange(selected);
   }, [selected, onChange]);
 
-  // 영어로 받은 데이터를 한글로 변환
+  // 영어로 받은 데이터를 한글로 변환 (O(1) 복잡도)
   const getKrData = (enData: string) => FLAVOR_LABEL_MAP[enData] || '';
 
   return (
