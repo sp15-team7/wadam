@@ -17,10 +17,9 @@ interface SliderProps
   thumbClassName?: string;
 }
 
+import { cn } from '@/shared/libs/utils/cn';
 import * as SliderPrimitive from '@radix-ui/react-slider';
 import * as React from 'react';
-
-import { cn } from '@/shared/libs/utils/cn';
 
 function Slider({
   className,
@@ -76,7 +75,7 @@ function Slider({
           data-slot='slider-thumb'
           key={index}
           className={cn(
-            'border-primary bg-background ring-ring/50 hover: focus-visible: block size-4 shrink-0 rounded-full border shadow-sm transition-[color,box-shadow] focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50',
+            'border-primary bg-background ring-ring/50 focus-visible: block size-4 shrink-0 rounded-full border shadow-sm transition-[color,box-shadow] focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50',
             thumbClassName,
           )}
         />
