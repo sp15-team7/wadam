@@ -7,7 +7,8 @@
 import { Progress } from '@/shared/components/ui/progress';
 
 interface WineProgressProps {
-  wineId: number;
+  // TODO: 현재 컴포넌트에서는 wineId를 가져와 따로 핸들링하는 코드가 없기 때문에 일시적으로 옵셔널 타입으로 선언
+  wineId?: number;
 }
 const mockData = {
   avgRatings: {
@@ -20,8 +21,8 @@ const mockData = {
   reviewCount: 55,
 };
 
-// 상위 컴포넌트에서 wineId를 전달받아서 커스텀 훅으로 api 통신을 통해 데이터 가져오기
 const WineProgress = ({ wineId }: WineProgressProps) => {
+  // TODO: API 연동 시 windId를 받아 커스텀 훅으로 데이터 가져와 사용
   const getPercentage = (count: number) =>
     mockData.reviewCount === 0 ? 0 : (count / mockData.reviewCount) * 100;
 
