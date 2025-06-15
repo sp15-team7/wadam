@@ -1,10 +1,10 @@
 import Image from 'next/image';
 
+import { WineSummary } from '@/feature/wines/schema/wine.schema';
 import { Card, CardContent } from '@/shared/components/ui/card';
 import { cn } from '@/shared/libs/utils/cn';
-import { Wine } from '@/shared/schemas/wine.schema';
 
-const MonthlyWineCard = ({ wine }: { wine: Wine }) => {
+const MonthlyWineCard = ({ wine }: { wine: WineSummary }) => {
   const { id, name, image, avgRating } = wine;
   return (
     <Card

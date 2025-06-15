@@ -1,62 +1,10 @@
-import MonthlyWineCard from '@/app/(main)/myprofile/MonthlyWineCard';
 import { auth, signOut } from '@/feature/auth/libs/auth';
 import { Button } from '@/shared/components/ui/button';
-import { Wine } from '@/shared/schemas/wine.schema';
 
 /**
  * 마이페이지 컴포넌트입니다.
  * 이 페이지는 서버 컴포넌트로, 인증된 사용자만 접근할 수 있습니다.
  */
-// (property) wine: {
-//     id: number;
-//     name: string;
-//     region: string;
-//     image: string;
-//     price: number;
-//     type: string;
-//     avgRating: number;
-//     reviewCount: number;
-//     recentReview: {
-//         id: number;
-//         user: {
-//             id: number;
-//             image: string;
-//             nickname: string;
-//         };
-//         ... 4 more ...;
-//         rating: number;
-//     };
-//     userId: number;
-// }
-const wine: Wine = {
-  id: 1054,
-  name: '모스카토 다스티 2018',
-  region: '이탈리아',
-  image:
-    'https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/Wine/user/1134/1749232902002/blob',
-  price: 47000,
-  type: 'SPARKLING',
-  avgRating: 4.1,
-  reviewCount: 2,
-  recentReview: {
-    id: 2489,
-    rating: 4,
-    lightBold: 2,
-    smoothTannic: 3,
-    drySweet: 8,
-    softAcidic: 7,
-    aroma: ['CHOCOLATE'],
-    content: 'ㅁㄴㅇㅁㄴㅇ',
-    createdAt: '2025-06-06T18:02:06.834Z',
-    updatedAt: '2025-06-06T18:02:06.834Z',
-    user: {
-      id: 1134,
-      nickname: '최권진',
-      image: null,
-    },
-    likes: [],
-  },
-};
 
 const MyProfilePage = async () => {
   // 1. `auth()` 함수를 호출하여 현재 세션 정보를 가져옵니다.
@@ -105,7 +53,6 @@ const MyProfilePage = async () => {
           </Button>
         </form>
       </div>
-      <MonthlyWineCard wine={wine} />
     </div>
   );
 };
