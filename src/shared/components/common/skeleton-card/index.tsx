@@ -8,7 +8,7 @@ const skeletonCardVariants = cva('flex flex-col', {
   variants: {
     variant: {
       recommend:
-        'h-[16rem] p-[2.4rem] pb-0 bg-white border-secondary border-1 md:px-[3rem] md:h-[18.5rem] rounded-[1.2rem]',
+        'h-[16rem] p-[2.4rem] pb-0 bg-white border-secondary border-1 md:px-[3rem] md:h-[18.5rem] rounded-[3rem]',
       list: 'w-full p-[3rem] pr-[2rem] pl-[2rem] bg-white border-secondary border-1 md:p-[4rem] rounded-[3rem]',
       detailTop:
         'w-full h-[20.9rem] p-[2.4rem] py-0 md:h-[30.2rem] rounded-[3rem]',
