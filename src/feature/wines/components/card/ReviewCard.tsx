@@ -16,7 +16,13 @@ import {
   CollapsibleTrigger,
 } from '@/shared/components/ui/collapsible';
 
-export function ReviewCard({ review }: { review: ReviewDetail }) {
+export function ReviewCard({
+  review,
+  currentUser,
+}: {
+  review: ReviewDetail;
+  currentUser: number;
+}) {
   const [open, setOpen] = useState(false);
   const {
     aroma,
@@ -60,7 +66,7 @@ export function ReviewCard({ review }: { review: ReviewDetail }) {
         {/* 평점, 좋아요, 메뉴 */}
         <div className='flex items-center gap-10'>
           <LikeButton isLiked={isLiked} />
-          <CardDropdownMenu />
+          {currentUser === user.id && <CardDropdownMenu />}
         </div>
       </div>
 

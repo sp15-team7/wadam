@@ -38,10 +38,10 @@ export const mockWine = {
     ] as AromaTypeEnum[],
     content:
       'Deep maroon color, tasting notes of blackberry, dark chocolate, plum. Super jammy and bold with some smoky after notes. Big flavor. Amazing value (would pay three times the price for it), well balanced flavor. Could drink all day everyday with or without food. I need more immediately.',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
+    createdAt: '2024-12-01T10:30:00.000Z',
+    updatedAt: '2024-12-01T10:30:00.000Z',
     user: {
-      id: 1,
+      id: 1308,
       nickname: '사용자1',
       image: null,
     },

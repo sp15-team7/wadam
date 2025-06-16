@@ -4,7 +4,13 @@ import CardDropdownMenu from '@/feature/wines/components/button/CardDropdownMenu
 import { GetWineDetailResponse } from '@/feature/wines/schema/wine.schema';
 import { Card, CardContent } from '@/shared/components/ui/card';
 
-const DetailCard = ({ wine }: { wine: GetWineDetailResponse }) => {
+const DetailCard = ({
+  wine,
+  currentUser,
+}: {
+  wine: WineDetailResponse;
+  currentUser?: number | null;
+}) => {
   const { name, region, image, price } = wine;
   return (
     <Card className='h-[19rem] w-[34.3rem] md:h-[26rem] md:w-[70.4rem] lg:w-[114rem]'>
@@ -27,7 +33,7 @@ const DetailCard = ({ wine }: { wine: GetWineDetailResponse }) => {
             <h2 className='max-w-[19rem] text-[2rem] leading-tight font-semibold md:max-w-[30rem] md:text-[3rem]'>
               {name}
             </h2>
-            <CardDropdownMenu />
+            {currentUser && currentUser === wine.userId && <CardDropdownMenu />}
           </header>
 
           <p className='text-[1.6rem] text-gray-800'>{region}</p>
