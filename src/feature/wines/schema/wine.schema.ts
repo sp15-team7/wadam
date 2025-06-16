@@ -57,15 +57,15 @@ export const reviewResponseSchema = z.object({
   createdAt: z.string().datetime(),
   content: z.string(),
   aroma: z.array(AromaTypeEnumSchema),
-  rating: nonNegativeNumberSchema,
+  rating: positiveNumberSchema.min(1).max(5),
 });
 
 /** 와인 상세 정보에 포함되는 개별 리뷰 객체 (선호도, 맛 표현 포함) */
 export const wineDetailReviewSchema = reviewResponseSchema.extend({
-  lightBold: nonNegativeNumberSchema.min(1).max(100),
-  smoothTannic: nonNegativeNumberSchema.min(1).max(100),
-  drySweet: nonNegativeNumberSchema.min(1).max(100),
-  softAcidic: nonNegativeNumberSchema.min(1).max(100),
+  lightBold: positiveNumberSchema.min(1).max(100),
+  smoothTannic: positiveNumberSchema.min(1).max(100),
+  drySweet: positiveNumberSchema.min(1).max(100),
+  softAcidic: positiveNumberSchema.min(1).max(100),
   isLiked: z.boolean(),
 });
 
@@ -75,10 +75,10 @@ const wineBaseSchema = z.object({
   name: nonEmptyStringSchema,
   region: nonEmptyStringSchema,
   image: urlSchema,
-  price: nonNegativeNumberSchema,
+  price: positiveNumberSchema,
   type: WineTypeEnumSchema,
-  avgRating: nonNegativeNumberSchema,
-  reviewCount: nonNegativeNumberSchema,
+  avgRating: positiveNumberSchema,
+  reviewCount: positiveNumberSchema,
   userId: positiveNumberSchema,
 });
 
@@ -109,7 +109,7 @@ export const wineListItemSchema = wineBaseSchema.extend({
 export const createWineRequestSchema = z.object({
   name: nonEmptyStringSchema,
   region: nonEmptyStringSchema,
-  image: urlSchema.nullable(),
+  image: urlSchema,
   price: positiveNumberSchema,
   type: WineTypeEnumSchema,
 });
