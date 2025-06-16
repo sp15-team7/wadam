@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { cn } from '@/shared/libs/utils/cn';
 import { useModalStore } from '@/shared/stores/useModalStore';
@@ -42,8 +42,20 @@ const Modal = ({
 }: ModalProps) => {
   const { isOpen, close } = useModalStore();
 
-  const handleBackdropClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) close();
+  // const handleBackdropClick = (e: React.MouseEvent) => {
+  //   if (e.target === e.currentTarget) close();
+  // };
+  const isMouseDownOnBackdrop = useRef(false);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    isMouseDownOnBackdrop.current = e.target === e.currentTarget;
+  };
+
+  const handleMouseUp = (e: React.MouseEvent) => {
+    // "mousedown"도 backdrop에서 발생했고, "mouseup"도 backdrop에서 발생한 경우만 close
+    if (isMouseDownOnBackdrop.current && e.target === e.currentTarget) {
+      close();
+    }
   };
 
   useEffect(() => {
@@ -67,7 +79,8 @@ const Modal = ({
       role='dialog'
       aria-modal='true'
       className='fixed inset-0 z-50 flex items-center justify-center bg-gray-900/30'
-      onClick={handleBackdropClick}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
     >
       <div
         className={cn(
