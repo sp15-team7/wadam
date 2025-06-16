@@ -1,4 +1,7 @@
-import { AromaType } from '@/feature/wines/schema/wine.schema';
+import {
+  AromaTypeEnum,
+  WineTypeEnum,
+} from '@/feature/wines/schema/wine.schema';
 
 export const mockWine = {
   id: 1,
@@ -6,7 +9,7 @@ export const mockWine = {
   region: 'Western Cape, South Africa',
   image: '/images/wines/image-wine1.png',
   price: 50000,
-  type: 'RED',
+  type: 'RED' as WineTypeEnum,
   avgRating: 4.5,
   reviewCount: 10,
   recentReview: {
@@ -32,7 +35,7 @@ export const mockWine = {
       'SPICE',
       'CARAMEL',
       'LEATHER',
-    ] as AromaType[],
+    ] as AromaTypeEnum[],
     content:
       'Deep maroon color, tasting notes of blackberry, dark chocolate, plum. Super jammy and bold with some smoky after notes. Big flavor. Amazing value (would pay three times the price for it), well balanced flavor. Could drink all day everyday with or without food. I need more immediately.',
     createdAt: '2024-12-01T10:30:00.000Z',
@@ -48,12 +51,33 @@ export const mockWine = {
     softAcidic: 85,
     isLiked: false,
   },
-  userId: 1308,
-  reviews: [],
+  userId: 1,
+  reviews: [
+    {
+      id: 1,
+      user: {
+        id: 1,
+        nickname: '사용자1',
+        image: null,
+      },
+      updatedAt: new Date().toISOString(),
+      createdAt: new Date().toISOString(),
+      content:
+        'Deep maroon color, tasting notes of blackberry, dark chocolate, plum. Super jammy and bold with some smoky after notes.',
+      aroma: ['CHERRY', 'BERRY', 'OAK'] as AromaTypeEnum[],
+      rating: 4.5,
+      lightBold: 60,
+      smoothTannic: 40,
+      drySweet: 30,
+      softAcidic: 85,
+      isLiked: false,
+    },
+  ],
   avgRatings: {
-    lightBold: 4.2,
-    smoothTannic: 3.8,
-    drySweet: 4.0,
-    softAcidic: 3.9,
+    '1': 0,
+    '2': 1,
+    '3': 2,
+    '4': 3,
+    '5': 4,
   },
 };
