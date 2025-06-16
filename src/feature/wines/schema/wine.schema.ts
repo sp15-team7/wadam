@@ -62,10 +62,10 @@ export const reviewResponseSchema = z.object({
 
 /** 와인 상세 정보에 포함되는 개별 리뷰 객체 (선호도, 맛 표현 포함) */
 export const wineDetailReviewSchema = reviewResponseSchema.extend({
-  lightBold: nonNegativeNumberSchema,
-  smoothTannic: nonNegativeNumberSchema,
-  drySweet: nonNegativeNumberSchema,
-  softAcidic: nonNegativeNumberSchema,
+  lightBold: nonNegativeNumberSchema.min(1).max(100),
+  smoothTannic: nonNegativeNumberSchema.min(1).max(100),
+  drySweet: nonNegativeNumberSchema.min(1).max(100),
+  softAcidic: nonNegativeNumberSchema.min(1).max(100),
   isLiked: z.boolean(),
 });
 
