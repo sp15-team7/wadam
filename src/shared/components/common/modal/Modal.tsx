@@ -98,7 +98,7 @@ const Modal = ({
           <ModalTitle size={size}>{title}</ModalTitle>
           {showCloseButton && <ModalCloseButton />}
         </div>
-        {children}
+        <div className='h-full overflow-y-auto'>{children}</div>
       </div>
     </div>
   );
