@@ -1,5 +1,4 @@
 import { cva, type VariantProps } from 'class-variance-authority';
-import { Search } from 'lucide-react';
 
 import { cn } from '@/shared/libs/utils/cn';
 
@@ -46,9 +45,8 @@ export interface InputProps
   extends Omit<React.ComponentProps<'input'>, 'size'> {
   variant?: VariantProps<typeof inputVariants>['variant'];
   size?: VariantProps<typeof inputVariants>['size'];
-  icon?: React.ReactNode;
+  icon?: React.ReactNode; // 아이콘 컴포넌트
   readOnly?: boolean;
-  hasIcon?: boolean;
 }
 
 function Input({
@@ -57,18 +55,19 @@ function Input({
   placeholder,
   variant,
   size,
-  hasIcon, // true or false
+  icon, // true or false
   disabled,
   readOnly,
   ...props
 }: InputProps) {
+  const hasIcon = Boolean(icon);
   const appliedVariant = disabled ? 'disabled' : variant;
 
   return (
     <div className='relative flex w-full items-center'>
-      {hasIcon && (
+      {icon && (
         <div className='text-gray pointer-events-none absolute left-[2rem] z-10 flex h-[2rem] w-[2rem] items-center justify-center'>
-          <Search className='h-full w-full' />
+          {icon}
         </div>
       )}
       <input

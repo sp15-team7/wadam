@@ -54,7 +54,6 @@ const RadioInput = React.forwardRef<
           value={value}
           className={cn(
             'h-[2rem] w-[2rem]', // 체크박스 크기 20*20
-            'rounded-[6px]',
             'border-[1px] border-[var(--color-white)]',
             'bg-[var(--color-white)]', // 체크박스 배경색
             'overflow-hidden',
