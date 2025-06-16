@@ -49,13 +49,13 @@ const WineTasteSlider = ({
   );
 
   return (
-    <div className={cn('space-y-4', className)}>
+    <div className={cn('w-full space-y-4', className)}>
       {tasteList.map((type) => (
         <div key={type} className='flex items-center gap-4'>
           <div className='txt-md-semibold bg-secondary w-22 flex-shrink-0 rounded-xl py-1 text-center text-gray-800'>
             {type}
           </div>
-          <div className='txt-sm-semibold w-22 text-right text-gray-800'>
+          <div className='txt-md-regular w-25 text-right text-gray-800'>
             {tasteLabels[type].left}
           </div>
           <div className='flex-1 px-2'>
@@ -63,16 +63,16 @@ const WineTasteSlider = ({
               value={[values[type] ?? defaultTasteValues[type]]}
               min={0}
               max={100}
-              step={1}
+              step={5}
               onValueChange={(val) => handleChange(type, val[0])}
               disabled={readonly}
               className='w-full'
-              trackClassName='h-2 bg-secondary rounded-full'
+              trackClassName='!h-2.5 bg-secondary rounded-full'
               rangeClassName='bg-transparent'
               thumbClassName='w-5 h-5 bg-primary border-none shadow-none'
             />
           </div>
-          <div className='txt-sm-semibold w-22 text-left text-gray-800'>
+          <div className='txt-md-regular lg:txt-md-regular w-25 text-left text-gray-800'>
             {tasteLabels[type].right}
           </div>
         </div>
