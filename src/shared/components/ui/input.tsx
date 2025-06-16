@@ -1,3 +1,28 @@
+/**
+ * @author Sarang
+ * @since 2025-06-15
+ * @description 재사용 가능한 텍스트 입력 필드 컴포넌트
+ *
+ * @example
+ * // 기본 입력 필드
+ * <Input placeholder="이름을 입력해 주세요" />
+ *
+ * @example
+ * // 에러 상태 및 작은 크기
+ * <Input variant="error" size="sm" placeholder="잘못된 입력입니다." />
+ *
+ * @example
+ * // 아이콘 포함
+ * <Input icon={<SearchIcon />} placeholder="검색어를 입력하세요" />
+ *
+ * @param {string} [placeholder] - 입력값이 없을 때 드러나는 텍스트.
+ * @param {'default' | 'error' | 'disabled'} [variant] - 인풋 시각적 상태 (기본, 에러, 비활성화).
+ * @param {'md' | 'sm'} [size] - 인풋 크기 ('md' | 'sm')
+ * @param {React.ReactNode} [icon] - 인풋 왼쪽에 표시될 아이콘 컴포넌트, 20px x 20px 크기
+ * @param {boolean} [disabled] - 인풋을 비활성화할지 여부
+ * @param {boolean} [readOnly] - 인풋을 읽기 전용으로 설정할지 여부
+ */
+
 import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/shared/libs/utils/cn';

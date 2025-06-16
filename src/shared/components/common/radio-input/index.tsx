@@ -2,6 +2,22 @@
  * @author Sarang
  * @since 2025-06-15
  * @description 라디오 인풋 컴포넌트
+ * RadioGroupItem을 기반으로 라디오 버튼과 레이블을 표시
+ *
+ * @example
+ * // 기본 사용법
+ * <RadioGroup defaultValue="option1">
+ * <RadioInput value="option1" label="옵션 1" />
+ * </RadioGroup>
+ *
+ * @param {string} value - 라디오버튼 식별값 (필수)
+ * @param {React.ReactNode} label - 라디오 버튼 옆에 표시될 텍스트 라벨
+ * @param {string} [containerClassName] - 컨테이너 CSS 클래스
+ * @param {string} [radioClassName] - RadioGroupItem CSS 클래스
+ * @param {string} [labelClassName] - 레이블 텍스트 CSS 클래스
+ * @param {React.ReactNode} [children] - 레이블 외 컨테이너 안에 들어갈 추가 콘텐츠
+ * @param {string} [className] - RadioGroupItem 컴포넌트 자체에 적용되는 Tailwind CSS 클래스
+ * @param {(value: string) => void} [onValueChange] - 값이 변경될 때 호출되는 콜백 함수
  */
 
 import * as React from 'react';
