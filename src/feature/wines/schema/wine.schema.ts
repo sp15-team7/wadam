@@ -153,6 +153,7 @@ export const getWineDetailResponseSchema = wineBaseSchema.extend({
  */
 export const updateWineRequestSchema = createWineRequestSchema.partial();
 // 응답 스키마는 상단의 `wineListItemSchema`를 사용합니다.
+export const updateWineResponseSchema = wineListItemSchema;
 
 // --- 5. 와인 삭제: DELETE /{teamId}/wines/{id} ---
 
@@ -176,4 +177,5 @@ export type CreateWineResponse = z.infer<typeof createWineResponseSchema>;
 export type GetWinesResponse = z.infer<typeof getWinesResponseSchema>;
 export type GetWineDetailResponse = z.infer<typeof getWineDetailResponseSchema>;
 export type UpdateWineRequest = z.infer<typeof updateWineRequestSchema>;
+export type UpdateWineResponse = z.infer<typeof updateWineResponseSchema>;
 export type DeleteWineResponse = z.infer<typeof deleteWineResponseSchema>;
