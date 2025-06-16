@@ -9,7 +9,7 @@ const DetailCard = ({
   currentUser,
 }: {
   wine: WineDetailResponse;
-  currentUser: number;
+  currentUser?: number | null;
 }) => {
   const { name, region, image, price } = wine;
   return (
@@ -33,7 +33,7 @@ const DetailCard = ({
             <h2 className='max-w-[19rem] text-[2rem] leading-tight font-semibold md:max-w-[30rem] md:text-[3rem]'>
               {name}
             </h2>
-            {currentUser === wine.userId && <CardDropdownMenu />}
+            {currentUser && currentUser === wine.userId && <CardDropdownMenu />}
           </header>
 
           <p className='text-[1.6rem] text-gray-800'>{region}</p>
