@@ -9,6 +9,8 @@ import {
   type GetWinesResponse,
   getWinesResponseSchema,
   type UpdateWineRequest,
+  UpdateWineResponse,
+  updateWineResponseSchema,
   type WineTypeEnum,
 } from '@/feature/wines/schema/wine.schema';
 import { apiClient } from '@/shared/libs/api/apiClient';
@@ -135,11 +137,11 @@ export const getWineDetail = async (
 export const updateWine = async (
   wineId: number,
   wineData: UpdateWineRequest,
-): Promise<CreateWineResponse> => {
+): Promise<UpdateWineResponse> => {
   const response = await apiClient
     .patch(`wines/${wineId}`, { json: wineData })
     .json();
-  return createWineResponseSchema.parse(response);
+  return updateWineResponseSchema.parse(response);
 };
 
 /**
