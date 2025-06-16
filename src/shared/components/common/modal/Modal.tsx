@@ -23,6 +23,7 @@ import ModalTitle from './ModalTitle';
  */
 
 interface ModalProps {
+  modalId: string;
   size?: 'sm' | 'md';
   title: string;
   showCloseButton?: boolean;
@@ -35,16 +36,15 @@ const sizeClasses = {
 };
 
 const Modal = ({
+  modalId,
   size = 'md',
   title,
   showCloseButton = false,
   children,
 }: ModalProps) => {
   const { isOpen, close } = useModalStore();
+  const open = isOpen(modalId);
 
-  // const handleBackdropClick = (e: React.MouseEvent) => {
-  //   if (e.target === e.currentTarget) close();
-  // };
   const isMouseDownOnBackdrop = useRef(false);
 
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -52,7 +52,6 @@ const Modal = ({
   };
 
   const handleMouseUp = (e: React.MouseEvent) => {
-    // "mousedown"도 backdrop에서 발생했고, "mouseup"도 backdrop에서 발생한 경우만 close
     if (isMouseDownOnBackdrop.current && e.target === e.currentTarget) {
       close();
     }
@@ -63,16 +62,17 @@ const Modal = ({
       if (e.key === 'Escape') close();
     };
 
-    if (isOpen) {
+    if (open) {
       document.body.style.overflow = 'hidden';
+      document.addEventListener('keydown', onEsc);
       return () => {
         document.body.style.overflow = '';
         document.removeEventListener('keydown', onEsc);
       };
     }
-  }, [isOpen, close]);
+  }, [open, close]);
 
-  if (!isOpen) return null;
+  if (!open) return null;
 
   return (
     <div

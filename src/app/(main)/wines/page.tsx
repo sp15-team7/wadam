@@ -38,8 +38,8 @@ const WinesPage = () => {
     <main className='mx-auto overflow-hidden px-[1.6rem] pb-[4.5rem]'>
       <h1 className='sr-only'>와인 목록 페이지</h1>
       <MonthlyWineSection />
-      <button onClick={() => open()}>Open Modal</button>
-      <Modal title='test' showCloseButton>
+      <button onClick={() => open('test01')}>Open Modal 01</button>
+      <Modal modalId='test01' title='test' showCloseButton>
         <ModalContent>
           <div className='flex items-center gap-4'>
             <UserAvatar />
@@ -58,6 +58,17 @@ const WinesPage = () => {
             <Button type='submit'>Submit</Button>
           </form>
         </ModalContent>
+        <ModalFooter layout='secondary-primary'>
+          <Button size='full' onClick={() => close()}>
+            Close
+          </Button>
+          <Button size='full' onClick={() => close()}>
+            Close
+          </Button>
+        </ModalFooter>
+      </Modal>
+      <button onClick={() => open('test02')}>Open Modal 02</button>
+      <Modal modalId='test02' title='test02' showCloseButton>
         <ModalFooter layout='secondary-primary'>
           <Button size='full' onClick={() => close()}>
             Close
