@@ -10,7 +10,7 @@ import {
   CarouselContent,
   CarouselItem,
   CarouselNext,
-} from '@/shared/components/ui/Carousel';
+} from '@/shared/components/ui/carousel';
 
 /**
  * @author Sumin
