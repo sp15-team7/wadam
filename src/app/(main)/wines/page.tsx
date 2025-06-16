@@ -33,7 +33,7 @@ const WinesPage = () => {
 
     console.log('data:', data);
   };
-
+  const [rating, setRating] = useState(4);
   return (
     <main className='mx-auto overflow-hidden px-[1.6rem] pb-[4.5rem]'>
       <h1 className='sr-only'>와인 목록 페이지</h1>
@@ -45,7 +45,12 @@ const WinesPage = () => {
             <UserAvatar />
             <div className='flex flex-col'>
               <p>Sentinel Carbernet Sauvignon 2016</p>
-              <StarRating value={4} size='md' />
+              <StarRating
+                value={rating}
+                onChange={setRating}
+                readOnly={false}
+                size='md'
+              />
             </div>
           </div>
           <form onSubmit={handleSubmit}>

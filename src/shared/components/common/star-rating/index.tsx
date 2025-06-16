@@ -53,11 +53,14 @@ const StarRating = ({
 
   /**
    * 마우스가 별 위에 올라갔을 때 호출되는 핸들러
+   * 사용자 선택 시에는 정수값만 호버됨
    * @param {number} starValue - 호버된 별의 값
    */
   const handleMouseEnter = (starValue: number) => {
     if (!readOnly) {
-      setHoveredValue(starValue);
+      // 사용자 선택 시에는 정수값만 호버
+      const integerValue = Math.ceil(starValue);
+      setHoveredValue(integerValue);
     }
   };
 
@@ -72,11 +75,14 @@ const StarRating = ({
 
   /**
    * 별점이 변경되었을 때 호출되는 핸들러
+   * 사용자 선택 시에는 정수값만 선택 가능
    * @param {number} starValue - 선택된 별의 값
    */
   const handleChange = (starValue: number) => {
     if (!readOnly && onChange) {
-      onChange(starValue);
+      // 사용자 선택 시에는 정수값만 허용
+      const integerValue = Math.ceil(starValue);
+      onChange(integerValue);
     }
   };
 
@@ -131,7 +137,7 @@ const StarRating = ({
               }[size],
             )}
           >
-            {/* 왼쪽 반 (0.5점) */}
+            {/* 왼쪽 반 (0.5점) - readonly일 때만 클릭 가능 */}
             <div className='relative w-1/2'>
               <label
                 htmlFor={`star-${i}-left`}
@@ -139,8 +145,15 @@ const StarRating = ({
                 role={readOnly ? 'presentation' : 'button'}
                 tabIndex={readOnly ? -1 : 0}
                 aria-label={`${leftHalfValue}점 별점`}
-                onMouseEnter={() => handleMouseEnter(leftHalfValue)}
-                onKeyDown={(event) => handleKeyDown(event, leftHalfValue)}
+                onMouseEnter={() =>
+                  readOnly ? undefined : handleMouseEnter(leftHalfValue)
+                }
+                onKeyDown={(event) =>
+                  readOnly ? undefined : handleKeyDown(event, leftHalfValue)
+                }
+                onClick={() =>
+                  readOnly ? undefined : handleChange(leftHalfValue)
+                }
               >
                 <Image
                   src='/icons/ui/icon-star-filled-left.svg'
@@ -158,7 +171,9 @@ const StarRating = ({
                 id={`star-${i}-left`}
                 value={leftHalfValue}
                 checked={!readOnly && value === leftHalfValue}
-                onChange={() => handleChange(leftHalfValue)}
+                onChange={() =>
+                  readOnly ? undefined : handleChange(leftHalfValue)
+                }
                 className='absolute h-0 w-0 overflow-hidden'
                 disabled={readOnly}
               />
@@ -174,6 +189,7 @@ const StarRating = ({
                 aria-label={`${rightHalfValue}점 별점`}
                 onMouseEnter={() => handleMouseEnter(rightHalfValue)}
                 onKeyDown={(event) => handleKeyDown(event, rightHalfValue)}
+                onClick={() => handleChange(rightHalfValue)}
               >
                 <Image
                   src='/icons/ui/icon-star-filled-right.svg'
