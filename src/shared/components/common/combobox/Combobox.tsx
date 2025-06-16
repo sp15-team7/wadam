@@ -191,7 +191,7 @@ export function ComboboxOptions() {
                 onClick={() => {
                   onChange(opt.value);
                   setOpen(false);
-                  setQuery('');
+                  setQuery(opt.label);
                 }}
                 className={cn(
                   'flex w-full items-center justify-between rounded-full px-6 py-4 text-left',
