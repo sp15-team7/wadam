@@ -162,6 +162,14 @@ export const updateWine = async (
 export const deleteWine = async (
   wineId: number,
 ): Promise<DeleteWineResponse> => {
-  const response = await apiClient.delete(`wines/${wineId}`).json();
-  return deleteWineResponseSchema.parse(response);
+  const response = await apiClient.delete(`wines/${wineId}`);
+
+  // 204 No Content 응답인 경우 응답 바디가 없으므로 ID만 반환
+  if (response.status === 204) {
+    return deleteWineResponseSchema.parse({ id: wineId });
+  }
+
+  // 다른 상태 코드인 경우 JSON 응답을 파싱
+  const responseData = await response.json();
+  return deleteWineResponseSchema.parse(responseData);
 };
