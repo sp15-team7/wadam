@@ -17,9 +17,6 @@ const CardPage = async () => {
       {currentUser && (
         <ReviewCard review={mockWine.recentReview} currentUser={currentUser} />
       )}
-      {currentUser && (
-        <ReviewCard review={mockWine.recentReview} currentUser={currentUser} />
-      )}
     </div>
   );
 };
