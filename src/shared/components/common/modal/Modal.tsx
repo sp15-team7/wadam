@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { cn } from '@/shared/libs/utils/cn';
 import { useModalStore } from '@/shared/stores/useModalStore';
@@ -23,6 +23,7 @@ import ModalTitle from './ModalTitle';
  */
 
 interface ModalProps {
+  modalId: string;
   size?: 'sm' | 'md';
   title: string;
   showCloseButton?: boolean;
@@ -35,39 +36,51 @@ const sizeClasses = {
 };
 
 const Modal = ({
+  modalId,
   size = 'md',
   title,
   showCloseButton = false,
   children,
 }: ModalProps) => {
   const { isOpen, close } = useModalStore();
+  const open = isOpen(modalId);
 
-  const handleBackdropClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) close();
+  const isMouseDownOnBackdrop = useRef(false);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    isMouseDownOnBackdrop.current = e.target === e.currentTarget;
+  };
+
+  const handleMouseUp = (e: React.MouseEvent) => {
+    if (isMouseDownOnBackdrop.current && e.target === e.currentTarget) {
+      close(modalId);
+    }
   };
 
   useEffect(() => {
     const onEsc = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') close();
+      if (e.key === 'Escape') close(modalId);
     };
 
-    if (isOpen) {
+    if (open) {
       document.body.style.overflow = 'hidden';
+      document.addEventListener('keydown', onEsc);
       return () => {
         document.body.style.overflow = '';
         document.removeEventListener('keydown', onEsc);
       };
     }
-  }, [isOpen, close]);
+  }, [open, close]);
 
-  if (!isOpen) return null;
+  if (!open) return null;
 
   return (
     <div
       role='dialog'
       aria-modal='true'
       className='fixed inset-0 z-50 flex items-center justify-center bg-gray-900/30'
-      onClick={handleBackdropClick}
+      onPointerDown={handleMouseDown}
+      onPointerUp={handleMouseUp}
     >
       <div
         className={cn(
@@ -85,7 +98,7 @@ const Modal = ({
           <ModalTitle size={size}>{title}</ModalTitle>
           {showCloseButton && <ModalCloseButton />}
         </div>
-        {children}
+        <div className='h-full overflow-y-auto'>{children}</div>
       </div>
     </div>
   );

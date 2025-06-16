@@ -16,12 +16,12 @@ interface ModalCloseButtonProps {
 }
 
 const ModalCloseButton = ({ className = '' }: ModalCloseButtonProps) => {
-  const { close } = useModalStore();
+  const { close, openModalId } = useModalStore();
 
   return (
     <button
       type='button'
-      onClick={close}
+      onClick={() => close(openModalId || '')}
       aria-label='Close modal'
       className={`cursor-pointer ${className}`}
     >

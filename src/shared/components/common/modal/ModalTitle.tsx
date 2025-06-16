@@ -8,7 +8,6 @@ import React from 'react';
  * @interface ModalTitleProps
  * @property {React.ReactNode} children - 모달 타이틀
  * @property {string} className - 모달 타이틀 클래스
- * @property {boolean} hasContent - 내용 표시 여부
  */
 
 interface ModalTitleProps {
