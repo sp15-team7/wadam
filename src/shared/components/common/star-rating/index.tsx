@@ -99,7 +99,7 @@ const StarRating = ({
   const displayValue = hoveredValue !== null ? hoveredValue : processedValue;
 
   return (
-    <form
+    <fieldset
       className={cn(
         'flex',
         {
@@ -199,7 +199,7 @@ const StarRating = ({
           </div>
         );
       })}
-    </form>
+    </fieldset>
   );
 };
 

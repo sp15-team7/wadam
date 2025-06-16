@@ -45,7 +45,7 @@ const WinesPage = () => {
             <UserAvatar />
             <div className='flex flex-col'>
               <p>Sentinel Carbernet Sauvignon 2016</p>
-              <StarRating value={4} readOnly />
+              <StarRating value={4} size='md' />
             </div>
           </div>
           <form onSubmit={handleSubmit}>
