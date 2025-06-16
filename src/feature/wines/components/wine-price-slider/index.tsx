@@ -5,6 +5,7 @@
  * @description: 와인 가격 슬라이더 컴포넌트
  */
 import { useState } from 'react';
+
 import DualRangeSlider from '@/shared/components/ui/dual-range-slider';
 
 // 가격 범위가 겹치는 기준 (가격 범위 도형이 겹치는 정도 (30%))
