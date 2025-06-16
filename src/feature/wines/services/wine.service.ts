@@ -91,10 +91,9 @@ export const getWines = async (
   const response = await apiClient
     .get('wines', {
       searchParams: Object.fromEntries(
-        Object.entries(params).map(([key, value]) => [
-          key,
-          value ? value.toString() : undefined,
-        ]),
+        Object.entries(params)
+          .filter(([, value]) => value !== undefined && value !== null)
+          .map(([key, value]) => [key, String(value)]),
       ),
     })
     .json();
@@ -129,7 +128,7 @@ export const getWineDetail = async (
  * @description **API Endpoint**: `PATCH /wines/{id}`
  * @param {number} wineId - 수정할 와인의 고유 ID.
  * @param {UpdateWineRequest} wineData - 수정할 필드만 포함된 부분 객체.
- * @returns {Promise<CreateWineResponse>} 수정이 완료된 후의 와인 전체 정보.
+ * @returns {Promise<UpdateWineResponse>} 수정이 완료된 후의 와인 전체 정보.
  * @throws {Error} 권한이 없거나(403) 존재하지 않는 와인(404)일 경우 에러가 발생합니다.
  * @example
  * try {
