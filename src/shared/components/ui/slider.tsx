@@ -17,9 +17,10 @@ interface SliderProps
   thumbClassName?: string;
 }
 
-import { cn } from '@/shared/libs/utils/cn';
 import * as SliderPrimitive from '@radix-ui/react-slider';
 import * as React from 'react';
+
+import { cn } from '@/shared/libs/utils/cn';
 
 function Slider({
   className,

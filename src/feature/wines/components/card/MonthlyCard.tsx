@@ -22,7 +22,7 @@ const MonthlyCard = ({ wine }: { wine: WineSummary }) => {
           <h2 className='text-[2.8rem] font-bold md:text-[3.6rem]'>
             {avgRating}
           </h2>
-          <StarRating value={avgRating} />
+          <StarRating value={avgRating} readOnly />
           <p className='mt-2 line-clamp-3 text-[1.2rem] md:line-clamp-4'>
             {name}
           </p>
