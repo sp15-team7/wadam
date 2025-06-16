@@ -109,8 +109,8 @@ export const wineListItemSchema = wineBaseSchema.extend({
 export const createWineRequestSchema = z.object({
   name: nonEmptyStringSchema,
   region: nonEmptyStringSchema,
-  image: urlSchema,
-  price: nonNegativeNumberSchema,
+  image: urlSchema.nullable(),
+  price: positiveNumberSchema,
   type: WineTypeEnumSchema,
 });
 
