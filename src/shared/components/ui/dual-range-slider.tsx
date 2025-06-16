@@ -1,8 +1,9 @@
 'use client';
 
-import { cn } from '@/shared/libs/utils/cn';
 import * as SliderPrimitive from '@radix-ui/react-slider';
 import * as React from 'react';
+
+import { cn } from '@/shared/libs/utils/cn';
 
 interface DualRangeSliderProps
   extends React.ComponentProps<typeof SliderPrimitive.Root> {

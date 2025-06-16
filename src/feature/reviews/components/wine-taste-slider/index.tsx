@@ -6,15 +6,16 @@
  * @description: 와인 맛 평가를 위한 슬라이더 컴포넌트 (4가지 맛을 각각 슬라이더로 보여주고, 각 맛의 값을 조정하거나 상위 컴포넌트에서 readonly에 따른 읽기 전용 모드 제공)
  */
 
-import { cn } from '@/shared/libs/utils/cn';
-import { Slider } from '@/shared/components/ui/slider';
+import { useCallback } from 'react';
+
 import {
   defaultTasteValues,
   tasteLabels,
   tasteList,
   TasteType,
 } from '@/feature/wines/types/wine-taste';
-import { useCallback } from 'react';
+import { Slider } from '@/shared/components/ui/slider';
+import { cn } from '@/shared/libs/utils/cn';
 
 /**
  * values: { 바디감: number, 타닌: number, 당도: number, 산미: number }

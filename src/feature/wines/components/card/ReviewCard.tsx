@@ -3,6 +3,7 @@
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useState } from 'react';
 
+import WineTasteSlider from '@/feature/reviews/components/wine-taste-slider';
 import { formatRelativeTime } from '@/feature/reviews/utils/formatRelativeTime';
 import CardDropdownMenu from '@/feature/wines/components/button/CardDropdownMenu';
 import LikeButton from '@/feature/wines/components/button/LikeButton';
@@ -17,7 +18,24 @@ import {
 
 export function ReviewCard({ review }: { review: ReviewDetail }) {
   const [open, setOpen] = useState(false);
-  const { aroma, content, createdAt, rating, user, isLiked } = review;
+  const {
+    aroma,
+    content,
+    createdAt,
+    rating,
+    user,
+    isLiked,
+    lightBold,
+    smoothTannic,
+    drySweet,
+    softAcidic,
+  } = review;
+  const taste = {
+    바디감: lightBold,
+    타닌: smoothTannic,
+    당도: drySweet,
+    산미: softAcidic,
+  };
 
   return (
     <Collapsible
@@ -68,7 +86,7 @@ export function ReviewCard({ review }: { review: ReviewDetail }) {
         <p>{content}</p>
 
         {/* 슬라이더 UI (예시용, 실제 구현은 range input 또는 UI 라이브러리 사용) */}
-        <div className='space-y-2'></div>
+        <WineTasteSlider values={taste} />
       </CollapsibleContent>
       {/* 펼치기 버튼 */}
       <CollapsibleTrigger asChild>
