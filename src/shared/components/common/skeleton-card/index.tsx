@@ -1,8 +1,7 @@
 import { cva, type VariantProps } from 'class-variance-authority';
 
+import Skeleton from '@/shared/components/ui/skeleton';
 import { cn } from '@/shared/libs/utils/cn';
-
-import Skeleton from '../../ui/Skeleton';
 
 const skeletonCardVariants = cva('flex flex-col', {
   variants: {
