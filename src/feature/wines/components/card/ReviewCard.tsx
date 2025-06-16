@@ -7,7 +7,10 @@ import WineTasteSlider from '@/feature/reviews/components/wine-taste-slider';
 import { formatRelativeTime } from '@/feature/reviews/utils/formatRelativeTime';
 import CardDropdownMenu from '@/feature/wines/components/button/CardDropdownMenu';
 import LikeButton from '@/feature/wines/components/button/LikeButton';
-import { ReviewDetail } from '@/feature/wines/schema/wine.schema';
+import {
+  AromaTypeEnum,
+  ReviewDetail,
+} from '@/feature/wines/schema/wine.schema';
 import { formatAromaType } from '@/feature/wines/utils/formatWineType';
 import UserAvatar from '@/shared/components/common/user-avatar';
 import {
@@ -67,7 +70,7 @@ export function ReviewCard({ review }: { review: ReviewDetail }) {
       {/* 태그 */}
       <div className='mt-6 flex justify-between'>
         <div className='flex flex-1 flex-wrap gap-2'>
-          {aroma.map((tag) => (
+          {aroma.map((tag: AromaTypeEnum) => (
             <span
               key={tag}
               className='flex-center border-secondary w-fit rounded-full border px-4 py-2 text-[1.4rem] font-semibold md:px-5 md:py-3 md:text-[1.6rem]'

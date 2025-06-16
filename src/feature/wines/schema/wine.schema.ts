@@ -1,24 +1,24 @@
 import { z } from 'zod';
 
-import {
-  nonNegativeNumberSchema,
-  positiveNumberSchema,
-  urlSchema,
-} from '@/shared/schemas/common.schema';
-
-/**
- * 와인의 종류를 나타내는 Enum
- * - RED: 레드 와인
- * - WHITE: 화이트 와인
- * - SPARKLING: 스파클링 와인
+/*
+ * =================================================================================
+ * I. 기초 및 공통 컴포넌트 스키마 (Primitives & Reusable Components)
+ * =================================================================================
+ * 다른 스키마들을 조합하기 위해 사용되는 기본적인 빌딩 블록입니다.
  */
-export const WineType = z.enum(['RED', 'WHITE', 'SPARKLING']);
 
-/**
- * 와인 향(아로마)을 나타내는 Enum
- * 여러 개 조합으로 선택 가능
- */
-export const AromaType = z.enum([
+// --- A. 기본 타입 및 열거형 스키마 (Primitives & Enums) ---
+
+const urlSchema = z.string().url().or(z.literal(''));
+const nonNegativeNumberSchema = z.number().nonnegative();
+const positiveNumberSchema = z.number().positive();
+const nonEmptyStringSchema = z.string().min(1);
+
+/** 와인의 종류 (RED, WHITE, SPARKLING) */
+export const WineTypeEnumSchema = z.enum(['RED', 'WHITE', 'SPARKLING']);
+
+/** 와인의 향(아로마) */
+export const AromaTypeEnumSchema = z.enum([
   'CHERRY',
   'BERRY',
   'OAK',
@@ -40,169 +40,140 @@ export const AromaType = z.enum([
   'LEATHER',
 ]);
 
-/**
- * 리뷰 등에 포함되는 요약 사용자 정보 스키마
- */
-export const UserSummarySchema = z.object({
-  id: z.number(),
-  nickname: z.string(),
-  image: z.string().nullable(),
+// --- B. 재사용 가능한 공통 객체 스키마 (Reusable Common Objects) ---
+
+/** API 응답에 포함되는 공통 유저 정보 객체 */
+export const userResponseSchema = z.object({
+  id: positiveNumberSchema,
+  nickname: nonEmptyStringSchema,
+  image: urlSchema.nullable(),
 });
 
-/**
- * 개별 리뷰 상세 정보 응답 스키마
- * GET /wines/{id} 시 포함
- */
-export const ReviewDetailSchema = z.object({
-  id: z.number(),
-  rating: z.number(),
-  lightBold: z.number(),
-  smoothTannic: z.number(),
-  drySweet: z.number(),
-  softAcidic: z.number(),
-  aroma: z.array(AromaType),
-  content: z.string(),
-  createdAt: z.string().datetime(),
+/** API 응답에 포함되는 상세 리뷰 정보 객체 (유저 정보 포함) */
+export const reviewResponseSchema = z.object({
+  id: positiveNumberSchema,
+  user: userResponseSchema,
   updatedAt: z.string().datetime(),
-  user: UserSummarySchema,
+  createdAt: z.string().datetime(),
+  content: z.string(),
+  aroma: z.array(AromaTypeEnumSchema),
+  rating: nonNegativeNumberSchema,
+});
+
+/** 와인 상세 정보에 포함되는 개별 리뷰 객체 (선호도, 맛 표현 포함) */
+export const wineDetailReviewSchema = reviewResponseSchema.extend({
+  lightBold: nonNegativeNumberSchema,
+  smoothTannic: nonNegativeNumberSchema,
+  drySweet: nonNegativeNumberSchema,
+  softAcidic: nonNegativeNumberSchema,
   isLiked: z.boolean(),
 });
 
-/**
- * 최근 리뷰 응답 스키마
- * 와인 요약 정보 내 nested 형태로 사용
- */
-export const RecentReviewSchema = z.object({
-  id: z.number(),
-  rating: z.number(),
-  aroma: z.array(AromaType),
-  content: z.string(),
-  createdAt: z.string().datetime(),
-  updatedAt: z.string().datetime(),
-  user: UserSummarySchema,
-});
-
-/**
- * 와인 생성 요청 Body 스키마
- * POST /{teamId}/wines
- */
-export const CreateWineRequestSchema = z.object({
-  name: z.string(),
-  region: z.string(),
+/** 모든 와인 정보의 기본이 되는 핵심 필드를 정의한 객체 */
+const wineBaseSchema = z.object({
+  id: positiveNumberSchema,
+  name: nonEmptyStringSchema,
+  region: nonEmptyStringSchema,
   image: urlSchema,
   price: nonNegativeNumberSchema,
-  type: WineType,
+  type: WineTypeEnumSchema,
+  avgRating: nonNegativeNumberSchema,
+  reviewCount: nonNegativeNumberSchema,
+  userId: positiveNumberSchema,
 });
 
-/**
- * 와인 수정 요청 Body 스키마
- * PATCH /{teamId}/wines/{id}
+/** 와인 목록에 표시되는 개별 와인 아이템 객체 (간략한 최근 리뷰 포함) */
+export const wineListItemSchema = wineBaseSchema.extend({
+  recentReview: z
+    .object({
+      id: positiveNumberSchema,
+      content: z.string(),
+      createdAt: z.string().datetime(),
+      updatedAt: z.string().datetime(),
+    })
+    .nullable(),
+});
+
+/*
+ * =================================================================================
+ * II. API별 요청/응답 스키마 (API-Specific Schemas)
+ * =================================================================================
+ * 실제 API 엔드포인트의 요청(Request)과 응답(Response)에 직접 사용되는 스키마입니다.
  */
-export const UpdateWineRequestSchema = z.object({
-  name: z.string(),
-  region: z.string(),
+
+// --- 1. 와인 생성: POST /{teamId}/wines ---
+
+/**
+ * @description [요청] 와인 생성을 요청할 때 Request Body를 검증합니다.
+ */
+export const createWineRequestSchema = z.object({
+  name: nonEmptyStringSchema,
+  region: nonEmptyStringSchema,
   image: urlSchema,
   price: nonNegativeNumberSchema,
-  avgRating: positiveNumberSchema,
-  type: WineType,
+  type: WineTypeEnumSchema,
 });
 
+// 응답 스키마는 상단의 `wineListItemSchema`를 사용합니다.
 /**
- * 와인 목록에서 사용되는 단일 와인 요약 정보 스키마
+ * @description [응답] 와인 생성 API의 응답 객체를 검증합니다.
  */
-export const WineSummarySchema = z.object({
-  id: z.number(),
-  name: z.string(),
-  region: z.string(),
-  image: urlSchema,
-  price: nonNegativeNumberSchema,
-  type: z.string(), // NOTE: 서버 응답 시 enum 아님
-  avgRating: positiveNumberSchema,
-  reviewCount: z.number(),
-  recentReview: RecentReviewSchema,
-  userId: z.number(),
+export const createWineResponseSchema = wineListItemSchema;
+
+// --- 2. 와인 목록 조회: GET /{teamId}/wines ---
+
+/**
+ * @description [응답] 와인 목록 조회 API의 전체 응답 객체를 검증합니다.
+ */
+export const getWinesResponseSchema = z.object({
+  list: z.array(wineListItemSchema),
+  totalCount: nonNegativeNumberSchema,
+  nextCursor: positiveNumberSchema.nullable(),
 });
 
+// --- 3. 와인 상세 조회: GET /{teamId}/wines/{id} ---
+
 /**
- * 단일 와인 상세 조회 응답 스키마
- * GET /wines/{id}
+ * @description [응답] 와인 상세 조회 API의 전체 응답 객체를 검증합니다.
  */
-export const WineDetailResponseSchema = WineSummarySchema.extend({
-  reviews: z.array(ReviewDetailSchema),
-  avgRatings: z.record(z.string(), z.number()), // 예: lightBold: 4.2
+export const getWineDetailResponseSchema = wineBaseSchema.extend({
+  recentReview: reviewResponseSchema.nullable(),
+  reviews: z.array(wineDetailReviewSchema),
+  avgRatings: z.record(
+    z.enum(['1', '2', '3', '4', '5']),
+    nonNegativeNumberSchema,
+  ),
 });
 
+// --- 4. 와인 수정: PATCH /{teamId}/wines/{id} ---
+
 /**
- * 와인 목록 조회 응답 스키마
- * GET /{teamId}/wines
+ * @description [요청] 와인 수정을 요청할 때 Request Body를 검증합니다.
+ * (`.partial()`을 사용하여 모든 필드를 선택적으로 만듭니다)
  */
-export const WineListResponseSchema = z.object({
-  totalCount: z.number(),
-  nextCursor: z.number().nullable().optional(),
-  list: z.array(WineSummarySchema),
+export const updateWineRequestSchema = createWineRequestSchema.partial();
+// 응답 스키마는 상단의 `wineListItemSchema`를 사용합니다.
+
+// --- 5. 와인 삭제: DELETE /{teamId}/wines/{id} ---
+
+/**
+ * @description [응답] 와인 삭제 API의 응답 객체를 검증합니다.
+ */
+export const deleteWineResponseSchema = z.object({
+  id: positiveNumberSchema,
 });
 
-/**
- * 추천 와인 목록 조회 응답 스키마
- * GET /{teamId}/wines/recommended
- */
-export const RecommendedWineListSchema = z.array(WineSummarySchema);
+export type WineTypeEnum = z.infer<typeof WineTypeEnumSchema>;
+export type AromaTypeEnum = z.infer<typeof AromaTypeEnumSchema>;
 
-/**
- * 와인 목록 조회 쿼리 파라미터 유효성 스키마
- * limit, cursor, type, 가격 범위, 평점, 이름 검색 포함
- */
-export const WineListQueryParamsSchema = z.object({
-  limit: z.coerce.number().int().positive(),
-  cursor: z.coerce.number().optional(),
-  type: WineType.optional(),
-  minPrice: z.coerce.number().optional(),
-  maxPrice: z.coerce.number().optional(),
-  rating: z.coerce.number().min(0).max(5).optional(),
-  name: z.string().optional(),
-});
+// 기존 타입들과의 호환성을 위한 alias 추가
+export type AromaType = AromaTypeEnum;
+export type WineSummary = z.infer<typeof wineBaseSchema>;
+export type ReviewDetail = z.infer<typeof wineDetailReviewSchema>;
 
-/**
- * 와인 삭제 응답 스키마
- * DELETE /{teamId}/wines/{id}
- */
-export const DeleteWineResponseSchema = z.object({
-  id: z.number(),
-});
-
-/**
- * 서버 공통 에러 응답 스키마
- */
-export const ErrorResponseSchema = z.object({
-  message: z.string(),
-});
-
-// Enum Types
-export type WineType = z.infer<typeof WineType>;
-export type AromaType = z.infer<typeof AromaType>;
-
-// User
-export type UserSummary = z.infer<typeof UserSummarySchema>;
-
-// Review
-export type ReviewDetail = z.infer<typeof ReviewDetailSchema>;
-export type RecentReview = z.infer<typeof RecentReviewSchema>;
-
-// Wine - Request
-export type CreateWineRequest = z.infer<typeof CreateWineRequestSchema>;
-export type UpdateWineRequest = z.infer<typeof UpdateWineRequestSchema>;
-
-// Wine - Response
-export type WineSummary = z.infer<typeof WineSummarySchema>;
-export type WineDetailResponse = z.infer<typeof WineDetailResponseSchema>;
-export type WineListResponse = z.infer<typeof WineListResponseSchema>;
-export type RecommendedWineList = z.infer<typeof RecommendedWineListSchema>;
-
-// Query
-export type WineListQueryParams = z.infer<typeof WineListQueryParamsSchema>;
-
-// Delete
-export type DeleteWineResponse = z.infer<typeof DeleteWineResponseSchema>;
-
-// Error
-export type ErrorResponse = z.infer<typeof ErrorResponseSchema>;
+export type CreateWineRequest = z.infer<typeof createWineRequestSchema>;
+export type CreateWineResponse = z.infer<typeof createWineResponseSchema>;
+export type GetWinesResponse = z.infer<typeof getWinesResponseSchema>;
+export type GetWineDetailResponse = z.infer<typeof getWineDetailResponseSchema>;
+export type UpdateWineRequest = z.infer<typeof updateWineRequestSchema>;
+export type DeleteWineResponse = z.infer<typeof deleteWineResponseSchema>;
