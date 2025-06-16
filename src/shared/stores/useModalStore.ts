@@ -14,7 +14,7 @@ import { create } from 'zustand';
 interface ModalState {
   openModalId: string | null;
   open: (id: string) => void;
-  close: (id: string) => void;
+  close: (id?: string) => void;
   isOpen: (id: string) => boolean;
 }
 
