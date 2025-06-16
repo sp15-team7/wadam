@@ -151,7 +151,12 @@ export const getWineDetailResponseSchema = wineBaseSchema.extend({
  * @description [요청] 와인 수정을 요청할 때 Request Body를 검증합니다.
  * (`.partial()`을 사용하여 모든 필드를 선택적으로 만듭니다)
  */
-export const updateWineRequestSchema = createWineRequestSchema.partial();
+export const updateWineRequestSchema = createWineRequestSchema
+  .partial()
+  .refine((obj) => Object.keys(obj).length > 0, {
+    message: '최소 하나의 필드를 수정해야 합니다.',
+  });
+
 // 응답 스키마는 상단의 `wineListItemSchema`를 사용합니다.
 export const updateWineResponseSchema = wineListItemSchema;
 
