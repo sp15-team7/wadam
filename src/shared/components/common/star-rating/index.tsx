@@ -137,7 +137,7 @@ const StarRating = ({
               }[size],
             )}
           >
-            {/* 왼쪽 반 (0.5점) - readonly일 때만 클릭 가능 */}
+            {/* 왼쪽 반 (0.5점) */}
             <div className='relative w-1/2'>
               <label
                 htmlFor={`star-${i}-left`}
@@ -145,15 +145,6 @@ const StarRating = ({
                 role={readOnly ? 'presentation' : 'button'}
                 tabIndex={readOnly ? -1 : 0}
                 aria-label={`${leftHalfValue}점 별점`}
-                onMouseEnter={() =>
-                  readOnly ? undefined : handleMouseEnter(leftHalfValue)
-                }
-                onKeyDown={(event) =>
-                  readOnly ? undefined : handleKeyDown(event, leftHalfValue)
-                }
-                onClick={() =>
-                  readOnly ? undefined : handleChange(leftHalfValue)
-                }
               >
                 <Image
                   src='/icons/ui/icon-star-filled-left.svg'

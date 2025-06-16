@@ -64,10 +64,10 @@ const WinesPage = () => {
           </form>
         </ModalContent>
         <ModalFooter layout='secondary-primary'>
-          <Button size='full' onClick={() => close()}>
+          <Button size='full' onClick={() => close('test01')}>
             Close
           </Button>
-          <Button size='full' onClick={() => close()}>
+          <Button size='full' onClick={() => close('test01')}>
             Close
           </Button>
         </ModalFooter>
@@ -75,10 +75,10 @@ const WinesPage = () => {
       <button onClick={() => open('test02')}>Open Modal 02</button>
       <Modal modalId='test02' title='test02' showCloseButton>
         <ModalFooter layout='secondary-primary'>
-          <Button size='full' onClick={() => close()}>
+          <Button size='full' onClick={() => close('test02')}>
             Close
           </Button>
-          <Button size='full' onClick={() => close()}>
+          <Button size='full' onClick={() => close('test02')}>
             Close
           </Button>
         </ModalFooter>

@@ -53,13 +53,13 @@ const Modal = ({
 
   const handleMouseUp = (e: React.MouseEvent) => {
     if (isMouseDownOnBackdrop.current && e.target === e.currentTarget) {
-      close();
+      close(modalId);
     }
   };
 
   useEffect(() => {
     const onEsc = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') close();
+      if (e.key === 'Escape') close(modalId);
     };
 
     if (open) {
@@ -79,8 +79,8 @@ const Modal = ({
       role='dialog'
       aria-modal='true'
       className='fixed inset-0 z-50 flex items-center justify-center bg-gray-900/30'
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
+      onPointerDown={handleMouseDown}
+      onPointerUp={handleMouseUp}
     >
       <div
         className={cn(
