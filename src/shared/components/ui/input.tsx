@@ -1,16 +1,93 @@
+import { cva, type VariantProps } from 'class-variance-authority';
+import { Search } from 'lucide-react';
+
 import { cn } from '@/shared/libs/utils/cn';
 
-function Input({ className, type, ...props }: React.ComponentProps<'input'>) {
+// Input Variants 정의
+const inputVariants = cva(
+  'border-secondary focus-visible:border-ring focus-visible:ring-primary aria-invalid:border-primary aria-invalid:ring-primary placeholder:text-gray flex w-full min-w-0 rounded-full border txt-black transition-all outline-none focus-visible:ring-[0.1rem] bg-white',
+  {
+    variants: {
+      variant: {
+        default: '',
+        error: 'border-primary ring-primary',
+        disabled: 'bg-secondary/40 !text-gray cursor-not-allowed opacity-60',
+      },
+      size: {
+        md: 'h-[4.8rem] py-[1.1rem] text-[1.6rem] leading-[2.6rem] w-[40rem]',
+        sm: 'h-[3.8rem] py-[0.7rem] text-[1.4rem] leading-[2.4rem] w-[21rem]',
+      },
+      hasIcon: {
+        true: '',
+        false: 'pl-[2.0rem]',
+      },
+    },
+    compoundVariants: [
+      {
+        size: 'md',
+        hasIcon: true,
+        className: 'pl-[5.4rem]',
+      },
+      {
+        size: 'sm',
+        hasIcon: true,
+        className: 'pl-[5.4rem]',
+      },
+    ],
+    defaultVariants: {
+      variant: 'default',
+      size: 'md',
+      hasIcon: false,
+    },
+  },
+);
+
+export interface InputProps
+  extends Omit<React.ComponentProps<'input'>, 'size'> {
+  variant?: VariantProps<typeof inputVariants>['variant'];
+  size?: VariantProps<typeof inputVariants>['size'];
+  icon?: React.ReactNode;
+  readOnly?: boolean;
+  hasIcon?: boolean;
+}
+
+function Input({
+  className,
+  type,
+  placeholder,
+  variant,
+  size,
+  hasIcon, // true or false
+  disabled,
+  readOnly,
+  ...props
+}: InputProps) {
+  const appliedVariant = disabled ? 'disabled' : variant;
+
   return (
-    <input
-      type={type}
-      data-slot='input'
-      className={cn(
-        'border-secondary txt-md-small focus-visible:border-ring focus-visible:ring-primary aria-invalid:border-primary aria-invalid:ring-primary placeholder:txt-gray flex h-[5rem] w-full min-w-0 rounded-full border px-6 py-[1.4rem] text-black transition-all outline-none focus-visible:ring-[0.2rem]',
-        className,
+    <div className='relative flex w-full items-center'>
+      {hasIcon && (
+        <div className='text-gray pointer-events-none absolute left-[2rem] z-10 flex h-[2rem] w-[2rem] items-center justify-center'>
+          <Search className='h-full w-full' />
+        </div>
       )}
-      {...props}
-    />
+      <input
+        type={type}
+        data-slot='input'
+        className={cn(
+          inputVariants({
+            variant: appliedVariant,
+            size,
+            hasIcon,
+          }),
+          className,
+        )}
+        disabled={disabled}
+        readOnly={readOnly}
+        placeholder={placeholder}
+        {...props}
+      />
+    </div>
   );
 }
 
