@@ -90,7 +90,12 @@ export const getWines = async (
 ): Promise<GetWinesResponse> => {
   const response = await apiClient
     .get('wines', {
-      searchParams: params as unknown as Record<string, string>,
+      searchParams: Object.fromEntries(
+        Object.entries(params).map(([key, value]) => [
+          key,
+          value ? value.toString() : undefined,
+        ]),
+      ),
     })
     .json();
   return getWinesResponseSchema.parse(response);
