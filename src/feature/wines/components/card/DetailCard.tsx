@@ -8,7 +8,7 @@ const DetailCard = ({
   wine,
   currentUser,
 }: {
-  wine: WineDetailResponse;
+  wine: GetWineDetailResponse;
   currentUser?: number | null;
 }) => {
   const { name, region, image, price } = wine;

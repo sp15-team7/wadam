@@ -45,7 +45,7 @@ export function UserMenu({
       </PopoverTrigger>
       <PopoverContent
         align={align}
-        className={`txt-lg-semibold absolute top-full z-10 mt-2 flex w-[126px] translate-x-[-180%] flex-col items-center rounded-2xl border border-[var(--color-secondary)] bg-[var(--color-white)] p-2 text-center shadow ${popoverClassName}`}
+        className={`txt-lg-semibold absolute top-full z-10 mt-2 flex w-[126px] translate-x-[-90%] flex-col items-center rounded-2xl border border-[var(--color-secondary)] bg-[var(--color-white)] p-2 text-center shadow ${popoverClassName}`}
       >
         {items.map((item, idx) => (
           <button
