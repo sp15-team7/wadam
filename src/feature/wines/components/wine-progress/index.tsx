@@ -4,6 +4,7 @@
  * @description: 와인 점수 프로그레스 컴포넌트 (와인 점수 분포 표시 - 1점 ~ 5점) + 현재는 mockData 사용 (실제 사용 시 api 통신하는 커스텀 훅 연결 필요)
  */
 
+import StarRating from '@/shared/components/common/star-rating';
 import { Progress } from '@/shared/components/ui/progress';
 
 interface WineProgressProps {
@@ -49,7 +50,14 @@ const WineProgress = ({ wineId }: WineProgressProps) => {
           {getAverageRating(mockData)}
         </strong>
         <div>
-          <p>{mockData.reviewCount.toLocaleString('ko-KR')}개의 후기</p>
+          <StarRating
+            value={Number(getAverageRating(mockData))}
+            size='md'
+            readOnly
+          />
+          <p className='txt-md-regular text-gray mt-[0.5rem]'>
+            {mockData.reviewCount.toLocaleString('ko-KR')}개의 후기
+          </p>
         </div>
       </div>
       <div className='mt-[2rem] flex flex-col gap-[1.5rem]'>
