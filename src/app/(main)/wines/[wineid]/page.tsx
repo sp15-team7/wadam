@@ -18,7 +18,6 @@ async function getCurrentUser(): Promise<number | null> {
   return session?.user?.id ?? null;
 }
 
-// Next.js 서버 컴포넌트
 export default async function WineDetailPage({
   params,
 }: {
