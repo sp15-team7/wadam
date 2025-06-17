@@ -1,5 +1,10 @@
 import { ReactNode } from 'react';
 
+/**
+ * @author Sumin
+ * @since 2025-06-17
+ * @description 콘텐츠 영역을 감싸는 컴포넌트
+ */
 interface InnerContainerProps {
   children: ReactNode;
   className?: string;
