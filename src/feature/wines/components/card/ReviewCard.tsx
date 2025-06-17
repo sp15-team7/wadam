@@ -47,7 +47,7 @@ export function ReviewCard({
     <Collapsible
       open={open}
       onOpenChange={setOpen}
-      className='border-secondary w-[34.3rem] rounded-4xl border p-8 md:w-[70.4rem] md:p-12 lg:w-[80rem]'
+      className='border-secondary rounded-4xl border bg-white p-8 md:p-12'
     >
       {/* 요약 정보 */}
       <div className='flex items-center justify-between'>

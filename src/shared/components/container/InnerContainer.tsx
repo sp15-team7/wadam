@@ -19,7 +19,7 @@ const InnerContainer: React.FC<InnerContainerProps> = ({
   return (
     <div
       className={cn(
-        'mx-auto max-w-[114rem] px-[1.6rem] md:px-[2rem]',
+        'mx-auto max-w-[118rem] px-[1.6rem] md:px-[2rem]',
         className,
       )}
     >

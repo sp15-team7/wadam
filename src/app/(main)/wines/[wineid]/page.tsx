@@ -1,11 +1,13 @@
 import { auth } from '@/feature/auth/libs/auth';
 import WineTasteSlider from '@/feature/reviews/components/wine-taste-slider';
 import DetailCard from '@/feature/wines/components/card/DetailCard';
+import WineProgressChart from '@/feature/wines/components/wine-progress';
 import WineDetailReviewList from '@/feature/wines/detail/components/WineDetailReviewList';
 import WineDetailTitle from '@/feature/wines/detail/components/WineDetailTitle';
 import { mockWine } from '@/feature/wines/mocks';
 import { GetWineDetailResponse } from '@/feature/wines/schema/wine.schema';
 import InnerContainer from '@/shared/components/container/InnerContainer';
+import { Button } from '@/shared/components/ui/button';
 import { PAGE_STYLES } from '@/shared/constants/styles';
 
 async function fetchWineDetail(wineId: string): Promise<GetWineDetailResponse> {
@@ -62,7 +64,10 @@ export default async function WineDetailPage({
             <WineDetailTitle title='리뷰 목록' />
             <WineDetailReviewList />
           </article>
-          <aside className='relative w-[28rem] flex-none'></aside>
+          <aside className='relative w-[28rem] flex-none'>
+            <WineProgressChart />
+            <Button>리뷰 남기기</Button>
+          </aside>
         </section>
       </InnerContainer>
     </main>
