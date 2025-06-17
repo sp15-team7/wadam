@@ -11,12 +11,7 @@ import { Button } from '@/shared/components/ui/button';
 import { PAGE_STYLES } from '@/shared/constants/styles';
 
 async function fetchWineDetail(wineId: string): Promise<GetWineDetailResponse> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const wine = { ...mockWine, id: Number(wineId) }; // 또는 Number(wineId)
-      resolve(wine);
-    }, 1000);
-  });
+  return { ...mockWine, id: Number(wineId) };
 }
 
 async function getCurrentUser(): Promise<number | null> {
@@ -24,10 +19,10 @@ async function getCurrentUser(): Promise<number | null> {
   return session?.user?.id ?? null;
 }
 
-const WineDetailPage = async ({ params }: { params: { wineId: string } }) => {
-  const { wineId } = params;
+const WineDetailPage = async ({ params }: { params: { wineid: string } }) => {
+  const { wineid } = params;
   const [wineDetail, currentUser] = await Promise.all([
-    fetchWineDetail(wineId),
+    fetchWineDetail(wineid),
     getCurrentUser(),
   ]);
 
