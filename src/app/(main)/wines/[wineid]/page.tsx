@@ -24,13 +24,8 @@ async function getCurrentUser(): Promise<number | null> {
   return session?.user?.id ?? null;
 }
 
-export default async function WineDetailPage({
-  params,
-}: {
-  params: { wineId: string };
-}) {
-  const { wineId } = await params;
-
+const WineDetailPage = async ({ params }: { params: { wineId: string } }) => {
+  const { wineId } = params;
   const [wineDetail, currentUser] = await Promise.all([
     fetchWineDetail(wineId),
     getCurrentUser(),
@@ -78,4 +73,6 @@ export default async function WineDetailPage({
       </InnerContainer>
     </main>
   );
-}
+};
+
+export default WineDetailPage;

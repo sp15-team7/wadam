@@ -25,7 +25,7 @@ const mockData = {
 const getAverageRating = (data: typeof mockData) => {
   const { avgRatings, reviewCount } = data;
 
-  if (!reviewCount || reviewCount === 0) return 0;
+  if (!reviewCount) return 0;
 
   const totalScore = Object.entries(avgRatings).reduce(
     (acc, [rating, count]) => {
@@ -34,7 +34,7 @@ const getAverageRating = (data: typeof mockData) => {
     0,
   );
 
-  return (totalScore / reviewCount).toFixed(1); // 소수점 첫째자리까지 반올림
+  return Number((totalScore / reviewCount).toFixed(1)); // 소수점 첫째자리까지 반올림
 };
 
 const WineProgress = ({ wineId }: WineProgressProps) => {
@@ -42,19 +42,13 @@ const WineProgress = ({ wineId }: WineProgressProps) => {
   // TODO: API 연동 시 windId를 받아 커스텀 훅으로 데이터 가져와 사용
   const getPercentage = (count: number) =>
     mockData.reviewCount === 0 ? 0 : (count / mockData.reviewCount) * 100;
-
+  const avgRating = getAverageRating(mockData);
   return (
     <div>
       <div className='flex items-center gap-[2rem]'>
-        <strong className='text-[5.4rem] font-extrabold'>
-          {getAverageRating(mockData)}
-        </strong>
+        <strong className='text-[5.4rem] font-extrabold'>{avgRating}</strong>
         <div>
-          <StarRating
-            value={Number(getAverageRating(mockData))}
-            size='md'
-            readOnly
-          />
+          <StarRating value={Number(avgRating)} size='md' readOnly />
           <p className='txt-md-regular text-gray mt-[0.5rem]'>
             {mockData.reviewCount.toLocaleString('ko-KR')}개의 후기
           </p>
