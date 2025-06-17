@@ -49,11 +49,11 @@ export const WineFlavors = ({ onChange }: WineFlavorProps) => {
   const getKrData = (enData: string) => FLAVOR_LABEL_MAP[enData] || '';
 
   return (
-    <div className='flex flex-wrap gap-2'>
+    <div className='flex w-full flex-wrap gap-2'>
       {FLAVOR_LABELS.map((enData) => (
         <label
           key={enData}
-          className={`cursor-pointer rounded-full px-6 py-2 transition-colors ${selected.includes(enData) ? 'bg-primary text-white' : 'bg-secondary text-black'}`}
+          className={`cursor-pointer rounded-full px-6 py-2 text-[1.2rem] font-semibold transition-colors md:text-[1.4rem] ${selected.includes(enData) ? 'bg-primary text-white' : 'border-secondary border-1 bg-white text-black'}`}
           htmlFor={enData}
           aria-checked={selected.includes(enData)}
         >

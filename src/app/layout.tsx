@@ -1,9 +1,15 @@
 import './globals.css';
 
+import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { Toaster } from 'sonner';
 
 import QueryProvider from '@/shared/libs/provider/queryProvider';
+
+export const metadata: Metadata = {
+  title: 'WADAM',
+  description: 'WADAM Application',
+};
 
 const pretendard = localFont({
   src: '../../public/fonts/PretendardVariable.woff2',
@@ -14,13 +20,13 @@ const pretendard = localFont({
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <html lang='ko'>
-      <QueryProvider>
-        <body className={pretendard.className}>
+    <html lang='ko' className={pretendard.variable}>
+      <body className={pretendard.className}>
+        <QueryProvider>
           <Toaster />
           {children}
-        </body>
-      </QueryProvider>
+        </QueryProvider>
+      </body>
     </html>
   );
 };

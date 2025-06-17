@@ -2,7 +2,7 @@ import { cva } from 'class-variance-authority';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { WineListResponse } from '@/feature/wines/schema/wine.schema';
+import { GetWinesResponse } from '@/feature/wines/schema/wine.schema';
 import StarRating from '@/shared/components/common/star-rating';
 import { Card, CardContent, CardFooter } from '@/shared/components/ui/card';
 
@@ -16,7 +16,7 @@ const wineCardVariants = {
   ),
 };
 
-const WineCard = ({ wine }: { wine: WineListResponse['list'][number] }) => {
+const WineCard = ({ wine }: { wine: GetWinesResponse['list'][number] }) => {
   const { name, region, image, price, avgRating, reviewCount, recentReview } =
     wine;
   return (
@@ -77,7 +77,7 @@ const WineCard = ({ wine }: { wine: WineListResponse['list'][number] }) => {
 
       <CardFooter className={wineCardVariants.footer()}>
         <p className='line-clamp-2 text-[1.4rem] md:text-[1.6rem]'>
-          {recentReview.content}
+          {recentReview?.content || '아직 리뷰가 없습니다.'}
         </p>
       </CardFooter>
     </Card>

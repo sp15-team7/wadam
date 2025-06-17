@@ -12,17 +12,22 @@ import { create } from 'zustand';
  */
 
 interface ModalState {
-  isOpen: boolean;
-  open: () => void;
-  close: () => void;
+  openModalId: string | null;
+  open: (id: string) => void;
+  close: (id?: string) => void;
+  isOpen: (id: string) => boolean;
 }
 
 /**
  * Zustand를 사용하여 모달 상태를 관리하는 스토어
  * @returns {ModalState} 모달의 상태와 상태를 변경하는 함수들을 포함한 객체
  */
-export const useModalStore = create<ModalState>((set) => ({
-  isOpen: false,
-  open: () => set({ isOpen: true }),
-  close: () => set({ isOpen: false }),
+export const useModalStore = create<ModalState>((set, get) => ({
+  openModalId: null,
+  open: (id: string) => set({ openModalId: id }),
+  close: (id?: string) =>
+    set((state) =>
+      !id || state.openModalId === id ? { openModalId: null } : state,
+    ),
+  isOpen: (id: string) => get().openModalId === id,
 }));
