@@ -11,7 +11,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
-import { JSX, useActionState, useEffect,useState, useTransition } from 'react';
+import { JSX, useActionState, useEffect, useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { signInAction } from '@/feature/auth/actions/auth.action';
@@ -81,11 +81,12 @@ const SignInForm: () => JSX.Element = () => {
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className='flex h-[67.9rem] w-[34.3rem] flex-col items-center gap-20 px-4 pt-36 md:h-[76.2rem] md:w-[49.6rem] lg:h-[79.4rem] lg:w-[50rem]'
+        className='flex-center h-[67.9rem] w-[34.3rem] flex-col items-center gap-20 md:h-[76.2rem] md:w-[49.6rem] lg:h-[79.4rem] lg:w-[50rem]'
       >
-        <div className='mb-20'>
+        <div className='mb-10'>
           <Logo />
         </div>
+
         <div className='flex-center w-full flex-col gap-4'>
           <FormField<SignInFormData>
             label='이메일'
@@ -116,7 +117,7 @@ const SignInForm: () => JSX.Element = () => {
           <SubmitButton>로그인</SubmitButton>
           <Button
             size='full'
-            className='bg-[#FFDB00] !text-black hover:bg-[#FFDB00]/60'
+            className='mt-[-1rem] bg-[#FFDB00] !text-black hover:bg-[#FFDB00]/60'
           >
             <div className='flex-center gap-x-3'>
               <Image

@@ -15,7 +15,6 @@ import { JSX, useActionState, useEffect, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { signUpAction } from '@/feature/auth/actions/auth.action';
-import ErrorMessage from '@/feature/auth/components/ErrorMessage';
 import {
   SignUpFormData,
   SignupSchema,
@@ -34,25 +33,12 @@ const SignUpForm: () => JSX.Element = () => {
   const {
     register,
     handleSubmit,
-    watch,
     setFocus,
     formState: { errors },
   } = useForm<SignUpFormData>({
     resolver: zodResolver(SignupSchema),
     mode: 'onBlur',
   });
-
-  // 이메일 값 감시
-  const email = watch('email');
-
-  // 이메일 중복 에러 처리
-  useEffect(() => {
-    if (state?.message?.includes('이미 가입된 이메일')) {
-      startTransition(() => {
-        formAction(new FormData());
-      });
-    }
-  }, [email, formAction, startTransition]);
 
   // 이메일 중복 에러 발생 시 포커스
   useEffect(() => {
@@ -84,12 +70,10 @@ const SignUpForm: () => JSX.Element = () => {
       )}
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className='flex h-[67.9rem] w-[34.3rem] flex-col items-center gap-5 px-4 pt-36 md:h-[76.2rem] md:w-[49.6rem] lg:h-[79.4rem] lg:w-[50rem]'
+        className='flex h-[67.9rem] w-[34.3rem] flex-col items-center gap-30 px-4 pt-36 md:h-[76.2rem] md:w-[49.6rem] lg:h-[79.4rem] lg:w-[50rem]'
       >
-        <div className='mb-20 flex'>
-          <Logo className='' />
-        </div>
-        <div className='w-full'>
+        <Logo />
+        <div className='flex w-full flex-col gap-4'>
           <FormField
             label='이메일'
             name='email'
@@ -97,47 +81,48 @@ const SignUpForm: () => JSX.Element = () => {
             placeholder='whyne@email.com'
             register={register}
             errors={errors}
+            serverError={
+              state?.message?.includes('이미 가입된 이메일')
+                ? state.message
+                : undefined
+            }
           />
-          {state?.message?.includes('이미 가입된 이메일') && (
-            <ErrorMessage message={state.message} />
-          )}
+
+          <FormField
+            label='닉네임'
+            name='nickname'
+            type='text'
+            placeholder='whyne'
+            register={register}
+            errors={errors}
+          />
+
+          <FormField
+            label='비밀번호'
+            name='password'
+            type='password'
+            placeholder='영문, 숫자, 특수문자(!@#$%^&*) 제한'
+            register={register}
+            errors={errors}
+          />
+
+          <FormField
+            label='비밀번호 확인'
+            name='passwordConfirmation'
+            type='password'
+            placeholder='비밀번호 확인'
+            register={register}
+            errors={errors}
+          />
         </div>
-
-        <FormField
-          label='닉네임'
-          name='nickname'
-          type='text'
-          placeholder='whyne'
-          register={register}
-          errors={errors}
-        />
-
-        <FormField
-          label='비밀번호'
-          name='password'
-          type='password'
-          placeholder='영문, 숫자, 특수문자(!@#$%^&*) 제한'
-          register={register}
-          errors={errors}
-        />
-
-        <FormField
-          label='비밀번호 확인'
-          name='passwordConfirmation'
-          type='password'
-          placeholder='비밀번호 확인'
-          register={register}
-          errors={errors}
-        />
-        <div className='txt-md-bold flex w-full flex-col gap-8 pt-41'>
+        <div className='flex w-full flex-col gap-8'>
           <SubmitButton isPending={isPending}>가입하기</SubmitButton>
+          <AuthLink
+            label='계정이 이미 있으신가요?'
+            linkText='로그인 하러가기'
+            href='/signin'
+          />
         </div>
-
-        <AuthLink
-          label='계정이 이미 있으신가요?'
-          linkText='로그인 하러가기'
-          href='/signin'
-        />
       </form>
     </>
   );

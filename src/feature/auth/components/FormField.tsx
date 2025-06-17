@@ -28,6 +28,7 @@ interface FormFieldProps<T extends FieldValues> {
   register: UseFormRegister<T>;
   errors: FieldErrors<T>;
   onFocus?: () => void;
+  serverError?: string;
 }
 
 const FormField = <T extends FieldValues>({
@@ -38,6 +39,7 @@ const FormField = <T extends FieldValues>({
   register,
   errors,
   onFocus,
+  serverError,
 }: FormFieldProps<T>) => {
   return (
     <div className='w-full'>
@@ -45,8 +47,10 @@ const FormField = <T extends FieldValues>({
         <Label htmlFor={name} className='text-xl font-medium'>
           {label}
         </Label>
-        {errors[name] && (
-          <p className={ERROR_STYLE}>{String(errors[name]?.message)}</p>
+        {(errors[name] || serverError) && (
+          <p className={ERROR_STYLE}>
+            {serverError || String(errors[name]?.message)}
+          </p>
         )}
       </div>
       <Input
