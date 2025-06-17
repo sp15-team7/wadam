@@ -47,7 +47,7 @@ export default async function WineDetailPage({
   return (
     <main className={PAGE_STYLES.backgroundOverlay}>
       <h1 className='sr-only'>와인 상세 페이지</h1>
-      <InnerContainer className='mt-[6.4rem]'>
+      <InnerContainer className='mt-[6.4rem] pb-[13.2rem]'>
         <DetailCard wine={wineDetail} currentUser={currentUser} />
         <section className='mt-[5.4rem] grid grid-cols-2 gap-[6rem]'>
           <div>
