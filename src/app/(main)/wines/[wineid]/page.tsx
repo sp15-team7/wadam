@@ -3,6 +3,7 @@ import DetailCard from '@/feature/wines/components/card/DetailCard';
 import { mockWine } from '@/feature/wines/mocks';
 import { GetWineDetailResponse } from '@/feature/wines/schema/wine.schema';
 import InnerContainer from '@/shared/components/container/InnerContainer';
+import { PAGE_STYLES } from '@/shared/constants/styles';
 
 async function fetchWineDetail(wineId: string): Promise<GetWineDetailResponse> {
   return new Promise((resolve) => {
@@ -17,11 +18,6 @@ async function getCurrentUser(): Promise<number | null> {
   const session = await auth();
   return session?.user?.id ?? null;
 }
-
-// 와인 상세 페이지 배경 컬러
-const WINE_DETAIL_STYLE = {
-  bg: 'after:content-[""] after:absolute after:top-[-17.4rem] after:left-0 after:w-full after:h-[calc(100dvh+17.4rem)] after:bg-[#ffffff] after:z-[-1] relative z-[2]',
-};
 
 export default async function WineDetailPage({
   params,
@@ -44,9 +40,13 @@ export default async function WineDetailPage({
   }
 
   return (
-    <main className={WINE_DETAIL_STYLE.bg}>
+    <main className={PAGE_STYLES.backgroundOverlay}>
       <InnerContainer className='mt-[6.4rem]'>
         <DetailCard wine={wineDetail} currentUser={currentUser} />
+        <div>
+          <div>맛 컴포넌트가 들어갑니다</div>
+          <div>향 컴포넌트가 들어갑니다</div>
+        </div>
       </InnerContainer>
     </main>
   );
