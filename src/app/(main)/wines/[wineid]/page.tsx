@@ -1,5 +1,7 @@
 import { auth } from '@/feature/auth/libs/auth';
+import WineTasteSlider from '@/feature/reviews/components/wine-taste-slider';
 import DetailCard from '@/feature/wines/components/card/DetailCard';
+import WineDetailTitle from '@/feature/wines/detail/components/WineDetailTitle';
 import { mockWine } from '@/feature/wines/mocks';
 import { GetWineDetailResponse } from '@/feature/wines/schema/wine.schema';
 import InnerContainer from '@/shared/components/container/InnerContainer';
@@ -41,10 +43,14 @@ export default async function WineDetailPage({
 
   return (
     <main className={PAGE_STYLES.backgroundOverlay}>
+      <h1 className='sr-only'>와인 상세 페이지</h1>
       <InnerContainer className='mt-[6.4rem]'>
         <DetailCard wine={wineDetail} currentUser={currentUser} />
-        <div>
-          <div>맛 컴포넌트가 들어갑니다</div>
+        <div className='mt-[5.4rem] grid grid-cols-2 gap-[6rem]'>
+          <div>
+            <WineDetailTitle title='어떤 맛이 나나요?' count={47} />
+            <WineTasteSlider />
+          </div>
           <div>향 컴포넌트가 들어갑니다</div>
         </div>
       </InnerContainer>
