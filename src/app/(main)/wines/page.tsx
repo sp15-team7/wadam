@@ -36,7 +36,7 @@ const WinesPage = () => {
   };
   const [rating, setRating] = useState(4);
   return (
-    <main className='overflow-hidden pb-[4.5rem]'>
+    <main>
       {/* 메인 콘텐츠 영역을 InnerContainer로 감쌉니다. */}
       <InnerContainer>
         <h1 className='sr-only'>와인 목록 페이지</h1>
