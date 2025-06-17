@@ -10,17 +10,18 @@
   "editor.formatOnSave": true,
   "typescript.preferences.importModuleSpecifier": "non-relative",
   "cSpell.words": [
+    "cn",
     "CODEIT",
     "colour",
     "JAEHYUN",
     "JINHYUNG",
+    "oklch",
     "Pretendard",
     "SARANG",
+    "shadcn",
     "SUMIN",
     "WHYNE",
-    "YUNGHYUN",
-    "shadcn",
-    "cn",
-    "oklch"
+    "wineid",
+    "YUNGHYUN"
   ]
 }
