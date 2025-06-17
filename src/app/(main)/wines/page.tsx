@@ -17,6 +17,7 @@ import {
 } from '@/shared/components/common/modal';
 import StarRating from '@/shared/components/common/star-rating';
 import UserAvatar from '@/shared/components/common/user-avatar';
+import InnerContainer from '@/shared/components/container/InnerContainer';
 import { Button } from '@/shared/components/ui/button';
 import { useModalStore } from '@/shared/stores/useModalStore';
 
@@ -35,59 +36,62 @@ const WinesPage = () => {
   };
   const [rating, setRating] = useState(4);
   return (
-    <main className='mx-auto overflow-hidden px-[1.6rem] pb-[4.5rem]'>
-      <h1 className='sr-only'>와인 목록 페이지</h1>
-      <MonthlyWineSection />
-      <button onClick={() => open('test01')}>Open Modal 01</button>
-      <Modal modalId='test01' title='test' showCloseButton>
-        <ModalContent>
-          <div className='flex items-center gap-4'>
-            <UserAvatar />
-            <div className='flex flex-col'>
-              <p>Sentinel Carbernet Sauvignon 2016</p>
-              <StarRating
-                value={rating}
-                onChange={setRating}
-                readOnly={false}
-                size='md'
-              />
+    <main>
+      {/* 메인 콘텐츠 영역을 InnerContainer로 감쌉니다. */}
+      <InnerContainer>
+        <h1 className='sr-only'>와인 목록 페이지</h1>
+        <MonthlyWineSection />
+        <button onClick={() => open('test01')}>Open Modal 01</button>
+        <Modal modalId='test01' title='test' showCloseButton>
+          <ModalContent>
+            <div className='flex items-center gap-4'>
+              <UserAvatar />
+              <div className='flex flex-col'>
+                <p>Sentinel Carbernet Sauvignon 2016</p>
+                <StarRating
+                  value={rating}
+                  onChange={setRating}
+                  readOnly={false}
+                  size='md'
+                />
+              </div>
             </div>
-          </div>
-          <form onSubmit={handleSubmit}>
-            <textarea
-              name='리뷰 내용'
-              className='border-secondary h-[10rem] w-full rounded-2xl border p-4'
-            />
-            <WineTasteSlider values={taste} onChange={setTaste} />
-            <WineFlavors />
-            <Button type='submit'>Submit</Button>
-          </form>
-        </ModalContent>
-        <ModalFooter layout='secondary-primary'>
-          <Button size='full' onClick={() => close('test01')}>
-            Close
-          </Button>
-          <Button size='full' onClick={() => close('test01')}>
-            Close
-          </Button>
-        </ModalFooter>
-      </Modal>
-      <button onClick={() => open('test02')}>Open Modal 02</button>
-      <Modal modalId='test02' title='test02' showCloseButton>
-        <ModalFooter layout='secondary-primary'>
-          <Button size='full' onClick={() => close('test02')}>
-            Close
-          </Button>
-          <Button size='full' onClick={() => close('test02')}>
-            Close
-          </Button>
-        </ModalFooter>
-      </Modal>
-      <form onSubmit={handleSubmit}>
-        <WineTypes />
-        <WinePriceSlider />
-        <Button type='submit'>Submit</Button>
-      </form>
+            <form onSubmit={handleSubmit}>
+              <textarea
+                name='리뷰 내용'
+                className='border-secondary h-[10rem] w-full rounded-2xl border p-4'
+              />
+              <WineTasteSlider values={taste} onChange={setTaste} />
+              <WineFlavors />
+              <Button type='submit'>Submit</Button>
+            </form>
+          </ModalContent>
+          <ModalFooter layout='secondary-primary'>
+            <Button size='full' onClick={() => close('test01')}>
+              Close
+            </Button>
+            <Button size='full' onClick={() => close('test01')}>
+              Close
+            </Button>
+          </ModalFooter>
+        </Modal>
+        <button onClick={() => open('test02')}>Open Modal 02</button>
+        <Modal modalId='test02' title='test02' showCloseButton>
+          <ModalFooter layout='secondary-primary'>
+            <Button size='full' onClick={() => close('test02')}>
+              Close
+            </Button>
+            <Button size='full' onClick={() => close('test02')}>
+              Close
+            </Button>
+          </ModalFooter>
+        </Modal>
+        <form onSubmit={handleSubmit}>
+          <WineTypes />
+          <WinePriceSlider />
+          <Button type='submit'>Submit</Button>
+        </form>
+      </InnerContainer>
     </main>
   );
 };
