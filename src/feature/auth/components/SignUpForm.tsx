@@ -15,6 +15,7 @@ import { JSX, useActionState, useEffect, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { signUpAction } from '@/feature/auth/actions/auth.action';
+import ErrorMessage from '@/feature/auth/components/ErrorMessage';
 import {
   SignUpFormData,
   SignupSchema,
@@ -24,7 +25,6 @@ import Spinner from '@/shared/components/common/spinner';
 
 import AuthLink from './AuthLink';
 import SubmitButton from './buttons/SubmitButton';
-import ErrorMessage from './ErrorMessage';
 import FormField from './FormField';
 
 const SignUpForm: () => JSX.Element = () => {
