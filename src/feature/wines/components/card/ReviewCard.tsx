@@ -16,13 +16,13 @@ import {
   CollapsibleTrigger,
 } from '@/shared/components/ui/collapsible';
 
-export function ReviewCard({
+const ReviewCard = ({
   review,
   currentUser,
 }: {
   review: ReviewDetail;
   currentUser: number;
-}) {
+}) => {
   const [open, setOpen] = useState(false);
   const {
     aroma,
@@ -102,4 +102,6 @@ export function ReviewCard({
       </CollapsibleTrigger>
     </Collapsible>
   );
-}
+};
+
+export default ReviewCard;
