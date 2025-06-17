@@ -3,7 +3,7 @@ import { mockWine } from '@/feature/wines/mocks';
 
 const WineDetailReviewList = () => {
   return (
-    <ul>
+    <ul className='flex flex-col gap-[2rem]'>
       {Array.from({ length: 10 }).map((_, index) => (
         <li key={index}>
           <ReviewCard review={mockWine.recentReview} currentUser={1} />
