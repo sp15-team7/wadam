@@ -1,0 +1,116 @@
+import ky from 'ky';
+
+import { ReviewDetail } from '@/feature/wines/schema/wine.schema';
+
+export interface UserInfo {
+  nickname: string;
+  image: string;
+}
+
+// 와인 타입
+export interface Wine {
+  id: number;
+  name: string;
+  region: string;
+  image: string;
+  price: number;
+  type: 'RED' | 'WHITE' | 'SPARKLING'; // Adjust based on actual types
+  avgRating: number;
+  reviewCount: number;
+  userId: number;
+  recentReview?: {
+    id: number;
+    content: string;
+    createdAt: string;
+    updatedAt: string;
+  };
+}
+
+const api = ky.create({
+  prefixUrl: process.env.NEXT_PUBLIC_API_URL,
+});
+
+// 유저 정보 조회
+export async function getUserInfo(accessToken: string): Promise<UserInfo> {
+  return api
+    .get('users/me', {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    })
+    .json<UserInfo>();
+}
+
+// 후기 개수 조회
+export async function getUserReviewCount(accessToken: string): Promise<number> {
+  const data = await api
+    .get('users/me/reviews?limit=1000', {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    })
+    .json<ReviewDetail[]>();
+  return Array.isArray(data) ? data.length : 0;
+}
+
+// 와인 개수 조회
+export async function getUserWineCount(accessToken: string): Promise<number> {
+  const data = await api
+    .get('users/me/wines?limit=1000', {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    })
+    .json<Wine[]>();
+  return Array.isArray(data) ? data.length : 0;
+}
+
+// 프로필 이미지 업로드
+export async function uploadUserImage(
+  accessToken: string,
+  file: File,
+): Promise<string> {
+  const formData = new FormData();
+  formData.append('image', file);
+
+  const data = await api
+    .post('images/upload', {
+      headers: { Authorization: `Bearer ${accessToken}` },
+      body: formData,
+      timeout: false,
+    })
+    .json<{ url: string }>();
+
+  if (!data.url) throw new Error('이미지 업로드 실패');
+  return data.url;
+}
+
+// 프로필 정보 수정
+export async function updateUserProfile(
+  accessToken: string,
+  data: { nickname: string; image?: string },
+): Promise<UserInfo> {
+  return api
+    .patch('users/me', {
+      json: data,
+      headers: { Authorization: `Bearer ${accessToken}` },
+    })
+    .json();
+}
+
+//--- 사용자 리뷰 목록 조회 (ReviewCardList.tsx 사용)
+export async function getUserReviews(
+  accessToken: string,
+  limit: number = 100,
+): Promise<ReviewDetail[]> {
+  return api
+    .get(`users/me/reviews?limit=${limit}`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    })
+    .json<ReviewDetail[]>();
+}
+
+// --- 사용자 와인 목록 조회 (WineCardList.tsx 사용)
+export async function getUserWines(
+  accessToken: string,
+): Promise<{ list: Wine[]; totalCount: number; nextCursor: number | null }> {
+  return api
+    .get(`users/me/wines?limit=1000`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    })
+    .json<{ list: Wine[]; totalCount: number; nextCursor: number | null }>();
+}
