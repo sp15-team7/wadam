@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { signOut } from 'next-auth/react';
 
 import { UserMenu } from '@/shared/components/common/combobox/UserMenu';
 
@@ -22,7 +23,7 @@ const HeaderClient = ({ isAuthenticated, userImage }: HeaderClientProps) => {
     <UserMenu
       items={[
         { label: '마이페이지', onClick: () => router.push('/mypage') },
-        { label: '로그아웃', onClick: () => alert('로그아웃!') },
+        { label: '로그아웃', onClick: () => signOut() },
       ]}
       avatarSrc={userImage || undefined}
       avatarClassName='h-14 w-14 md:h-16 md:w-16'
