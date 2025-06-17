@@ -18,6 +18,11 @@ async function getCurrentUser(): Promise<number | null> {
   return session?.user?.id ?? null;
 }
 
+// 와인 상세 페이지 배경 컬러
+const WINE_DETAIL_STYLE = {
+  bg: 'after:content-[""] after:absolute after:top-[-17.4rem] after:left-0 after:w-full after:h-[calc(100dvh+17.4rem)] after:bg-[#ffffff] after:z-[-1] relative z-[2]',
+};
+
 export default async function WineDetailPage({
   params,
 }: {
@@ -39,7 +44,7 @@ export default async function WineDetailPage({
   }
 
   return (
-    <main>
+    <main className={WINE_DETAIL_STYLE.bg}>
       <InnerContainer className='mt-[6.4rem]'>
         <DetailCard wine={wineDetail} currentUser={currentUser} />
       </InnerContainer>
