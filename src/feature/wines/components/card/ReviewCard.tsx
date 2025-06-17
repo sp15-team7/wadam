@@ -7,7 +7,7 @@ import WineTasteSlider from '@/feature/reviews/components/wine-taste-slider';
 import { formatRelativeTime } from '@/feature/reviews/utils/formatRelativeTime';
 import CardDropdownMenu from '@/feature/wines/components/button/CardDropdownMenu';
 import LikeButton from '@/feature/wines/components/button/LikeButton';
-import { ReviewDetail } from '@/feature/wines/schema/wine.schema';
+import { WineDetailReview } from '@/feature/wines/schema/wine.schema';
 import { formatAromaType } from '@/feature/wines/utils/formatWineType';
 import UserAvatar from '@/shared/components/common/user-avatar';
 import {
@@ -20,7 +20,7 @@ const ReviewCard = ({
   review,
   currentUser,
 }: {
-  review: ReviewDetail;
+  review: WineDetailReview;
   currentUser: number;
 }) => {
   const [open, setOpen] = useState(false);

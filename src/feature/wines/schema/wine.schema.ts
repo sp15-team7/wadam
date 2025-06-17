@@ -175,7 +175,7 @@ export type AromaTypeEnum = z.infer<typeof AromaTypeEnumSchema>;
 // 기존 타입들과의 호환성을 위한 alias 추가
 export type AromaType = AromaTypeEnum;
 export type WineSummary = z.infer<typeof wineBaseSchema>;
-export type ReviewDetail = z.infer<typeof wineDetailReviewSchema>;
+export type WineDetailReview = z.infer<typeof wineDetailReviewSchema>;
 
 export type CreateWineRequest = z.infer<typeof createWineRequestSchema>;
 export type CreateWineResponse = z.infer<typeof createWineResponseSchema>;
