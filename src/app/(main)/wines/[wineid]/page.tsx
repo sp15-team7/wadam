@@ -1,6 +1,7 @@
 import { auth } from '@/feature/auth/libs/auth';
 import WineTasteSlider from '@/feature/reviews/components/wine-taste-slider';
 import DetailCard from '@/feature/wines/components/card/DetailCard';
+import WineDetailReviewList from '@/feature/wines/detail/components/WineDetailReviewList';
 import WineDetailTitle from '@/feature/wines/detail/components/WineDetailTitle';
 import { mockWine } from '@/feature/wines/mocks';
 import { GetWineDetailResponse } from '@/feature/wines/schema/wine.schema';
@@ -46,13 +47,23 @@ export default async function WineDetailPage({
       <h1 className='sr-only'>와인 상세 페이지</h1>
       <InnerContainer className='mt-[6.4rem]'>
         <DetailCard wine={wineDetail} currentUser={currentUser} />
-        <div className='mt-[5.4rem] grid grid-cols-2 gap-[6rem]'>
+        <section className='mt-[5.4rem] grid grid-cols-2 gap-[6rem]'>
           <div>
             <WineDetailTitle title='어떤 맛이 나나요?' count={47} />
             <WineTasteSlider />
           </div>
-          <div>향 컴포넌트가 들어갑니다</div>
-        </div>
+          <div>
+            <WineDetailTitle title='어떤 향이 있나요?' count={47} />
+            <div>향 컴포넌트가 들어갑니다</div>
+          </div>
+        </section>
+        <section className='mt-[5.8rem] flex gap-[6rem]'>
+          <article className='flex-1'>
+            <WineDetailTitle title='리뷰 목록' />
+            <WineDetailReviewList />
+          </article>
+          <aside className='relative w-[28rem] flex-none'></aside>
+        </section>
       </InnerContainer>
     </main>
   );
