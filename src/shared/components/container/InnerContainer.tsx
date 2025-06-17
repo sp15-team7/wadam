@@ -1,5 +1,7 @@
 import { ReactNode } from 'react';
 
+import { cn } from '@/shared/libs/utils/cn';
+
 /**
  * @author Sumin
  * @since 2025-06-17
@@ -16,7 +18,10 @@ const InnerContainer: React.FC<InnerContainerProps> = ({
 }) => {
   return (
     <div
-      className={`mx-auto max-w-[114rem] px-[1.6rem] md:px-[2rem] ${className || ''}`}
+      className={cn(
+        'mx-auto max-w-[114rem] px-[1.6rem] md:px-[2rem]',
+        className,
+      )}
     >
       {children}
     </div>
