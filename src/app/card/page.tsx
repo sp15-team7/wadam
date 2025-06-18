@@ -4,7 +4,7 @@ import MonthlyCard from '@/feature/wines/components/card/MonthlyCard';
 import MyReviewCard from '@/feature/wines/components/card/MyReviewCard';
 import ReviewCard from '@/feature/wines/components/card/ReviewCard';
 import WineCard from '@/feature/wines/components/card/WineCard';
-import { mockWine } from '@/feature/wines/mocks';
+import { mockReview, mockWine } from '@/feature/wines/mocks';
 
 const CardPage = async () => {
   const session = await auth();
@@ -18,7 +18,7 @@ const CardPage = async () => {
 
       <ReviewCard review={mockWine.recentReview} currentUser={currentUser!} />
 
-      <MyReviewCard />
+      <MyReviewCard review={mockReview.list[0]} />
     </div>
   );
 };

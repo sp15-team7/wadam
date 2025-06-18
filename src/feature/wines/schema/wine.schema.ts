@@ -10,8 +10,8 @@ import { z } from 'zod';
 // --- A. 기본 타입 및 열거형 스키마 (Primitives & Enums) ---
 
 const urlSchema = z.string().url().or(z.literal(''));
-const nonNegativeNumberSchema = z.number().nonnegative();
-const positiveNumberSchema = z.number().positive();
+const nonNegativeNumberSchema = z.number().nonnegative().step(0.1);
+const positiveNumberSchema = z.number().positive().step(0.1);
 const nonEmptyStringSchema = z.string().min(1);
 
 /** 와인의 종류 (RED, WHITE, SPARKLING) */

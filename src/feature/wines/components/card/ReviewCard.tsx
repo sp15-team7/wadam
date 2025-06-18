@@ -83,15 +83,13 @@ const ReviewCard = ({
           ))}
         </div>
         <div className='flex-center bg-secondary text-primary w-[6rem] self-start rounded-full px-4 py-2 text-[1.4rem] font-semibold md:w-[7.2rem] md:px-5 md:py-3 md:text-[1.6rem]'>
-          ★ {rating}
+          ★ {rating.toFixed(1)}
         </div>
       </div>
 
       {/* 펼쳐진 내용 */}
       <CollapsibleContent className='space-y-4 pt-4 text-[1.4rem] md:space-y-8 md:pt-8 md:text-[1.6rem]'>
         <p>{content}</p>
-
-        {/* 슬라이더 UI (예시용, 실제 구현은 range input 또는 UI 라이브러리 사용) */}
         <WineTasteSlider values={taste} />
       </CollapsibleContent>
       {/* 펼치기 버튼 */}

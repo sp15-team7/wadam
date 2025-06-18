@@ -81,3 +81,37 @@ export const mockWine = {
     '5': 4,
   },
 };
+
+export const mockReview = {
+  list: [
+    {
+      id: 2538,
+      rating: 4,
+      lightBold: 3,
+      smoothTannic: 7,
+      drySweet: 5,
+      softAcidic: 4,
+      aroma: ['CHERRY', 'OAK', 'GRASS'] as AromaTypeEnum[],
+      content: '테스트 컨텐츠입니다. 맛이 좋아요',
+      createdAt: '2025-06-18T01:16:38.082Z',
+      updatedAt: '2025-06-18T01:16:38.082Z',
+      user: {
+        id: 1435,
+        nickname: 'jinTest',
+        image: null,
+      },
+      wine: {
+        id: 1093,
+        name: 'Château Margaux',
+        region: 'Bordeaux, France',
+        image:
+          'https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/Wine/user/1435/1750147721454/1.png',
+        price: 450,
+        avgRating: 4,
+        type: 'RED' as WineTypeEnum,
+      },
+    },
+  ],
+  totalCount: 1,
+  nextCursor: null,
+};
