@@ -1,4 +1,12 @@
-// Import ky
+'use client';
+
+/**
+ * @author: Hyun
+ * @since: 2025-06-18
+ * @description: 프로필 카드 컴포넌트 (프로필 이미지 업로드, 닉네임 변경, 통계 정보 표시)
+ * 반복되는 코드는 함수 형태로 빼서 재사용성 증가 (추후 리팩토링 예정) (예: 파일 크기 검증 함수, 로딩 상태 타입, 카운트 상태 타입, 프로필 카드 컴포넌트 속성 타입)
+ */
+
 import { Session } from 'next-auth';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
@@ -11,115 +19,135 @@ import {
 import UserAvatar from '@/shared/components/common/user-avatar';
 import { useUserStore } from '@/shared/stores/userStore';
 
+// 프로필 카드 컴포넌트 속성 타입
 interface ProfileCardProps {
   session: Session;
   onProfileUpdate: () => void;
 }
 
+// 카운트 상태 타입 (리뷰개수, 등록한 와인개수)
+interface CountState {
+  reviews: number;
+  wines: number;
+}
+
+// 로딩 상태 타입
+interface LoadingState {
+  reviews: boolean;
+  wines: boolean;
+  uploading: boolean;
+  updating: boolean;
+}
+
+// 최대 파일 크기 설정 (5MB)
+const MAX_FILE_SIZE_MB = 5;
+const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+
+// 프로필 카드 컴포넌트
 const ProfileCard = ({ session, onProfileUpdate }: ProfileCardProps) => {
   const { profileImg, nickname, updateProfileImg, updateNickname } =
     useUserStore();
 
   const [inputValue, setInputValue] = useState(nickname);
   const [uploadedImgUrl, setUploadedImgUrl] = useState<string | null>(null);
-  const [isUploading, setIsUploading] = useState(false);
-  const [isUpdating, setIsUpdating] = useState(false);
-  const [reviewCount, setReviewCount] = useState(0);
-  const [wineCount, setWineCount] = useState(0);
-  const [isLoadingReviews, setIsLoadingReviews] = useState(true);
-  const [isLoadingWines, setIsLoadingWines] = useState(true);
+  const [counts, setCounts] = useState<CountState>({ reviews: 0, wines: 0 });
+  const [loading, setLoading] = useState<LoadingState>({
+    reviews: true,
+    wines: true,
+    uploading: false,
+    updating: false,
+  });
 
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const accessToken = session.accessToken;
+  const { accessToken } = session;
 
-  // store의 nickname이 변경되면 input도 동기화
+  // nickname 동기화
   useEffect(() => {
     setInputValue(nickname);
   }, [nickname]);
 
-  // 후기 개수 가져오기
-  const fetchReviewCount = useCallback(async () => {
+  // 카운트 정보 가져오기 (리뷰 개수, 등록한 와인 개수)
+  const fetchCounts = useCallback(async () => {
+    const updateLoading = (
+      key: keyof Pick<LoadingState, 'reviews' | 'wines'>,
+      value: boolean,
+    ) => {
+      setLoading((prev) => ({ ...prev, [key]: value }));
+    };
+
     try {
-      setIsLoadingReviews(true);
-      const count = await getUserReviewCount(accessToken);
-      setReviewCount(count);
+      const [reviewsPromise, winesPromise] = [
+        getUserReviewCount(accessToken).finally(() =>
+          updateLoading('reviews', false),
+        ),
+        getUserWineCount(accessToken).finally(() =>
+          updateLoading('wines', false),
+        ),
+      ];
+
+      const [reviewCount, wineCount] = await Promise.allSettled([
+        reviewsPromise,
+        winesPromise,
+      ]);
+
+      setCounts({
+        reviews: reviewCount.status === 'fulfilled' ? reviewCount.value : 0,
+        wines: wineCount.status === 'fulfilled' ? wineCount.value : 0,
+      });
     } catch (error) {
-      console.error('후기 개수 조회 실패:', error);
-      setReviewCount(0);
-    } finally {
-      setIsLoadingReviews(false);
+      console.error('카운트 정보 조회 실패:', error);
     }
   }, [accessToken]);
 
-  // 와인 개수 가져오기
-  const fetchWineCount = useCallback(async () => {
-    try {
-      setIsLoadingWines(true);
-      const count = await getUserWineCount(accessToken);
-      setWineCount(count);
-    } catch (error) {
-      console.error('와인 개수 조회 실패:', error);
-      setWineCount(0);
-    } finally {
-      setIsLoadingWines(false);
-    }
-  }, [accessToken]);
-
-  // 컴포넌트 마운트 시 후기 및 와인 개수 조회
   useEffect(() => {
-    fetchReviewCount();
-    fetchWineCount();
-  }, [fetchReviewCount, fetchWineCount]);
+    fetchCounts();
+  }, [fetchCounts]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
+  // 파일 크기 검증 함수
+  const validateFileSize = (file: File): boolean => {
+    if (file.size > MAX_FILE_SIZE_BYTES) {
+      alert(
+        `이미지 파일은 최대 ${MAX_FILE_SIZE_MB}MB까지만 업로드할 수 있습니다.`,
+      );
+      return false;
+    }
+    return true;
   };
 
-  // 이미지 변경
+  // 이미지 업로드 핸들러
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file) return;
+    if (!file || !validateFileSize(file)) return;
 
-    const MAX_FILE_SIZE_MB = 5;
-    const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+    setLoading((prev) => ({ ...prev, uploading: true }));
 
-    if (file.size > MAX_FILE_SIZE_BYTES) {
-      alert('이미지 파일은 최대 5MB까지만 업로드할 수 있습니다.');
-      return;
-    }
-
-    setIsUploading(true);
-
-    // 1. 미리보기용 URL 생성
     const previewUrl = URL.createObjectURL(file);
     updateProfileImg(previewUrl);
 
     try {
-      // 2. 업로드 요청 (userApi 함수 사용)
       const serverImageUrl = await uploadUserImage(accessToken, file);
       updateProfileImg(serverImageUrl);
       setUploadedImgUrl(serverImageUrl);
-      URL.revokeObjectURL(previewUrl);
-    } catch (err) {
-      console.error('이미지 업로드 실패:', err);
+    } catch (error) {
+      console.error('이미지 업로드 실패:', error);
       updateProfileImg('/icons/ui/icon-default-user.svg');
       setUploadedImgUrl(null);
-      URL.revokeObjectURL(previewUrl);
       alert('이미지 업로드에 실패했습니다. 다시 시도해주세요.');
     } finally {
-      setIsUploading(false);
+      URL.revokeObjectURL(previewUrl);
+      setLoading((prev) => ({ ...prev, uploading: false }));
     }
   };
 
+  // 닉네임 변경 핸들러
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsUpdating(true);
+    setLoading((prev) => ({ ...prev, updating: true }));
 
     try {
-      const imageUrl = uploadedImgUrl || profileImg;
       const updateData = {
         nickname: inputValue,
-        ...(imageUrl && { image: imageUrl }),
+        ...(uploadedImgUrl && { image: uploadedImgUrl }),
       };
 
       await updateUserProfile(accessToken, updateData);
@@ -127,28 +155,36 @@ const ProfileCard = ({ session, onProfileUpdate }: ProfileCardProps) => {
       updateNickname(inputValue);
       if (uploadedImgUrl) {
         updateProfileImg(uploadedImgUrl);
+        setUploadedImgUrl(null);
       }
 
-      setUploadedImgUrl(null);
       alert('프로필이 성공적으로 업데이트되었습니다.');
       onProfileUpdate();
-    } catch (err: unknown) {
-      console.error('프로필 업데이트 실패:', err);
-      if (err && typeof err === 'object' && 'response' in err) {
-        const errorText = await (
-          err as { response: { text: () => Promise<string> } }
-        ).response.text();
-        console.error(
-          'API 응답 에러:',
-          (err as { response: { status: number } }).response.status,
-          errorText,
-        );
-      }
+    } catch (error) {
+      console.error('프로필 업데이트 실패:', error);
       alert('프로필 업데이트에 실패했습니다. 다시 시도해주세요.');
     } finally {
-      setIsUpdating(false);
+      setLoading((prev) => ({ ...prev, updating: false }));
     }
   };
+
+  // 통계 정보 표시 컴포넌트 (개수 표시)
+  const CountItem = ({
+    label,
+    count,
+    isLoading,
+  }: {
+    label: string;
+    count: number;
+    isLoading: boolean;
+  }) => (
+    <div className='flex justify-between'>
+      <span className='text-[1rem] font-bold'>{label}</span>
+      <span className='text-[1rem] font-medium'>
+        {isLoading ? '로딩중...' : `${count}개`}
+      </span>
+    </div>
+  );
 
   return (
     <div className='sticky top-8 w-80 rounded-2xl border bg-white p-8 shadow-lg'>
@@ -162,22 +198,22 @@ const ProfileCard = ({ session, onProfileUpdate }: ProfileCardProps) => {
           <button
             type='button'
             className={`absolute right-[-10px] bottom-[-10px] flex h-8 w-8 items-center justify-center rounded-full text-sm text-white transition-colors ${
-              isUploading
+              loading.uploading
                 ? 'cursor-not-allowed bg-gray-400'
                 : 'bg-primary hover:bg-red-600'
             }`}
-            onClick={() => !isUploading && fileInputRef.current?.click()}
-            disabled={isUploading}
+            onClick={() => !loading.uploading && fileInputRef.current?.click()}
+            disabled={loading.uploading}
           >
-            {isUploading ? '⏳' : '✎'}
+            {loading.uploading ? '⏳' : '✎'}
           </button>
           <input
             type='file'
             accept='image/*'
             ref={fileInputRef}
-            style={{ display: 'none' }}
+            className='hidden'
             onChange={handleImageChange}
-            disabled={isUploading}
+            disabled={loading.uploading}
           />
         </div>
       </div>
@@ -200,41 +236,39 @@ const ProfileCard = ({ session, onProfileUpdate }: ProfileCardProps) => {
             id='nickname'
             type='text'
             value={inputValue}
-            onChange={handleChange}
+            onChange={(e) => setInputValue(e.target.value)}
             className='focus:ring-primary w-full rounded-lg border border-gray-300 px-4 py-3 transition-all duration-200 focus:border-transparent focus:ring-2 focus:outline-none'
             placeholder='닉네임을 입력하세요'
-            disabled={isUpdating}
+            disabled={loading.updating}
           />
         </div>
 
         <button
           type='submit'
           className={`focus:ring-primary w-full rounded-lg px-4 py-3 font-medium text-white transition-all duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none ${
-            isUpdating
+            loading.updating
               ? 'bg-secondary cursor-not-allowed'
               : 'bg-primary hover:bg-red-600'
           }`}
-          disabled={isUpdating}
+          disabled={loading.updating}
         >
-          {isUpdating ? '변경 중...' : '변경하기'}
+          {loading.updating ? '변경 중...' : '변경하기'}
         </button>
       </form>
 
-      {/* 추가 정보 섹션 (선택사항) */}
+      {/* 통계 정보 */}
       <div className='mt-8 border-t border-gray-100 pt-6'>
         <div className='space-y-3 text-sm text-gray-600'>
-          <div className='flex justify-between'>
-            <span className='text-[1rem] font-bold'>작성한 후기</span>
-            <span className='text-[1rem] font-medium'>
-              {isLoadingReviews ? '로딩중...' : `${reviewCount}개`}
-            </span>
-          </div>
-          <div className='flex justify-between'>
-            <span className='text-[1rem] font-bold'>등록한 와인</span>
-            <span className='text-[1rem] font-medium'>
-              {isLoadingWines ? '로딩중...' : `${wineCount}개`}
-            </span>
-          </div>
+          <CountItem
+            label='작성한 후기'
+            count={counts.reviews}
+            isLoading={loading.reviews}
+          />
+          <CountItem
+            label='등록한 와인'
+            count={counts.wines}
+            isLoading={loading.wines}
+          />
         </div>
       </div>
     </div>
