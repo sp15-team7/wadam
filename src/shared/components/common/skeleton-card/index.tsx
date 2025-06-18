@@ -13,6 +13,8 @@ const skeletonCardVariants = cva('flex flex-col', {
         'w-full h-[20.9rem] p-[2.4rem] py-0 md:h-[30.2rem] rounded-[3rem]',
       detailList:
         'w-full p-[2rem] bg-white border-secondary border-1 rounded-[1.6rem]',
+      myReview:
+        'w-full px-[2rem] py-[1.6rem] bg-white border-secondary border-1 rounded-[3rem]',
     },
   },
   defaultVariants: {
@@ -101,6 +103,21 @@ const SkeletonCard = ({ variant, className }: SkeletonCardProps) => {
               <Skeleton className='h-[3rem] w-[4.8rem]' />
               <Skeleton className='h-[2rem] flex-1' />
             </div>
+          </div>
+        </div>
+      );
+    case 'myReview':
+      return (
+        <div
+          className={cn(classes, 'flex flex-col gap-[1.7rem] md:gap-[2.4rem]')}
+        >
+          <div>
+            <Skeleton className='h-[3.6rem] w-[3.6rem] rounded-2xl md:ml-auto md:max-w-[8rem]' />
+            <Skeleton className='h-[1.4rem] w-full md:h-[1.6rem]' />
+          </div>
+          <div>
+            <Skeleton className='h-[1.4rem] w-full md:h-[1.6rem]' />
+            <Skeleton className='h-[1.4rem] w-full md:h-[1.6rem]' />
           </div>
         </div>
       );

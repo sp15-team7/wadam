@@ -6,6 +6,7 @@ import WineDetailReviewList from '@/feature/wines/detail/components/WineDetailRe
 import WineDetailTitle from '@/feature/wines/detail/components/WineDetailTitle';
 import { mockWine } from '@/feature/wines/mocks';
 import { GetWineDetailResponse } from '@/feature/wines/schema/wine.schema';
+import SkeletonCard from '@/shared/components/common/skeleton-card';
 import InnerContainer from '@/shared/components/container/InnerContainer';
 import { Button } from '@/shared/components/ui/button';
 import { PAGE_STYLES } from '@/shared/constants/styles';
@@ -39,6 +40,7 @@ const WineDetailPage = async ({ params }: { params: { wineid: string } }) => {
       <h1 className='sr-only'>와인 상세 페이지</h1>
       <InnerContainer className='mt-[6.4rem] pb-[13.2rem]'>
         <DetailCard wine={wineDetail} currentUser={currentUser} />
+        <SkeletonCard variant='myReview' />
         <section className='mt-[5.4rem] grid grid-cols-2 gap-[6rem]'>
           <div>
             <WineDetailTitle title='어떤 맛이 나나요?' count={47} />
