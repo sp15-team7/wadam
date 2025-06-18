@@ -2,6 +2,7 @@ import { auth } from '@/feature/auth/libs/auth';
 import WineTasteSlider from '@/feature/reviews/components/wine-taste-slider';
 import DetailCard from '@/feature/wines/components/card/DetailCard';
 import WineProgressChart from '@/feature/wines/components/wine-progress';
+import WineAromaCards from '@/feature/wines/detail/components/WineAromaCards';
 import WineDetailReviewList from '@/feature/wines/detail/components/WineDetailReviewList';
 import WineDetailTitle from '@/feature/wines/detail/components/WineDetailTitle';
 import { mockWine } from '@/feature/wines/mocks';
@@ -40,13 +41,13 @@ const WineDetailPage = async ({ params }: { params: { wineid: string } }) => {
       <InnerContainer className='mt-[6.4rem] pb-[13.2rem]'>
         <DetailCard wine={wineDetail} currentUser={currentUser} />
         <section className='mt-[5.4rem] grid grid-cols-2 gap-[6rem]'>
-          <div>
+          <div className='flex flex-col gap-[3rem]'>
             <WineDetailTitle title='어떤 맛이 나나요?' count={47} />
             <WineTasteSlider />
           </div>
-          <div>
+          <div className='flex flex-col gap-[3rem]'>
             <WineDetailTitle title='어떤 향이 있나요?' count={47} />
-            <div>향 컴포넌트가 들어갑니다</div>
+            <WineAromaCards />
           </div>
         </section>
         <section className='mt-[5.8rem] flex gap-[6rem]'>

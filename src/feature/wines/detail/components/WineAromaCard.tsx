@@ -16,11 +16,11 @@ interface WineAromaCardProps {
 
 const WineAromaCard: React.FC<WineAromaCardProps> = ({ name, imageUrl }) => {
   return (
-    <div className='wine-aroma-card'>
-      <div className='wine-aroma-image'>
-        <Image src={imageUrl} alt={name} width={80} height={80} />{' '}
+    <div className='border-secondary flex flex-col items-center justify-center gap-[1.5rem] rounded-[1.6rem] border-1 bg-white'>
+      <div className='relative h-[4.5rem] w-[4.5rem] overflow-hidden'>
+        <Image src={imageUrl} alt={name} fill />
       </div>
-      <p className='wine-aroma-name'>{name}</p>
+      <p className='text-gray txt-lg-regular'>{name}</p>
     </div>
   );
 };
