@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 
+import WineRegisterForm from '@/app/wine-modal/WineRegisterForm';
 import WineTasteSlider from '@/feature/reviews/components/wine-taste-slider';
 import MonthlyWineSection from '@/feature/wines/components/MonthlyWineSection';
 import WineFlavors from '@/feature/wines/components/wine-flavors';
@@ -91,6 +92,15 @@ const WinesPage = () => {
           <WinePriceSlider />
           <Button type='submit'>Submit</Button>
         </form>
+        <button onClick={() => open('wine-register')}>와인 등록</button>
+        <Modal
+          modalId='wine-register'
+          title='와인 등록'
+          showCloseButton
+          size='md'
+        >
+          <WineRegisterForm onSuccess={() => close('wine-register')} />
+        </Modal>
       </InnerContainer>
     </main>
   );

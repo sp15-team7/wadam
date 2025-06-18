@@ -29,14 +29,22 @@ export const apiClient = ky.create({
    * - 브라우저가 cross-origin 요청에서도 인증 쿠키를 자동 포함하도록 함
    * - 서버에서 accessToken/refreshToken을 HTTP-Only 쿠키로 전달하는 구조에서 필수
    */
-  credentials: 'include',
 
   /**
-   * 에러 응답 전처리 훅
-   * - ky는 네트워크 오류나 HTTP 상태 코드 400 이상일 때 예외를 throw함
-   * - 이 훅은 그런 예외를 커스터마이징하여 클라이언트에 더 유용한 메시지를 전달
+   * 요청 전처리 훅
+   * - localStorage에 accessToken이 있으면 Authorization 헤더에 Bearer 토큰 추가
    */
   hooks: {
+    beforeRequest: [
+      (request) => {
+        if (typeof window !== 'undefined') {
+          const token = localStorage.getItem('accessToken');
+          if (token) {
+            request.headers.set('Authorization', `Bearer ${token}`);
+          }
+        }
+      },
+    ],
     beforeError: [
       /**
        * @param error - ky 내부에서 발생한 HTTP 에러 객체
