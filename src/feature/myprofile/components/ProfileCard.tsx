@@ -151,7 +151,7 @@ const ProfileCard = ({ session, onProfileUpdate }: ProfileCardProps) => {
   };
 
   return (
-    <div className='sticky top-8 w-80 rounded-2xl bg-white p-8 shadow-lg'>
+    <div className='sticky top-8 w-80 rounded-2xl border bg-white p-8 shadow-lg'>
       {/* 프로필 이미지 */}
       <div className='mb-6 flex justify-center'>
         <div className='relative'>
@@ -192,7 +192,7 @@ const ProfileCard = ({ session, onProfileUpdate }: ProfileCardProps) => {
         <div>
           <label
             htmlFor='nickname'
-            className='mb-2 block text-sm font-medium text-gray-700'
+            className='mb-2 block text-[1.2rem] font-bold text-gray-700'
           >
             닉네임
           </label>
@@ -224,14 +224,14 @@ const ProfileCard = ({ session, onProfileUpdate }: ProfileCardProps) => {
       <div className='mt-8 border-t border-gray-100 pt-6'>
         <div className='space-y-3 text-sm text-gray-600'>
           <div className='flex justify-between'>
-            <span>작성한 후기</span>
-            <span className='font-medium'>
+            <span className='text-[1rem] font-bold'>작성한 후기</span>
+            <span className='text-[1rem] font-medium'>
               {isLoadingReviews ? '로딩중...' : `${reviewCount}개`}
             </span>
           </div>
           <div className='flex justify-between'>
-            <span>등록한 와인</span>
-            <span className='font-medium'>
+            <span className='text-[1rem] font-bold'>등록한 와인</span>
+            <span className='text-[1rem] font-medium'>
               {isLoadingWines ? '로딩중...' : `${wineCount}개`}
             </span>
           </div>
