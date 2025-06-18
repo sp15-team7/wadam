@@ -28,8 +28,8 @@ export const tasteList: TasteType[] = ['바디감', '타닌', '당도', '산미'
 
 // 0 ~ 100 사이의 값으로 표현 50은 중간값(default)
 export const defaultTasteValues: Record<TasteType, number> = {
-  바디감: 50,
-  타닌: 50,
-  당도: 50,
-  산미: 50,
+  바디감: 5,
+  타닌: 5,
+  당도: 5,
+  산미: 5,
 };

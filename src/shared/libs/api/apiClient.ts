@@ -1,5 +1,4 @@
 import ky from 'ky';
-import { getSession } from 'next-auth/react';
 
 /**
  * API 클라이언트 인스턴스
@@ -31,51 +30,12 @@ export const apiClient = ky.create({
    */
   hooks: {
     beforeRequest: [
-      /**
-       * 요청 전에 Authorization 헤더를 자동으로 추가합니다.
-       * - 단, 인증 관련 경로(로그인, 토큰 갱신 등)는 제외하여 순환 참조를 방지합니다.
-       */
-      async (request) => {
-        // 요청 URL에서 경로 부분만 추출합니다.
-        const urlPath = new URL(request.url).pathname;
-
-        // Authorization 헤더를 추가하지 않을 경로 목록
-        const publicPaths = [
-          '/auth/signin',
-          '/auth/signup',
-          '/auth/refresh-token',
-        ];
-
-        // 요청 경로가 publicPaths에 포함되면, 토큰 추가 로직을 건너뜁니다.
-        if (publicPaths.some((path) => urlPath.endsWith(path))) {
-          return;
-        }
-
-        try {
-          // 서버 사이드에서 실행되는 경우에만 auth() 함수를 사용해 토큰을 추가합니다.
-          if (typeof window === 'undefined') {
-            // 순환 의존성 방지를 위해 동적 import 사용
-            const { auth } = await import('@/feature/auth/libs/auth');
-            const session = await auth();
-            if (session?.accessToken) {
-              request.headers.set(
-                'Authorization',
-                `Bearer ${session.accessToken}`,
-              );
-            }
-          } else {
-            // 클라이언트 사이드에서 실행되는 경우 getSession을 사용해 토큰을 추가합니다.
-            const session = await getSession();
-            if (session?.accessToken) {
-              request.headers.set(
-                'Authorization',
-                `Bearer ${session.accessToken}`,
-              );
-            }
+      (request) => {
+        if (typeof window !== 'undefined') {
+          const token = localStorage.getItem('accessToken');
+          if (token) {
+            request.headers.set('Authorization', `Bearer ${token}`);
           }
-        } catch (error) {
-          // auth() 함수 호출 실패 시 무시하고 계속 진행
-          console.warn('토큰 가져오기 실패:', error);
         }
       },
     ],

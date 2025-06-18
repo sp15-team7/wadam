@@ -35,7 +35,13 @@ const initializeJwtToken = (token: JWT, user: User): JWT => {
 
     return token;
   } catch (error) {
-    console.error('JWT 토큰 초기화 오류:', error);
+    console.error('❌ JWT 토큰 초기화 오류:', {
+      errorMessage: error instanceof Error ? error.message : String(error),
+      userData: {
+        hasAccessToken: !!user.accessToken,
+        hasRefreshToken: !!user.refreshToken,
+      },
+    });
     token.error = 'RefreshAccessTokenError';
     return token;
   }
@@ -46,25 +52,40 @@ const initializeJwtToken = (token: JWT, user: User): JWT => {
  */
 const refreshAccessToken = async (token: JWT): Promise<JWT> => {
   try {
-    console.log('액세스 토큰이 만료되었습니다. 갱신을 시도합니다.');
+    if (!token.refreshToken) {
+      console.error('🚨 RefreshToken이 없어 토큰 갱신을 중단합니다.');
+      throw new Error('NoRefreshToken');
+    }
+
+    console.log(
+      '⏰ 액세스 토큰이 만료되어 갱신을 시작합니다. RefreshToken:',
+      `${(token.refreshToken as string).substring(0, 20)}...`,
+    );
 
     const refreshed = await refreshToken({
       refreshToken: token.refreshToken as string,
     });
 
+    console.log('✅ 액세스 토큰이 성공적으로 갱신되었습니다.');
+
     // 새로운 토큰 정보 업데이트
-    token.accessToken = refreshed.accessToken;
-    token.accessTokenExpires = getTokenExpiration(refreshed.accessToken);
-
-    // 에러 상태 제거
-    delete token.error;
-
-    console.log('액세스 토큰이 성공적으로 갱신되었습니다.');
-    return token;
+    return {
+      ...token,
+      accessToken: refreshed.accessToken,
+      accessTokenExpires: getTokenExpiration(refreshed.accessToken),
+      error: undefined, // 에러 상태 초기화
+    };
   } catch (error) {
-    console.error('액세스 토큰 갱신 중 오류가 발생했습니다:', error);
-    token.error = 'RefreshAccessTokenError';
-    return token;
+    console.error('❌ 액세스 토큰 갱신 중 심각한 오류가 발생했습니다:', {
+      errorName: error instanceof Error ? error.name : 'Unknown',
+      errorMessage: error instanceof Error ? error.message : String(error),
+    });
+
+    // 갱신 실패 시, 에러를 기록하고 사용자가 다시 로그인하도록 유도
+    return {
+      ...token,
+      error: 'RefreshAccessTokenError', // 세션에 에러 상태 전파
+    };
   }
 };
 
@@ -79,20 +100,22 @@ export const jwtCallback = async ({
   token: JWT;
   user?: User;
 }): Promise<JWT> => {
-  // Phase 1: 최초 로그인 (user 객체가 존재할 때)
+  // 1. 최초 로그인 시, 사용자 정보로 토큰을 초기화합니다.
   if (user) {
     return initializeJwtToken(token, user);
   }
 
-  // Phase 2: 후속 세션 확인
-  const expirationTime = token.accessTokenExpires as number;
-
-  // Case 1: 토큰이 아직 만료되지 않은 경우
-  if (!isTokenExpired(expirationTime)) {
+  // 2. 토큰이 아직 유효한 경우, 그대로 반환합니다.
+  if (!isTokenExpired(token.accessTokenExpires as number)) {
     return token;
   }
 
-  // Case 2: 토큰이 만료된 경우 - 갱신 시도
+  // 3. 토큰이 만료되었고, 이전에 이미 갱신에 실패한 경우, 더 이상 진행하지 않습니다.
+  if (token.error === 'RefreshAccessTokenError') {
+    return token;
+  }
+
+  // 4. 토큰이 만료되었고, 아직 갱신 시도를 하지 않았다면 갱신을 시도합니다.
   return refreshAccessToken(token);
 };
 
