@@ -6,6 +6,7 @@ import WineDetailReviewList from '@/feature/wines/detail/components/WineDetailRe
 import WineDetailTitle from '@/feature/wines/detail/components/WineDetailTitle';
 import { mockWine } from '@/feature/wines/mocks';
 import { GetWineDetailResponse } from '@/feature/wines/schema/wine.schema';
+import SkeletonCard from '@/shared/components/common/skeleton-card';
 import InnerContainer from '@/shared/components/container/InnerContainer';
 import { Button } from '@/shared/components/ui/button';
 import { PAGE_STYLES } from '@/shared/constants/styles';
@@ -52,6 +53,7 @@ const WineDetailPage = async ({ params }: { params: { wineid: string } }) => {
         <section className='mt-[5.8rem] flex gap-[6rem]'>
           <article className='flex-1'>
             <WineDetailTitle title='리뷰 목록' />
+            <SkeletonCard variant='myReview' />
             <WineDetailReviewList />
           </article>
           <div className='relative w-[28rem] flex-none'>
