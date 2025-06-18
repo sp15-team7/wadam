@@ -3,7 +3,8 @@
 import React, { useEffect, useState } from 'react';
 
 import { getUserWines, Wine } from '@/feature/libs/api/userApi'; // Import getUserWines and Wine type
-import WineCard from '@/feature/wines/components/card/WineCard';
+import DetailCard from '@/feature/wines/components/card/DetailCard';
+import { GetWineDetailResponse } from '@/feature/wines/schema/wine.schema';
 
 interface WineCardListProps {
   accessToken: string;
@@ -48,19 +49,15 @@ const WineCardList: React.FC<WineCardListProps> = ({ accessToken }) => {
   }
 
   return (
-    <div className='w-full p-6'>
-      {/* 와인 리스트 - 카드 너비에 맞게 조정 */}
-      <div className='w-full space-y-4'>
+    <div className='w-full px-6 pb-6'>
+      {/* 와인 리스트 - 카드 간격 조정 */}
+      <div className='mt-10 w-full space-y-6'>
         {wines.map((wine) => (
-          <div
-            key={wine.id}
-            className='w-full border-b border-gray-100 pb-4 last:border-b-0 last:pb-0'
-          >
-            <div className='w-full overflow-hidden'>
-              <WineCard
-                wine={{ ...wine, recentReview: wine.recentReview ?? null }}
-              />
-            </div>
+          <div key={wine.id} className='mt-20 w-full'>
+            <DetailCard
+              wine={wine as unknown as GetWineDetailResponse}
+              currentUser={wine.userId}
+            />
           </div>
         ))}
       </div>
@@ -81,9 +78,6 @@ const WineCardList: React.FC<WineCardListProps> = ({ accessToken }) => {
             등록한 와인이 없습니다
           </h3>
           <p className='mb-4 text-gray-600'>새로운 와인을 등록해보세요!</p>
-          <button className='rounded-lg bg-red-500 px-6 py-2 text-white transition-colors hover:bg-red-600'>
-            와인 등록하기
-          </button>
         </div>
       )}
     </div>
