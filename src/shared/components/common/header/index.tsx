@@ -9,7 +9,7 @@ const Header = async () => {
   const isAuthenticated = !!session?.user;
 
   return (
-    <header className='w-dvw'>
+    <header className='relative z-[10] w-dvw'>
       <div className='mx-auto flex max-w-[114rem] items-center justify-evenly p-14'>
         <div className='flex-1' />
 

@@ -18,8 +18,7 @@ import { Label } from '@/shared/components/ui/label';
 // const LABEL_STYLE = 'text-md-bold md:text-lg-bold lg:text-2lg-bold';
 // const INPUT_STYLE =
 //   'text-lg-small mt-1 h-[42px] w-[303px] rounded-full border px-5 md:h-[52px] md:w-[400px] lg:w-[500px]';
-const ERROR_STYLE =
-  'txt-sm-small txt-primary md:txt-md-small lg:txt-md-small pt-2 ml-2';
+const ERROR_STYLE = 'text-xl font-medium text-primary mr-2';
 
 interface FormFieldProps<T extends FieldValues> {
   label: string;
@@ -28,6 +27,8 @@ interface FormFieldProps<T extends FieldValues> {
   placeholder?: string;
   register: UseFormRegister<T>;
   errors: FieldErrors<T>;
+  onFocus?: () => void;
+  serverError?: string;
 }
 
 const FormField = <T extends FieldValues>({
@@ -37,19 +38,29 @@ const FormField = <T extends FieldValues>({
   placeholder,
   register,
   errors,
+  onFocus,
+  serverError,
 }: FormFieldProps<T>) => {
   return (
-    <div className='txt-md-bold w-full'>
-      <Label htmlFor={name}>{label}</Label>
+    <div className='w-full'>
+      <div className='flex w-full items-center justify-between'>
+        <Label htmlFor={name} className='text-xl font-medium'>
+          {label}
+        </Label>
+        {(errors[name] || serverError) && (
+          <p className={ERROR_STYLE}>
+            {serverError || String(errors[name]?.message)}
+          </p>
+        )}
+      </div>
       <Input
         id={name}
         {...register(name)}
         type={type}
         placeholder={placeholder}
+        className={`w-full text-2xl font-normal`}
+        onFocus={onFocus}
       />
-      {errors[name] && (
-        <p className={ERROR_STYLE}>{String(errors[name]?.message)}</p>
-      )}
     </div>
   );
 };
