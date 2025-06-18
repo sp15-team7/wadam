@@ -13,7 +13,7 @@ const DetailCard = ({
 }) => {
   const { name, region, image, price } = wine;
   return (
-    <Card className='h-[19rem] w-[34.3rem] md:h-[26rem] md:w-[70.4rem] lg:w-[114rem]'>
+    <Card className='h-[19rem] md:h-[26rem]'>
       <CardContent className='flex h-full px-8 md:gap-8'>
         <figure
           className='flex items-end px-4 md:px-6'

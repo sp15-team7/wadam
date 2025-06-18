@@ -4,6 +4,7 @@
  * @description: 와인 점수 프로그레스 컴포넌트 (와인 점수 분포 표시 - 1점 ~ 5점) + 현재는 mockData 사용 (실제 사용 시 api 통신하는 커스텀 훅 연결 필요)
  */
 
+import StarRating from '@/shared/components/common/star-rating';
 import { Progress } from '@/shared/components/ui/progress';
 
 interface WineProgressProps {
@@ -21,20 +22,44 @@ const mockData = {
   reviewCount: 55,
 };
 
+const getAverageRating = (data: typeof mockData) => {
+  const { avgRatings, reviewCount } = data;
+
+  if (!reviewCount) return 0;
+
+  const totalScore = Object.entries(avgRatings).reduce(
+    (acc, [rating, count]) => {
+      return acc + Number(rating) * count;
+    },
+    0,
+  );
+
+  return Number((totalScore / reviewCount).toFixed(1)); // 소수점 첫째자리까지 반올림
+};
+
 const WineProgress = ({ wineId }: WineProgressProps) => {
+  console.log(wineId);
   // TODO: API 연동 시 windId를 받아 커스텀 훅으로 데이터 가져와 사용
   const getPercentage = (count: number) =>
     mockData.reviewCount === 0 ? 0 : (count / mockData.reviewCount) * 100;
-
+  const avgRating = getAverageRating(mockData);
   return (
-    <div className='flex flex-col items-center'>
-      <p className='txt-2xl-bold flex justify-center'>
-        {mockData.reviewCount}명이 평가했습니다.
-      </p>
-      <div className='w-full max-w-md rounded-md bg-white p-6'>
+    <div>
+      <div className='flex items-center gap-[2rem]'>
+        <strong className='text-[5.4rem] font-extrabold'>{avgRating}</strong>
+        <div>
+          <StarRating value={Number(avgRating)} size='md' readOnly />
+          <p className='txt-md-regular text-gray mt-[0.5rem]'>
+            {mockData.reviewCount.toLocaleString('ko-KR')}개의 후기
+          </p>
+        </div>
+      </div>
+      <div className='mt-[2rem] flex flex-col gap-[1.5rem]'>
         {[5, 4, 3, 2, 1].map((score) => (
-          <div key={score} className='mb-4 flex items-center gap-4 last:mb-0'>
-            <span className='txt-xl-bold w-20 text-right'>{score}점</span>
+          <div key={score} className='flex items-center gap-[1.5rem]'>
+            <span className='txt-lg-small text-gray flex-none text-right'>
+              {score}점
+            </span>
             <Progress
               value={getPercentage(
                 mockData.avgRatings[score as keyof typeof mockData.avgRatings],
