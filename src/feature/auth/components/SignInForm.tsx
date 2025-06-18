@@ -11,10 +11,11 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
-import { JSX, useActionState, useTransition } from 'react';
+import { JSX, useActionState, useEffect, useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { signInAction } from '@/feature/auth/actions/auth.action';
+import ErrorMessage from '@/feature/auth/components/ErrorMessage';
 import {
   type SignInFormData,
   signInSchema,
@@ -25,12 +26,12 @@ import Spinner from '@/shared/components/common/spinner';
 import { Button } from '../../../shared/components/ui/button';
 import AuthLink from './AuthLink';
 import SubmitButton from './buttons/SubmitButton';
-import ErrorMessage from './ErrorMessage';
 import FormField from './FormField';
 
 const SignInForm: () => JSX.Element = () => {
   const [state, formAction] = useActionState(signInAction, null);
   const [_isPending, startTransition] = useTransition();
+  const [showError, setShowError] = useState(false);
 
   const {
     register,
@@ -41,21 +42,36 @@ const SignInForm: () => JSX.Element = () => {
     mode: 'onBlur',
   });
 
+  // state가 변경될 때마다 에러 메시지 표시 상태 업데이트
+  useEffect(() => {
+    if (state?.message) {
+      setShowError(true);
+    }
+  }, [state]);
+
   const onSubmit = async (data: SignInFormData) => {
     const formData = new FormData();
     Object.entries(data).forEach(([key, value]) => {
       formData.append(key, value);
     });
 
+    // 로그인 시도 시 에러 상태 초기화
+    setShowError(false);
+
     startTransition(() => {
       formAction(formData);
     });
   };
 
+  // input에 focus가 되면 에러 메시지 숨기기
+  const handleInputFocus = () => {
+    setShowError(false);
+  };
+
   return (
     <>
       {_isPending && (
-        <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/70'>
+        <div className='flex-center fixed inset-0 z-50 bg-black/70'>
           <div className='flex flex-col items-center gap-4 rounded-lg bg-white p-8 shadow-lg'>
             <Spinner size='large' color='primary' />
             <span className='text-primary text-xl font-bold'>처리 중...</span>
@@ -65,12 +81,13 @@ const SignInForm: () => JSX.Element = () => {
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className='flex h-[67.9rem] w-[34.3rem] flex-col items-center gap-5 px-4 pt-36 md:h-[76.2rem] md:w-[49.6rem] lg:h-[79.4rem] lg:w-[50rem]'
+        className='flex-center h-[67.9rem] w-[34.3rem] flex-col items-center gap-20 md:h-[76.2rem] md:w-[49.6rem] lg:h-[79.4rem] lg:w-[50rem]'
       >
-        <div className='mb-20 flex'>
-          <Logo className='' />
+        <div className='mb-10'>
+          <Logo />
         </div>
-        <div className='flex w-full flex-col gap-8 pt-13'>
+
+        <div className='flex-center w-full flex-col gap-4'>
           <FormField<SignInFormData>
             label='이메일'
             name='email'
@@ -78,6 +95,7 @@ const SignInForm: () => JSX.Element = () => {
             placeholder='이메일 입력'
             register={register}
             errors={errors}
+            onFocus={handleInputFocus}
           />
 
           <FormField<SignInFormData>
@@ -87,27 +105,31 @@ const SignInForm: () => JSX.Element = () => {
             placeholder='비밀번호 입력'
             register={register}
             errors={errors}
+            onFocus={handleInputFocus}
           />
+          <div className='mt-2 h-4 w-full'>
+            {state?.message && showError && (
+              <ErrorMessage message={state.message} />
+            )}
+          </div>
         </div>
-        <div className='txt-md-bold flex w-full flex-col gap-8 pt-61'>
+        <div className='flex w-full flex-col gap-8'>
           <SubmitButton>로그인</SubmitButton>
           <Button
             size='full'
-            className='txt-md-bold bg-[#FFDB00] !text-black hover:bg-[#FFDB00]/60'
+            className='mt-[-1rem] bg-[#FFDB00] !text-black hover:bg-[#FFDB00]/60'
           >
-            <div className='flex-center gap-[2rem]'>
+            <div className='flex-center gap-x-3'>
               <Image
                 src='/icons/ui/icon-kakao.svg'
                 alt='카카오 아이콘'
                 width={24}
                 height={24}
-                className='h-[2rem] w-[2rem] md:h-[2.4rem] md:w-[2.4rem] lg:h-[2.8rem] lg:w-[2.8rem]'
+                className='h-8 w-8'
               />
               카카오로 시작하기
             </div>
           </Button>
-
-          {state?.message && <ErrorMessage message={state.message} />}
 
           <AuthLink
             label='계정이 없으신가요?'
