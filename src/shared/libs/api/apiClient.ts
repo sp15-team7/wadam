@@ -1,13 +1,15 @@
 import ky from 'ky';
+import { getSession } from 'next-auth/react';
 
 /**
  * API 클라이언트 인스턴스
  *
  * @description
  * - `ky`는 fetch 기반의 경량 HTTP 클라이언트 라이브러리입니다.
- * - 본 인스턴스는 **모든 요청에 공통 설정**을 적용하며, 클라이언트 및 서버 컴포넌트에서 API 요청 시 사용합니다.
- * - 인증 토큰은 **서버 사이드에서는 auth() 함수**를, **클라이언트 사이드에서는 localStorage**를 통해 자동으로 Authorization 헤더에 추가됩니다.
- * - 서버가 응답한 JSON 에러 메시지를 클라이언트에 **직관적인 형태로 전달**하기 위해 `beforeError` 훅을 사용합니다.
+ * - 본 인스턴스는 모든 API 요청에 사용됩니다.
+ * - 인증이 필요한 요청에는 자동으로 Authorization 헤더를 추가하며,
+ *   특정 경로(로그인, 회원가입, 토큰 갱신)는 헤더 추가 로직에서 제외됩니다.
+ * - 서버가 응답한 JSON 에러 메시지를 클라이언트에 직관적인 형태로 전달합니다.
  */
 export const apiClient = ky.create({
   /**
@@ -31,12 +33,26 @@ export const apiClient = ky.create({
     beforeRequest: [
       /**
        * 요청 전에 Authorization 헤더를 자동으로 추가합니다.
-       * - 서버 사이드: auth() 함수를 통해 세션에서 토큰 가져오기
-       * - 클라이언트 사이드: localStorage에서 토큰 가져오기 (향후 구현 가능)
+       * - 단, 인증 관련 경로(로그인, 토큰 갱신 등)는 제외하여 순환 참조를 방지합니다.
        */
       async (request) => {
+        // 요청 URL에서 경로 부분만 추출합니다.
+        const urlPath = new URL(request.url).pathname;
+
+        // Authorization 헤더를 추가하지 않을 경로 목록
+        const publicPaths = [
+          '/auth/signin',
+          '/auth/signup',
+          '/auth/refresh-token',
+        ];
+
+        // 요청 경로가 publicPaths에 포함되면, 토큰 추가 로직을 건너뜁니다.
+        if (publicPaths.some((path) => urlPath.endsWith(path))) {
+          return;
+        }
+
         try {
-          // 서버 사이드에서 실행되는 경우 auth() 함수 사용
+          // 서버 사이드에서 실행되는 경우에만 auth() 함수를 사용해 토큰을 추가합니다.
           if (typeof window === 'undefined') {
             // 순환 의존성 방지를 위해 동적 import 사용
             const { auth } = await import('@/feature/auth/libs/auth');
@@ -47,9 +63,16 @@ export const apiClient = ky.create({
                 `Bearer ${session.accessToken}`,
               );
             }
+          } else {
+            // 클라이언트 사이드에서 실행되는 경우 getSession을 사용해 토큰을 추가합니다.
+            const session = await getSession();
+            if (session?.accessToken) {
+              request.headers.set(
+                'Authorization',
+                `Bearer ${session.accessToken}`,
+              );
+            }
           }
-          // 클라이언트 사이드에서는 다른 방법 사용 (예: useSession 훅 등)
-          // 현재는 서버 사이드 위주로 구현
         } catch (error) {
           // auth() 함수 호출 실패 시 무시하고 계속 진행
           console.warn('토큰 가져오기 실패:', error);
