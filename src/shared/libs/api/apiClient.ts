@@ -5,9 +5,10 @@ import ky from 'ky';
  *
  * @description
  * - `ky`는 fetch 기반의 경량 HTTP 클라이언트 라이브러리입니다.
- * - 본 인스턴스는 **모든 요청에 공통 설정**을 적용하며, 주로 클라이언트 컴포넌트에서 API 요청 시 사용합니다.
- * - 인증 토큰은 **HTTP-Only 쿠키**로 전달되므로, `credentials: 'include'` 옵션이 필수입니다.
- * - 서버가 응답한 JSON 에러 메시지를 클라이언트에 **직관적인 형태로 전달**하기 위해 `beforeError` 훅을 사용합니다.
+ * - 본 인스턴스는 모든 API 요청에 사용됩니다.
+ * - 인증이 필요한 요청에는 자동으로 Authorization 헤더를 추가하며,
+ *   특정 경로(로그인, 회원가입, 토큰 갱신)는 헤더 추가 로직에서 제외됩니다.
+ * - 서버가 응답한 JSON 에러 메시지를 클라이언트에 직관적인 형태로 전달합니다.
  */
 export const apiClient = ky.create({
   /**
@@ -25,24 +26,46 @@ export const apiClient = ky.create({
   },
 
   /**
-   * 쿠키 기반 인증을 위한 설정
-   * - 브라우저가 cross-origin 요청에서도 인증 쿠키를 자동 포함하도록 함
-   * - 서버에서 accessToken/refreshToken을 HTTP-Only 쿠키로 전달하는 구조에서 필수
-   */
-  // credentials: 'include',
-
-  /**
-   * 요청 전처리 훅
-   * - localStorage에 accessToken이 있으면 Authorization 헤더에 Bearer 토큰 추가
+   * 요청 전처리 및 에러 처리 훅
    */
   hooks: {
     beforeRequest: [
-      (request) => {
-        if (typeof window !== 'undefined') {
-          const token = localStorage.getItem('accessToken');
-          if (token) {
-            request.headers.set('Authorization', `Bearer ${token}`);
+      /**
+       * 요청 전에 Authorization 헤더를 자동으로 추가합니다.
+       * - 단, 인증 관련 경로(로그인, 토큰 갱신 등)는 제외하여 순환 참조를 방지합니다.
+       */
+      async (request) => {
+        // 요청 URL에서 경로 부분만 추출합니다.
+        const urlPath = new URL(request.url).pathname;
+
+        // Authorization 헤더를 추가하지 않을 경로 목록
+        const publicPaths = [
+          '/auth/signin',
+          '/auth/signup',
+          '/auth/refresh-token',
+        ];
+
+        // 요청 경로가 publicPaths에 포함되면, 토큰 추가 로직을 건너뜁니다.
+        if (publicPaths.some((path) => urlPath.endsWith(path))) {
+          return;
+        }
+
+        try {
+          // 서버 사이드에서 실행되는 경우에만 auth() 함수를 사용해 토큰을 추가합니다.
+          if (typeof window === 'undefined') {
+            // 순환 의존성 방지를 위해 동적 import 사용
+            const { auth } = await import('@/feature/auth/libs/auth');
+            const session = await auth();
+            if (session?.accessToken) {
+              request.headers.set(
+                'Authorization',
+                `Bearer ${session.accessToken}`,
+              );
+            }
           }
+        } catch (error) {
+          // auth() 함수 호출 실패 시 무시하고 계속 진행
+          console.warn('토큰 가져오기 실패:', error);
         }
       },
     ],

@@ -139,7 +139,10 @@ export const getWinesResponseSchema = z.object({
 export const getWineDetailResponseSchema = wineBaseSchema.extend({
   recentReview: reviewResponseSchema.nullable(),
   reviews: z.array(wineDetailReviewSchema),
-  avgRatings: z.record(z.enum(['1', '2', '3', '4', '5']), positiveNumberSchema),
+  avgRatings: z.record(
+    z.enum(['1', '2', '3', '4', '5']),
+    nonNegativeNumberSchema,
+  ),
 });
 
 // --- 4. 와인 수정: PATCH /{teamId}/wines/{id} ---

@@ -10,22 +10,30 @@ import { User } from '@/feature/auth/types/auth.types';
  */
 export const getTokenExpiration = (token: string): number => {
   try {
+    if (!token) {
+      // 토큰이 없으면 즉시 만료 처리
+      return Date.now() - 1;
+    }
+
     const decoded = jwtDecode(token);
     return (decoded.exp as number) * 1000;
-  } catch {
-    // 토큰이 유효하지 않은 경우 현재 시간보다 이전으로 설정하여 만료 처리
+  } catch (error) {
+    // 디코딩 실패 시 (유효하지 않은 토큰) 즉시 만료 처리
+    console.error('❌ 토큰 디코딩 실패:', error);
     return Date.now() - 1;
   }
 };
 
 /**
  * 토큰이 만료되었는지 확인합니다.
+ * 안정적인 세션 유지를 위해 만료 시간 60초 전에 미리 갱신합니다.
  *
  * @param expirationTime - 토큰 만료 시간 (밀리초)
  * @returns 만료 여부
  */
 export const isTokenExpired = (expirationTime: number): boolean => {
-  return Date.now() >= expirationTime;
+  const safetyBuffer = 60 * 1000; // 60초
+  return Date.now() >= expirationTime - safetyBuffer;
 };
 
 /**

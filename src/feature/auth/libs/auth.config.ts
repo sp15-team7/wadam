@@ -27,6 +27,32 @@ export const authConfig: NextAuthConfig = {
    */
   callbacks: {
     /**
+     * 미들웨어나 API 라우트에서 요청이 승인되었는지 여부를 결정합니다.
+     * 이 콜백은 `auth()`가 호출될 때마다 실행되며, 리다이렉션 로직을 중앙에서 관리합니다.
+     * @returns {boolean | Response} `true`를 반환하면 요청이 계속 진행되고,
+     * `false`나 `Response` 객체를 반환하면 리다이렉트됩니다.
+     */
+    authorized({ auth, request: { nextUrl } }) {
+      const isLoggedIn = !!auth?.user;
+      const pathname = nextUrl.pathname;
+
+      // Case 1: 로그인한 사용자가 로그인/회원가입 페이지 접근 시 /wines로 리다이렉트
+      if (
+        isLoggedIn &&
+        (pathname.startsWith('/signin') || pathname.startsWith('/signup'))
+      ) {
+        return Response.redirect(new URL('/wines', nextUrl));
+      }
+
+      // Case 2: 로그인하지 않은 사용자가 보호된 경로 접근 시 /signin으로 리다이렉트
+      if (!isLoggedIn && pathname.startsWith('/myprofile')) {
+        return Response.redirect(new URL('/signin', nextUrl));
+      }
+
+      // 그 외의 모든 경우는 요청을 허용
+      return true;
+    },
+    /**
      * JWT 토큰이 생성되거나 업데이트될 때마다 호출됩니다.
      * 로그인 성공 시, 세션 확인 시, 토큰 갱신 시 실행됩니다.
      */
