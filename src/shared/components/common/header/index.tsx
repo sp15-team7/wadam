@@ -20,10 +20,7 @@ const Header = async () => {
 
         {/* 우측 액션 버튼 영역 - 최소 크기 보장 */}
         <div className='flex min-w-fit flex-1 items-center justify-end'>
-          <HeaderClient
-            isAuthenticated={isAuthenticated}
-            userImage={session?.user?.image}
-          />
+          <HeaderClient isAuthenticated={isAuthenticated} />
         </div>
       </div>
     </header>
