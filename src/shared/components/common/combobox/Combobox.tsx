@@ -26,6 +26,7 @@ interface ComboboxContextType {
   value: string;
   onChange: (v: string) => void;
   placeholder?: string;
+  searchable?: boolean;
 }
 
 // ---------- Context ----------
@@ -39,12 +40,14 @@ export function ComboboxRoot({
   value,
   onChange,
   placeholder = 'Select an option',
+  searchable = true,
   children,
 }: {
   options: ComboboxOption[];
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
+  searchable?: boolean;
   children: React.ReactNode;
 }) {
   const [open, setOpen] = React.useState(false);
@@ -60,8 +63,9 @@ export function ComboboxRoot({
       value,
       onChange,
       placeholder,
+      searchable,
     }),
-    [open, query, options, value, onChange, placeholder],
+    [open, query, options, value, onChange, placeholder, searchable],
   );
 
   return (
@@ -90,7 +94,11 @@ export function ComboboxTrigger() {
 
   if (!ctx) return null;
 
-  const { open, setOpen, setQuery, placeholder } = ctx;
+  const { open, setOpen, setQuery, placeholder, searchable, value, options } =
+    ctx;
+
+  const selectedOption = options.find((opt) => opt.value === value);
+  const displayValue = selectedOption ? selectedOption.label : placeholder;
 
   const handleInputChange = (value: string) => {
     setInputValue(value);
@@ -104,7 +112,7 @@ export function ComboboxTrigger() {
     e.stopPropagation();
     if (!open) {
       setOpen(true);
-      if (inputRef.current) {
+      if (inputRef.current && searchable) {
         inputRef.current.focus();
       }
     }
@@ -131,27 +139,35 @@ export function ComboboxTrigger() {
         aria-expanded={open}
         aria-controls='combobox-options-list'
       >
-        <Search className='mr-4 h-10 w-10 text-[#c2bfb1]' />
-        <input
-          ref={inputRef}
-          value={inputValue}
-          onChange={(e) => handleInputChange(e.target.value)}
-          onCompositionStart={() => {
-            isComposingRef.current = true;
-          }}
-          onCompositionEnd={(e) => {
-            isComposingRef.current = false;
-            handleInputChange(e.currentTarget.value);
-          }}
-          onFocus={() => setOpen(true)}
-          onClick={handleClick}
-          placeholder={placeholder}
-          className={cn(
-            'txt-lg-semibold w-full border-none bg-transparent text-[3.2rem] placeholder:text-[#c2bfb1] focus:border-none focus:ring-0 focus:outline-none focus-visible:border-none focus-visible:ring-0 focus-visible:outline-none',
-            'text-[#c2bfb1]',
-          )}
-          style={{ fontWeight: 400 }}
-        />
+        {searchable ? (
+          <>
+            <Search className='mr-4 h-10 w-10 text-[#c2bfb1]' />
+            <input
+              ref={inputRef}
+              value={inputValue}
+              onChange={(e) => handleInputChange(e.target.value)}
+              onCompositionStart={() => {
+                isComposingRef.current = true;
+              }}
+              onCompositionEnd={(e) => {
+                isComposingRef.current = false;
+                handleInputChange(e.currentTarget.value);
+              }}
+              onFocus={() => setOpen(true)}
+              onClick={handleClick}
+              placeholder={placeholder}
+              className={cn(
+                'txt-lg-semibold w-full border-none bg-transparent text-[3.2rem] placeholder:text-[#c2bfb1] focus:border-none focus:ring-0 focus:outline-none focus-visible:border-none focus-visible:ring-0 focus-visible:outline-none',
+                'text-[#c2bfb1]',
+              )}
+              style={{ fontWeight: 400 }}
+            />
+          </>
+        ) : (
+          <span className='txt-lg-semibold text-[3.2rem] text-[#c2bfb1]'>
+            {displayValue}
+          </span>
+        )}
       </div>
     </PopoverTrigger>
   );
@@ -191,7 +207,7 @@ export function ComboboxOptions() {
                 onClick={() => {
                   onChange(opt.value);
                   setOpen(false);
-                  setQuery(opt.label);
+                  setQuery('');
                 }}
                 className={cn(
                   'flex w-full items-center justify-between rounded-full px-6 py-4 text-left',
