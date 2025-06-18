@@ -40,7 +40,6 @@ const WineDetailPage = async ({ params }: { params: { wineid: string } }) => {
       <h1 className='sr-only'>와인 상세 페이지</h1>
       <InnerContainer className='mt-[6.4rem] pb-[13.2rem]'>
         <DetailCard wine={wineDetail} currentUser={currentUser} />
-        <SkeletonCard variant='myReview' />
         <section className='mt-[5.4rem] grid grid-cols-2 gap-[6rem]'>
           <div>
             <WineDetailTitle title='어떤 맛이 나나요?' count={47} />
@@ -54,6 +53,7 @@ const WineDetailPage = async ({ params }: { params: { wineid: string } }) => {
         <section className='mt-[5.8rem] flex gap-[6rem]'>
           <article className='flex-1'>
             <WineDetailTitle title='리뷰 목록' />
+            <SkeletonCard variant='myReview' />
             <WineDetailReviewList />
           </article>
           <div className='relative w-[28rem] flex-none'>

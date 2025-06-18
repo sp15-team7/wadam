@@ -111,13 +111,17 @@ const SkeletonCard = ({ variant, className }: SkeletonCardProps) => {
         <div
           className={cn(classes, 'flex flex-col gap-[1.7rem] md:gap-[2.4rem]')}
         >
-          <div>
-            <Skeleton className='h-[3.6rem] w-[3.6rem] rounded-2xl md:ml-auto md:max-w-[8rem]' />
-            <Skeleton className='h-[1.4rem] w-full md:h-[1.6rem]' />
+          <div className='flex items-center gap-[1.5rem]'>
+            <Skeleton className='h-[3.2rem] w-[6rem] rounded-2xl md:h-[3.8rem] md:w-[8rem]' />
+            <Skeleton className='h-[1.4rem] w-[5.5rem] md:h-[1.6rem]' />
           </div>
-          <div>
-            <Skeleton className='h-[1.4rem] w-full md:h-[1.6rem]' />
-            <Skeleton className='h-[1.4rem] w-full md:h-[1.6rem]' />
+          <div className='flex flex-col gap-[1.2rem]'>
+            <Skeleton className='h-[1.4rem] w-5/6 md:h-[1.6rem]' />
+            <div className='flex flex-col gap-[0.5rem]'>
+              <Skeleton className='h-[1.4rem] w-5/7 md:h-[1.6rem]' />
+              <Skeleton className='h-[1.4rem] w-6/7 md:h-[1.6rem]' />
+              <Skeleton className='h-[1.4rem] w-5/6 md:h-[1.6rem]' />
+            </div>
           </div>
         </div>
       );
