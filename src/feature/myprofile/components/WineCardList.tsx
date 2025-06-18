@@ -1,4 +1,11 @@
-// 내가 등록한 와인 리스트
+'use client';
+
+/**
+ * @author: Hyun
+ * @since: 2025-06-18
+ * @description: 내가 등록한 와인 리스트 (ReviewCardList와 로직이 거의 같은 컴포넌트)
+ * 흐름: useEffect로 내가 등록한 와인을 가져와 setWines에 저장 -> 화면에 뿌려줌(로딩 상태 표시/에러 상태 표시/빈 상태 표시/와인 카드 렌더링)
+ */
 
 import React, { useEffect, useState } from 'react';
 
@@ -17,13 +24,16 @@ const WineCardList: React.FC<WineCardListProps> = ({ accessToken }) => {
 
   useEffect(() => {
     const fetchUserWines = async () => {
+      if (!accessToken) return;
+
       try {
         setLoading(true);
+        setError(null);
+
         const data = await getUserWines(accessToken);
-        console.log('user wines:', data);
         setWines(Array.isArray(data.list) ? data.list : []);
-      } catch (err: unknown) {
-        console.error('Failed to fetch user wines:', err);
+      } catch (error) {
+        console.error('와인 데이터 로딩 실패:', error);
         setError('와인을 불러오는 데 실패했습니다.');
         setWines([]);
       } finally {
@@ -31,11 +41,10 @@ const WineCardList: React.FC<WineCardListProps> = ({ accessToken }) => {
       }
     };
 
-    if (accessToken) {
-      fetchUserWines();
-    }
+    fetchUserWines();
   }, [accessToken]);
 
+  // 로딩 상태 표시 - 임시적으로 개발 (추후 개발된 스피너로 대체예정)
   if (loading) {
     return (
       <div className='py-12 text-center text-gray-500'>
@@ -44,8 +53,37 @@ const WineCardList: React.FC<WineCardListProps> = ({ accessToken }) => {
     );
   }
 
+  // 에러 상태 표시 (추후 개발된 에러 메시지로 대체예정)
   if (error) {
     return <div className='py-12 text-center text-red-500'>에러: {error}</div>;
+  }
+
+  // 빈 상태 (와인이 없을 때) - 추후 위 컴포넌트로 빼기
+  if (wines.length === 0) {
+    return (
+      <div className='py-12 text-center'>
+        <div className='mb-4 text-gray-400'>
+          <svg
+            className='mx-auto h-16 w-16'
+            fill='currentColor'
+            viewBox='0 0 20 20'
+          >
+            {/* 원 테두리 및 느낌표 막대 */}
+            <path
+              fillRule='evenodd'
+              d='M18 10A8 8 0 11 2 10a8 8 0 0116 0zm-1 0A7 7 0 1 1 3 10a7 7 0 0 1 14 0zM10 6a1 1 0 0 1 1 1v4a1 1 0 1 1-2 0V7a1 1 0 0 1 1-1z'
+              clipRule='evenodd'
+            />
+            {/* 점(일자 표시)만 별도로, x좌표를 살짝 왼쪽으로 이동 */}
+            <rect x='9.2' y='13' width='1.6' height='2' rx='0.8' />
+          </svg>
+        </div>
+        <h3 className='mb-2 text-lg font-medium text-gray-900'>
+          등록한 와인이 없습니다.
+        </h3>
+        <p className='text-gray-600'>새로운 와인을 등록해보세요!</p>
+      </div>
+    );
   }
 
   return (
@@ -61,25 +99,6 @@ const WineCardList: React.FC<WineCardListProps> = ({ accessToken }) => {
           </div>
         ))}
       </div>
-
-      {/* 빈 상태 (와인이 없을 때) */}
-      {wines.length === 0 && (
-        <div className='py-12 text-center'>
-          <div className='mb-4 text-gray-400'>
-            <svg
-              className='mx-auto h-16 w-16'
-              fill='currentColor'
-              viewBox='0 0 20 20'
-            >
-              <path d='M12 6V4a2 2 0 00-2-2H8a2 2 0 00-2 2v2H4a1 1 0 000 2h1v10a2 2 0 002 2h6a2 2 0 002-2V8h1a1 1 0 100-2h-2zM8 4h2v2H8V4zm6 14H6V8h8v10z' />
-            </svg>
-          </div>
-          <h3 className='mb-2 text-lg font-medium text-gray-900'>
-            등록한 와인이 없습니다
-          </h3>
-          <p className='mb-4 text-gray-600'>새로운 와인을 등록해보세요!</p>
-        </div>
-      )}
     </div>
   );
 };
