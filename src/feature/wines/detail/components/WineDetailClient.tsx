@@ -6,7 +6,7 @@ import WineProgressChart from '@/feature/wines/components/wine-progress';
 import WineAromaCards from '@/feature/wines/detail/components/WineAromaCards';
 import WineDetailReviewList from '@/feature/wines/detail/components/WineDetailReviewList';
 import WineDetailTitle from '@/feature/wines/detail/components/WineDetailTitle';
-import { useWineDetail } from '@/feature/wines/hooks/useWineDetails';
+import { useWineDetail } from '@/feature/wines/hooks/useWineDetailsQuery';
 import InnerContainer from '@/shared/components/container/InnerContainer';
 import { Button } from '@/shared/components/ui/button';
 import { PAGE_STYLES } from '@/shared/constants/styles';

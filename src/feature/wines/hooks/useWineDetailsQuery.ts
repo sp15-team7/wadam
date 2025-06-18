@@ -8,7 +8,7 @@
  *
  */
 
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery,useQuery } from '@tanstack/react-query';
 
 import type { GetWineDetailResponse } from '@/feature/wines/schema/wine.schema';
 import { getWineDetail } from '@/feature/wines/services/wine.service';
@@ -35,5 +35,26 @@ export const useWineDetail = ({
       }
       return failureCount < 3;
     },
+  });
+};
+
+export const useWineReviewsInfinite = ({
+  wineId,
+  enabled = true,
+}: UseWineDetailOptions) => {
+  return useInfiniteQuery({
+    queryKey: ['wine', 'reviews', wineId],
+    queryFn: () => {
+      return getWineDetail(wineId).then((data) => ({
+        list: data.reviews || [],
+        totalCount: data.reviews?.length || 0,
+        nextCursor: null, // 단일 응답이면 null
+      }));
+    },
+    enabled: enabled && !!wineId,
+    initialPageParam: null,
+    getNextPageParam: (lastPage) => lastPage.nextCursor,
+    staleTime: 1000 * 60 * 3,
+    gcTime: 1000 * 60 * 10,
   });
 };
