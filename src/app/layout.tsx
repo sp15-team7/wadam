@@ -2,6 +2,7 @@ import './globals.css';
 
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
+import { SessionProvider } from 'next-auth/react';
 import { Toaster } from 'sonner';
 
 import QueryProvider from '@/shared/libs/provider/queryProvider';
@@ -24,7 +25,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
       <body className={pretendard.className}>
         <QueryProvider>
           <Toaster />
-          {children}
+          <SessionProvider>{children}</SessionProvider>
         </QueryProvider>
       </body>
     </html>
