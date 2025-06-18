@@ -10,10 +10,32 @@ import { User } from '@/feature/auth/types/auth.types';
  */
 export const getTokenExpiration = (token: string): number => {
   try {
+    console.log('🔐 토큰 디코딩 시도:', {
+      tokenExists: !!token,
+      tokenLength: token?.length,
+      tokenPrefix: token?.substring(0, 50) + '...',
+    });
+
+    if (!token) {
+      console.error('❌ 토큰이 null/undefined입니다');
+      return Date.now() - 1;
+    }
+
     const decoded = jwtDecode(token);
+    console.log('✅ 토큰 디코딩 성공:', {
+      exp: decoded.exp,
+      expirationTime: new Date((decoded.exp as number) * 1000).toLocaleString(),
+    });
+
     return (decoded.exp as number) * 1000;
-  } catch {
+  } catch (error) {
     // 토큰이 유효하지 않은 경우 현재 시간보다 이전으로 설정하여 만료 처리
+    console.error('❌ 토큰 디코딩 실패:', {
+      errorMessage: error instanceof Error ? error.message : String(error),
+      tokenExists: !!token,
+      tokenLength: token?.length,
+      tokenSample: token?.substring(0, 100),
+    });
     return Date.now() - 1;
   }
 };
