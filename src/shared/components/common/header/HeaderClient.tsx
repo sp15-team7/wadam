@@ -4,16 +4,18 @@ import { useRouter } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 
 import { UserMenu } from '@/shared/components/common/combobox/UserMenu';
+import { useUserStore } from '@/shared/stores/userStore';
 
 import LoginButton from './LoginButton';
 
 interface HeaderClientProps {
   isAuthenticated: boolean;
-  userImage?: string | null;
 }
 
-const HeaderClient = ({ isAuthenticated, userImage }: HeaderClientProps) => {
+const HeaderClient = ({ isAuthenticated }: HeaderClientProps) => {
   const router = useRouter();
+
+  const { profileImg } = useUserStore();
 
   if (!isAuthenticated) {
     return <LoginButton />;
@@ -22,10 +24,10 @@ const HeaderClient = ({ isAuthenticated, userImage }: HeaderClientProps) => {
   return (
     <UserMenu
       items={[
-        { label: '마이페이지', onClick: () => router.push('/mypage') },
+        { label: '마이페이지', onClick: () => router.push('/myprofile') },
         { label: '로그아웃', onClick: () => signOut() },
       ]}
-      avatarSrc={userImage || undefined}
+      avatarSrc={profileImg || undefined}
       avatarClassName='h-14 w-14 md:h-16 md:w-16'
     />
   );
