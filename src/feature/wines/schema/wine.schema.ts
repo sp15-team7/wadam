@@ -77,8 +77,8 @@ const wineBaseSchema = z.object({
   image: urlSchema,
   price: positiveNumberSchema,
   type: WineTypeEnumSchema,
-  avgRating: positiveNumberSchema,
-  reviewCount: positiveNumberSchema,
+  avgRating: nonNegativeNumberSchema,
+  reviewCount: nonNegativeNumberSchema,
   userId: positiveNumberSchema,
 });
 
