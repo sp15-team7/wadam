@@ -29,7 +29,7 @@ export const apiClient = ky.create({
    * - 브라우저가 cross-origin 요청에서도 인증 쿠키를 자동 포함하도록 함
    * - 서버에서 accessToken/refreshToken을 HTTP-Only 쿠키로 전달하는 구조에서 필수
    */
-  credentials: 'include',
+  // credentials: 'include',
 
   /**
    * 에러 응답 전처리 훅
