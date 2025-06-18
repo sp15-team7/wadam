@@ -5,15 +5,10 @@ import WineProgressChart from '@/feature/wines/components/wine-progress';
 import WineAromaCards from '@/feature/wines/detail/components/WineAromaCards';
 import WineDetailReviewList from '@/feature/wines/detail/components/WineDetailReviewList';
 import WineDetailTitle from '@/feature/wines/detail/components/WineDetailTitle';
-import { mockWine } from '@/feature/wines/mocks';
-import { GetWineDetailResponse } from '@/feature/wines/schema/wine.schema';
+import { getWineDetail } from '@/feature/wines/services/wine.service';
 import InnerContainer from '@/shared/components/container/InnerContainer';
 import { Button } from '@/shared/components/ui/button';
 import { PAGE_STYLES } from '@/shared/constants/styles';
-
-async function fetchWineDetail(wineId: string): Promise<GetWineDetailResponse> {
-  return { ...mockWine, id: Number(wineId) };
-}
 
 async function getCurrentUser(): Promise<number | null> {
   const session = await auth();
@@ -22,8 +17,19 @@ async function getCurrentUser(): Promise<number | null> {
 
 const WineDetailPage = async ({ params }: { params: { wineid: string } }) => {
   const { wineid } = params;
+  const session = await auth();
+
+  // 세션이 없으면 로그인 페이지로 안내
+  if (!session?.user) {
+    return (
+      <InnerContainer className='py-20 text-center'>
+        <p className='text-2xl font-bold'>로그인이 필요합니다.</p>
+      </InnerContainer>
+    );
+  }
+
   const [wineDetail, currentUser] = await Promise.all([
-    fetchWineDetail(wineid),
+    getWineDetail(Number(wineid)),
     getCurrentUser(),
   ]);
 
