@@ -7,7 +7,7 @@
  */
 
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { cn } from '@/shared/libs/utils/cn';
 
@@ -26,7 +26,7 @@ interface UserAvatarProps {
 const UserAvatar = ({
   src = '/icons/ui/icon-default-user.svg',
   className = '',
-  alt = 'user-avartar',
+  alt = 'user-avatar',
 }: UserAvatarProps) => {
   const [imgSrc, setImgSrc] = useState(src);
 
@@ -36,9 +36,12 @@ const UserAvatar = ({
   };
 
   // src가 변경되면 imgSrc도 업데이트
-  if (src !== imgSrc && src) {
+  // if (src !== imgSrc && src) {
+  //   setImgSrc(src);
+  // }
+  useEffect(() => {
     setImgSrc(src);
-  }
+  }, [src]);
 
   return (
     <div
