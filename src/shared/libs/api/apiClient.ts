@@ -1,4 +1,5 @@
 import ky from 'ky';
+import { getSession } from 'next-auth/react';
 
 /**
  * API 클라이언트 인스턴스
@@ -56,6 +57,15 @@ export const apiClient = ky.create({
             // 순환 의존성 방지를 위해 동적 import 사용
             const { auth } = await import('@/feature/auth/libs/auth');
             const session = await auth();
+            if (session?.accessToken) {
+              request.headers.set(
+                'Authorization',
+                `Bearer ${session.accessToken}`,
+              );
+            }
+          } else {
+            // 클라이언트 사이드에서 실행되는 경우 getSession을 사용해 토큰을 추가합니다.
+            const session = await getSession();
             if (session?.accessToken) {
               request.headers.set(
                 'Authorization',
