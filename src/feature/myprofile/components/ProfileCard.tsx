@@ -122,6 +122,7 @@ const ProfileCard = ({ session, onProfileUpdate }: ProfileCardProps) => {
     setLoading((prev) => ({ ...prev, uploading: true }));
 
     const previewUrl = URL.createObjectURL(file);
+    const previousImg = profileImg; // 기존 이미지 백업
     updateProfileImg(previewUrl);
 
     try {
@@ -130,7 +131,8 @@ const ProfileCard = ({ session, onProfileUpdate }: ProfileCardProps) => {
       setUploadedImgUrl(serverImageUrl);
     } catch (error) {
       console.error('이미지 업로드 실패:', error);
-      updateProfileImg('/icons/ui/icon-default-user.svg');
+      // 기존 이미지로 롤백 (없으면 기본 이미지)
+      updateProfileImg(previousImg ?? '/icons/ui/icon-default-user.svg');
       setUploadedImgUrl(null);
       alert('이미지 업로드에 실패했습니다. 다시 시도해주세요.');
     } finally {
@@ -142,17 +144,27 @@ const ProfileCard = ({ session, onProfileUpdate }: ProfileCardProps) => {
   // 닉네임 변경 핸들러
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // inputValue를 trim해서 검증하고 사용
+    const trimmedNickname = inputValue.trim();
+
+    if (!trimmedNickname && !uploadedImgUrl) return;
+    if (trimmedNickname.length < 2) {
+      alert('닉네임은 최소 2자 이상이어야 합니다.');
+      return;
+    }
+
     setLoading((prev) => ({ ...prev, updating: true }));
 
     try {
       const updateData = {
-        nickname: inputValue,
+        nickname: trimmedNickname, // trim된 값 사용
         ...(uploadedImgUrl && { image: uploadedImgUrl }),
       };
 
       await updateUserProfile(accessToken, updateData);
 
-      updateNickname(inputValue);
+      updateNickname(trimmedNickname); // trim된 값으로 업데이트
       if (uploadedImgUrl) {
         updateProfileImg(uploadedImgUrl);
         setUploadedImgUrl(null);
