@@ -1,13 +1,21 @@
+/**
+ * @author: Hyun
+ * @since: 2025-06-18
+ * @description: 유저 관련 API 함수 모음 (프로필 조회, 후기 개수 조회, 와인 개수 조회, 프로필 이미지 업로드, 프로필 정보 수정, 사용자 리뷰 목록 조회, 사용자 와인 목록 조회)
+ * 추후 wine.service.ts에 추가될 예정 및 user.service.ts 만들 예정 (우선적으로 개발 후 추후 리팩토링 예정)
+ */
+
 import ky from 'ky';
 
-import { ReviewDetail } from '@/feature/wines/schema/wine.schema';
+import { MyReviewWithWine } from '@/feature/reviews/schemas/reviews.schema';
+import { WineDetailReview } from '@/feature/wines/schema/wine.schema';
 
 export interface UserInfo {
   nickname: string;
   image: string;
 }
 
-// 와인 타입
+// 와인 타입 (wine.schema.ts에 wineSummary를 가져와도 될 거같음)
 export interface Wine {
   id: number;
   name: string;
@@ -46,7 +54,7 @@ export async function getUserReviewCount(accessToken: string): Promise<number> {
       headers: { Authorization: `Bearer ${accessToken}` },
     })
     .json<{
-      list: ReviewDetail[];
+      list: WineDetailReview[];
       totalCount: number;
       nextCursor: number | null;
     }>();
@@ -101,7 +109,7 @@ export async function getUserReviews(
   accessToken: string,
   limit: number = 100,
 ): Promise<{
-  list: ReviewDetail[];
+  list: MyReviewWithWine[];
   totalCount: number;
   nextCursor: number | null;
 }> {
@@ -110,7 +118,7 @@ export async function getUserReviews(
       headers: { Authorization: `Bearer ${accessToken}` },
     })
     .json<{
-      list: ReviewDetail[];
+      list: MyReviewWithWine[];
       totalCount: number;
       nextCursor: number | null;
     }>();
