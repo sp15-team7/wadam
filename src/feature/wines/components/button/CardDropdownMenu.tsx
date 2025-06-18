@@ -23,9 +23,9 @@ const CardDropdownMenu = () => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild className={DROPDOWN_STYLES.trigger}>
         <EllipsisVertical
-          size={28}
           color='#ac271e'
           className='h-[2.4rem] w-[2.4rem] md:h-[2.8rem] md:w-[2.8rem]'
+          aria-label='카드 메뉴 열기'
         />
       </DropdownMenuTrigger>
       <DropdownMenuContent className={DROPDOWN_STYLES.content}>
