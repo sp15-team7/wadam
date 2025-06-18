@@ -41,12 +41,13 @@ const ReviewCardList = ({
         setLoading(true);
         setError(null);
 
-        const userReviews = await getUserReviews(accessToken, 100);
-        setReviews(Array.isArray(userReviews) ? userReviews : []);
+        // 전체 응답 구조분해
+        const { list } = await getUserReviews(accessToken, 100);
+        setReviews(Array.isArray(list) ? list : []);
       } catch (err) {
         console.error('리뷰 로딩 실패: ', err);
         setError('리뷰를 불러오는데 실패했습니다. ');
-        setReviews([]); // 에러 시에도 배열로 초기화
+        setReviews([]);
       } finally {
         setLoading(false);
       }
