@@ -14,7 +14,7 @@ export interface Wine {
   region: string;
   image: string;
   price: number;
-  type: 'RED' | 'WHITE' | 'SPARKLING'; // Adjust based on actual types
+  type: 'RED' | 'WHITE' | 'SPARKLING'; // 디폴트 타입 3개
   avgRating: number;
   reviewCount: number;
   userId: number;
