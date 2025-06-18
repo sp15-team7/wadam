@@ -45,8 +45,12 @@ export async function getUserReviewCount(accessToken: string): Promise<number> {
     .get('users/me/reviews?limit=1000', {
       headers: { Authorization: `Bearer ${accessToken}` },
     })
-    .json<ReviewDetail[]>();
-  return Array.isArray(data) ? data.length : 0;
+    .json<{
+      list: ReviewDetail[];
+      totalCount: number;
+      nextCursor: number | null;
+    }>();
+  return data.totalCount;
 }
 
 // 와인 개수 조회
@@ -55,8 +59,8 @@ export async function getUserWineCount(accessToken: string): Promise<number> {
     .get('users/me/wines?limit=1000', {
       headers: { Authorization: `Bearer ${accessToken}` },
     })
-    .json<Wine[]>();
-  return Array.isArray(data) ? data.length : 0;
+    .json<{ list: Wine[]; totalCount: number; nextCursor: number | null }>();
+  return data.totalCount;
 }
 
 // 프로필 이미지 업로드
@@ -96,12 +100,20 @@ export async function updateUserProfile(
 export async function getUserReviews(
   accessToken: string,
   limit: number = 100,
-): Promise<ReviewDetail[]> {
+): Promise<{
+  list: ReviewDetail[];
+  totalCount: number;
+  nextCursor: number | null;
+}> {
   return api
     .get(`users/me/reviews?limit=${limit}`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     })
-    .json<ReviewDetail[]>();
+    .json<{
+      list: ReviewDetail[];
+      totalCount: number;
+      nextCursor: number | null;
+    }>();
 }
 
 // --- 사용자 와인 목록 조회 (WineCardList.tsx 사용)
