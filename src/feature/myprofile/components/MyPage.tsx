@@ -36,7 +36,7 @@ const MyPage = ({ session }: { session: Session }) => {
   };
 
   return (
-    <div className='min-h-screen bg-gray-50 px-4 py-8'>
+    <div className='min-h-screen bg-white px-4 py-8'>
       {/* 전체 컨테이너 - 중앙 정렬 */}
       <div className='mx-auto flex w-full max-w-none justify-center gap-8'>
         {/* 좌측 프로필 카드 - 고정 너비 */}
@@ -53,7 +53,7 @@ const MyPage = ({ session }: { session: Session }) => {
           <div className='mb-8 flex gap-1 border-b border-gray-200'>
             <button
               onClick={() => setTab('review')}
-              className={`px-6 py-3 font-medium transition-colors duration-200 ${
+              className={`px-6 py-3 text-[1.6rem] font-medium transition-colors duration-200 ${
                 tab === 'review'
                   ? 'border-primary text-primary border-b-2'
                   : 'text-gray-500 hover:text-gray-700'
@@ -63,7 +63,7 @@ const MyPage = ({ session }: { session: Session }) => {
             </button>
             <button
               onClick={() => setTab('wine')}
-              className={`px-6 py-3 font-medium transition-colors duration-200 ${
+              className={`px-6 py-3 text-[1.6rem] font-medium transition-colors duration-200 ${
                 tab === 'wine'
                   ? 'border-primary text-primary border-b-2'
                   : 'text-gray-500 hover:text-gray-700'
@@ -74,7 +74,7 @@ const MyPage = ({ session }: { session: Session }) => {
           </div>
 
           {/* 콘텐츠 영역 - 카드에 맞게 너비 조정 */}
-          <div className='min-h-[600px] w-full rounded-lg bg-white shadow-sm'>
+          <div className='w-full rounded-lg bg-white'>
             {tab === 'review' ? (
               <ReviewCardList accessToken={session.accessToken} />
             ) : (
