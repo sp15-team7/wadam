@@ -1,10 +1,15 @@
+'use client';
+
 import MonthlyWineSection from '@/feature/wines/components/MonthlyWineSection';
-import { getWineDetail } from '@/feature/wines/services/wine.service';
+import { useWinesQuery } from '@/feature/wines/hooks/useWinesQuery';
 import InnerContainer from '@/shared/components/container/InnerContainer';
 
-const WinesPage = async () => {
-  const result = await getWineDetail(1112);
-  console.log('result:', result);
+const WinesPage = () => {
+  const { data, status, error } = useWinesQuery();
+
+  console.log('data:', data);
+  console.log('status:', status);
+  console.log('error:', error);
 
   return (
     <main>

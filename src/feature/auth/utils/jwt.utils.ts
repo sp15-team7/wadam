@@ -10,44 +10,30 @@ import { User } from '@/feature/auth/types/auth.types';
  */
 export const getTokenExpiration = (token: string): number => {
   try {
-    console.log('🔐 토큰 디코딩 시도:', {
-      tokenExists: !!token,
-      tokenLength: token?.length,
-      tokenPrefix: token?.substring(0, 50) + '...',
-    });
-
     if (!token) {
-      console.error('❌ 토큰이 null/undefined입니다');
+      // 토큰이 없으면 즉시 만료 처리
       return Date.now() - 1;
     }
 
     const decoded = jwtDecode(token);
-    console.log('✅ 토큰 디코딩 성공:', {
-      exp: decoded.exp,
-      expirationTime: new Date((decoded.exp as number) * 1000).toLocaleString(),
-    });
-
     return (decoded.exp as number) * 1000;
   } catch (error) {
-    // 토큰이 유효하지 않은 경우 현재 시간보다 이전으로 설정하여 만료 처리
-    console.error('❌ 토큰 디코딩 실패:', {
-      errorMessage: error instanceof Error ? error.message : String(error),
-      tokenExists: !!token,
-      tokenLength: token?.length,
-      tokenSample: token?.substring(0, 100),
-    });
+    // 디코딩 실패 시 (유효하지 않은 토큰) 즉시 만료 처리
+    console.error('❌ 토큰 디코딩 실패:', error);
     return Date.now() - 1;
   }
 };
 
 /**
  * 토큰이 만료되었는지 확인합니다.
+ * 안정적인 세션 유지를 위해 만료 시간 60초 전에 미리 갱신합니다.
  *
  * @param expirationTime - 토큰 만료 시간 (밀리초)
  * @returns 만료 여부
  */
 export const isTokenExpired = (expirationTime: number): boolean => {
-  return Date.now() >= expirationTime;
+  const safetyBuffer = 60 * 1000; // 60초
+  return Date.now() >= expirationTime - safetyBuffer;
 };
 
 /**
