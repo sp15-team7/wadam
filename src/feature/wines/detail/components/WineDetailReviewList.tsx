@@ -1,4 +1,4 @@
-import { ReviewCard } from '@/feature/wines/components/card/ReviewCard';
+import ReviewCard from '@/feature/wines/components/card/ReviewCard';
 import { mockWine } from '@/feature/wines/mocks';
 
 const WineDetailReviewList = () => {
