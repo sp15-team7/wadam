@@ -10,8 +10,8 @@ import { z } from 'zod';
 // --- A. 기본 타입 및 열거형 스키마 (Primitives & Enums) ---
 
 const urlSchema = z.string().url().or(z.literal(''));
-const nonNegativeNumberSchema = z.number().nonnegative().step(0.1);
-const positiveNumberSchema = z.number().positive().step(0.1);
+const nonNegativeNumberSchema = z.number().nonnegative();
+const positiveNumberSchema = z.number().positive();
 const nonEmptyStringSchema = z.string().min(1);
 
 /** 와인의 종류 (RED, WHITE, SPARKLING) */
@@ -62,10 +62,10 @@ export const reviewResponseSchema = z.object({
 
 /** 와인 상세 정보에 포함되는 개별 리뷰 객체 (선호도, 맛 표현 포함) */
 export const wineDetailReviewSchema = reviewResponseSchema.extend({
-  lightBold: positiveNumberSchema.min(1).max(100),
-  smoothTannic: positiveNumberSchema.min(1).max(100),
-  drySweet: positiveNumberSchema.min(1).max(100),
-  softAcidic: positiveNumberSchema.min(1).max(100),
+  lightBold: positiveNumberSchema.min(1).max(10),
+  smoothTannic: positiveNumberSchema.min(1).max(10),
+  drySweet: positiveNumberSchema.min(1).max(10),
+  softAcidic: positiveNumberSchema.min(1).max(10),
   isLiked: z.boolean(),
 });
 
@@ -77,8 +77,8 @@ const wineBaseSchema = z.object({
   image: urlSchema,
   price: positiveNumberSchema,
   type: WineTypeEnumSchema,
-  avgRating: positiveNumberSchema,
-  reviewCount: positiveNumberSchema,
+  avgRating: nonNegativeNumberSchema,
+  reviewCount: nonNegativeNumberSchema,
   userId: positiveNumberSchema,
 });
 
@@ -139,10 +139,7 @@ export const getWinesResponseSchema = z.object({
 export const getWineDetailResponseSchema = wineBaseSchema.extend({
   recentReview: reviewResponseSchema.nullable(),
   reviews: z.array(wineDetailReviewSchema),
-  avgRatings: z.record(
-    z.enum(['1', '2', '3', '4', '5']),
-    nonNegativeNumberSchema,
-  ),
+  avgRatings: z.record(z.enum(['1', '2', '3', '4', '5']), positiveNumberSchema),
 });
 
 // --- 4. 와인 수정: PATCH /{teamId}/wines/{id} ---
