@@ -7,7 +7,7 @@ import WineTasteSlider from '@/feature/reviews/components/wine-taste-slider';
 import { formatRelativeTime } from '@/feature/reviews/utils/formatRelativeTime';
 import CardDropdownMenu from '@/feature/wines/components/button/CardDropdownMenu';
 import LikeButton from '@/feature/wines/components/button/LikeButton';
-import { ReviewDetail } from '@/feature/wines/schema/wine.schema';
+import { WineDetailReview } from '@/feature/wines/schema/wine.schema';
 import { formatAromaType } from '@/feature/wines/utils/formatWineType';
 import UserAvatar from '@/shared/components/common/user-avatar';
 import {
@@ -16,13 +16,13 @@ import {
   CollapsibleTrigger,
 } from '@/shared/components/ui/collapsible';
 
-export function ReviewCard({
+const ReviewCard = ({
   review,
   currentUser,
 }: {
-  review: ReviewDetail;
+  review: WineDetailReview;
   currentUser: number;
-}) {
+}) => {
   const [open, setOpen] = useState(false);
   const {
     aroma,
@@ -83,15 +83,13 @@ export function ReviewCard({
           ))}
         </div>
         <div className='flex-center bg-secondary text-primary w-[6rem] self-start rounded-full px-4 py-2 text-[1.4rem] font-semibold md:w-[7.2rem] md:px-5 md:py-3 md:text-[1.6rem]'>
-          ★ {rating}
+          ★ {rating.toFixed(1)}
         </div>
       </div>
 
       {/* 펼쳐진 내용 */}
       <CollapsibleContent className='space-y-4 pt-4 text-[1.4rem] md:space-y-8 md:pt-8 md:text-[1.6rem]'>
         <p>{content}</p>
-
-        {/* 슬라이더 UI (예시용, 실제 구현은 range input 또는 UI 라이브러리 사용) */}
         <WineTasteSlider values={taste} />
       </CollapsibleContent>
       {/* 펼치기 버튼 */}
@@ -102,4 +100,6 @@ export function ReviewCard({
       </CollapsibleTrigger>
     </Collapsible>
   );
-}
+};
+
+export default ReviewCard;

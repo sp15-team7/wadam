@@ -49,7 +49,7 @@ const WineCard = ({ wine }: { wine: GetWinesResponse['list'][number] }) => {
               aria-label='평점 정보'
             >
               <span className='text-[2.8rem] font-extrabold md:text-[4.8rem]'>
-                {avgRating}
+                {avgRating.toFixed(1)}
               </span>
               <div className='flex flex-col items-center gap-2 md:items-start md:justify-start md:gap-4'>
                 <StarRating value={avgRating} readOnly size='md' />

@@ -62,10 +62,10 @@ export const reviewResponseSchema = z.object({
 
 /** 와인 상세 정보에 포함되는 개별 리뷰 객체 (선호도, 맛 표현 포함) */
 export const wineDetailReviewSchema = reviewResponseSchema.extend({
-  lightBold: positiveNumberSchema.min(1).max(100),
-  smoothTannic: positiveNumberSchema.min(1).max(100),
-  drySweet: positiveNumberSchema.min(1).max(100),
-  softAcidic: positiveNumberSchema.min(1).max(100),
+  lightBold: positiveNumberSchema.min(1).max(10),
+  smoothTannic: positiveNumberSchema.min(1).max(10),
+  drySweet: positiveNumberSchema.min(1).max(10),
+  softAcidic: positiveNumberSchema.min(1).max(10),
   isLiked: z.boolean(),
 });
 
@@ -139,10 +139,7 @@ export const getWinesResponseSchema = z.object({
 export const getWineDetailResponseSchema = wineBaseSchema.extend({
   recentReview: reviewResponseSchema.nullable(),
   reviews: z.array(wineDetailReviewSchema),
-  avgRatings: z.record(
-    z.enum(['1', '2', '3', '4', '5']),
-    nonNegativeNumberSchema,
-  ),
+  avgRatings: z.record(z.enum(['1', '2', '3', '4', '5']), positiveNumberSchema),
 });
 
 // --- 4. 와인 수정: PATCH /{teamId}/wines/{id} ---
@@ -175,7 +172,7 @@ export type AromaTypeEnum = z.infer<typeof AromaTypeEnumSchema>;
 // 기존 타입들과의 호환성을 위한 alias 추가
 export type AromaType = AromaTypeEnum;
 export type WineSummary = z.infer<typeof wineBaseSchema>;
-export type ReviewDetail = z.infer<typeof wineDetailReviewSchema>;
+export type WineDetailReview = z.infer<typeof wineDetailReviewSchema>;
 
 export type CreateWineRequest = z.infer<typeof createWineRequestSchema>;
 export type CreateWineResponse = z.infer<typeof createWineResponseSchema>;
