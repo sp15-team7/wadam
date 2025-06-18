@@ -155,7 +155,10 @@ const ProfileCard = ({ session, onProfileUpdate }: ProfileCardProps) => {
       {/* 프로필 이미지 */}
       <div className='mb-6 flex justify-center'>
         <div className='relative'>
-          <UserAvatar src={profileImg} className='h-24 w-24' />
+          <UserAvatar
+            src={profileImg || '/icons/ui/icon-default-user.svg'}
+            className='h-24 w-24'
+          />
           <button
             type='button'
             className={`absolute right-[-10px] bottom-[-10px] flex h-8 w-8 items-center justify-center rounded-full text-sm text-white transition-colors ${
