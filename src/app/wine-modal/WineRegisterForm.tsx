@@ -52,7 +52,8 @@ export default function WineRegisterForm({ onSuccess }: WineRegisterFormProps) {
       });
       if (onSuccess) onSuccess();
       router.push(`/wines/${res.id}`);
-    } catch {
+    } catch (error) {
+      console.log(error);
       alert('와인 등록에 실패했습니다.');
     } finally {
       setLoading(false);
