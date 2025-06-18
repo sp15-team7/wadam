@@ -107,7 +107,7 @@ export async function updateUserProfile(
 //--- 사용자 리뷰 목록 조회 (ReviewCardList.tsx 사용)
 export async function getUserReviews(
   accessToken: string,
-  limit: number = 100,
+  limit = 100,
 ): Promise<{
   list: MyReviewWithWine[];
   totalCount: number;
