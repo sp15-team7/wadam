@@ -31,8 +31,8 @@ export const myReviewWithWineSchema = myReviewItemSchema.extend({
     name: nonEmptyStringSchema,
     region: nonEmptyStringSchema,
     image: urlSchema,
-    price: positiveNumberSchema,
-    avgRating: positiveNumberSchema,
+    price: nonNegativeNumberSchema,
+    avgRating: nonNegativeNumberSchema,
     type: WineTypeEnumSchema,
   }),
 });
