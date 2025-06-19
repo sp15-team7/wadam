@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 import WineFilterForm, {
   WineFilterFormRef,
@@ -10,15 +10,27 @@ import {
   ModalFooter,
 } from '@/shared/components/common/modal';
 import { Button } from '@/shared/components/ui/button';
+import { useModalStore } from '@/shared/stores/useModalStore';
 import { devLog } from '@/shared/utils/devLogger';
 
 export const WINE_FILTER_MODAL_ID = 'wine-filter-modal';
 
-const WineFilterModal = () => {
-  const formRef = useRef<WineFilterFormRef>(null);
+interface WineFilterModalProps {
+  onFilterSubmit: (filters: WineFilterFormValues) => void;
+  initialFilters: WineFilterFormValues;
+}
 
-  const handleSubmit = (data: WineFilterFormValues) => {
-    devLog('필터 적용 (디바운싱):', data);
+const WineFilterModal = ({
+  onFilterSubmit,
+  initialFilters,
+}: WineFilterModalProps) => {
+  const formRef = useRef<WineFilterFormRef>(null);
+  const { close } = useModalStore();
+  const [modalFilters, setModalFilters] =
+    useState<WineFilterFormValues>(initialFilters);
+
+  const handleValuesChange = (data: WineFilterFormValues) => {
+    setModalFilters(data);
   };
 
   const handleReset = () => {
@@ -27,13 +39,19 @@ const WineFilterModal = () => {
   };
 
   const handleApply = () => {
-    formRef.current?.submit();
+    onFilterSubmit(modalFilters);
+    close(WINE_FILTER_MODAL_ID);
   };
 
   return (
     <Modal modalId={WINE_FILTER_MODAL_ID} title='와인 필터' showCloseButton>
       <ModalContent>
-        <WineFilterForm ref={formRef} onSubmit={handleSubmit} />
+        <WineFilterForm
+          ref={formRef}
+          onSubmit={handleValuesChange}
+          initialValues={modalFilters}
+          submitOnChange
+        />
       </ModalContent>
       <ModalFooter layout='secondary-primary'>
         <Button size='full' variant='secondary' onClick={handleReset}>

@@ -1,13 +1,19 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import WineCard from '@/feature/wines/components/card/WineCard';
+import { WineFilterFormValues } from '@/feature/wines/components/wine-filter/WineFilterForm';
 import { useWinesQuery } from '@/feature/wines/hooks/useWinesQuery';
 import SkeletonCard from '@/shared/components/common/skeleton-card';
 
-const WineCardSection = () => {
+interface WineCardSectionProps {
+  filters: WineFilterFormValues;
+}
+
+const WineCardSection = ({ filters }: WineCardSectionProps) => {
   const {
     data,
     status,
@@ -15,7 +21,9 @@ const WineCardSection = () => {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useWinesQuery();
+    isFetching,
+    isPending,
+  } = useWinesQuery(filters);
   const { ref, inView } = useInView({
     threshold: 0,
     delay: 0,
@@ -27,18 +35,34 @@ const WineCardSection = () => {
     }
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-  if (status === 'pending') {
+  const showSkeleton = isPending || (isFetching && !isFetchingNextPage);
+
+  if (showSkeleton) {
     return (
-      <div className='grid grid-cols-1 gap-16'>
-        {Array.from({ length: 3 }).map((_, index) => (
+      <section className='flex flex-1 flex-col gap-16'>
+        {Array.from({ length: 9 }).map((_, index) => (
           <SkeletonCard key={index} />
         ))}
-      </div>
+      </section>
     );
   }
 
   if (status === 'error') {
     return <div>Error: {error?.message}</div>;
+  }
+
+  if (data.length === 0) {
+    return (
+      <section className='flex-center flex-1 flex-col gap-10'>
+        <Image
+          src='/icons/ui/icon-warning.svg'
+          alt='empty-wine'
+          width={100}
+          height={100}
+        />
+        <p className='text-gray text-[1.8rem]'>조건에 맞는 와인이 없어요.</p>
+      </section>
+    );
   }
 
   return (
