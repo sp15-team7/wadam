@@ -11,6 +11,7 @@ import {
   createReviewRequestSchema,
 } from '@/feature/reviews/schemas/reviews.schema';
 import WineFlavors from '@/feature/wines/components/wine-flavors';
+import { useWineDetail } from '@/feature/wines/hooks/useWineDetailsQuery';
 import { AromaType } from '@/feature/wines/schema/wine.schema';
 import {
   Modal,
@@ -23,11 +24,13 @@ import { useModalStore } from '@/shared/stores/useModalStore';
 
 interface ReviewFormProps {
   wineId: number;
-  wineName: string;
-  wineImage?: string;
 }
-
-const ReviewForm = ({ wineId, wineName, wineImage }: ReviewFormProps) => {
+const ReviewForm = ({ wineId }: ReviewFormProps) => {
+  const { data: wineDetail } = useWineDetail({
+    wineId,
+    enabled: !!wineId,
+  });
+  // const ReviewForm = ({ wineId }: ReviewFormProps) => {
   const { open, close } = useModalStore();
 
   const {
@@ -50,15 +53,15 @@ const ReviewForm = ({ wineId, wineName, wineImage }: ReviewFormProps) => {
     },
   });
 
-+  const onSubmit = async (data: CreateReviewRequest) => {
-+    try {
-+      await createReview(data);
-+      close('ReviewForm');
-+      // 토스트 알림 등으로 성공 메시지 표시
-+    } catch (error) {
-+      console.error('리뷰 등록 실패:', error);
-+    }
-+  };
+  const onSubmit = async (data: CreateReviewRequest) => {
+    try {
+      await createReview(data);
+      close('ReviewForm');
+      // 토스트 알림 등으로 성공 메시지 표시
+    } catch (error) {
+      console.error('리뷰 등록 실패:', error);
+    }
+  };
 
   return (
     <>
@@ -73,14 +76,16 @@ const ReviewForm = ({ wineId, wineName, wineImage }: ReviewFormProps) => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className='mb-5 flex items-center gap-4'>
               <Image
-                src={wineImage ?? '/icons/ui/icon-default-wine.svg'}
+                src={wineDetail?.image ?? '/icons/ui/icon-default-wine.svg'}
                 alt='와인 이미지'
                 width={32}
                 height={32}
                 className='mr-2'
               />
               <div className='flex flex-col'>
-                <p className='txt-md-bold md:txt-lg-bold mb-2.5'>{wineName}</p>
+                <p className='txt-md-bold md:txt-lg-bold mb-2.5'>
+                  {wineDetail?.name}
+                </p>
                 <StarRating
                   value={watch('rating')}
                   onChange={(val) => setValue('rating', val)}
