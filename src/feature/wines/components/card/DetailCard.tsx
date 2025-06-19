@@ -13,22 +13,21 @@ const DetailCard = ({
 }) => {
   const { name, region, image, price } = wine;
   return (
-    <Card className='h-[19rem] md:h-[26rem]'>
-      <CardContent className='flex h-full px-8 md:gap-8'>
+    <Card className='h-[26rem]'>
+      <CardContent className='flex h-full items-end gap-[8rem] px-[8rem]'>
         <figure
-          className='flex items-end px-4 md:px-6'
+          className='relative h-[30.6rem] w-[8.5rem] overflow-hidden'
           aria-label='와인 이미지'
         >
           <Image
             src={image}
             alt='와인 이미지'
-            width={58}
-            height={209}
-            className='md:h-[30.2rem] md:w-[8.4rem]'
+            fill
+            className='!h-[31.4rem] object-cover object-top'
           />
         </figure>
 
-        <article className='relative flex flex-2 flex-col justify-between py-12'>
+        <article className='relative flex h-full flex-col justify-center gap-[2rem]'>
           <header className='flex justify-between gap-4'>
             <h2 className='max-w-[19rem] text-[2rem] leading-tight font-semibold md:max-w-[30rem] md:text-[3rem]'>
               {name}
