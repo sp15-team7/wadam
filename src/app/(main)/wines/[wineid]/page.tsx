@@ -3,7 +3,6 @@ import ReviewForm from '@/feature/reviews/components/review-form/ReviewFormButto
 import WineProgressChart from '@/feature/wines/components/wine-progress';
 import WineDetailCardSection from '@/feature/wines/detail/components/WineDetailCardSection';
 import WineDetailReviewList from '@/feature/wines/detail/components/WineDetailReviewList';
-import WineDetailTitle from '@/feature/wines/detail/components/WineDetailTitle';
 import WineFlavorProfileSection from '@/feature/wines/detail/components/WineFlavorProfileSection';
 import Error from '@/shared/components/common/error';
 import InnerContainer from '@/shared/components/container/InnerContainer';
@@ -24,9 +23,7 @@ const WineDetailPage = async ({ params }: WineDetailPageProps) => {
   if (!wineId || isNaN(wineId) || wineId <= 0) {
     return (
       <main className='flex min-h-screen items-center justify-center'>
-        <Error message='작성된 리뷰가 없어요'>
-          <ReviewForm wineId={wineId} />
-        </Error>
+        <Error message='유효하지 않은 와인 정보입니다.' isRetry />
       </main>
     );
   }
@@ -42,7 +39,6 @@ const WineDetailPage = async ({ params }: WineDetailPageProps) => {
         <WineFlavorProfileSection wineId={wineId} />
         <section className='mt-[5.8rem] flex gap-[6rem]'>
           <article className='flex-1'>
-            <WineDetailTitle title='리뷰 목록' />
             <WineDetailReviewList
               wineId={wineId}
               currentUserId={session?.user?.id}

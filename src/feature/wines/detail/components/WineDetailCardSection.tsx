@@ -2,6 +2,7 @@
 
 import DetailCard from '@/feature/wines/components/card/DetailCard';
 import { useWineDetail } from '@/feature/wines/hooks/useWineDetailsQuery';
+import Error from '@/shared/components/common/error';
 import SkeletonCard from '@/shared/components/common/skeleton-card';
 
 interface WineDetailCardSectionProps {
@@ -24,7 +25,8 @@ const WineDetailCardSection = ({
 
   if (wineLoading) return <SkeletonCard variant='detailTop' />;
 
-  if (isError) return <div>와인 정보를 불러올 수 없습니다.</div>;
+  if (isError)
+    return <Error message='와인 정보를 불러올 수 없습니다.' isRetry />;
 
   if (!wineDetail) return null;
 

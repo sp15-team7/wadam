@@ -7,7 +7,6 @@
  */
 
 import { useWineDetail } from '@/feature/wines/hooks/useWineDetailsQuery';
-import Error from '@/shared/components/common/error';
 import StarRating from '@/shared/components/common/star-rating';
 import { Progress } from '@/shared/components/ui/progress';
 import Skeleton from '@/shared/components/ui/skeleton';
@@ -36,8 +35,7 @@ const WineProgress = ({ wineId }: WineProgressProps) => {
         <Skeleton className='h-[2.6rem] w-full' />
       </div>
     );
-  if (isError)
-    return <Error message='평점 정보를 불러올 수 없습니다.' isRetry />;
+  if (isError) return null;
 
   const reviewCount = wineDetail?.reviewCount || 0;
   const avgRatings = wineDetail?.avgRatings || {};

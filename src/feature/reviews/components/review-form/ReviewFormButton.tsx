@@ -26,7 +26,7 @@ interface ReviewFormProps {
   wineId: number;
 }
 const ReviewForm = ({ wineId }: ReviewFormProps) => {
-  const { data: wineDetail } = useWineDetail({
+  const { data: wineDetail, isError } = useWineDetail({
     wineId,
     enabled: !!wineId,
   });
@@ -61,6 +61,8 @@ const ReviewForm = ({ wineId }: ReviewFormProps) => {
       console.error('리뷰 등록 실패:', error);
     }
   };
+
+  if (isError) return null;
 
   return (
     <>

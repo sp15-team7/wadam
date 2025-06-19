@@ -61,6 +61,8 @@ const WineFlavorProfileSection = ({
 
   const reviewCount = wineDetail?.reviewCount || 0;
 
+  if (isError) return null;
+
   return (
     <section className='mt-[5.4rem] grid grid-cols-2 gap-[6rem]'>
       <div className='flex flex-col gap-[3rem]'>
@@ -69,12 +71,11 @@ const WineFlavorProfileSection = ({
           values={averageTasteValues}
           readonly={true}
           isLoading={isLoading}
-          isError={isError}
         />
       </div>
       <div className='flex flex-col gap-[3rem]'>
         <WineDetailTitle title='어떤 향이 있나요?' count={reviewCount} />
-        <WineAromaCards aroma={aroma} isLoading={isLoading} isError={isError} />
+        <WineAromaCards aroma={aroma} isLoading={isLoading} />
       </div>
     </section>
   );
