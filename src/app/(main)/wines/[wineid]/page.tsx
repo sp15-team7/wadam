@@ -62,7 +62,11 @@ const WineDetailPage = async ({ params }: { params: { wineid: string } }) => {
                 <WineProgressChart />
               </div>
               <div>
-                <ReviewForm wineId={wineDetail.id} wineName={wineDetail.name} />
+                <ReviewForm
+                  wineId={wineDetail.id}
+                  wineName={wineDetail.name}
+                  wineImage={wineDetail.image}
+                />
               </div>
             </aside>
           </div>
