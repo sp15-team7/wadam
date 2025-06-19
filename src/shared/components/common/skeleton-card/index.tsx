@@ -48,7 +48,7 @@ const SkeletonCard = ({ variant, className }: SkeletonCardProps) => {
         <div
           className={cn(
             classes,
-            'after:border-secondary relative z-[2] flex-row items-end gap-[2.5rem] bg-white after:absolute after:bottom-0 after:left-0 after:z-[-1] after:block after:h-[19rem] after:w-full after:rounded-[3rem] after:border-1 after:content-[""] md:gap-[6rem] md:after:h-[26rem] xl:gap-[7.9rem]',
+            'after:border-secondary relative z-[2] flex-row items-end gap-[2.5rem] after:absolute after:bottom-0 after:left-0 after:z-[-1] after:block after:h-[19rem] after:w-full after:rounded-[3rem] after:border-1 after:bg-white after:content-[""] md:gap-[6rem] md:after:h-[26rem] xl:gap-[7.9rem]',
           )}
         >
           <Skeleton className='h-full w-[5.8rem]' />

@@ -5,6 +5,7 @@ import WineDetailCardSection from '@/feature/wines/detail/components/WineDetailC
 import WineDetailReviewList from '@/feature/wines/detail/components/WineDetailReviewList';
 import WineDetailTitle from '@/feature/wines/detail/components/WineDetailTitle';
 import WineFlavorProfileSection from '@/feature/wines/detail/components/WineFlavorProfileSection';
+import Error from '@/shared/components/common/error';
 import InnerContainer from '@/shared/components/container/InnerContainer';
 import { PAGE_STYLES } from '@/shared/constants/styles';
 
@@ -23,7 +24,9 @@ const WineDetailPage = async ({ params }: WineDetailPageProps) => {
   if (!wineId || isNaN(wineId) || wineId <= 0) {
     return (
       <main className='flex min-h-screen items-center justify-center'>
-        <div>유효하지 않은 와인 ID입니다.</div>
+        <Error message='작성된 리뷰가 없어요'>
+          <ReviewForm wineId={wineId} />
+        </Error>
       </main>
     );
   }
