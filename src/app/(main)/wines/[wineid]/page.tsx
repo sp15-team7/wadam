@@ -37,7 +37,10 @@ const WineDetailPage = async ({ params }: WineDetailPageProps) => {
         <section className='mt-[5.8rem] flex gap-[6rem]'>
           <article className='flex-1'>
             <WineDetailTitle title='리뷰 목록' />
-            <WineDetailReviewList />
+            <WineDetailReviewList
+              wineId={wineId}
+              currentUserId={session?.user?.id}
+            />
           </article>
           <div className='relative w-[28rem] flex-none'>
             <aside className='sticky top-[10rem]'>

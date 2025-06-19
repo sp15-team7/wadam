@@ -1,12 +1,27 @@
-import ReviewCard from '@/feature/wines/components/card/ReviewCard';
-import { mockWine } from '@/feature/wines/mocks';
+'use client';
 
-const WineDetailReviewList = () => {
+import ReviewCard from '@/feature/wines/components/card/ReviewCard';
+import { useWineDetail } from '@/feature/wines/hooks/useWineDetailsQuery';
+import { WineDetailReview } from '@/feature/wines/schema/wine.schema';
+
+interface WineDetailReviewListProps {
+  wineId: number;
+  currentUserId?: number;
+}
+
+const WineDetailReviewList = ({
+  wineId,
+  currentUserId,
+}: WineDetailReviewListProps) => {
+  const { data: wineDetail } = useWineDetail({ wineId, enabled: !!wineId });
   return (
     <ul className='mt-[2rem] flex flex-col gap-[3rem]'>
-      {Array.from({ length: 10 }).map((_, index) => (
-        <li key={index}>
-          <ReviewCard review={mockWine.recentReview} currentUser={1} />
+      {wineDetail?.reviews.map((review) => (
+        <li key={review.id}>
+          <ReviewCard
+            review={review as WineDetailReview}
+            currentUser={currentUserId ?? 0}
+          />
         </li>
       ))}
     </ul>
