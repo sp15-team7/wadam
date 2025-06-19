@@ -34,7 +34,7 @@ const DualRangeSlider = React.forwardRef<
       {value.map((_, idx) => (
         <SliderPrimitive.Thumb
           key={idx}
-          className='border-primary block h-6 w-6 rounded-full border-2 bg-white shadow'
+          className='border-primary slider-thumb-touch-target relative block h-6 w-6 rounded-full border-2 bg-white shadow'
         />
       ))}
     </SliderPrimitive.Root>

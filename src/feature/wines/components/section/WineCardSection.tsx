@@ -1,11 +1,14 @@
 'use client';
 
+import { Search } from 'lucide-react';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
+import WineFilterButton from '@/feature/wines/components/button/WineFilterButton';
 import WineCard from '@/feature/wines/components/card/WineCard';
 import { useWinesQuery } from '@/feature/wines/hooks/useWinesQuery';
 import SkeletonCard from '@/shared/components/common/skeleton-card';
+import { Input } from '@/shared/components/ui/input';
 
 const WineCardSection = () => {
   const {
@@ -29,7 +32,7 @@ const WineCardSection = () => {
 
   if (status === 'pending') {
     return (
-      <div className='flex gap-4'>
+      <div className='grid grid-cols-1 gap-16'>
         {Array.from({ length: 3 }).map((_, index) => (
           <SkeletonCard key={index} />
         ))}
@@ -42,22 +45,33 @@ const WineCardSection = () => {
   }
 
   return (
-    <section>
-      <div className='grid grid-cols-1 gap-16'>
-        {data.map((wine) => (
-          <WineCard key={wine.id} wine={wine} />
-        ))}
+    <section className='flex flex-1 flex-col gap-16'>
+      <div className='flex flex-1 items-center gap-6'>
+        <WineFilterButton />
+        <Input
+          icon={<Search color='#b2ae98' className='size-[2.2rem] lg:hidden' />}
+          placeholder='와인 검색'
+          className='border-secondary placeholder:text-gray w-full text-[1.6rem] lg:hidden'
+        />
       </div>
 
-      <div ref={ref} style={{ height: 50, marginTop: 20 }}>
-        {isFetchingNextPage && (
-          <div className='flex justify-center'>
-            <div className='h-12 w-12 animate-spin rounded-full border-b-2 border-gray-900' />
+      <div className='flex gap-16'>
+        <div className='flex w-full flex-col gap-16'>
+          {data.map((wine) => (
+            <WineCard key={wine.id} wine={wine} />
+          ))}
+
+          <div ref={ref} className='mt-10 h-12'>
+            {isFetchingNextPage && (
+              <div className='flex justify-center'>
+                <div className='h-12 w-12 animate-spin rounded-full border-b-2 border-gray-900' />
+              </div>
+            )}
+            {!hasNextPage && !isFetchingNextPage && (
+              <div className='h-30 w-full' />
+            )}
           </div>
-        )}
-        {!hasNextPage && !isFetchingNextPage && (
-          <div>No more wines to load.</div>
-        )}
+        </div>
       </div>
     </section>
   );
