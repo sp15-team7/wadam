@@ -8,18 +8,17 @@ const MonthlyCard = ({ wine }: { wine: WineSummary }) => {
   const { name, image, avgRating } = wine;
   return (
     <Card className='h-[16rem] w-[19.3rem] p-0 md:h-[18.5rem] md:w-[23.2rem]'>
-      <CardContent className='flex h-full p-0 px-6'>
-        <figure className='flex flex-1 items-end justify-center px-4'>
+      <CardContent className='flex h-full items-end gap-[2.8rem] px-[3rem] pt-[2.4rem]'>
+        <figure className='relative h-full w-[4.4rem] overflow-hidden'>
           <Image
             src={image}
             alt='와인 이미지'
-            width={38}
-            height={136}
-            className='md:h-[16.1rem] md:w-[4.4rem]'
+            fill
+            className='!h-[108%] w-full object-cover object-top'
           />
         </figure>
-        <article className='flex flex-2 flex-col justify-center gap-2'>
-          <h2 className='text-[2.8rem] font-bold md:text-[3.6rem]'>
+        <article className='flex h-full flex-2 flex-col justify-start'>
+          <h2 className='text-[2.8rem] leading-none font-bold md:text-[3.6rem]'>
             {avgRating.toFixed(1)}
           </h2>
           <StarRating value={avgRating} readOnly />
