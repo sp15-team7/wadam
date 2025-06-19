@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 import {
+  AromaTypeEnumSchema,
   wineDetailReviewSchema,
   WineTypeEnumSchema,
 } from '@/feature/wines/schema/wine.schema';
@@ -46,6 +47,21 @@ export const getMyReviewResponseSchema = z.object({
   nextCursor: positiveNumberSchema.nullable(),
 });
 
+/**
+ * @description 와인 리뷰 등록 API의 요청 객체를 검증합니다.
+ */
+export const createReviewRequestSchema = z.object({
+  rating: nonNegativeNumberSchema,
+  lightBold: nonNegativeNumberSchema,
+  smoothTannic: nonNegativeNumberSchema,
+  drySweet: nonNegativeNumberSchema,
+  softAcidic: nonNegativeNumberSchema,
+  aroma: z.array(AromaTypeEnumSchema),
+  content: nonEmptyStringSchema,
+  wineId: positiveNumberSchema,
+});
+
 export type GetMyReviewResponse = z.infer<typeof getMyReviewResponseSchema>;
 export type MyReviewWithWine = z.infer<typeof myReviewWithWineSchema>;
 export type MyReviewItem = z.infer<typeof myReviewItemSchema>;
+export type CreateReviewRequest = z.infer<typeof createReviewRequestSchema>;

@@ -1,5 +1,5 @@
 import { auth } from '@/feature/auth';
-import ReviewFormButton from '@/feature/reviews/components/review-form/ReviewFormButton';
+import ReviewForm from '@/feature/reviews/components/review-form/ReviewFormButton';
 import WineProgressChart from '@/feature/wines/components/wine-progress';
 import WineDetailCardSection from '@/feature/wines/detail/components/WineDetailCardSection';
 import WineDetailReviewList from '@/feature/wines/detail/components/WineDetailReviewList';
@@ -47,8 +47,13 @@ const WineDetailPage = async ({ params }: WineDetailPageProps) => {
           </article>
           <div className='relative w-[28rem] flex-none'>
             <aside className='sticky top-[10rem]'>
-              <WineProgressChart wineId={wineId} />
-              <ReviewFormButton />
+                <WineProgressChart wineId={wineId}/>
+                <ReviewForm
+                  wineId={wineDetail.id}
+                  wineName={wineDetail.name}
+                  wineImage={wineDetail.image}
+                />
+
             </aside>
           </div>
         </section>
