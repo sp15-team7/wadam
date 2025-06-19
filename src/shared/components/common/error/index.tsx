@@ -1,11 +1,19 @@
 import Image from 'next/image';
 
+import { Button } from '@/shared/components/ui/button';
+
+const handleRetry = () => {
+  window.location.reload();
+};
+
 const Error = ({
   message,
   children,
+  isRetry = false,
 }: {
   message: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
+  isRetry?: boolean;
 }) => {
   return (
     <div className='flex-center flex flex-col text-center'>
@@ -18,7 +26,13 @@ const Error = ({
         />
       </div>
       <p className='txt-2lg-regular text-gray'>{message}</p>
-      {children}
+      {isRetry ? (
+        <Button variant='primary' className='mt-[2.4rem]' onClick={handleRetry}>
+          다시 시도하기
+        </Button>
+      ) : (
+        children
+      )}
     </div>
   );
 };
