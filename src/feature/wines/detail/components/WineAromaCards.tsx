@@ -1,5 +1,6 @@
 import { AromaTypeEnum } from '@/feature/wines/schema/wine.schema';
 import { formatAromaType } from '@/feature/wines/utils/formatWineType';
+import { shuffleArray } from '@/feature/wines/utils/shuffleArray';
 
 import WineAromaCard from './WineAromaCard';
 
@@ -12,7 +13,10 @@ import WineAromaCard from './WineAromaCard';
  */
 
 const WineAromaCards = ({ aroma }: { aroma: AromaTypeEnum[] }) => {
-  const aromaData = aroma.map((item) => ({
+  // 랜덤으로 섞어서 최대 3개만 선택
+  const shuffledAroma = shuffleArray(aroma).slice(0, 3);
+
+  const aromaData = shuffledAroma.map((item: AromaTypeEnum) => ({
     name: formatAromaType(item),
     imageUrl: `/icons/ui/icon-aroma-${item}.png`,
   }));
