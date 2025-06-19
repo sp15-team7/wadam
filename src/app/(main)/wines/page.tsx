@@ -5,6 +5,7 @@ import WineFilterModal, {
 } from '@/feature/wines/components/modal/WineFilterModal';
 import MonthlyWineSection from '@/feature/wines/components/MonthlyWineSection';
 import WineCardSection from '@/feature/wines/components/section/WineCardSection';
+import WineFilterSection from '@/feature/wines/components/section/WineFilterSection';
 import InnerContainer from '@/shared/components/container/InnerContainer';
 import { Button } from '@/shared/components/ui/button';
 import { useModalStore } from '@/shared/stores/useModalStore';
@@ -16,7 +17,10 @@ const WinesPage = () => {
       <InnerContainer>
         <h1 className='sr-only'>와인 목록 페이지</h1>
         <MonthlyWineSection />
-        <WineCardSection />
+        <div className='mt-20 flex flex-col gap-20 lg:flex-row'>
+          <WineFilterSection />
+          <WineCardSection />
+        </div>
         <div className='fixed bottom-10 w-full'>
           <Button size='full' className='w-full px-10'>
             와인 추가하기

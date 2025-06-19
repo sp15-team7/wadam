@@ -96,7 +96,7 @@ const WineFilterForm = forwardRef<WineFilterFormRef, WineFilterFormProps>(
             </div>
             <div className=''>
               <h3 className='mb-10 text-[2rem] font-semibold'>WINE PRICE</h3>
-              <div className='flex-center flex-col px-4'>
+              <div className='flex-center flex-col px-4 lg:px-0'>
                 <Controller
                   control={form.control}
                   name='priceRange'

@@ -8,7 +8,7 @@ import { Card, CardContent, CardFooter } from '@/shared/components/ui/card';
 
 const wineCardVariants = {
   card: cva(
-    'w-[34.3rem] h-[36rem] md:w-[70.4rem] md:h-[37.5rem] lg:w-[80rem] lg:h-[37.5rem] rounded-[3rem] border-secondary bg-white gap-0 flex justify-center',
+    'h-[36rem] md:max-h-[37.5rem] flex-1rounded-[3rem] border-secondary bg-white gap-0 flex justify-center',
   ),
   content: cva('flex gap-4 md:gap-6'),
   footer: cva(
@@ -76,7 +76,7 @@ const WineCard = ({ wine }: { wine: GetWinesResponse['list'][number] }) => {
       </CardContent>
 
       <CardFooter className={wineCardVariants.footer()}>
-        <p className='line-clamp-2 text-[1.4rem] md:text-[1.6rem]'>
+        <p className='line-clamp-3 text-[1.4rem] md:text-[1.6rem]'>
           {recentReview?.content || '아직 리뷰가 없습니다.'}
         </p>
       </CardFooter>

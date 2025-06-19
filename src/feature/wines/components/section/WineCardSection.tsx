@@ -1,14 +1,11 @@
 'use client';
 
-import { Search } from 'lucide-react';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
-import WineFilterButton from '@/feature/wines/components/button/WineFilterButton';
 import WineCard from '@/feature/wines/components/card/WineCard';
 import { useWinesQuery } from '@/feature/wines/hooks/useWinesQuery';
 import SkeletonCard from '@/shared/components/common/skeleton-card';
-import { Input } from '@/shared/components/ui/input';
 
 const WineCardSection = () => {
   const {
@@ -46,15 +43,6 @@ const WineCardSection = () => {
 
   return (
     <section className='flex flex-1 flex-col gap-16'>
-      <div className='flex flex-1 items-center gap-6'>
-        <WineFilterButton />
-        <Input
-          icon={<Search color='#b2ae98' className='size-[2.2rem] lg:hidden' />}
-          placeholder='와인 검색'
-          className='border-secondary placeholder:text-gray w-full text-[1.6rem] lg:hidden'
-        />
-      </div>
-
       <div className='flex gap-16'>
         <div className='flex w-full flex-col gap-16'>
           {data.map((wine) => (
