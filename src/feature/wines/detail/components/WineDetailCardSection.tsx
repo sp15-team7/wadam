@@ -18,11 +18,11 @@ const WineDetailClient = ({ currentUserId, wineId }: WineDetailClientProps) => {
     enabled: !!wineId,
   });
 
-  if (!wineDetail) return null;
-
   if (wineLoading) return <div>로딩중...</div>;
 
   if (isError) return <div>와인 정보를 불러올 수 없습니다.</div>;
+
+  if (!wineDetail) return null;
 
   return (
     <>

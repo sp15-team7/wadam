@@ -13,7 +13,16 @@ const WineDetailReviewList = ({
   wineId,
   currentUserId,
 }: WineDetailReviewListProps) => {
-  const { data: wineDetail } = useWineDetail({ wineId, enabled: !!wineId });
+  const {
+    data: wineDetail,
+    isLoading,
+    isError,
+  } = useWineDetail({ wineId, enabled: !!wineId });
+
+  if (isLoading) return <div>리뷰를 불러오는 중...</div>;
+  if (isError) return <div>리뷰를 불러올 수 없습니다.</div>;
+  if (!wineDetail) return null;
+
   const reviews: WineDetailReview[] = wineDetail?.reviews ?? [];
   return (
     <ul className='mt-[2rem] flex flex-col gap-[3rem]'>

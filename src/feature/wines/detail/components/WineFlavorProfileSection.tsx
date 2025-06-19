@@ -22,7 +22,11 @@ const DEFAULT_TASTE_VALUES = {
 const WineFlavorProfileSection = ({
   wineId,
 }: WineFlavorProfileSectionProps) => {
-  const { data: wineDetail } = useWineDetail({
+  const {
+    data: wineDetail,
+    isLoading,
+    isError,
+  } = useWineDetail({
     wineId,
     enabled: !!wineId,
   });
@@ -52,6 +56,9 @@ const WineFlavorProfileSection = ({
 
     return averages;
   }, [wineDetail?.reviews]);
+
+  if (isLoading) return <div>맛 정보를 불러오는 중...</div>;
+  if (isError) return <div>맛 정보를 불러올 수 없습니다.</div>;
 
   const aroma = wineDetail?.reviews?.[0]?.aroma || [];
 
