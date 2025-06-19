@@ -1,6 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 
 import { createReview } from '@/feature/libs/api/userApi';
@@ -17,16 +18,16 @@ import {
   ModalFooter,
 } from '@/shared/components/common/modal';
 import StarRating from '@/shared/components/common/star-rating';
-import UserAvatar from '@/shared/components/common/user-avatar';
 import { Button } from '@/shared/components/ui/button';
 import { useModalStore } from '@/shared/stores/useModalStore';
 
 interface ReviewFormProps {
   wineId: number;
   wineName: string;
+  wineImage?: string;
 }
 
-const ReviewForm = ({ wineId, wineName }: ReviewFormProps) => {
+const ReviewForm = ({ wineId, wineName, wineImage }: ReviewFormProps) => {
   const { open } = useModalStore();
 
   const {
@@ -51,7 +52,6 @@ const ReviewForm = ({ wineId, wineName }: ReviewFormProps) => {
 
   const onSubmit = (data: CreateReviewRequest) => {
     // TODO: 리뷰 등록 API 호출
-    console.log(data);
     createReview(data);
   };
 
@@ -67,7 +67,13 @@ const ReviewForm = ({ wineId, wineName }: ReviewFormProps) => {
         <ModalContent>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className='mb-5 flex items-center gap-4'>
-              <UserAvatar />
+              <Image
+                src={wineImage ?? '/icons/ui/icon-default-wine.svg'}
+                alt='와인 이미지'
+                width={32}
+                height={32}
+                className='mr-2'
+              />
               <div className='flex flex-col'>
                 <p className='txt-md-bold md:txt-lg-bold mb-2.5'>{wineName}</p>
                 <StarRating
