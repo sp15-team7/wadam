@@ -79,7 +79,7 @@ const wineBaseSchema = z.object({
   type: WineTypeEnumSchema,
   avgRating: nonNegativeNumberSchema,
   reviewCount: nonNegativeNumberSchema,
-  userId: positiveNumberSchema,
+  userId: positiveNumberSchema.optional(),
 });
 
 /** 와인 목록에 표시되는 개별 와인 아이템 객체 (간략한 최근 리뷰 포함) */
@@ -91,7 +91,8 @@ export const wineListItemSchema = wineBaseSchema.extend({
       createdAt: z.string().datetime(),
       updatedAt: z.string().datetime(),
     })
-    .nullable(),
+    .nullable()
+    .optional(),
 });
 
 /*
