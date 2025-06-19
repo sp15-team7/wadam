@@ -1,6 +1,8 @@
 import { AromaTypeEnum } from '@/feature/wines/schema/wine.schema';
 import { formatAromaType } from '@/feature/wines/utils/formatWineType';
 import { shuffleArray } from '@/feature/wines/utils/shuffleArray';
+import Error from '@/shared/components/common/error';
+import Skeleton from '@/shared/components/ui/skeleton';
 
 import WineAromaCard from './WineAromaCard';
 
@@ -12,7 +14,15 @@ import WineAromaCard from './WineAromaCard';
  *
  */
 
-const WineAromaCards = ({ aroma }: { aroma: AromaTypeEnum[] }) => {
+const WineAromaCards = ({
+  aroma,
+  isLoading,
+  isError,
+}: {
+  aroma: AromaTypeEnum[];
+  isLoading: boolean;
+  isError: boolean;
+}) => {
   // 랜덤으로 섞어서 최대 3개만 선택
   const shuffledAroma = shuffleArray(aroma).slice(0, 3);
 
@@ -20,6 +30,16 @@ const WineAromaCards = ({ aroma }: { aroma: AromaTypeEnum[] }) => {
     name: formatAromaType(item),
     imageUrl: `/icons/ui/icon-aroma-${item}.png`,
   }));
+
+  if (isLoading)
+    return (
+      <div className='grid flex-1 grid-cols-3 gap-[1.5rem]'>
+        <Skeleton className='h-full' />
+        <Skeleton className='h-full' />
+        <Skeleton className='h-full' />
+      </div>
+    );
+  if (isError) return <Error message='향 정보를 불러올 수 없습니다.' isRetry />;
 
   if (aromaData.length === 0) {
     return (
