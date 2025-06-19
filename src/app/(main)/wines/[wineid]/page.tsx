@@ -1,11 +1,11 @@
 import { auth } from '@/feature/auth';
+import ReviewFormButton from '@/feature/reviews/components/review-form/ReviewFormButton';
 import WineProgressChart from '@/feature/wines/components/wine-progress';
 import WineDetailClient from '@/feature/wines/detail/components/WineDetailCardSection';
 import WineDetailReviewList from '@/feature/wines/detail/components/WineDetailReviewList';
 import WineDetailTitle from '@/feature/wines/detail/components/WineDetailTitle';
 import WineFlavorProfileSection from '@/feature/wines/detail/components/WineFlavorProfileSection';
 import InnerContainer from '@/shared/components/container/InnerContainer';
-import { Button } from '@/shared/components/ui/button';
 import { PAGE_STYLES } from '@/shared/constants/styles';
 
 interface WineDetailPageProps {
@@ -45,9 +45,7 @@ const WineDetailPage = async ({ params }: WineDetailPageProps) => {
           <div className='relative w-[28rem] flex-none'>
             <aside className='sticky top-[10rem]'>
               <WineProgressChart wineId={wineId} />
-              <Button className='mt-[3rem] h-[4.2rem] w-[11.3rem] px-[2rem] text-[1.6rem] font-bold whitespace-nowrap'>
-                리뷰 남기기
-              </Button>
+              <ReviewFormButton />
             </aside>
           </div>
         </section>
