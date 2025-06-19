@@ -7,8 +7,12 @@
 
 import ky from 'ky';
 
-import { MyReviewWithWine } from '@/feature/reviews/schemas/reviews.schema';
+import {
+  CreateReviewRequest,
+  MyReviewWithWine,
+} from '@/feature/reviews/schemas/reviews.schema';
 import { WineDetailReview } from '@/feature/wines/schema/wine.schema';
+import { apiClient } from '@/shared/libs/api/apiClient';
 
 export interface UserInfo {
   nickname: string;
@@ -134,3 +138,8 @@ export async function getUserWines(
     })
     .json<{ list: Wine[]; totalCount: number; nextCursor: number | null }>();
 }
+
+// 와인 리뷰 작성 (ReviewForm.tsx 사용) - apiClient 사용
+export const createReview = async (reviewData: CreateReviewRequest) => {
+  return apiClient.post('reviews', { json: reviewData }).json();
+};

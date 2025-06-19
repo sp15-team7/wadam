@@ -50,7 +50,7 @@ const WineTasteSlider = ({
   );
 
   return (
-    <div className={cn('w-full space-y-4', className)}>
+    <div className={cn('w-full space-y-6', className)}>
       {tasteList.map((type) => (
         <div key={type} className='flex items-center gap-4'>
           <div className='bg-secondary w-22 flex-shrink-0 rounded-xl py-1 text-center text-[1.2rem] font-semibold text-gray-800 md:text-[1.4rem] md:font-medium'>
