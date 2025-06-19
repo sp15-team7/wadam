@@ -3,10 +3,12 @@
 import DetailCard from '@/feature/wines/components/card/DetailCard';
 import { useWineDetail } from '@/feature/wines/hooks/useWineDetailsQuery';
 
+
 interface WineDetailCardSectionProps {
   wineId: number;
   currentUserId?: number;
 }
+
 
 const WineDetailCardSection = ({
   currentUserId,
