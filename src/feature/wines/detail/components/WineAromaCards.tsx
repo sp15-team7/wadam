@@ -1,3 +1,4 @@
+import { AromaTypeEnum } from '@/feature/wines/schema/wine.schema';
 import { formatAromaType } from '@/feature/wines/utils/formatWineType';
 
 import WineAromaCard from './WineAromaCard';
@@ -10,21 +11,11 @@ import WineAromaCard from './WineAromaCard';
  *
  */
 
-const WineAromaCards = () => {
-  const mockData = [
-    {
-      name: formatAromaType('CHERRY'),
-      imageUrl: '/icons/ui/icon-aroma-cherry.png',
-    },
-    {
-      name: formatAromaType('VANILLA'),
-      imageUrl: '/icons/ui/icon-aroma-vanilla.png',
-    },
-    {
-      name: formatAromaType('TROPICAL'),
-      imageUrl: '/icons/ui/icon-aroma-tropical.png',
-    },
-  ];
+const WineAromaCards = ({ aroma }: { aroma: AromaTypeEnum[] }) => {
+  const mockData = aroma.map((item) => ({
+    name: formatAromaType(item),
+    imageUrl: `/icons/ui/icon-aroma-${item}.png`,
+  }));
 
   return (
     <div className='grid flex-1 grid-cols-3 gap-[1.5rem]'>
