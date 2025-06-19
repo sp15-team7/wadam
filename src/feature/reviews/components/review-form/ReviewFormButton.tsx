@@ -1,0 +1,140 @@
+'use client';
+
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+
+import { createReview } from '@/feature/libs/api/userApi';
+import WineTasteSlider from '@/feature/reviews/components/wine-taste-slider';
+import {
+  CreateReviewRequest,
+  createReviewRequestSchema,
+} from '@/feature/reviews/schemas/reviews.schema';
+import WineFlavors from '@/feature/wines/components/wine-flavors';
+import { AromaType } from '@/feature/wines/schema/wine.schema';
+import {
+  Modal,
+  ModalContent,
+  ModalFooter,
+} from '@/shared/components/common/modal';
+import StarRating from '@/shared/components/common/star-rating';
+import UserAvatar from '@/shared/components/common/user-avatar';
+import { Button } from '@/shared/components/ui/button';
+import { useModalStore } from '@/shared/stores/useModalStore';
+
+interface ReviewFormProps {
+  wineId: number;
+  wineName: string;
+}
+
+const ReviewForm = ({ wineId, wineName }: ReviewFormProps) => {
+  const { open } = useModalStore();
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors, isSubmitting },
+  } = useForm<CreateReviewRequest>({
+    resolver: zodResolver(createReviewRequestSchema),
+    defaultValues: {
+      content: '',
+      rating: 0,
+      aroma: [],
+      lightBold: 5,
+      smoothTannic: 5,
+      drySweet: 5,
+      softAcidic: 5,
+      wineId,
+    },
+  });
+
+  const onSubmit = (data: CreateReviewRequest) => {
+    // TODO: 리뷰 등록 API 호출
+    console.log(data);
+    createReview(data);
+  };
+
+  return (
+    <>
+      <Button
+        className='mt-[3rem] h-[4.2rem] w-[11.3rem] px-[2rem] text-[1.6rem] font-bold whitespace-nowrap'
+        onClick={() => open('ReviewForm')}
+      >
+        리뷰 남기기
+      </Button>
+      <Modal modalId='ReviewForm' title='리뷰 등록' showCloseButton>
+        <ModalContent>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className='mb-5 flex items-center gap-4'>
+              <UserAvatar />
+              <div className='flex flex-col'>
+                <p className='txt-md-bold md:txt-lg-bold mb-2.5'>{wineName}</p>
+                <StarRating
+                  value={watch('rating')}
+                  onChange={(val) => setValue('rating', val)}
+                  readOnly={false}
+                  size='md'
+                />
+                {/* 에러 메시지 추가 (추후 삭제 가능) */}
+                {errors.rating && (
+                  <span className='text-primary text-xs'>
+                    {errors.rating.message}
+                  </span>
+                )}
+              </div>
+            </div>
+            <textarea
+              {...register('content')}
+              className='border-secondary placeholder:txt-sm-regular txt-sm-regular md:txt-md-regular h-[10rem] w-full resize-none rounded-2xl border p-4 md:h-[12rem]'
+              placeholder='후기를 작성해주세요.'
+            />
+            {/* 에러 메시지 추가 (추후 삭제 가능) */}
+            {errors.content && (
+              <span className='text-primary text-xs'>
+                {errors.content.message}
+              </span>
+            )}
+            <p className='txt-lg-bold md:txt-2lg-bold mt-10 mb-7'>
+              와인의 맛은 어땠나요?
+            </p>
+            <WineTasteSlider
+              values={{
+                바디감: watch('lightBold'),
+                타닌: watch('smoothTannic'),
+                당도: watch('drySweet'),
+                산미: watch('softAcidic'),
+              }}
+              onChange={(values) => {
+                setValue('lightBold', values['바디감']);
+                setValue('smoothTannic', values['타닌']);
+                setValue('drySweet', values['당도']);
+                setValue('softAcidic', values['산미']);
+              }}
+            />
+
+            <p className='txt-lg-bold md:txt-2lg-bold mt-10 mb-7'>
+              기억에 남는 향이 있나요?
+            </p>
+            <WineFlavors
+              onChange={(aromas) => setValue('aroma', aromas as AromaType[])}
+            />
+
+            <ModalFooter>
+              <Button
+                size='full'
+                className='bg-primary txt-md-bold text-white'
+                type='submit'
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? '리뷰 등록 중...' : '리뷰 남기기'}
+              </Button>
+            </ModalFooter>
+          </form>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+};
+
+export default ReviewForm;
