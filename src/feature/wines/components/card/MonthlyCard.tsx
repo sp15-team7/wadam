@@ -20,7 +20,7 @@ const MonthlyCard = ({ wine }: { wine: WineSummary }) => {
         </figure>
         <article className='flex flex-2 flex-col justify-center gap-2'>
           <h2 className='text-[2.8rem] font-bold md:text-[3.6rem]'>
-            {avgRating}
+            {avgRating.toFixed(1)}
           </h2>
           <StarRating value={avgRating} readOnly />
           <p className='mt-2 line-clamp-3 text-[1.2rem] md:line-clamp-4'>

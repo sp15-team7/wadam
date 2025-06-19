@@ -32,6 +32,9 @@ interface RadioInputProps
   radioClassName?: string; // RadioGroupItem (체크 표시)에 적용할 추가 클래스
   labelClassName?: string; // label에 적용할 추가 클래스
   onValueChange?: (value: string) => void;
+  className?: string;
+  children?: React.ReactNode;
+  value: string;
 }
 
 const RadioInput = React.forwardRef<
