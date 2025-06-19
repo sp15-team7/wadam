@@ -50,7 +50,7 @@ const WineTasteSlider = ({
   );
 
   return (
-    <div className={cn('w-full space-y-4', className)}>
+    <div className={cn('w-full space-y-6', className)}>
       {tasteList.map((type) => (
         <div key={type} className='flex items-center gap-4'>
           <div className='bg-secondary w-22 flex-shrink-0 rounded-xl py-1 text-center text-[1.2rem] font-semibold text-gray-800 md:text-[1.4rem] md:font-medium'>
@@ -63,8 +63,8 @@ const WineTasteSlider = ({
             <Slider
               value={[values[type] ?? defaultTasteValues[type]]}
               min={0}
-              max={100}
-              step={5}
+              max={10}
+              step={1}
               onValueChange={(val) => handleChange(type, val[0])}
               disabled={readonly}
               className='w-full'
