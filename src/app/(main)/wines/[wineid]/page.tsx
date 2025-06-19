@@ -1,7 +1,7 @@
 import { auth } from '@/feature/auth';
 import ReviewFormButton from '@/feature/reviews/components/review-form/ReviewFormButton';
 import WineProgressChart from '@/feature/wines/components/wine-progress';
-import WineDetailClient from '@/feature/wines/detail/components/WineDetailCardSection';
+import WineDetailCardSection from '@/feature/wines/detail/components/WineDetailCardSection';
 import WineDetailReviewList from '@/feature/wines/detail/components/WineDetailReviewList';
 import WineDetailTitle from '@/feature/wines/detail/components/WineDetailTitle';
 import WineFlavorProfileSection from '@/feature/wines/detail/components/WineFlavorProfileSection';
@@ -32,7 +32,10 @@ const WineDetailPage = async ({ params }: WineDetailPageProps) => {
     <main className={PAGE_STYLES.backgroundOverlay}>
       <h1 className='sr-only'>와인 상세 페이지</h1>
       <InnerContainer className='mt-[6.4rem] pb-[13.2rem]'>
-        <WineDetailClient wineId={wineId} currentUserId={session?.user?.id} />
+        <WineDetailCardSection
+          wineId={wineId}
+          currentUserId={session?.user?.id}
+        />
         <WineFlavorProfileSection wineId={wineId} />
         <section className='mt-[5.8rem] flex gap-[6rem]'>
           <article className='flex-1'>

@@ -3,12 +3,15 @@
 import DetailCard from '@/feature/wines/components/card/DetailCard';
 import { useWineDetail } from '@/feature/wines/hooks/useWineDetailsQuery';
 
-interface WineDetailClientProps {
+interface WineDetailCardSectionProps {
   wineId: number;
   currentUserId?: number;
 }
 
-const WineDetailClient = ({ currentUserId, wineId }: WineDetailClientProps) => {
+const WineDetailCardSection = ({
+  currentUserId,
+  wineId,
+}: WineDetailCardSectionProps) => {
   const {
     data: wineDetail,
     isLoading: wineLoading,
@@ -33,4 +36,4 @@ const WineDetailClient = ({ currentUserId, wineId }: WineDetailClientProps) => {
   );
 };
 
-export default WineDetailClient;
+export default WineDetailCardSection;
