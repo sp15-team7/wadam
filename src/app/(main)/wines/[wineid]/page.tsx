@@ -1,4 +1,5 @@
 import { auth } from '@/feature/auth/libs/auth';
+import ReviewForm from '@/feature/reviews/components/review-form/ReviewFormButton';
 import WineTasteSlider from '@/feature/reviews/components/wine-taste-slider';
 import DetailCard from '@/feature/wines/components/card/DetailCard';
 import WineProgressChart from '@/feature/wines/components/wine-progress';
@@ -8,7 +9,6 @@ import { mockWine } from '@/feature/wines/mocks';
 import { GetWineDetailResponse } from '@/feature/wines/schema/wine.schema';
 import SkeletonCard from '@/shared/components/common/skeleton-card';
 import InnerContainer from '@/shared/components/container/InnerContainer';
-import { Button } from '@/shared/components/ui/button';
 import { PAGE_STYLES } from '@/shared/constants/styles';
 
 async function fetchWineDetail(wineId: string): Promise<GetWineDetailResponse> {
@@ -61,9 +61,9 @@ const WineDetailPage = async ({ params }: { params: { wineid: string } }) => {
               <div>
                 <WineProgressChart />
               </div>
-              <Button className='mt-[3rem] h-[4.2rem] w-[11.3rem] px-[2rem] text-[1.6rem] font-bold whitespace-nowrap'>
-                리뷰 남기기
-              </Button>
+              <div>
+                <ReviewForm wineId={wineDetail.id} wineName={wineDetail.name} />
+              </div>
             </aside>
           </div>
         </section>
