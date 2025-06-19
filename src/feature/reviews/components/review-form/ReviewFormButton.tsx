@@ -30,7 +30,6 @@ const ReviewForm = ({ wineId }: ReviewFormProps) => {
     wineId,
     enabled: !!wineId,
   });
-  // const ReviewForm = ({ wineId }: ReviewFormProps) => {
   const { open, close } = useModalStore();
 
   const {
