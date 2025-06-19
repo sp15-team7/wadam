@@ -1,9 +1,8 @@
 import { Search } from 'lucide-react';
 
 import WineFilterButton from '@/feature/wines/components/button/WineFilterButton';
-import WineFilterForm, {
-  WineFilterFormValues,
-} from '@/feature/wines/components/wine-filter/WineFilterForm';
+import WineFilterForm from '@/feature/wines/components/wine-filter/WineFilterForm';
+import { WineFilterFormValues } from '@/feature/wines/schema/wine-filter.schema';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
 

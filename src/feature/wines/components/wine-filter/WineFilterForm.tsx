@@ -5,31 +5,16 @@ import debounce from 'lodash-es/debounce';
 import { Search } from 'lucide-react';
 import { forwardRef, useEffect, useImperativeHandle, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { z } from 'zod';
 
 import RatingInput from '@/feature/wines/components/wine-filter/RatingInput';
-import WinePriceSlider, {
-  MAX_PRICE,
-  MIN_PRICE,
-} from '@/feature/wines/components/wine-price-slider';
+import WinePriceSlider from '@/feature/wines/components/wine-price-slider';
 import { WineType, WineTypes } from '@/feature/wines/components/wine-types';
+import {
+  DEFAULT_WINE_FILTER_VALUES,
+  WineFilterFormValues,
+  wineFilterSchema,
+} from '@/feature/wines/schema/wine-filter.schema';
 import { Input } from '@/shared/components/ui/input';
-
-const wineFilterSchema = z.object({
-  name: z.string(),
-  wineType: z.string(),
-  priceRange: z.tuple([z.number(), z.number()]),
-  rating: z.number(),
-});
-
-export type WineFilterFormValues = z.infer<typeof wineFilterSchema>;
-
-export const DEFAULT_WINE_FILTER_VALUES: WineFilterFormValues = {
-  name: '',
-  wineType: 'Red',
-  priceRange: [MIN_PRICE, MAX_PRICE],
-  rating: 0,
-};
 
 export interface WineFilterFormRef {
   submit: () => void;

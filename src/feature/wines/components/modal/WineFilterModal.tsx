@@ -2,8 +2,8 @@ import { useRef, useState } from 'react';
 
 import WineFilterForm, {
   WineFilterFormRef,
-  WineFilterFormValues,
 } from '@/feature/wines/components/wine-filter/WineFilterForm';
+import { WineFilterFormValues } from '@/feature/wines/schema/wine-filter.schema';
 import {
   Modal,
   ModalContent,
