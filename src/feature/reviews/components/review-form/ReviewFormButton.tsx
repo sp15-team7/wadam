@@ -28,7 +28,7 @@ interface ReviewFormProps {
 }
 
 const ReviewForm = ({ wineId, wineName, wineImage }: ReviewFormProps) => {
-  const { open } = useModalStore();
+  const { open, close } = useModalStore();
 
   const {
     register,
@@ -50,10 +50,15 @@ const ReviewForm = ({ wineId, wineName, wineImage }: ReviewFormProps) => {
     },
   });
 
-  const onSubmit = (data: CreateReviewRequest) => {
-    // TODO: 리뷰 등록 API 호출
-    createReview(data);
-  };
++  const onSubmit = async (data: CreateReviewRequest) => {
++    try {
++      await createReview(data);
++      close('ReviewForm');
++      // 토스트 알림 등으로 성공 메시지 표시
++    } catch (error) {
++      console.error('리뷰 등록 실패:', error);
++    }
++  };
 
   return (
     <>
