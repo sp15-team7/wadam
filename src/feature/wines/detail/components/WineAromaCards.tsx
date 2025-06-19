@@ -12,14 +12,22 @@ import WineAromaCard from './WineAromaCard';
  */
 
 const WineAromaCards = ({ aroma }: { aroma: AromaTypeEnum[] }) => {
-  const mockData = aroma.map((item) => ({
+  const aromaData = aroma.map((item) => ({
     name: formatAromaType(item),
     imageUrl: `/icons/ui/icon-aroma-${item}.png`,
   }));
 
+  if (aromaData.length === 0) {
+    return (
+      <div className='flex items-center justify-center p-8 text-gray-500'>
+        아직 등록된 향 정보가 없습니다.
+      </div>
+    );
+  }
+
   return (
     <div className='grid flex-1 grid-cols-3 gap-[1.5rem]'>
-      {mockData.map((item) => (
+      {aromaData.map((item) => (
         <WineAromaCard
           key={item.name}
           name={item.name}

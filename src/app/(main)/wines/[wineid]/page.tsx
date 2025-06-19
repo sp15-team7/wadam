@@ -20,7 +20,7 @@ const WineDetailPage = async ({ params }: WineDetailPageProps) => {
   const wineId = Number(resolvedParams.wineid);
 
   // wineId가 유효하지 않은 경우 처리
-  if (!wineId || isNaN(wineId)) {
+  if (!wineId || isNaN(wineId) || wineId <= 0) {
     return (
       <main className='flex min-h-screen items-center justify-center'>
         <div>유효하지 않은 와인 ID입니다.</div>

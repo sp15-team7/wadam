@@ -12,6 +12,13 @@ interface WineFlavorProfileSectionProps {
   wineId: number;
 }
 
+const DEFAULT_TASTE_VALUES = {
+  바디감: 5,
+  타닌: 5,
+  당도: 5,
+  산미: 5,
+} as Record<TasteType, number>;
+
 const WineFlavorProfileSection = ({
   wineId,
 }: WineFlavorProfileSectionProps) => {
@@ -23,12 +30,7 @@ const WineFlavorProfileSection = ({
   // 와인 리뷰 데이터에서 평균 맛 점수를 계산
   const averageTasteValues = useMemo(() => {
     if (!wineDetail?.reviews || wineDetail.reviews.length === 0) {
-      return {
-        바디감: 5,
-        타닌: 5,
-        당도: 5,
-        산미: 5,
-      } as Record<TasteType, number>;
+      return DEFAULT_TASTE_VALUES;
     }
 
     const reviews = wineDetail.reviews as WineDetailReview[];
@@ -41,20 +43,17 @@ const WineFlavorProfileSection = ({
       산미: 'softAcidic',
     } as const;
 
-    const averages = Object.entries(tasteMappings).reduce(
-      (acc, [tasteName, reviewKey]) => ({
-        ...acc,
-        [tasteName]:
-          reviews.reduce((sum, review) => sum + review[reviewKey], 0) /
-          totalReviews,
-      }),
-      {} as Record<TasteType, number>,
-    );
+    const averages = {} as Record<TasteType, number>;
+    Object.entries(tasteMappings).forEach(([tasteName, reviewKey]) => {
+      averages[tasteName as TasteType] =
+        reviews.reduce((sum, review) => sum + review[reviewKey], 0) /
+        totalReviews;
+    });
 
     return averages;
   }, [wineDetail?.reviews]);
 
-  const aroma = wineDetail?.reviews[0].aroma || [];
+  const aroma = wineDetail?.reviews?.[0]?.aroma || [];
 
   const reviewCount = wineDetail?.reviewCount || 0;
 

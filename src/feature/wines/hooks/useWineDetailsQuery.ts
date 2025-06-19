@@ -4,11 +4,11 @@
  * @author Sumin
  * @since 2025-06-18
  * @description 와인 상세 쿼리 훅
- * @returns {JSX.Element} 와인 상세 쿼리 훅
+ * @returns UseQueryResult<GetWineDetailResponse> React Query 결과 객체
  *
  */
 
-import {useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 import type { GetWineDetailResponse } from '@/feature/wines/schema/wine.schema';
 import { getWineDetail } from '@/feature/wines/services/wine.service';
@@ -30,7 +30,12 @@ export const useWineDetail = ({
     gcTime: 1000 * 60 * 10, // 10분간 메모리에 캐시 보관
     retry: (failureCount, error) => {
       // 404 에러는 재시도하지 않음
-      if (error instanceof Error && error.message.includes('404')) {
+      if (
+        error &&
+        typeof error === 'object' &&
+        'status' in error &&
+        error.status === 404
+      ) {
         return false;
       }
       return failureCount < 3;
