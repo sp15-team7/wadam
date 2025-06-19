@@ -7,8 +7,10 @@
  */
 
 import { useWineDetail } from '@/feature/wines/hooks/useWineDetailsQuery';
+import Error from '@/shared/components/common/error';
 import StarRating from '@/shared/components/common/star-rating';
 import { Progress } from '@/shared/components/ui/progress';
+import Skeleton from '@/shared/components/ui/skeleton';
 
 interface WineProgressProps {
   wineId: number;
@@ -21,8 +23,21 @@ const WineProgress = ({ wineId }: WineProgressProps) => {
     isError,
   } = useWineDetail({ wineId, enabled: !!wineId });
 
-  if (isLoading) return <div>평점 정보를 불러오는 중...</div>;
-  if (isError) return <div>평점 정보를 불러올 수 없습니다.</div>;
+  if (isLoading)
+    return (
+      <div className='flex flex-col gap-[1.2rem]'>
+        <div className='flex items-center gap-[2rem]'>
+          <Skeleton className='h-[6rem] w-[11.5rem]' />
+          <Skeleton className='h-[4.2rem] w-[10.5rem]' />
+        </div>
+        <Skeleton className='h-[2.6rem] w-full' />
+        <Skeleton className='h-[2.6rem] w-full' />
+        <Skeleton className='h-[2.6rem] w-full' />
+        <Skeleton className='h-[2.6rem] w-full' />
+      </div>
+    );
+  if (isError)
+    return <Error message='평점 정보를 불러올 수 없습니다.' isRetry />;
 
   const reviewCount = wineDetail?.reviewCount || 0;
   const avgRatings = wineDetail?.avgRatings || {};
