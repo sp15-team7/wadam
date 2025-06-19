@@ -47,13 +47,8 @@ const WineDetailPage = async ({ params }: WineDetailPageProps) => {
           </article>
           <div className='relative w-[28rem] flex-none'>
             <aside className='sticky top-[10rem]'>
-                <WineProgressChart wineId={wineId}/>
-                <ReviewForm
-                  wineId={wineDetail.id}
-                  wineName={wineDetail.name}
-                  wineImage={wineDetail.image}
-                />
-
+              <WineProgressChart wineId={wineId} />
+              <ReviewForm wineId={wineId} />
             </aside>
           </div>
         </section>
