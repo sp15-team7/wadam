@@ -11,6 +11,8 @@ import {
   CreateReviewRequest,
   MyReviewWithWine,
   UpdateReviewRequest,
+  UpdateReviewResponse,
+  updateReviewResponseSchema,
 } from '@/feature/reviews/schemas/reviews.schema';
 import { WineDetailReview } from '@/feature/wines/schema/wine.schema';
 import { apiClient } from '@/shared/libs/api/apiClient';
@@ -151,8 +153,11 @@ export const createReview = async (reviewData: CreateReviewRequest) => {
 export const updateReview = async (
   reviewId: number,
   reviewData: UpdateReviewRequest,
-) => {
-  return apiClient.patch(`reviews/${reviewId}`, { json: reviewData }).json();
+): Promise<UpdateReviewResponse> => {
+  const response = await apiClient
+    .patch(`reviews/${reviewId}`, { json: reviewData })
+    .json();
+  return updateReviewResponseSchema.parse(response);
 };
 
 // 와인 리뷰 삭제 (MyReviewCard.tsx 사용) - apiClient 사용
