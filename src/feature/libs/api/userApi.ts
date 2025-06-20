@@ -31,6 +31,8 @@ export interface Wine {
   avgRating: number;
   reviewCount: number;
   userId: number;
+  createdAt?: string;
+  updatedAt?: string;
   recentReview?: {
     id: number;
     content: string;
@@ -151,4 +153,14 @@ export const updateReview = async (
   reviewData: UpdateReviewRequest,
 ) => {
   return apiClient.patch(`reviews/${reviewId}`, { json: reviewData }).json();
+};
+
+// 와인 리뷰 삭제 (MyReviewCard.tsx 사용) - apiClient 사용
+export const deleteReview = async (reviewId: number) => {
+  return apiClient.delete(`reviews/${reviewId}`).json();
+};
+
+// 와인 삭제 (WineCardList.tsx 사용) - apiClient 사용
+export const deleteWine = async (wineId: number) => {
+  return apiClient.delete(`wines/${wineId}`).json();
 };
