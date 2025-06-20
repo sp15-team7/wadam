@@ -6,16 +6,12 @@ import { Card, CardContent } from '@/shared/components/ui/card';
 interface MyReviewCardProps {
   review: MyReviewWithWine;
   onEdit?: (review: MyReviewWithWine) => void;
+  onDelete?: (reviewId: number) => void;
 }
 
-const MyReviewCard = ({ review, onEdit }: MyReviewCardProps) => {
+const MyReviewCard = ({ review, onEdit, onDelete }: MyReviewCardProps) => {
   const { wine, rating, createdAt, content } = review;
   const { name } = wine;
-
-  // 삭제
-  const handleDeleteClick = () => {
-    console.log('삭제', review.id);
-  };
 
   return (
     <Card className='w-[34.3rem] px-[1rem] py-[1.6rem] md:w-[70.4rem] md:px-[4rem] md:py-[2.4rem] lg:w-[80rem]'>
@@ -32,7 +28,7 @@ const MyReviewCard = ({ review, onEdit }: MyReviewCardProps) => {
           <div className='flex items-center'>
             <CardDropdownMenu
               onEditClick={onEdit ? () => onEdit(review) : undefined}
-              onDeleteClick={handleDeleteClick}
+              onDeleteClick={onDelete ? () => onDelete(review.id) : undefined}
             />
           </div>
         </div>
