@@ -28,6 +28,7 @@ interface ModalProps {
   title: string;
   showCloseButton?: boolean;
   children: React.ReactNode;
+  onClose?: () => void;
 }
 
 const sizeClasses = {
@@ -41,6 +42,7 @@ const Modal = ({
   title,
   showCloseButton = false,
   children,
+  onClose,
 }: ModalProps) => {
   const { isOpen, close } = useModalStore();
   const open = isOpen(modalId);
@@ -96,7 +98,7 @@ const Modal = ({
           )}
         >
           <ModalTitle size={size}>{title}</ModalTitle>
-          {showCloseButton && <ModalCloseButton />}
+          {showCloseButton && <ModalCloseButton onClose={onClose} />}
         </div>
         <div className='h-full overflow-y-auto'>{children}</div>
       </div>
