@@ -61,7 +61,15 @@ export const createReviewRequestSchema = z.object({
   wineId: positiveNumberSchema,
 });
 
+/**
+ * @description 와인 리뷰 수정 API의 요청 객체를 검증합니다.
+ */
+export const updateReviewRequestSchema = createReviewRequestSchema.omit({
+  wineId: true,
+});
+
 export type GetMyReviewResponse = z.infer<typeof getMyReviewResponseSchema>;
 export type MyReviewWithWine = z.infer<typeof myReviewWithWineSchema>;
 export type MyReviewItem = z.infer<typeof myReviewItemSchema>;
 export type CreateReviewRequest = z.infer<typeof createReviewRequestSchema>;
+export type UpdateReviewRequest = z.infer<typeof updateReviewRequestSchema>;
