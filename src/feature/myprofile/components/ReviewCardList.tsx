@@ -8,8 +8,9 @@
  */
 
 import React, { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
-import { getUserReviews } from '@/feature/libs/api/userApi';
+import { deleteReview, getUserReviews } from '@/feature/libs/api/userApi';
 import EditReviewForm from '@/feature/reviews/components/review-form/EditReviewForm';
 import { MyReviewWithWine } from '@/feature/reviews/schemas/reviews.schema';
 import MyReviewCard from '@/feature/wines/components/card/MyReviewCard';
@@ -45,6 +46,20 @@ const ReviewCardList = ({ accessToken }: ReviewCardListProps) => {
     setSelectedReview(null);
   };
 
+  //리뷰 삭제 모달 관련
+  const handleDeleteClick = (reviewId: number) => {
+    // 우선 toast로 띄우고 추후에 "정말 삭제하시겠습니까?" 모달 연동 필요
+    toast.success('리뷰가 삭제되었습니다.');
+
+    deleteReview(reviewId)
+      .then(() => {
+        setReviews((prev) => prev.filter((review) => review.id !== reviewId));
+      })
+      .catch((error) => {
+        console.error('리뷰 삭제 실패:', error);
+      });
+  };
+
   useEffect(() => {
     const fetchReviews = async () => {
       if (!accessToken) return;
@@ -54,7 +69,16 @@ const ReviewCardList = ({ accessToken }: ReviewCardListProps) => {
         setError(null);
 
         const { list } = await getUserReviews(accessToken, REVIEWS_LIMIT);
-        setReviews(Array.isArray(list) ? list : []);
+        const reviewsArray = Array.isArray(list) ? list : [];
+
+        // updatedAt을 기준으로 최신순으로 정렬
+        const sortedReviews = reviewsArray.sort((a, b) => {
+          const dateA = new Date(a.updatedAt).getTime();
+          const dateB = new Date(b.updatedAt).getTime();
+          return dateB - dateA; // 내림차순 (최신순)
+        });
+
+        setReviews(sortedReviews);
       } catch (error) {
         console.error('리뷰 로딩 실패:', error);
         setError('리뷰를 불러오는데 실패했습니다.');
@@ -148,7 +172,11 @@ const ReviewCardList = ({ accessToken }: ReviewCardListProps) => {
             className='w-full border-b border-gray-100 pb-4 last:border-b-0 last:pb-0'
           >
             <div className='w-full max-w-[800px] overflow-hidden'>
-              <MyReviewCard review={review} onEdit={handleEditClick} />
+              <MyReviewCard
+                review={review}
+                onEdit={handleEditClick}
+                onDelete={handleDeleteClick}
+              />
             </div>
           </div>
         ))}
