@@ -177,3 +177,35 @@ export const deleteWine = async (
   const responseData = await response.json();
   return deleteWineResponseSchema.parse(responseData);
 };
+
+/**
+ * 와인 이미지를 업로드합니다.
+ *
+ * @description **API Endpoint**: `POST /images/upload`
+ * @param {File} file - 업로드할 이미지 파일.
+ * @returns {Promise<string>} 업로드된 이미지의 URL.
+ * @throws {Error} 업로드 실패 시 에러가 발생합니다.
+ * @example
+ * try {
+ * const imageUrl = await uploadWineImage(imageFile);
+ * console.log('업로드된 이미지 URL:', imageUrl);
+ * } catch (error) {
+ * console.error(error.message); // 예: "이미지 업로드에 실패했습니다."
+ * }
+ */
+export const uploadWineImage = async (file: File): Promise<string> => {
+  const formData = new FormData();
+  formData.append('image', file);
+
+  const response = await apiClient
+    .post('images/upload', {
+      body: formData,
+      headers: {
+        'Content-Type': undefined,
+      },
+    })
+    .json<{ url: string }>();
+
+  if (!response.url) throw new Error('이미지 업로드 실패');
+  return response.url;
+};
