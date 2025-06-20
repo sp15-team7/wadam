@@ -1,11 +1,11 @@
 'use client';
 
 import { HTTPError } from 'ky';
-import { CameraIcon,ChevronDown } from 'lucide-react';
+import { CameraIcon, ChevronDown } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { getSession } from 'next-auth/react';
-import React, { useRef,useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
@@ -45,6 +45,14 @@ const apiErrorResponseSchema = z.object({
   message: z.string(),
 });
 
+type FieldErrors = {
+  name?: string;
+  region?: string;
+  price?: string;
+  image?: string; // 이미지 파일 관련 에러
+  type?: string;
+};
+
 const WineRegistrationModal = () => {
   const router = useRouter();
   const { close } = useModalStore();
@@ -57,19 +65,24 @@ const WineRegistrationModal = () => {
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
   const [type, setType] = useState<WineTypeEnum>('RED'); // WineTypeEnum 사용
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [errors, setErrors] = useState<FieldErrors>({}); // 에러 상태 관리
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    setErrors((prev) => ({ ...prev, image: undefined }));
     if (file) {
       // 파일 크기 제한 (5MB)
       if (file.size > 5 * 1024 * 1024) {
+        const message = '이미지 파일은 최대 5MB까지 업로드할 수 있습니다.';
         toast.error(
-          '이미지 파일은 최대 5MB까지 업로드할 수 있습니다. (현재 파일 크기: ' +
+          message +
+            ' (현재 파일 크기: ' +
             (file.size / (1024 * 1024)).toFixed(2) +
             'MB)',
         );
         setImageFile(null);
         setImagePreviewUrl(null);
+        setErrors((prev) => ({ ...prev, image: message }));
         return;
       }
       setImageFile(file);
@@ -81,6 +94,8 @@ const WineRegistrationModal = () => {
     } else {
       setImageFile(null);
       setImagePreviewUrl(null);
+      // 파일이 선택되지 않았을 때 에러를 필드 옆에 표시
+      setErrors((prev) => ({ ...prev, image: '와인 사진을 선택해주세요.' }));
     }
   };
 
@@ -89,66 +104,91 @@ const WineRegistrationModal = () => {
     contextMessage: string,
   ) => {
     let errorMessage = contextMessage;
+    const fieldErrors: FieldErrors = {}; // 필드별 에러를 저장할 객체
 
     if (error instanceof z.ZodError) {
       // Zod 유효성 검사 실패 (클라이언트 측에서 발생)
-      const zodErrorMessages = error.errors
-        .map((err) => `${err.path.join('.')}: ${err.message}`)
-        .join(', ');
-      errorMessage = `입력 데이터 유효성 검사 실패: ${zodErrorMessages}`;
+      // Zod 에러를 필드별로 분리하여 `errors` 상태에 저장
+      error.errors.forEach((err) => {
+        if (err.path.length > 0 && typeof err.path[0] === 'string') {
+          // err.path[0]가 FieldErrors의 키에 해당하는지 확인
+          const fieldName = err.path[0] as keyof FieldErrors;
+          fieldErrors[fieldName] = err.message;
+        }
+      });
+      setErrors(fieldErrors); // 필드별 에러 업데이트
+      return;
     } else if (error instanceof HTTPError) {
-      // API 호출 중 HTTP 에러 발생 (서버 응답 에러)
       try {
         const errorJson = await error.response.json();
         const parsedError = apiErrorResponseSchema.safeParse(errorJson);
         if (parsedError.success && parsedError.data.message) {
           errorMessage = parsedError.data.message;
         } else {
-          // 서버 응답이 스키마와 맞지 않는 경우 HTTP 상태 코드와 메시지 사용
           errorMessage = `HTTP 오류 (${error.response.status}): ${error.response.statusText}`;
         }
       } catch (jsonParseError) {
-        // 서버 응답 JSON 파싱 실패
         console.error('Failed to parse error response JSON:', jsonParseError);
         errorMessage = `API 응답 처리 오류 (${error.response.status}): ${error.response.statusText}`;
       }
     } else if (error instanceof Error) {
-      // 기타 일반 JavaScript 에러 (네트워크, 타입 에러 등)
       errorMessage = error.message;
     } else {
-      // 알 수 없는 에러 타입
       errorMessage = '알 수 없는 오류가 발생했습니다. 다시 시도해주세요.';
     }
-    toast.error(errorMessage); // sonner를 통해 사용자에게 에러 알림
+    // Zod 에러가 아닌, API 통신 에러 등은 sonner로 전역 알림
+    toast.error(errorMessage);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    let finalImageUrl = '';
+    // 폼 제출 시 초기 에러 상태 초기화
+    setErrors({});
+
+    // 클라이언트 측 유효성 검사 (Zod 스키마를 사용하여 수동 검증)
+    const currentFormData = {
+      name,
+      region,
+      image: imageFile ? 'placeholder_url' : '', // imageFile 유무만 확인하고 실제 URL은 나중에 채움
+      price: parseFloat(price),
+      type,
+    };
+
+    try {
+      createWineRequestSchema.parse(currentFormData);
+
+      //  이미지 파일 선택 여부 수동 검사
+      if (!imageFile) {
+        setErrors((prev) => ({ ...prev, image: '와인 사진을 선택해주세요.' }));
+        return; // 에러 발생 시 제출 중단
+      }
+    } catch (validationError) {
+      // Zod 유효성 검사 실패 시  필드 옆에 에러 표시
+      await handleSubmissionError(
+        validationError,
+        '입력 데이터 유효성 검사 실패',
+      );
+      return; // 유효성 검사 실패 시 제출 중단
+    }
 
     const session = await getSession();
     if (!session || !session.accessToken) {
       toast.error('로그인이 필요합니다. 먼저 로그인해주세요.');
-      // router.push('/signin'); // 필요하다면 로그인 페이지로 리다이렉트
       return;
     }
 
-    if (!imageFile) {
-      toast.error('와인 사진을 선택해주세요.');
-      return;
-    }
+    let finalImageUrl = '';
 
     try {
-      // 1. 이미지 파일 업로드
       const formDataForImage = new FormData();
-      formDataForImage.append('image', imageFile);
+      formDataForImage.append('image', imageFile as File);
 
       const uploadResponse = await apiClient
         .post('images/upload', {
           body: formDataForImage,
           headers: {
-            'Content-Type': undefined, // ky가 자동으로 multipart/form-data를 설정하도록 함
+            'Content-Type': undefined,
           },
         })
         .json();
@@ -156,15 +196,7 @@ const WineRegistrationModal = () => {
       const parsedImageResult = imageUploadResponseSchema.parse(uploadResponse);
       finalImageUrl = parsedImageResult.url;
     } catch (uploadError) {
-      // 이미지 업로드 실패 시 handleSubmissionError 호출
       await handleSubmissionError(uploadError, '이미지 업로드에 실패했습니다.');
-      return; // 에러 발생 시 이후 로직 실행 중단
-    }
-
-    // 2. 폼 데이터 준비
-    const priceValue = parseFloat(price);
-    if (isNaN(priceValue) || priceValue <= 0) {
-      toast.error('가격은 0보다 큰 숫자로 입력해주세요.');
       return;
     }
 
@@ -172,18 +204,13 @@ const WineRegistrationModal = () => {
       name,
       region,
       image: finalImageUrl,
-      price: priceValue,
+      price: parseFloat(price),
       type,
     };
 
     try {
-      // 클라이언트 측 데이터 유효성 검사 (Zod 스키마)
       const validatedData = createWineRequestSchema.parse(formData);
-
-      // 3. 와인 등록 API 호출
       const response = await createWine(validatedData);
-
-      // 서버 응답 데이터 유효성 검사
       const newWine = createWineResponseSchema.parse(response);
       const newWineId = newWine.id;
 
@@ -191,9 +218,7 @@ const WineRegistrationModal = () => {
       close(MODAL_ID);
       router.push(`/wines/${newWineId}`);
     } catch (error) {
-      // 와인 등록 실패 시 handleSubmissionError 호출
       await handleSubmissionError(error, '와인 등록에 실패했습니다.');
-      // 추가적인 UI 업데이트나 상태 초기화 등이 필요하다면 여기에 추가
     }
   };
 
@@ -202,45 +227,67 @@ const WineRegistrationModal = () => {
     close(MODAL_ID);
   };
 
+  // 필드별 에러 메시지를 렌더링하는 컴포넌트
+  const FieldError = ({ fieldName }: { fieldName: keyof FieldErrors }) => {
+    if (errors[fieldName]) {
+      return (
+        <p className='text-primary mt-1 text-[1.2rem]'>{errors[fieldName]}</p>
+      );
+    }
+    return null;
+  };
+
   return (
     <Modal modalId={MODAL_ID} title='와인 등록'>
       <form
         onSubmit={handleSubmit}
-        className='flex w-[480px] max-w-full flex-col gap-8 p-0 pt-10'
+        className='flex w-full max-w-full flex-col gap-8 p-0 pt-10'
+        noValidate
       >
         {/* 와인 이름 */}
-        <div>
-          <label
-            htmlFor='wine-name'
-            className='mb-4 block text-[1.6rem] font-bold text-gray-800'
-          >
-            와인 이름
-          </label>
+        <div className='flex flex-col justify-between'>
+          <div className='flex items-center'>
+            <label
+              htmlFor='wine-name'
+              className='mb-4 block text-[1.6rem] font-bold text-gray-800'
+            >
+              와인 이름
+            </label>
+            <FieldError fieldName='name' />
+          </div>
           <Input
             id='wine-name'
             placeholder='와인 이름 입력'
             value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
+            onChange={(e) => {
+              setName(e.target.value);
+              setErrors((prev) => ({ ...prev, name: undefined }));
+            }}
             variant='default' // Input 컴포넌트의 기본 variant
             size='md' // Input 컴포넌트의 md size
             className='!text-gray-800'
           />
         </div>
         {/* 가격 */}
-        <div>
-          <label
-            htmlFor='wine-price'
-            className='mb-4 block text-[1.6rem] font-bold text-gray-800'
-          >
-            가격
-          </label>
+        <div className='flex flex-col justify-between'>
+          <div className='flex items-center'>
+            <label
+              htmlFor='wine-price'
+              className='mb-4 block text-[1.6rem] font-bold text-gray-800'
+            >
+              가격
+            </label>
+            <FieldError fieldName='price' />
+          </div>
           <Input
             id='wine-price'
             type='number' // type을 number로 지정
             placeholder='가격 입력'
             value={price}
-            onChange={(e) => setPrice(e.target.value.replace(/[^0-9.]/g, ''))}
+            onChange={(e) => {
+              setPrice(e.target.value.replace(/[^0-9.]/g, ''));
+              setErrors((prev) => ({ ...prev, price: undefined }));
+            }}
             required
             inputMode='numeric'
             variant='default'
@@ -249,18 +296,24 @@ const WineRegistrationModal = () => {
           />
         </div>
         {/* 원산지 */}
-        <div>
-          <label
-            htmlFor='wine-region'
-            className='mb-4 block text-[1.6rem] font-bold text-gray-800'
-          >
-            원산지
-          </label>
+        <div className='flex flex-col justify-between'>
+          <div className='flex items-center'>
+            <label
+              htmlFor='wine-region'
+              className='mb-4 block text-[1.6rem] font-bold text-gray-800'
+            >
+              원산지
+            </label>
+            <FieldError fieldName='region' />
+          </div>
           <Input
             id='wine-region'
             placeholder='원산지 입력'
             value={region}
-            onChange={(e) => setRegion(e.target.value)}
+            onChange={(e) => {
+              setRegion(e.target.value);
+              setErrors((prev) => ({ ...prev, region: undefined }));
+            }}
             required
             variant='default'
             size='md'
@@ -268,13 +321,16 @@ const WineRegistrationModal = () => {
           />
         </div>
         {/* 타입 */}
-        <div>
-          <label
-            htmlFor='wine-type-dropdown'
-            className='mb-4 block text-[1.6rem] font-bold text-gray-800'
-          >
-            타입
-          </label>
+        <div className='flex flex-col justify-between'>
+          <div className='flex items-center'>
+            <label
+              htmlFor='wine-type-dropdown'
+              className='mb-4 block text-[1.6rem] font-bold text-gray-800'
+            >
+              타입
+            </label>
+            <FieldError fieldName='type' />
+          </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
@@ -291,7 +347,10 @@ const WineRegistrationModal = () => {
             <DropdownMenuContent className='txt-2xl-semibold z-50 w-[calc(var(--radix-dropdown-menu-trigger-width))] rounded-3xl border bg-white shadow-lg'>
               <DropdownMenuRadioGroup
                 value={type}
-                onValueChange={(value) => setType(value as WineTypeEnum)}
+                onValueChange={(value) => {
+                  setType(value as WineTypeEnum);
+                  setErrors((prev) => ({ ...prev, type: undefined }));
+                }}
               >
                 {WINE_TYPES.map((wineType) => (
                   <DropdownMenuRadioItem
@@ -308,13 +367,16 @@ const WineRegistrationModal = () => {
           </DropdownMenu>
         </div>
         {/* 와인 사진 */}
-        <div>
-          <label
-            htmlFor='wine-image'
-            className='mb-6 block text-[1.6rem] font-bold text-gray-800'
-          >
-            와인 사진
-          </label>
+        <div className='flex flex-col justify-between'>
+          <div className='flex items-center'>
+            <label
+              htmlFor='wine-image'
+              className='mb-6 block text-[1.6rem] font-bold text-gray-800'
+            >
+              와인 사진
+            </label>
+            <FieldError fieldName='image' />
+          </div>
           {/* Button 컴포넌트를 사용 업로드 박스 구현 */}
           <Button
             type='button'
@@ -354,7 +416,7 @@ const WineRegistrationModal = () => {
             onClick={handleCancel}
             variant='secondary'
             size='full'
-            className='w-[108px] !bg-[#ECE9DD] py-4 text-[1.6rem] !font-bold !text-[#B03A2E] hover:!bg-[#DEDCCA]'
+            className='!text-primary w-[108px] !bg-[#ECE9DD] py-4 text-[1.6rem] font-semibold hover:!bg-[#DEDCCA]'
           >
             취소
           </Button>
@@ -362,8 +424,10 @@ const WineRegistrationModal = () => {
             type='submit'
             variant='primary'
             size='full'
-            className='!bg-[#B03A2E] py-4 text-[1.6rem] !font-bold !text-white hover:!bg-[#9B2F25]'
-          ></Button>
+            className='py-4 text-[1.6rem] font-semibold text-white'
+          >
+            와인 등록하기
+          </Button>
         </div>
       </form>
     </Modal>

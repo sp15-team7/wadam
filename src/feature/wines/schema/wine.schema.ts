@@ -108,10 +108,16 @@ export const wineListItemSchema = wineBaseSchema.extend({
  * @description [요청] 와인 생성을 요청할 때 Request Body를 검증합니다.
  */
 export const createWineRequestSchema = z.object({
-  name: nonEmptyStringSchema,
-  region: nonEmptyStringSchema,
-  image: urlSchema,
-  price: positiveNumberSchema,
+  name: nonEmptyStringSchema.min(1, '와인 이름을 입력해주세요.'),
+  region: nonEmptyStringSchema.min(1, '원산지를 입력해주세요.'),
+  image: urlSchema.refine((val) => val.length > 0, {
+    message: '와인 사진을 업로드해주세요.',
+  }),
+  price: z
+    .number({ invalid_type_error: '가격을 숫자로 입력해주세요.' })
+    .positive('가격은 0보다 커야 합니다.')
+    .min(1, '가격을 입력해주세요.') // 비어있을 때
+    .optional(),
   type: WineTypeEnumSchema,
 });
 
