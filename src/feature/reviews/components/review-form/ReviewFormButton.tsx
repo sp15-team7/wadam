@@ -67,7 +67,7 @@ const ReviewForm = ({ wineId }: ReviewFormProps) => {
   return (
     <>
       <Button
-        className='mt-[3rem] h-[4.2rem] w-[11.3rem] px-[2rem] text-[1.6rem] font-bold whitespace-nowrap'
+        className='h-[4.2rem] w-[11.3rem] px-[2rem] text-[1.6rem] font-bold whitespace-nowrap'
         onClick={() => open('ReviewForm')}
       >
         리뷰 남기기

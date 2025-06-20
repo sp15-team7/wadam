@@ -37,17 +37,19 @@ const WineDetailPage = async ({ params }: WineDetailPageProps) => {
           currentUserId={session?.user?.id}
         />
         <WineFlavorProfileSection wineId={wineId} />
-        <section className='mt-[5.8rem] flex gap-[6rem]'>
+        <section className='mt-[4.8rem] flex flex-col-reverse gap-[6rem] md:mt-[5.8rem] lg:flex-row'>
           <article className='flex-1'>
             <WineDetailReviewList
               wineId={wineId}
               currentUserId={session?.user?.id}
             />
           </article>
-          <div className='relative w-[28rem] flex-none'>
-            <aside className='sticky top-[10rem]'>
+          <div className='relative w-full flex-none md:px-[6rem] lg:w-[28rem] lg:px-0'>
+            <aside className='lg:sticky lg:top-[10rem]'>
               <WineProgressChart wineId={wineId} />
-              <ReviewForm wineId={wineId} />
+              <div className='absolute top-0 right-0 md:top-auto md:right-auto md:bottom-[1.8rem] md:left-[6rem] lg:static lg:mt-[3rem]'>
+                <ReviewForm wineId={wineId} />
+              </div>
             </aside>
           </div>
         </section>

@@ -42,9 +42,9 @@ const WineProgress = ({ wineId }: WineProgressProps) => {
   const getPercentage = (count = 0) =>
     reviewCount === 0 ? 0 : (count / reviewCount) * 100;
   return (
-    <div>
+    <div className='flex flex-col md:flex-row md:justify-between lg:flex-col lg:justify-start'>
       <div className='flex items-center gap-[2rem]'>
-        <strong className='text-[5.4rem] font-extrabold'>
+        <strong className='text-[5.4rem] leading-none font-extrabold'>
           {wineDetail?.avgRating}
         </strong>
         <div>
@@ -58,7 +58,7 @@ const WineProgress = ({ wineId }: WineProgressProps) => {
           </p>
         </div>
       </div>
-      <div className='mt-[2rem] flex flex-col gap-[1.5rem]'>
+      <div className='mt-[2rem] flex w-full flex-col gap-[1.5rem] md:w-[28rem] lg:w-full'>
         {[5, 4, 3, 2, 1].map((score) => (
           <div key={score} className='flex items-center gap-[1.5rem]'>
             <span className='txt-lg-small text-gray flex-none text-right'>

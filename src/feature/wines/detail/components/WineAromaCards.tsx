@@ -30,7 +30,7 @@ const WineAromaCards = ({
 
   if (isLoading)
     return (
-      <div className='grid flex-1 grid-cols-3 gap-[1.5rem]'>
+      <div className='grid flex-1 grid-cols-3 gap-[0.8rem] md:gap-[1.5rem]'>
         <Skeleton className='h-full' />
         <Skeleton className='h-full' />
         <Skeleton className='h-full' />
@@ -46,7 +46,7 @@ const WineAromaCards = ({
   }
 
   return (
-    <div className='grid flex-1 grid-cols-3 gap-[1.5rem]'>
+    <div className='grid flex-1 grid-cols-3 gap-[0.8rem] md:gap-[1.5rem]'>
       {aromaData.map((item) => (
         <WineAromaCard
           key={item.name}
