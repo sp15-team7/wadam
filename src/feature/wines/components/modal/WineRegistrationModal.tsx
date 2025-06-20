@@ -1,11 +1,11 @@
 'use client';
 
 import { HTTPError } from 'ky';
-import { ChevronDown,UploadIcon } from 'lucide-react';
+import { CameraIcon,ChevronDown } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { getSession } from 'next-auth/react';
-import React, { useState } from 'react';
+import React, { useRef,useState } from 'react';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
@@ -56,6 +56,7 @@ const WineRegistrationModal = () => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
   const [type, setType] = useState<WineTypeEnum>('RED'); // WineTypeEnum 사용
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -196,80 +197,109 @@ const WineRegistrationModal = () => {
     }
   };
 
+  // '취소' 버튼 클릭 시 모달 닫기
+  const handleCancel = () => {
+    close(MODAL_ID);
+  };
+
   return (
-    <Modal modalId={MODAL_ID} title='와인 등록' showCloseButton>
-      <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
+    <Modal modalId={MODAL_ID} title='와인 등록'>
+      <form
+        onSubmit={handleSubmit}
+        className='flex w-[480px] max-w-full flex-col gap-8 p-0 pt-10'
+      >
         {/* 와인 이름 */}
         <div>
           <label
             htmlFor='wine-name'
-            className='txt-sub-bold mb-1 block text-gray-700'
+            className='mb-4 block text-[1.6rem] font-bold text-gray-800'
           >
             와인 이름
           </label>
           <Input
             id='wine-name'
-            placeholder='와인 이름을 입력하세요'
+            placeholder='와인 이름 입력'
             value={name}
             onChange={(e) => setName(e.target.value)}
+            required
+            variant='default' // Input 컴포넌트의 기본 variant
+            size='md' // Input 컴포넌트의 md size
+            className='!text-gray-800'
           />
         </div>
-
         {/* 가격 */}
         <div>
           <label
             htmlFor='wine-price'
-            className='txt-sub-bold mb-1 block text-gray-700'
+            className='mb-4 block text-[1.6rem] font-bold text-gray-800'
           >
             가격
           </label>
           <Input
             id='wine-price'
-            type='number'
-            placeholder='가격을 입력하세요 (예: 76000)'
+            type='number' // type을 number로 지정
+            placeholder='가격 입력'
             value={price}
-            onChange={(e) => setPrice(e.target.value)}
+            onChange={(e) => setPrice(e.target.value.replace(/[^0-9.]/g, ''))}
+            required
+            inputMode='numeric'
+            variant='default'
+            size='md'
+            className='!text-gray-800'
           />
         </div>
-
         {/* 원산지 */}
         <div>
           <label
             htmlFor='wine-region'
-            className='txt-sub-bold mb-1 block text-gray-700'
+            className='mb-4 block text-[1.6rem] font-bold text-gray-800'
           >
             원산지
           </label>
           <Input
             id='wine-region'
-            placeholder='원산지를 입력하세요 (예: 칠레)'
+            placeholder='원산지 입력'
             value={region}
             onChange={(e) => setRegion(e.target.value)}
+            required
+            variant='default'
+            size='md'
+            className='!text-gray-800'
           />
         </div>
-
-        {/* 와인 타입 */}
+        {/* 타입 */}
         <div>
-          <label className='txt-sub-bold mb-1 block text-gray-700'>타입</label>
+          <label
+            htmlFor='wine-type-dropdown'
+            className='mb-4 block text-[1.6rem] font-bold text-gray-800'
+          >
+            타입
+          </label>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
                 type='button'
+                id='wine-type-dropdown'
                 variant='secondary'
                 size='full'
-                className='justify-between px-[2.0rem]'
+                className='flex-center !text-gray !justify-between !rounded-full !border !bg-white !px-8 !py-4 text-[1.5rem] !font-normal hover:!bg-gray-50'
               >
-                {type}
-                <ChevronDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
+                <span>{type}</span>
+                <ChevronDown className='text-gray h-8 w-8' />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className='w-[calc(var(--radix-dropdown-menu-trigger-width) + 0.8rem)]'>
+            <DropdownMenuContent className='txt-2xl-semibold z-50 w-[calc(var(--radix-dropdown-menu-trigger-width))] rounded-3xl border bg-white shadow-lg'>
               <DropdownMenuRadioGroup
                 value={type}
                 onValueChange={(value) => setType(value as WineTypeEnum)}
               >
                 {WINE_TYPES.map((wineType) => (
-                  <DropdownMenuRadioItem key={wineType} value={wineType}>
+                  <DropdownMenuRadioItem
+                    key={wineType}
+                    value={wineType}
+                    showIndicator={false}
+                    className='hover:text-primary hover:bg-secondary cursor-pointer rounded-2xl px-6 py-2 text-[1.6rem]'
+                  >
                     {wineType}
                   </DropdownMenuRadioItem>
                 ))}
@@ -277,59 +307,63 @@ const WineRegistrationModal = () => {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-
         {/* 와인 사진 */}
         <div>
           <label
             htmlFor='wine-image'
-            className='txt-sub-bold mb-1 block text-gray-700'
+            className='mb-6 block text-[1.6rem] font-bold text-gray-800'
           >
             와인 사진
           </label>
-          <div className='flex items-center space-x-2'>
-            <input
-              id='wine-image'
-              type='file'
-              accept='image/*'
-              onChange={handleImageChange}
-              className='hidden'
-            />
-            <label
-              htmlFor='wine-image'
-              className='flex-center border-secondary h-[5rem] w-full cursor-pointer rounded-full border bg-white text-xl font-medium text-gray-700 transition-colors hover:bg-gray-50'
-            >
-              <UploadIcon className='mr-2 h-5 w-5' />
-              {imageFile ? imageFile.name : '사진 업로드'}
-            </label>
-          </div>
-          {imagePreviewUrl && (
-            <div className='mt-4 flex justify-center'>
-              <Image
-                src={imagePreviewUrl}
-                alt='와인 사진 미리보기'
-                className='max-h-48 rounded-lg object-contain'
-                width={200}
-                height={200}
-                sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
-                style={{ height: 'auto' }}
-              />
-            </div>
-          )}
-        </div>
-
-        {/* 버튼 섹션 */}
-        <div className='mt-6 flex justify-center gap-2'>
+          {/* Button 컴포넌트를 사용 업로드 박스 구현 */}
           <Button
             type='button'
+            aria-label='와인 사진 업로드'
             variant='secondary'
-            size='md'
-            onClick={() => close(MODAL_ID)}
+            className='group !h-[140px] !w-[140px] !rounded-[1.2rem] !border !bg-white !p-0 transition-colors hover:!bg-gray-50'
+            onClick={() => fileInputRef.current?.click()}
+          >
+            {imagePreviewUrl ? (
+              <Image
+                src={imagePreviewUrl}
+                alt='미리보기'
+                width={140}
+                height={140}
+                className='h-full w-full rounded-[1.2rem] object-cover transition-opacity duration-300 group-hover:opacity-60'
+              />
+            ) : (
+              <CameraIcon
+                className='text-gray h-8 w-8'
+                aria-label='카메라 아이콘'
+              />
+            )}
+            <input
+              id='wine-image'
+              ref={fileInputRef}
+              type='file'
+              accept='image/*'
+              className='hidden'
+              onChange={handleImageChange}
+            />
+          </Button>
+        </div>
+        {/* 버튼 섹션 */}
+        <div className='mt-10 flex w-full gap-4'>
+          <Button
+            type='button'
+            onClick={handleCancel}
+            variant='secondary'
+            size='full'
+            className='w-[108px] !bg-[#ECE9DD] py-4 text-[1.6rem] !font-bold !text-[#B03A2E] hover:!bg-[#DEDCCA]'
           >
             취소
           </Button>
-          <Button type='submit' variant='primary' size='md'>
-            와인 등록하기
-          </Button>
+          <Button
+            type='submit'
+            variant='primary'
+            size='full'
+            className='!bg-[#B03A2E] py-4 text-[1.6rem] !font-bold !text-white hover:!bg-[#9B2F25]'
+          ></Button>
         </div>
       </form>
     </Modal>
