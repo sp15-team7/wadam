@@ -10,7 +10,7 @@ const skeletonCardVariants = cva('flex flex-col', {
         'h-[16rem] p-[2.4rem] pb-0 bg-white border-secondary border-1 md:px-[3rem] md:h-[18.5rem] rounded-[3rem]',
       list: 'w-full p-[3rem] pr-[2rem] pl-[2rem] bg-white border-secondary border-1 md:p-[4rem] rounded-[3rem]',
       detailTop:
-        'w-full h-[20.9rem] p-[2.4rem] py-0 md:h-[30.2rem] rounded-[3rem]',
+        'w-full h-[20.9rem] p-[2.4rem] py-0 md:h-[30.6rem] rounded-[3rem] md:px-[6rem] lg:px-[8rem] lg:mt-[-4.8rem]',
       detailList:
         'w-full p-[2rem] bg-white border-secondary border-1 rounded-[1.6rem]',
       myReview:
@@ -48,7 +48,7 @@ const SkeletonCard = ({ variant, className }: SkeletonCardProps) => {
         <div
           className={cn(
             classes,
-            'after:border-secondary relative z-[2] flex-row items-end gap-[2.5rem] bg-white after:absolute after:bottom-0 after:left-0 after:z-[-1] after:block after:h-[19rem] after:w-full after:rounded-[3rem] after:border-1 after:content-[""] md:gap-[6rem] md:after:h-[26rem] xl:gap-[7.9rem]',
+            'after:border-secondary relative z-[2] flex-row items-end gap-[2.5rem] after:absolute after:bottom-0 after:left-0 after:z-[-1] after:block after:h-[19rem] after:w-full after:rounded-[3rem] after:border-1 after:bg-white after:content-[""] md:gap-[6rem] md:after:h-[26rem] xl:gap-[7.9rem]',
           )}
         >
           <Skeleton className='h-full w-[5.8rem]' />

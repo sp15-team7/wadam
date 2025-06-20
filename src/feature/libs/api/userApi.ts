@@ -10,6 +10,7 @@ import ky from 'ky';
 import {
   CreateReviewRequest,
   MyReviewWithWine,
+  UpdateReviewRequest,
 } from '@/feature/reviews/schemas/reviews.schema';
 import { WineDetailReview } from '@/feature/wines/schema/wine.schema';
 import { apiClient } from '@/shared/libs/api/apiClient';
@@ -142,4 +143,12 @@ export async function getUserWines(
 // 와인 리뷰 작성 (ReviewForm.tsx 사용) - apiClient 사용
 export const createReview = async (reviewData: CreateReviewRequest) => {
   return apiClient.post('reviews', { json: reviewData }).json();
+};
+
+// 와인 리뷰 수정 (EditReviewForm.tsx 사용) - apiClient 사용
+export const updateReview = async (
+  reviewId: number,
+  reviewData: UpdateReviewRequest,
+) => {
+  return apiClient.patch(`reviews/${reviewId}`, { json: reviewData }).json();
 };

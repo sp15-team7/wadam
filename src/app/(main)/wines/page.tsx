@@ -1,39 +1,29 @@
-'use client';
+import { WineTypeEnum } from '@/feature/wines/schema/wine.schema';
+import {
+  DEFAULT_WINE_FILTER_VALUES,
+  WineFilterFormValues,
+} from '@/feature/wines/schema/wine-filter.schema';
+import { getWines } from '@/feature/wines/services/wine.service';
 
-import WineRegistrationModal from '@/feature/wines/components/modal/WineRegistrationModal';
-import MonthlyWineSection from '@/feature/wines/components/MonthlyWineSection';
-import { useWinesQuery } from '@/feature/wines/hooks/useWinesQuery';
-import InnerContainer from '@/shared/components/container/InnerContainer';
-import { Button } from '@/shared/components/ui/button'; // shadcn/ui 버튼
-import { useModalStore } from '@/shared/stores/useModalStore';
+import WinesClientView from './WinesClientView';
 
-const WinesPage = () => {
-  const { data, status, error } = useWinesQuery();
+const WinesPage = async () => {
+  const initialFilters: WineFilterFormValues = DEFAULT_WINE_FILTER_VALUES;
 
-  console.log('data:', data);
-  console.log('status:', status);
-  console.log('error:', error);
-
-  const { open } = useModalStore();
-
-  const handleOpenModal = () => {
-    open('wineRegistrationModal');
-  };
+  const initialWines = await getWines({
+    limit: 5,
+    type: initialFilters.wineType.toUpperCase() as WineTypeEnum,
+    minPrice: initialFilters.priceRange[0],
+    maxPrice: initialFilters.priceRange[1],
+    rating: initialFilters.rating > 0 ? initialFilters.rating : undefined,
+    name: initialFilters.name,
+  });
 
   return (
-    <main>
-      <InnerContainer>
-        <h1 className='sr-only'>와인 목록 페이지</h1>
-        <MonthlyWineSection />
-        <h1 className='mb-6 text-3xl font-bold'>와인 등록 페이지</h1>
-        <Button onClick={handleOpenModal} className='px-6 py-3 text-lg'>
-          새 와인 등록하기
-        </Button>
-
-        {/* 와인 등록 모달 컴포넌트 렌더링 */}
-        <WineRegistrationModal />
-      </InnerContainer>
-    </main>
+    <WinesClientView
+      initialWines={initialWines}
+      initialFilters={initialFilters}
+    />
   );
 };
 

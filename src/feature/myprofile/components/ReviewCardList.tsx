@@ -10,8 +10,10 @@
 import React, { useEffect, useState } from 'react';
 
 import { getUserReviews } from '@/feature/libs/api/userApi';
+import EditReviewForm from '@/feature/reviews/components/review-form/EditReviewForm';
 import { MyReviewWithWine } from '@/feature/reviews/schemas/reviews.schema';
 import MyReviewCard from '@/feature/wines/components/card/MyReviewCard';
+import { useModalStore } from '@/shared/stores/useModalStore';
 
 interface ReviewCardListProps {
   accessToken: string;
@@ -23,6 +25,25 @@ const ReviewCardList = ({ accessToken }: ReviewCardListProps) => {
   const [reviews, setReviews] = useState<MyReviewWithWine[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  //리뷰 수정 모달 관련
+  const [selectedReview, setSelectedReview] = useState<MyReviewWithWine | null>(
+    null,
+  );
+
+  const { open, close, isOpen } = useModalStore();
+
+  //리뷰 수정 모달 관련
+  const handleEditClick = (review: MyReviewWithWine) => {
+    setSelectedReview(review);
+    open('EditReviewForm');
+  };
+
+  //리뷰 수정 모달 관련
+  const handleEditClose = () => {
+    close('EditReviewForm');
+    setSelectedReview(null);
+  };
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -127,11 +148,14 @@ const ReviewCardList = ({ accessToken }: ReviewCardListProps) => {
             className='w-full border-b border-gray-100 pb-4 last:border-b-0 last:pb-0'
           >
             <div className='w-full max-w-[800px] overflow-hidden'>
-              <MyReviewCard review={review} />
+              <MyReviewCard review={review} onEdit={handleEditClick} />
             </div>
           </div>
         ))}
       </div>
+      {isOpen('EditReviewForm') && selectedReview && (
+        <EditReviewForm review={selectedReview} onClose={handleEditClose} />
+      )}
     </div>
   );
 };

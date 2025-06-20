@@ -25,11 +25,13 @@ import { useModalStore } from '@/shared/stores/useModalStore';
 interface ReviewFormProps {
   wineId: number;
 }
+
 const ReviewForm = ({ wineId }: ReviewFormProps) => {
-  const { data: wineDetail } = useWineDetail({
+  const { data: wineDetail, isError } = useWineDetail({
     wineId,
     enabled: !!wineId,
   });
+
   const { open, close } = useModalStore();
 
   const {
@@ -52,6 +54,8 @@ const ReviewForm = ({ wineId }: ReviewFormProps) => {
     },
   });
 
+  if (isError) return null;
+
   const onSubmit = async (data: CreateReviewRequest) => {
     try {
       await createReview(data);
@@ -62,10 +66,12 @@ const ReviewForm = ({ wineId }: ReviewFormProps) => {
     }
   };
 
+  if (isError) return null;
+
   return (
     <>
       <Button
-        className='mt-[3rem] h-[4.2rem] w-[11.3rem] px-[2rem] text-[1.6rem] font-bold whitespace-nowrap'
+        className='h-[4.2rem] w-[11.3rem] px-[2rem] text-[1.6rem] font-bold whitespace-nowrap'
         onClick={() => open('ReviewForm')}
       >
         리뷰 남기기

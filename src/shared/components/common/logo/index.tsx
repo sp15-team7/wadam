@@ -21,7 +21,7 @@ const Logo = ({
         width={100}
         height={20}
         priority
-        className={cn('h-14 w-auto md:h-16', className)}
+        className={cn('h-12 w-auto md:h-16', className)}
       />
     </Link>
   );
