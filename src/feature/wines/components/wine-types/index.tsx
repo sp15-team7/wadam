@@ -36,17 +36,14 @@ const WineTypes = ({
   };
 
   return (
-    <div className='flex flex-col items-center'>
-      <div className='mb-4 text-[1.6rem] font-semibold lg:text-[2rem] lg:font-bold'>
-        WINE TYPES
-      </div>
+    <div className='flex flex-col'>
       <div className='flex gap-4'>
         {WINE_TYPES.map((type) => (
           <button
             key={type}
             type='button'
             onClick={() => handleClick(type)}
-            className={`rounded-full px-7 py-2 text-[1.6rem] font-medium transition-colors ${selected === type ? 'bg-primary text-white' : 'bg-secondary text-black'}`}
+            className={`cursor-pointer rounded-full px-7 py-2 text-[1.6rem] font-medium transition-colors ${selected === type ? 'bg-primary text-white' : 'bg-secondary text-black'}`}
           >
             {type}
           </button>
