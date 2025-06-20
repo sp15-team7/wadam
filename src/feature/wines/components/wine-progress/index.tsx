@@ -43,8 +43,8 @@ const WineProgress = ({ wineId }: WineProgressProps) => {
     reviewCount === 0 ? 0 : (count / reviewCount) * 100;
   return (
     <div className='flex flex-col md:flex-row md:justify-between lg:flex-col lg:justify-start'>
-      <div className='flex items-center gap-[2rem]'>
-        <strong className='text-[5.4rem] leading-none font-extrabold'>
+      <div className='flex items-center gap-[1.5rem] md:gap-[2rem]'>
+        <strong className='text-[3.6rem] leading-none font-extrabold md:text-[5.4rem]'>
           {wineDetail?.avgRating}
         </strong>
         <div>
