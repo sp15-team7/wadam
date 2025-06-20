@@ -18,7 +18,15 @@ const DROPDOWN_STYLES = {
   ),
 } as const;
 
-const CardDropdownMenu = () => {
+interface CardDropdownMenuProps {
+  onEditClick?: () => void;
+  onDeleteClick?: () => void;
+}
+
+const CardDropdownMenu = ({
+  onEditClick,
+  onDeleteClick,
+}: CardDropdownMenuProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild className={DROPDOWN_STYLES.trigger}>
@@ -29,12 +37,22 @@ const CardDropdownMenu = () => {
         />
       </DropdownMenuTrigger>
       <DropdownMenuContent className={DROPDOWN_STYLES.content}>
-        <DropdownMenuItem className={DROPDOWN_STYLES.menuItem}>
-          수정하기
-        </DropdownMenuItem>
-        <DropdownMenuItem className={DROPDOWN_STYLES.menuItem}>
-          삭제하기
-        </DropdownMenuItem>
+        {onEditClick && (
+          <DropdownMenuItem
+            className={DROPDOWN_STYLES.menuItem}
+            onClick={onEditClick}
+          >
+            수정하기
+          </DropdownMenuItem>
+        )}
+        {onDeleteClick && (
+          <DropdownMenuItem
+            className={cn(DROPDOWN_STYLES.menuItem, 'text-destructive')}
+            onClick={onDeleteClick}
+          >
+            삭제하기
+          </DropdownMenuItem>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );
