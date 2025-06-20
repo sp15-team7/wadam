@@ -10,7 +10,7 @@ interface MyReviewCardProps {
 }
 
 const MyReviewCard = ({ review, onEdit, onDelete }: MyReviewCardProps) => {
-  const { wine, rating, createdAt, content } = review;
+  const { wine, rating, updatedAt, content } = review;
   const { name } = wine;
 
   return (
@@ -22,7 +22,7 @@ const MyReviewCard = ({ review, onEdit, onDelete }: MyReviewCardProps) => {
               ★ {rating.toFixed(1)}
             </p>
             <p className='text-[1.4rem] font-medium md:text-[1.6rem]'>
-              {formatRelativeTime(createdAt)}
+              {formatRelativeTime(updatedAt)}
             </p>
           </div>
           <div className='flex items-center'>

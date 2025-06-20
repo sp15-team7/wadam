@@ -12,7 +12,10 @@ import { toast } from 'sonner';
 
 import { deleteReview, getUserReviews } from '@/feature/libs/api/userApi';
 import EditReviewForm from '@/feature/reviews/components/review-form/EditReviewForm';
-import { MyReviewWithWine } from '@/feature/reviews/schemas/reviews.schema';
+import {
+  MyReviewWithWine,
+  UpdateReviewResponse,
+} from '@/feature/reviews/schemas/reviews.schema';
 import MyReviewCard from '@/feature/wines/components/card/MyReviewCard';
 import { useModalStore } from '@/shared/stores/useModalStore';
 
@@ -44,6 +47,28 @@ const ReviewCardList = ({ accessToken }: ReviewCardListProps) => {
   const handleEditClose = () => {
     close('EditReviewForm');
     setSelectedReview(null);
+  };
+
+  const handleEditSuccess = (updatedReviewData: UpdateReviewResponse) => {
+    setReviews((prevReviews) => {
+      const newReviews = prevReviews.map((review) => {
+        if (review.id === updatedReviewData.id) {
+          // 기존 'wine' 정보를 유지하면서, API 응답으로 받은 새 정보로 덮어쓰기
+          return {
+            ...review,
+            ...updatedReviewData,
+          };
+        }
+        return review;
+      });
+
+      // updatedAt을 기준으로 내림차순 정렬
+      return newReviews.sort(
+        (a, b) =>
+          new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
+      );
+    });
+    handleEditClose();
   };
 
   //리뷰 삭제 모달 관련
@@ -182,7 +207,11 @@ const ReviewCardList = ({ accessToken }: ReviewCardListProps) => {
         ))}
       </div>
       {isOpen('EditReviewForm') && selectedReview && (
-        <EditReviewForm review={selectedReview} onClose={handleEditClose} />
+        <EditReviewForm
+          review={selectedReview}
+          onClose={handleEditClose}
+          onSuccess={handleEditSuccess}
+        />
       )}
     </div>
   );
