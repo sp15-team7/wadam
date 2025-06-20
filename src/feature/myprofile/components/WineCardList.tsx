@@ -7,11 +7,17 @@
  * 흐름: useEffect로 내가 등록한 와인을 가져와 setWines에 저장 -> 화면에 뿌려줌(로딩 상태 표시/에러 상태 표시/빈 상태 표시/와인 카드 렌더링)
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
-import { getUserWines, Wine } from '@/feature/libs/api/userApi'; // Import getUserWines and Wine type
+import { deleteWine, getUserWines, Wine } from '@/feature/libs/api/userApi';
+import EditWineReviewForm from '@/feature/reviews/components/wine-review-form/EditWineReviewForm';
 import DetailCard from '@/feature/wines/components/card/DetailCard';
-import { GetWineDetailResponse } from '@/feature/wines/schema/wine.schema';
+import {
+  GetWineDetailResponse,
+  UpdateWineResponse,
+} from '@/feature/wines/schema/wine.schema';
+import { useModalStore } from '@/shared/stores/useModalStore';
 
 interface WineCardListProps {
   accessToken: string;
@@ -22,27 +28,119 @@ const WineCardList: React.FC<WineCardListProps> = ({ accessToken }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchUserWines = async () => {
-      if (!accessToken) return;
+  const [selectedWine, setSelectedWine] = useState<Wine | null>(null);
 
-      try {
-        setLoading(true);
-        setError(null);
+  const { open, close, isOpen } = useModalStore();
 
-        const data = await getUserWines(accessToken);
-        setWines(Array.isArray(data.list) ? data.list : []);
-      } catch (error) {
-        console.error('와인 데이터 로딩 실패:', error);
-        setError('와인을 불러오는 데 실패했습니다.');
-        setWines([]);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchUserWines = useCallback(async () => {
+    if (!accessToken) return;
 
-    fetchUserWines();
+    try {
+      setLoading(true);
+      setError(null);
+
+      const data = await getUserWines(accessToken);
+      const wineList = Array.isArray(data.list) ? data.list : [];
+
+      // updatedAt을 기준으로 내림차순 정렬 (최신순)
+      const sortedWines = wineList.sort((a, b) => {
+        // updatedAt이 있으면 updatedAt 기준, 없으면 createdAt 기준으로 정렬
+        const aDate = a.updatedAt
+          ? new Date(a.updatedAt)
+          : a.createdAt
+            ? new Date(a.createdAt)
+            : new Date(0);
+        const bDate = b.updatedAt
+          ? new Date(b.updatedAt)
+          : b.createdAt
+            ? new Date(b.createdAt)
+            : new Date(0);
+
+        return bDate.getTime() - aDate.getTime();
+      });
+
+      setWines(sortedWines);
+    } catch (error) {
+      console.error('와인 데이터 로딩 실패:', error);
+      setError('와인을 불러오는 데 실패했습니다.');
+      setWines([]);
+    } finally {
+      setLoading(false);
+    }
   }, [accessToken]);
+
+  // 와인 수정 핸들러 (동작은 추후 구현)
+  const handleEditClick = (wineId: number) => {
+    setSelectedWine(wines.find((wine) => wine.id === wineId) || null);
+    open('EditWineReviewForm');
+  };
+
+  // 와인 수정 모달 닫기
+  const handleEditClose = () => {
+    close('EditWineReviewForm');
+    setSelectedWine(null);
+  };
+
+  // 와인 수정 완료 후 콜백 함수
+  const handleEditSuccess = useCallback(
+    (updatedWineData?: UpdateWineResponse) => {
+      if (selectedWine && updatedWineData) {
+        // 수정된 데이터로 와인 목록 업데이트
+        setWines((prevWines) => {
+          const updatedWines = prevWines.map((wine) =>
+            wine.id === selectedWine.id
+              ? {
+                  ...wine,
+                  ...updatedWineData,
+                  updatedAt: new Date().toISOString(), // 클라이언트에서 수정 시간 업데이트
+                }
+              : wine,
+          );
+
+          // updatedAt 기준으로 다시 정렬
+          return updatedWines.sort((a, b) => {
+            const aDate = a.updatedAt
+              ? new Date(a.updatedAt)
+              : a.createdAt
+                ? new Date(a.createdAt)
+                : new Date(0);
+            const bDate = b.updatedAt
+              ? new Date(b.updatedAt)
+              : b.createdAt
+                ? new Date(b.createdAt)
+                : new Date(0);
+
+            return bDate.getTime() - aDate.getTime();
+          });
+        });
+      } else {
+        // 수정된 데이터가 없으면 전체 목록을 다시 조회
+        fetchUserWines();
+      }
+
+      // 모달 닫기
+      handleEditClose();
+    },
+    [selectedWine, handleEditClose, fetchUserWines],
+  );
+
+  // 와인 삭제 핸들러 (동작은 추후 구현) 와인 삭제 후 상태 업데이트(filter)
+  const handleDeleteWineClick = (wineId: number) => {
+    // 우선 toast로 띄우고 추후에 "정말 삭제하시겠습니까?" 모달 연동 필요
+    toast.success('와인이 삭제되었습니다.');
+
+    deleteWine(wineId)
+      .then(() => {
+        setWines((prev) => prev.filter((wine) => wine.id !== wineId));
+      })
+      .catch((error) => {
+        console.error('와인 삭제 실패:', error);
+      });
+  };
+
+  useEffect(() => {
+    fetchUserWines();
+  }, [fetchUserWines]);
 
   // 로딩 상태 표시 - 임시적으로 개발 (추후 개발된 스피너로 대체예정)
   if (loading) {
@@ -95,10 +193,19 @@ const WineCardList: React.FC<WineCardListProps> = ({ accessToken }) => {
             <DetailCard
               wine={wine as unknown as GetWineDetailResponse}
               currentUser={wine.userId}
+              onEditClick={() => handleEditClick(wine.id)}
+              onDeleteClick={() => handleDeleteWineClick(wine.id)}
             />
           </div>
         ))}
       </div>
+      {isOpen('EditWineReviewForm') && selectedWine && (
+        <EditWineReviewForm
+          wine={selectedWine}
+          onClose={handleEditClose}
+          onSuccess={handleEditSuccess}
+        />
+      )}
     </div>
   );
 };
