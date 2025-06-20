@@ -22,6 +22,7 @@ type StarRatingProps = {
   readOnly?: boolean;
   size?: 'sm' | 'md' | 'lg';
   onChange?: (value: number) => void;
+  onClick?: () => void;
 };
 
 const StarRating = ({
@@ -29,6 +30,7 @@ const StarRating = ({
   readOnly = false,
   size = 'sm',
   onChange,
+  onClick,
 }: StarRatingProps) => {
   const [hoveredValue, setHoveredValue] = useState<number | null>(null);
 
@@ -113,8 +115,10 @@ const StarRating = ({
           md: 'gap-[0.5rem]',
           lg: 'gap-[0.6rem] md:gap-[0.9rem]',
         }[size],
+        readOnly && 'pointer-events-none',
       )}
       onMouseLeave={handleMouseLeave}
+      onClick={onClick}
     >
       {Array.from({ length: 5 }, (_, i) => {
         const starIndex = i + 1;
