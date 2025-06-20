@@ -3,8 +3,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useEffect,useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 import { updateReview } from '@/feature/libs/api/userApi';
 import WineTasteSlider from '@/feature/reviews/components/wine-taste-slider';
@@ -76,8 +77,6 @@ const EditReviewForm = ({
   const onSubmit = async (data: UpdateReviewRequest) => {
     try {
       await updateReview(review.id, data);
-      console.log('수정할 데이터:', data);
-      console.log('리뷰 ID:', review.id);
 
       // 성공 시 콜백 호출 (부모 컴포넌트에서 데이터 새로고침)
       if (onSuccess) {
@@ -86,11 +85,9 @@ const EditReviewForm = ({
 
       // 페이지를 새로고침하거나 라우터를 통해 데이터 갱신
       router.refresh();
+      toast.success('리뷰가 수정되었습니다.');
 
       onClose(); // 모달 닫기
-
-      // 토스트 알림 등으로 성공 메시지 표시
-      // toast.success('리뷰가 수정되었습니다.');
     } catch (error) {
       console.error('리뷰 수정 실패:', error);
       // toast.error('리뷰 수정에 실패했습니다.');
