@@ -73,15 +73,14 @@ const ReviewCardList = ({ accessToken }: ReviewCardListProps) => {
 
   //리뷰 삭제 모달 관련
   const handleDeleteClick = (reviewId: number) => {
-    // 우선 toast로 띄우고 추후에 "정말 삭제하시겠습니까?" 모달 연동 필요
-    toast.success('리뷰가 삭제되었습니다.');
-
     deleteReview(reviewId)
       .then(() => {
         setReviews((prev) => prev.filter((review) => review.id !== reviewId));
+        toast.success('리뷰가 삭제되었습니다.');
       })
       .catch((error) => {
         console.error('리뷰 삭제 실패:', error);
+        toast.error('리뷰 삭제에 실패했습니다.');
       });
   };
 

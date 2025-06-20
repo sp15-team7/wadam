@@ -6,6 +6,7 @@ import { CameraIcon, ChevronDown } from 'lucide-react';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 import { Wine } from '@/feature/libs/api/userApi';
 import {
@@ -53,6 +54,7 @@ const EditWineReviewForm = ({
     '/icons/ui/icon-default-wine.svg',
   );
   const [isUploading, setIsUploading] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   const {
     register,
@@ -63,13 +65,6 @@ const EditWineReviewForm = ({
     formState: { errors, isSubmitting },
   } = useForm<CreateWineRequest>({
     resolver: zodResolver(createWineRequestSchema),
-    defaultValues: {
-      name: wine.name,
-      region: wine.region,
-      image: wine.image,
-      price: wine.price,
-      type: wine.type,
-    },
   });
 
   useEffect(() => {
@@ -82,13 +77,28 @@ const EditWineReviewForm = ({
     });
   }, [wine, reset]);
 
+  // 컴포넌트 언마운트 시 미리보기 URL 정리
+  useEffect(() => {
+    return () => {
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+      }
+    };
+  }, [previewUrl]);
+
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    // 이전 미리보기 URL 정리
+    if (previewUrl) {
+      URL.revokeObjectURL(previewUrl);
+    }
+
     setIsUploading(true);
-    const previewUrl = URL.createObjectURL(file);
-    setImagePreview(previewUrl);
+    const newPreviewUrl = URL.createObjectURL(file);
+    setPreviewUrl(newPreviewUrl);
+    setImagePreview(newPreviewUrl);
 
     try {
       const serverImageUrl = await uploadWineImage(file);
@@ -97,9 +107,8 @@ const EditWineReviewForm = ({
       console.error('이미지 업로드 실패:', error);
       setValue('image', wine.image); // 원래 이미지로 롤백
       setImagePreview('/icons/ui/icon-default-wine.svg');
-      alert('이미지 업로드에 실패했습니다.');
+      toast.error('이미지 업로드에 실패했습니다.');
     } finally {
-      URL.revokeObjectURL(previewUrl); // 메모리 누수 방지
       setIsUploading(false);
     }
   };
@@ -114,7 +123,7 @@ const EditWineReviewForm = ({
       onClose();
     } catch (error) {
       console.error('와인 수정 실패:', error);
-      alert('와인 정보 수정에 실패했습니다.');
+      toast.error('와인 수정에 실패했습니다.');
     }
   };
 
@@ -238,20 +247,20 @@ const EditWineReviewForm = ({
                       src={imagePreview}
                       alt='미리보기'
                       fill
-                      className='rounded-xl object-cover transition-opacity duration-300 group-hover:opacity-60'
+                      className='rounded-xl object-contain transition-opacity duration-300 group-hover:opacity-60'
                       onError={() => {
                         setImagePreview('/icons/ui/icon-default-wine.svg');
                       }}
                     />
                   ) : (
                     <CameraIcon
-                      className='text-gray h-8 w-8'
+                      className='text-gray h-6 w-6'
                       aria-label='카메라 아이콘'
                     />
                   )}
                   {isUploading && (
-                    <div className='flex-center absolute inset-0 rounded-xl bg-black/50'>
-                      <div className='h-6 w-6 animate-spin rounded-full border-2 border-white border-t-transparent' />
+                    <div className='flex-center absolute inset-0 rounded-lg bg-black/50'>
+                      <div className='h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent' />
                     </div>
                   )}
                 </Button>

@@ -32,6 +32,25 @@ const WineCardList: React.FC<WineCardListProps> = ({ accessToken }) => {
 
   const { open, close, isOpen } = useModalStore();
 
+  // 와인 목록을 updatedAt 기준으로 내림차순 정렬하는 함수
+  const sortWinesByUpdatedAt = useCallback((wineList: Wine[]) => {
+    return wineList.sort((a, b) => {
+      // updatedAt이 있으면 updatedAt 기준, 없으면 createdAt 기준으로 정렬
+      const aDate = a.updatedAt
+        ? new Date(a.updatedAt)
+        : a.createdAt
+          ? new Date(a.createdAt)
+          : new Date(0);
+      const bDate = b.updatedAt
+        ? new Date(b.updatedAt)
+        : b.createdAt
+          ? new Date(b.createdAt)
+          : new Date(0);
+
+      return bDate.getTime() - aDate.getTime();
+    });
+  }, []);
+
   const fetchUserWines = useCallback(async () => {
     if (!accessToken) return;
 
@@ -42,22 +61,8 @@ const WineCardList: React.FC<WineCardListProps> = ({ accessToken }) => {
       const data = await getUserWines(accessToken);
       const wineList = Array.isArray(data.list) ? data.list : [];
 
-      // updatedAt을 기준으로 내림차순 정렬 (최신순)
-      const sortedWines = wineList.sort((a, b) => {
-        // updatedAt이 있으면 updatedAt 기준, 없으면 createdAt 기준으로 정렬
-        const aDate = a.updatedAt
-          ? new Date(a.updatedAt)
-          : a.createdAt
-            ? new Date(a.createdAt)
-            : new Date(0);
-        const bDate = b.updatedAt
-          ? new Date(b.updatedAt)
-          : b.createdAt
-            ? new Date(b.createdAt)
-            : new Date(0);
-
-        return bDate.getTime() - aDate.getTime();
-      });
+      // 정렬 함수 사용
+      const sortedWines = sortWinesByUpdatedAt(wineList);
 
       setWines(sortedWines);
     } catch (error) {
@@ -67,7 +72,7 @@ const WineCardList: React.FC<WineCardListProps> = ({ accessToken }) => {
     } finally {
       setLoading(false);
     }
-  }, [accessToken]);
+  }, [accessToken, sortWinesByUpdatedAt]);
 
   // 와인 수정 핸들러 (동작은 추후 구현)
   const handleEditClick = (wineId: number) => {
@@ -97,21 +102,8 @@ const WineCardList: React.FC<WineCardListProps> = ({ accessToken }) => {
               : wine,
           );
 
-          // updatedAt 기준으로 다시 정렬
-          return updatedWines.sort((a, b) => {
-            const aDate = a.updatedAt
-              ? new Date(a.updatedAt)
-              : a.createdAt
-                ? new Date(a.createdAt)
-                : new Date(0);
-            const bDate = b.updatedAt
-              ? new Date(b.updatedAt)
-              : b.createdAt
-                ? new Date(b.createdAt)
-                : new Date(0);
-
-            return bDate.getTime() - aDate.getTime();
-          });
+          // 정렬 함수 사용
+          return sortWinesByUpdatedAt(updatedWines);
         });
       } else {
         // 수정된 데이터가 없으면 전체 목록을 다시 조회
@@ -121,20 +113,19 @@ const WineCardList: React.FC<WineCardListProps> = ({ accessToken }) => {
       // 모달 닫기
       handleEditClose();
     },
-    [selectedWine, handleEditClose, fetchUserWines],
+    [selectedWine, handleEditClose, fetchUserWines, sortWinesByUpdatedAt],
   );
 
   // 와인 삭제 핸들러 (동작은 추후 구현) 와인 삭제 후 상태 업데이트(filter)
   const handleDeleteWineClick = (wineId: number) => {
-    // 우선 toast로 띄우고 추후에 "정말 삭제하시겠습니까?" 모달 연동 필요
-    toast.success('와인이 삭제되었습니다.');
-
     deleteWine(wineId)
       .then(() => {
         setWines((prev) => prev.filter((wine) => wine.id !== wineId));
+        toast.success('와인이 삭제되었습니다.');
       })
       .catch((error) => {
         console.error('와인 삭제 실패:', error);
+        toast.error('와인 삭제에 실패했습니다.');
       });
   };
 
