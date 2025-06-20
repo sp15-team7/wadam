@@ -7,9 +7,11 @@ const WineDetailTitle = ({
 }) => {
   return (
     <div className='flex items-center justify-between'>
-      <h3 className='txt-xl-bold'>{title}</h3>
+      <h3 className='md:txt-xl-bold txt-2lg-bold'>{title}</h3>
       {count !== undefined && (
-        <p className='txt-md-regular text-gray'>({count}명 참여)</p>
+        <p className='md:txt-md-regular txt-sm-regular text-gray'>
+          ({count}명 참여)
+        </p>
       )}
     </div>
   );

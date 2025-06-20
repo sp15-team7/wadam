@@ -57,7 +57,7 @@ export const reviewResponseSchema = z.object({
   createdAt: z.string().datetime(),
   content: z.string(),
   aroma: z.array(AromaTypeEnumSchema),
-  rating: positiveNumberSchema.min(1).max(5),
+  rating: nonNegativeNumberSchema.min(0).max(5),
 });
 
 /** 와인 상세 정보에 포함되는 개별 리뷰 객체 (선호도, 맛 표현 포함) */

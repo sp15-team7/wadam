@@ -15,6 +15,8 @@ import {
   TasteType,
   tasteTypeToEnglish,
 } from '@/feature/wines/types/wine-taste';
+import ErrorDisplay from '@/shared/components/common/error-display';
+import Skeleton from '@/shared/components/ui/skeleton';
 import { Slider } from '@/shared/components/ui/slider';
 import { cn } from '@/shared/libs/utils/cn';
 
@@ -28,6 +30,8 @@ interface WineTasteSliderProps {
   onChange?: (values: Record<TasteType, number>) => void;
   readonly?: boolean;
   className?: string;
+  isLoading?: boolean;
+  isError?: boolean;
 }
 
 /**
@@ -39,6 +43,8 @@ const WineTasteSlider = ({
   onChange,
   readonly = false,
   className,
+  isLoading,
+  isError,
 }: WineTasteSliderProps) => {
   const handleChange = useCallback(
     (type: TasteType, value: number) => {
@@ -48,6 +54,18 @@ const WineTasteSlider = ({
     },
     [onChange, values],
   );
+
+  if (isLoading)
+    return (
+      <div className='flex flex-col gap-[1.2rem]'>
+        <Skeleton className='mb-[1.5rem] h-[2.6rem] w-full' />
+        <Skeleton className='mb-[1.5rem] h-[2.6rem] w-full' />
+        <Skeleton className='mb-[1.5rem] h-[2.6rem] w-full' />
+        <Skeleton className='h-[2.6rem] w-full' />
+      </div>
+    );
+  if (isError)
+    return <ErrorDisplay message='맛 정보를 불러올 수 없습니다.' isRetry />;
 
   return (
     <div className={cn('w-full space-y-6', className)}>

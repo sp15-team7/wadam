@@ -1,5 +1,9 @@
+import { useMemo } from 'react';
+
 import { AromaTypeEnum } from '@/feature/wines/schema/wine.schema';
 import { formatAromaType } from '@/feature/wines/utils/formatWineType';
+import { shuffleArray } from '@/feature/wines/utils/shuffleArray';
+import Skeleton from '@/shared/components/ui/skeleton';
 
 import WineAromaCard from './WineAromaCard';
 
@@ -11,11 +15,29 @@ import WineAromaCard from './WineAromaCard';
  *
  */
 
-const WineAromaCards = ({ aroma }: { aroma: AromaTypeEnum[] }) => {
-  const aromaData = aroma.map((item) => ({
+const WineAromaCards = ({
+  aroma,
+  isLoading,
+}: {
+  aroma: AromaTypeEnum[];
+  isLoading: boolean;
+}) => {
+  // 랜덤으로 섞어서 최대 3개만 선택
+  const shuffledAroma = useMemo(() => shuffleArray(aroma).slice(0, 3), [aroma]);
+
+  const aromaData = shuffledAroma.map((item: AromaTypeEnum) => ({
     name: formatAromaType(item),
     imageUrl: `/icons/ui/icon-aroma-${item}.png`,
   }));
+
+  if (isLoading)
+    return (
+      <div className='grid flex-1 grid-cols-3 gap-[0.8rem] md:gap-[1.5rem]'>
+        <Skeleton className='h-full' />
+        <Skeleton className='h-full' />
+        <Skeleton className='h-full' />
+      </div>
+    );
 
   if (aromaData.length === 0) {
     return (
@@ -26,7 +48,7 @@ const WineAromaCards = ({ aroma }: { aroma: AromaTypeEnum[] }) => {
   }
 
   return (
-    <div className='grid flex-1 grid-cols-3 gap-[1.5rem]'>
+    <div className='grid flex-1 grid-cols-3 gap-[0.8rem] md:gap-[1.5rem]'>
       {aromaData.map((item) => (
         <WineAromaCard
           key={item.name}

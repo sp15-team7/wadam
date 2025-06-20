@@ -8,7 +8,7 @@
  *
  */
 
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
 import type { GetWineDetailResponse } from '@/feature/wines/schema/wine.schema';
 import { getWineDetail } from '@/feature/wines/services/wine.service';
@@ -43,34 +43,34 @@ export const useWineDetail = ({
   });
 };
 
-// export const useWineReviewsInfinite = ({
-//   wineId,
-//   enabled = true,
-// }: UseWineDetailOptions) => {
-//   return useInfiniteQuery({
-//     queryKey: ['wine', 'reviews', wineId],
-//     queryFn: async ({ pageParam: _pageParam = null }) => {
-//       // getWineDetail로 전체 리뷰를 가져와서 가상 페이지네이션 구현
-//       const wineDetail = await getWineDetail(wineId);
-//       const allReviews = wineDetail.reviews || [];
+export const useWineReviewsInfinite = ({
+  wineId,
+  enabled = true,
+}: UseWineDetailOptions) => {
+  return useInfiniteQuery({
+    queryKey: ['wine', 'reviews', wineId],
+    queryFn: async ({ pageParam: _pageParam = null }) => {
+      // getWineDetail로 전체 리뷰를 가져와서 가상 페이지네이션 구현
+      const wineDetail = await getWineDetail(wineId);
+      const allReviews = wineDetail.reviews || [];
 
-//       // 클라이언트 사이드에서 페이지네이션 시뮬레이션
-//       const pageSize = 10;
-//       const page = _pageParam || 0;
-//       const startIndex = page * pageSize;
-//       const endIndex = startIndex + pageSize;
-//       const pageReviews = allReviews.slice(startIndex, endIndex);
+      // 클라이언트 사이드에서 페이지네이션 시뮬레이션
+      const pageSize = 5;
+      const page = _pageParam || 0;
+      const startIndex = page * pageSize;
+      const endIndex = startIndex + pageSize;
+      const pageReviews = allReviews.slice(startIndex, endIndex);
 
-//       return {
-//         list: pageReviews,
-//         totalCount: allReviews.length,
-//         nextCursor: endIndex < allReviews.length ? page + 1 : null,
-//       };
-//     },
-//     enabled: enabled && !!wineId,
-//     initialPageParam: 0,
-//     getNextPageParam: (lastPage) => lastPage.nextCursor,
-//     staleTime: 1000 * 60 * 3,
-//     gcTime: 1000 * 60 * 10,
-//   });
-// };
+      return {
+        list: pageReviews,
+        totalCount: allReviews.length,
+        nextCursor: endIndex < allReviews.length ? page + 1 : null,
+      };
+    },
+    enabled: enabled && !!wineId,
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => lastPage.nextCursor,
+    staleTime: 1000 * 60 * 3,
+    gcTime: 1000 * 60 * 10,
+  });
+};

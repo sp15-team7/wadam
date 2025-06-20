@@ -26,8 +26,8 @@ const WineAromaCard: React.FC<WineAromaCardProps> = ({ name, imageUrl }) => {
     }
   };
   return (
-    <div className='border-secondary flex flex-col items-center justify-center gap-[1.5rem] rounded-[1.6rem] border-1 bg-white'>
-      <div className='relative h-[4.5rem] w-[4.5rem] overflow-hidden'>
+    <div className='border-secondary flex h-[11.2rem] flex-col items-center justify-center gap-[1.5rem] rounded-[1.6rem] border-1 bg-white md:h-[13.4rem] lg:h-full'>
+      <div className='relative h-[3rem] w-[3rem] overflow-hidden md:h-[4.5rem] md:w-[4.5rem]'>
         <Image
           src={imageSrc}
           alt={name}
@@ -36,7 +36,7 @@ const WineAromaCard: React.FC<WineAromaCardProps> = ({ name, imageUrl }) => {
           onError={handleImageError}
         />
       </div>
-      <p className='text-gray txt-lg-regular'>{name}</p>
+      <p className='text-gray md:txt-lg-regular txt-md-regular'>{name}</p>
     </div>
   );
 };
