@@ -123,7 +123,7 @@ const EditWineReviewForm = ({
   return (
     <Modal
       modalId='EditWineReviewForm'
-      title='와인 정보 수정'
+      title='내가 등록한 와인'
       showCloseButton
       onClose={onClose}
     >
