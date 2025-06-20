@@ -25,11 +25,13 @@ import { useModalStore } from '@/shared/stores/useModalStore';
 interface ReviewFormProps {
   wineId: number;
 }
+
 const ReviewForm = ({ wineId }: ReviewFormProps) => {
   const { data: wineDetail, isError } = useWineDetail({
     wineId,
     enabled: !!wineId,
   });
+
   const { open, close } = useModalStore();
 
   const {
@@ -51,6 +53,8 @@ const ReviewForm = ({ wineId }: ReviewFormProps) => {
       wineId,
     },
   });
+
+  if (isError) return null;
 
   const onSubmit = async (data: CreateReviewRequest) => {
     try {

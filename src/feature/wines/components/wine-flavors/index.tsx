@@ -21,29 +21,54 @@ const FLAVOR_LABEL_MAP: Record<string, string> = Object.fromEntries(
 // 와인 향 필터링 컴포넌트 속성 타입
 interface WineFlavorProps {
   onChange?: (selected: string[]) => void;
+  selectedAromas?: string[]; // 초기 선택된 향들
+  defaultSelected?: string[]; // 기본 선택값 (selectedAromas와 동일한 역할)
+  key?: string | number; // 리렌더링을 위한 key prop
 }
 
 // 와인 향 필터링 컴포넌트
-export const WineFlavors = ({ onChange }: WineFlavorProps) => {
-  const [selected, setSelected] = useState<string[]>([]);
+export const WineFlavors = ({
+  onChange,
+  selectedAromas,
+  defaultSelected = [],
+}: WineFlavorProps) => {
+  // selectedAromas가 제공되면 사용하고, 그렇지 않으면 defaultSelected 또는 빈 배열 사용
+  const [selected, setSelected] = useState<string[]>(() => {
+    if (selectedAromas !== undefined) {
+      return selectedAromas;
+    }
+    return defaultSelected;
+  });
+
+  // selectedAromas prop이 변경될 때만 상태 업데이트
+  useEffect(() => {
+    if (selectedAromas !== undefined) {
+      setSelected(selectedAromas);
+    }
+  }, [selectedAromas]);
 
   /*
     와인 향 필터링 컴포넌트 속성 변경 핸들러
     클릭한 향이 이미 선택된 값인 경우 -> 배열에서 제거
     선택되지 않은 향 선택 시 -> 배열에 추가 (따라서 selected에는 현재 선택된 모든 영어 값 저장)
 */
-  const handleChange = useCallback((enData: string) => {
-    setSelected((prev) =>
-      prev.includes(enData)
-        ? prev.filter((data) => data !== enData)
-        : [...prev, enData],
-    );
-  }, []);
+  const handleChange = useCallback(
+    (enData: string) => {
+      setSelected((prev) => {
+        const newSelected = prev.includes(enData)
+          ? prev.filter((data) => data !== enData)
+          : [...prev, enData];
 
-  // selected 배열이 바뀔 때마다 실행
-  useEffect(() => {
-    if (onChange) onChange(selected);
-  }, [selected, onChange]);
+        // 즉시 onChange 호출
+        if (onChange) {
+          onChange(newSelected);
+        }
+
+        return newSelected;
+      });
+    },
+    [onChange],
+  );
 
   // 영어로 받은 데이터를 한글로 변환 (O(1) 복잡도)
   const getKrData = (enData: string) => FLAVOR_LABEL_MAP[enData] || '';

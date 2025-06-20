@@ -3,10 +3,19 @@ import { formatRelativeTime } from '@/feature/reviews/utils/formatRelativeTime';
 import CardDropdownMenu from '@/feature/wines/components/button/CardDropdownMenu';
 import { Card, CardContent } from '@/shared/components/ui/card';
 
-// TODO: 드롭다운 메뉴 수정 삭제 추가 필요
-const MyReviewCard = ({ review }: { review: MyReviewWithWine }) => {
+interface MyReviewCardProps {
+  review: MyReviewWithWine;
+  onEdit?: (review: MyReviewWithWine) => void;
+}
+
+const MyReviewCard = ({ review, onEdit }: MyReviewCardProps) => {
   const { wine, rating, createdAt, content } = review;
   const { name } = wine;
+
+  // 삭제
+  const handleDeleteClick = () => {
+    console.log('삭제', review.id);
+  };
 
   return (
     <Card className='w-[34.3rem] px-[1rem] py-[1.6rem] md:w-[70.4rem] md:px-[4rem] md:py-[2.4rem] lg:w-[80rem]'>
@@ -21,7 +30,10 @@ const MyReviewCard = ({ review }: { review: MyReviewWithWine }) => {
             </p>
           </div>
           <div className='flex items-center'>
-            <CardDropdownMenu />
+            <CardDropdownMenu
+              onEditClick={onEdit ? () => onEdit(review) : undefined}
+              onDeleteClick={handleDeleteClick}
+            />
           </div>
         </div>
         <div className='flex flex-col gap-2'>

@@ -13,15 +13,21 @@ import { useModalStore } from '@/shared/stores/useModalStore';
 
 interface ModalCloseButtonProps {
   className?: string;
+  onClose?: () => void;
 }
 
-const ModalCloseButton = ({ className = '' }: ModalCloseButtonProps) => {
+const ModalCloseButton = ({
+  className = '',
+  onClose,
+}: ModalCloseButtonProps) => {
   const { close, openModalId } = useModalStore();
+
+  const handleClose = onClose || (() => close(openModalId || ''));
 
   return (
     <button
       type='button'
-      onClick={() => close(openModalId || '')}
+      onClick={handleClose}
       aria-label='Close modal'
       className={`cursor-pointer ${className}`}
     >
