@@ -4,7 +4,7 @@ import WineProgressChart from '@/feature/wines/components/wine-progress';
 import WineDetailCardSection from '@/feature/wines/detail/components/WineDetailCardSection';
 import WineDetailReviewList from '@/feature/wines/detail/components/WineDetailReviewList';
 import WineFlavorProfileSection from '@/feature/wines/detail/components/WineFlavorProfileSection';
-import Error from '@/shared/components/common/error';
+import ErrorDisplay from '@/shared/components/common/error-display';
 import InnerContainer from '@/shared/components/container/InnerContainer';
 import { PAGE_STYLES } from '@/shared/constants/styles';
 
@@ -23,7 +23,7 @@ const WineDetailPage = async ({ params }: WineDetailPageProps) => {
   if (!wineId || isNaN(wineId) || wineId <= 0) {
     return (
       <main className='flex min-h-screen items-center justify-center'>
-        <Error message='유효하지 않은 와인 정보입니다.' isRetry />
+        <ErrorDisplay message='유효하지 않은 와인 정보입니다.' isRetry />
       </main>
     );
   }

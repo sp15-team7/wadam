@@ -2,19 +2,24 @@ import Image from 'next/image';
 
 import { Button } from '@/shared/components/ui/button';
 
-const handleRetry = () => {
-  window.location.reload();
-};
-
-const Error = ({
+const ErrorDisplay = ({
   message,
   children,
   isRetry = false,
+  onRetry,
 }: {
   message: string;
   children?: React.ReactNode;
   isRetry?: boolean;
+  onRetry?: () => void;
 }) => {
+  const handleRetry = () => {
+    if (onRetry) {
+      onRetry();
+    } else {
+      window.location.reload();
+    }
+  };
   return (
     <div className='flex-center flex flex-col text-center'>
       <div className='relative mb-[2.4rem] h-[13.6rem] w-[13.6rem]'>
@@ -37,4 +42,4 @@ const Error = ({
   );
 };
 
-export default Error;
+export default ErrorDisplay;

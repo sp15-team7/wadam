@@ -1,12 +1,12 @@
 'use client';
 
-import { useCallback,useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 import ReviewForm from '@/feature/reviews/components/review-form/ReviewFormButton';
 import ReviewCard from '@/feature/wines/components/card/ReviewCard';
 import WineDetailTitle from '@/feature/wines/detail/components/WineDetailTitle';
 import { useWineReviewsInfinite } from '@/feature/wines/hooks/useWineDetailsQuery';
-import Error from '@/shared/components/common/error';
+import ErrorDisplay from '@/shared/components/common/error-display';
 import SkeletonCard from '@/shared/components/common/skeleton-card';
 import Spinner from '@/shared/components/common/spinner';
 
@@ -62,9 +62,6 @@ const WineDetailReviewList = ({
     }
 
     return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
       observer.disconnect();
     };
   }, [handleIntersection]);
@@ -102,9 +99,9 @@ const WineDetailReviewList = ({
             )}
           </>
         ) : (
-          <Error message='작성된 리뷰가 없어요'>
+          <ErrorDisplay message='작성된 리뷰가 없어요'>
             <ReviewForm wineId={wineId} />
-          </Error>
+          </ErrorDisplay>
         )}
       </ul>
     </>
