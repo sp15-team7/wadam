@@ -7,9 +7,13 @@ import { Card, CardContent } from '@/shared/components/ui/card';
 const DetailCard = ({
   wine,
   currentUser,
+  onEditClick,
+  onDeleteClick,
 }: {
   wine: GetWineDetailResponse;
   currentUser?: number | null;
+  onEditClick?: () => void;
+  onDeleteClick?: () => void;
 }) => {
   const { name, region, image, price } = wine;
   return (
@@ -32,7 +36,14 @@ const DetailCard = ({
             <h2 className='max-w-[19rem] text-[2rem] leading-tight font-semibold md:max-w-[30rem] md:text-[3rem]'>
               {name}
             </h2>
-            {currentUser && currentUser === wine.userId && <CardDropdownMenu />}
+            <div className='flex items-center'>
+              {currentUser && currentUser === wine.userId && (
+                <CardDropdownMenu
+                  onEditClick={onEditClick}
+                  onDeleteClick={onDeleteClick}
+                />
+              )}
+            </div>
           </header>
 
           <p className='text-[1.6rem] text-gray-800'>{region}</p>
