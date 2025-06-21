@@ -1,8 +1,10 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 import { createReview } from '@/feature/libs/api/userApi';
 import WineTasteSlider from '@/feature/reviews/components/wine-taste-slider';
@@ -33,6 +35,7 @@ const ReviewForm = ({ wineId }: ReviewFormProps) => {
   });
 
   const { open, close } = useModalStore();
+  const queryClient = useQueryClient();
 
   const {
     register,
@@ -60,9 +63,18 @@ const ReviewForm = ({ wineId }: ReviewFormProps) => {
     try {
       await createReview(data);
       close('ReviewForm');
-      // 토스트 알림 등으로 성공 메시지 표시
+      toast.success('리뷰가 성공적으로 등록되었습니다.');
+
+      // 와인 리뷰 목록 및 상세 정보 쿼리 무효화
+      await queryClient.invalidateQueries({
+        queryKey: ['wine', 'reviews', wineId],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: ['wine', 'detail', wineId],
+      });
     } catch (error) {
       console.error('리뷰 등록 실패:', error);
+      toast.error('리뷰 등록에 실패했습니다.');
     }
   };
 
