@@ -12,6 +12,8 @@ import WineFilterModal, {
 import MonthlyWineSection from '@/feature/wines/components/MonthlyWineSection';
 import WineCardSection from '@/feature/wines/components/section/WineCardSection';
 import WineFilterSection from '@/feature/wines/components/section/WineFilterSection';
+import { useCreateWineQuery } from '@/feature/wines/hooks/useCreateWineQuery';
+import { CreateWineRequest } from '@/feature/wines/schema/wine.schema';
 import {
   DEFAULT_WINE_FILTER_VALUES,
   WineFilterFormValues,
@@ -21,10 +23,11 @@ import { useModalStore } from '@/shared/stores/useModalStore';
 import { devLog } from '@/shared/utils/devLogger';
 
 const WinesPage = () => {
-  const { isOpen, open } = useModalStore();
+  const { isOpen, open, close } = useModalStore();
   const [filters, setFilters] = useState<WineFilterFormValues>(
     DEFAULT_WINE_FILTER_VALUES,
   );
+  const { mutate: createWine } = useCreateWineQuery();
 
   const handleFilterChange = (newFilters: WineFilterFormValues) => {
     setFilters(newFilters);
@@ -37,6 +40,16 @@ const WinesPage = () => {
 
   const handleOpenCreateModal = () => {
     open(WINE_CREATE_MODAL_ID);
+  };
+
+  const handleCreateWine = (data: CreateWineRequest) => {
+    createWine(data, {
+      onSuccess: () => close(WINE_CREATE_MODAL_ID),
+    });
+  };
+
+  const handleCloseCreateModal = () => {
+    close(WINE_CREATE_MODAL_ID);
   };
 
   return (
@@ -62,7 +75,12 @@ const WinesPage = () => {
             onFilterSubmit={handleFilterChange}
           />
         )}
-        {isOpen(WINE_CREATE_MODAL_ID) && <WineCreateModal />}
+        {isOpen(WINE_CREATE_MODAL_ID) && (
+          <WineCreateModal
+            onSubmit={handleCreateWine}
+            onClose={handleCloseCreateModal}
+          />
+        )}
       </InnerContainer>
     </main>
   );
