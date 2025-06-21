@@ -9,6 +9,14 @@ import {
 } from '@/feature/auth/utils/jwt.utils';
 
 /**
+ * useSession()의 update() 함수로 전달되는 데이터 타입
+ */
+interface SessionUpdateData {
+  name?: string;
+  image?: string;
+}
+
+/**
  * JWT 토큰 초기화 처리
  * 최초 로그인 시 실행되는 로직
  */
@@ -96,10 +104,25 @@ const refreshAccessToken = async (token: JWT): Promise<JWT> => {
 export const jwtCallback = async ({
   token,
   user,
+  trigger,
+  session,
 }: {
   token: JWT;
   user?: User;
+  trigger?: 'signIn' | 'signUp' | 'update';
+  session?: SessionUpdateData;
 }): Promise<JWT> => {
+  // 세션 업데이트 트리거 처리
+  if (trigger === 'update' && session) {
+    if (session.name) {
+      (token.user as CustomUser).nickname = session.name;
+    }
+    if (session.image) {
+      (token.user as CustomUser).image = session.image;
+    }
+    return token;
+  }
+
   // 1. 최초 로그인 시, 사용자 정보로 토큰을 초기화합니다.
   if (user) {
     return initializeJwtToken(token, user);
