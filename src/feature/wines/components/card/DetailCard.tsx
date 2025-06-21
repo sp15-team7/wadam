@@ -31,7 +31,7 @@ const DetailCard = ({
           />
         </figure>
 
-        <article className='relative flex h-full flex-col justify-center gap-[2rem]'>
+        <article className='relative flex h-full w-full flex-col justify-center gap-[2rem]'>
           <header className='flex justify-between gap-4'>
             <h2 className='max-w-[19rem] text-[2rem] leading-tight font-semibold md:max-w-[30rem] md:text-[3rem]'>
               {name}

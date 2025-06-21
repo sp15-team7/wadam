@@ -32,9 +32,7 @@ const WineDetailCardSection = ({
 
   return (
     <>
-      {wineDetail?.recentReview && (
-        <DetailCard wine={wineDetail} currentUser={currentUserId ?? 0} />
-      )}
+      <DetailCard wine={wineDetail} currentUser={currentUserId ?? 0} />
     </>
   );
 };

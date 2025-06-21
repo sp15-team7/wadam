@@ -8,9 +8,9 @@ import { Card, CardContent, CardFooter } from '@/shared/components/ui/card';
 
 const wineCardVariants = {
   card: cva(
-    'h-[36rem] md:max-h-[37.5rem] rounded-[3rem] border-secondary bg-white gap-0 flex justify-center',
+    'h-[34.3rem] md:max-h-[37.5rem] rounded-[3rem] border-secondary bg-white gap-0 flex justify-center',
   ),
-  content: cva('flex gap-4 md:gap-6'),
+  content: cva('flex gap-4 md:gap-[8rem] md:px-[6rem] px-[2rem]'),
   footer: cva('border-primary border-t-2 p-6 md:px-24 md:pt-12'),
 };
 
@@ -28,17 +28,19 @@ const WineCard = ({ wine }: { wine: GetWinesResponse['list'][number] }) => {
   return (
     <Card className={wineCardVariants.card()} role='article'>
       <CardContent className={wineCardVariants.content()}>
-        <figure className='flex flex-1 justify-center' aria-label='와인 이미지'>
+        <figure
+          className='relative w-[7rem] flex-none overflow-hidden md:w-[6rem]'
+          aria-label='와인 이미지'
+        >
           <Image
             src={image}
             alt='와인 이미지'
-            width={60}
-            height={200}
-            className=''
+            fill
+            className='!top-auto !bottom-[-1rem] max-h-[100%] w-full object-contain object-bottom'
           />
         </figure>
 
-        <div className='flex flex-2 flex-col justify-center gap-10 md:flex-3 md:flex-row'>
+        <div className='flex flex-2 flex-col justify-center md:flex-3 md:flex-row'>
           <header className='flex flex-col gap-3 md:flex-2 md:gap-6'>
             <h2 className='line-clamp-2 text-[2rem] leading-tight font-semibold md:text-[3rem]'>
               {name}
@@ -49,9 +51,9 @@ const WineCard = ({ wine }: { wine: GetWinesResponse['list'][number] }) => {
             </strong>
           </header>
 
-          <footer className='flex items-center justify-between gap-8 md:flex-1 md:flex-col md:items-end md:justify-start md:pr-12 lg:pr-24'>
+          <footer className='flex items-center justify-between gap-8 md:flex-1 md:flex-col md:items-end md:justify-start'>
             <div
-              className='flex items-center gap-8 md:flex-col md:items-start md:justify-start md:gap-6'
+              className='mt-[2.2rem] flex items-center gap-8 md:mt-0 md:flex-col md:items-start md:justify-start md:gap-6'
               aria-label='평점 정보'
             >
               <span className='text-[2.8rem] font-extrabold md:text-[4.8rem]'>
