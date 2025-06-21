@@ -91,27 +91,22 @@ export const useUserWinesQuery = ({
   // 와인 삭제 함수
   const deleteWine = useCallback(
     async (wineId: number) => {
-      try {
-        await deleteWineApi(wineId);
+      await deleteWineApi(wineId);
+      // 캐시에서 해당 와인 삭제
+      queryClient.setQueryData(
+        ['user', 'wines', accessToken],
+        (oldData: Wine[]) => {
+          if (!oldData) return oldData;
+          return oldData.filter((wine) => wine.id !== wineId);
+        },
+      );
 
-        // 캐시에서 해당 와인 삭제
-        queryClient.setQueryData(
-          ['user', 'wines', accessToken],
-          (oldData: Wine[]) => {
-            if (!oldData) return oldData;
-            return oldData.filter((wine) => wine.id !== wineId);
-          },
-        );
+      // 와인 상세 캐시 제거
+      queryClient.removeQueries({
+        queryKey: ['wine', 'detail', wineId],
+      });
 
-        // 와인 상세 캐시 제거
-        queryClient.removeQueries({
-          queryKey: ['wine', 'detail', wineId],
-        });
-
-        return true;
-      } catch (error) {
-        throw error;
-      }
+      return true;
     },
     [queryClient, accessToken],
   );
