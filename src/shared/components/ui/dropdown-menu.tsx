@@ -119,11 +119,19 @@ function DropdownMenuRadioGroup({
   );
 }
 
+interface DropdownMenuRadioItemProps
+  extends React.ComponentPropsWithoutRef<
+    typeof DropdownMenuPrimitive.RadioItem
+  > {
+  showIndicator?: boolean; // 인디케이터 prop 추가
+}
+
 function DropdownMenuRadioItem({
   className,
   children,
+  showIndicator = true,
   ...props
-}: React.ComponentProps<typeof DropdownMenuPrimitive.RadioItem>) {
+}: DropdownMenuRadioItemProps) {
   return (
     <DropdownMenuPrimitive.RadioItem
       data-slot='dropdown-menu-radio-item'
@@ -133,11 +141,13 @@ function DropdownMenuRadioItem({
       )}
       {...props}
     >
-      <span className='pointer-events-none absolute left-2 flex size-3.5 items-center justify-center'>
-        <DropdownMenuPrimitive.ItemIndicator>
-          <CircleIcon className='size-2 fill-current' />
-        </DropdownMenuPrimitive.ItemIndicator>
-      </span>
+      {showIndicator && ( // showIndicator가 true일 때만 이 span을 렌더링
+        <span className='pointer-events-none absolute left-2 flex size-3.5 items-center justify-center'>
+          <DropdownMenuPrimitive.ItemIndicator>
+            <CircleIcon className='size-2 fill-current' />
+          </DropdownMenuPrimitive.ItemIndicator>
+        </span>
+      )}
       {children}
     </DropdownMenuPrimitive.RadioItem>
   );

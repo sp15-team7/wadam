@@ -1,5 +1,5 @@
 // 와인 타입 정의
-export type WineType = 'RED' | 'WHITE' | 'SPARKLING' | 'ROSE' | 'ETC';
+export type WineType = 'RED' | 'WHITE' | 'SPARKLING';
 
 // 와인 생성 요청 Body
 export interface CreateWineRequestBody {

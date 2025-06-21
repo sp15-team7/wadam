@@ -4,7 +4,7 @@
  * @since: 2025-06-14
  * @description: 와인 가격 슬라이더 컴포넌트
  */
-import { useLayoutEffect,useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 
 import DualRangeSlider from '@/shared/components/ui/dual-range-slider';
 
