@@ -2,9 +2,9 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 import { updateReview } from '@/feature/libs/api/userApi';
 import WineTasteSlider from '@/feature/reviews/components/wine-taste-slider';
@@ -12,6 +12,7 @@ import {
   MyReviewWithWine,
   UpdateReviewRequest,
   updateReviewRequestSchema,
+  UpdateReviewResponse,
 } from '@/feature/reviews/schemas/reviews.schema';
 import WineFlavors from '@/feature/wines/components/wine-flavors';
 import { AromaType } from '@/feature/wines/schema/wine.schema';
@@ -26,7 +27,7 @@ import { Button } from '@/shared/components/ui/button';
 interface EditReviewFormProps {
   review: MyReviewWithWine;
   onClose: () => void;
-  onSuccess?: () => void; // 수정 성공 시 호출되는 콜백 추가
+  onSuccess?: (updatedReview: UpdateReviewResponse) => void;
 }
 
 const EditReviewForm = ({
@@ -34,7 +35,6 @@ const EditReviewForm = ({
   onClose,
   onSuccess,
 }: EditReviewFormProps) => {
-  const router = useRouter();
   const [selectedAromas, setSelectedAromas] = useState<string[]>(
     review.aroma || [],
   );
@@ -75,22 +75,14 @@ const EditReviewForm = ({
 
   const onSubmit = async (data: UpdateReviewRequest) => {
     try {
-      await updateReview(review.id, data);
-      console.log('수정할 데이터:', data);
-      console.log('리뷰 ID:', review.id);
+      const updatedReview = await updateReview(review.id, data);
 
-      // 성공 시 콜백 호출 (부모 컴포넌트에서 데이터 새로고침)
       if (onSuccess) {
-        onSuccess();
+        onSuccess(updatedReview);
       }
 
-      // 페이지를 새로고침하거나 라우터를 통해 데이터 갱신
-      router.refresh();
-
+      toast.success('리뷰가 수정되었습니다.');
       onClose(); // 모달 닫기
-
-      // 토스트 알림 등으로 성공 메시지 표시
-      // toast.success('리뷰가 수정되었습니다.');
     } catch (error) {
       console.error('리뷰 수정 실패:', error);
       // toast.error('리뷰 수정에 실패했습니다.');
@@ -106,7 +98,7 @@ const EditReviewForm = ({
   return (
     <Modal
       modalId='EditReviewForm'
-      title='리뷰 수정'
+      title='수정하기'
       showCloseButton
       onClose={onClose}
     >
