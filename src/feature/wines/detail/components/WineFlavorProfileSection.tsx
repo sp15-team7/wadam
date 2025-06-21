@@ -71,6 +71,7 @@ const WineFlavorProfileSection = ({
           values={averageTasteValues}
           readonly={true}
           isLoading={isLoading}
+          isNoData={reviewCount === 0 ? true : false}
         />
       </div>
       <div className='flex flex-col gap-[2rem] md:gap-[3rem]'>
