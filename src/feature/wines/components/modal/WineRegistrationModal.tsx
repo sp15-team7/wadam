@@ -75,10 +75,7 @@ const WineRegistrationModal = () => {
       if (file.size > 5 * 1024 * 1024) {
         const message = '이미지 파일은 최대 5MB까지 업로드할 수 있습니다.';
         toast.error(
-          message +
-            ' (현재 파일 크기: ' +
-            (file.size / (1024 * 1024)).toFixed(2) +
-            'MB)',
+          `이미지 파일은 최대 5MB까지 업로드할 수 있습니다. (현재 파일 크기: ${(file.size / (1024 * 1024)).toFixed(2)}MB)`,
         );
         setImageFile(null);
         setImagePreviewUrl(null);
@@ -151,7 +148,7 @@ const WineRegistrationModal = () => {
       name,
       region,
       image: imageFile ? 'placeholder_url' : '', // imageFile 유무만 확인하고 실제 URL은 나중에 채움
-      price: parseFloat(price),
+      price: Number.parseFloat(price),
       type,
     };
 
@@ -204,7 +201,7 @@ const WineRegistrationModal = () => {
       name,
       region,
       image: finalImageUrl,
-      price: parseFloat(price),
+      price: Number.parseFloat(price),
       type,
     };
 
