@@ -1,29 +1,61 @@
-import { WineTypeEnum } from '@/feature/wines/schema/wine.schema';
+'use client';
+
+import { useState } from 'react';
+
+import AddWineButton from '@/feature/wines/components/button/AddWineButton';
+import WineFilterModal, {
+  WINE_FILTER_MODAL_ID,
+} from '@/feature/wines/components/modal/WineFilterModal';
+import MonthlyWineSection from '@/feature/wines/components/MonthlyWineSection';
+import WineCardSection from '@/feature/wines/components/section/WineCardSection';
+import WineFilterSection from '@/feature/wines/components/section/WineFilterSection';
 import {
   DEFAULT_WINE_FILTER_VALUES,
   WineFilterFormValues,
 } from '@/feature/wines/schema/wine-filter.schema';
-import { getWines } from '@/feature/wines/services/wine.service';
+import InnerContainer from '@/shared/components/container/InnerContainer';
+import { useModalStore } from '@/shared/stores/useModalStore';
+import { devLog } from '@/shared/utils/devLogger';
 
-import WinesClientView from './WinesClientView';
+const WinesPage = () => {
+  const { isOpen, open } = useModalStore();
+  const [filters, setFilters] = useState<WineFilterFormValues>(
+    DEFAULT_WINE_FILTER_VALUES,
+  );
 
-const WinesPage = async () => {
-  const initialFilters: WineFilterFormValues = DEFAULT_WINE_FILTER_VALUES;
+  const handleFilterChange = (newFilters: WineFilterFormValues) => {
+    setFilters(newFilters);
+    devLog('Filters updated in page:', newFilters);
+  };
 
-  const initialWines = await getWines({
-    limit: 5,
-    type: initialFilters.wineType.toUpperCase() as WineTypeEnum,
-    minPrice: initialFilters.priceRange[0],
-    maxPrice: initialFilters.priceRange[1],
-    rating: initialFilters.rating > 0 ? initialFilters.rating : undefined,
-    name: initialFilters.name,
-  });
+  const handleOpenFilterModal = () => {
+    open(WINE_FILTER_MODAL_ID);
+  };
 
   return (
-    <WinesClientView
-      initialWines={initialWines}
-      initialFilters={initialFilters}
-    />
+    <main className='relative'>
+      <InnerContainer>
+        <h1 className='sr-only'>와인 목록 페이지</h1>
+        <MonthlyWineSection />
+        <div className='mt-20 flex flex-col gap-20 lg:flex-row'>
+          <WineFilterSection
+            onFilterChange={handleFilterChange}
+            initialFilters={filters}
+            onOpenModal={handleOpenFilterModal}
+          />
+          <WineCardSection filters={filters} />
+        </div>
+        <div className='fixed right-10 bottom-10 lg:hidden'>
+          <AddWineButton onClick={handleOpenFilterModal} />
+        </div>
+        {isOpen(WINE_FILTER_MODAL_ID) && (
+          <WineFilterModal
+            initialFilters={filters}
+            onFilterSubmit={handleFilterChange}
+          />
+        )}
+      </InnerContainer>
+    </main>
   );
 };
 

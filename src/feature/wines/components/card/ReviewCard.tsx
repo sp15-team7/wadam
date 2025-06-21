@@ -147,7 +147,7 @@ const ReviewCard = ({
 
           {/* 평점, 좋아요, 메뉴 */}
           <div className='flex items-center gap-10'>
-            <LikeButton isLiked={isLiked} />
+            <LikeButton isLiked={isLiked} reviewId={reviewId} wineId={wineId} />
             {currentUser === user.id && (
               <CardDropdownMenu
                 onEditClick={handleEditClick}

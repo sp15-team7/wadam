@@ -3,14 +3,11 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { WineFilterFormValues } from '@/feature/wines/schema/wine-filter.schema';
 import { getWines } from '@/feature/wines/services/wine.service';
 
-import { GetWinesResponse, WineTypeEnum } from '../schema/wine.schema';
+import { WineTypeEnum } from '../schema/wine.schema';
 
 const LIMIT = 5;
 
-export const useWinesQuery = (
-  filters: WineFilterFormValues,
-  initialData?: GetWinesResponse,
-) => {
+export const useWinesQuery = (filters: WineFilterFormValues) => {
   const {
     data,
     status,
@@ -29,14 +26,12 @@ export const useWinesQuery = (
         type: (filters.wineType?.toUpperCase() ?? 'ALL') as WineTypeEnum,
         minPrice: filters.priceRange[0],
         maxPrice: filters.priceRange[1],
-        rating: filters.rating > 0 ? filters.rating : undefined,
+        rating:
+          filters.rating > 0 ? Math.max(0.5, filters.rating - 0.5) : undefined,
         name: filters.name,
       }),
     initialPageParam: undefined as number | undefined,
     getNextPageParam: (lastPage) => lastPage.nextCursor,
-    initialData: initialData
-      ? { pages: [initialData], pageParams: [undefined] }
-      : undefined,
   });
 
   return {

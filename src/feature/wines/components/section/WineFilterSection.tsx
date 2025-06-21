@@ -1,4 +1,5 @@
 import { Search } from 'lucide-react';
+import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
 
 import WineFilterButton from '@/feature/wines/components/button/WineFilterButton';
 import WineFilterForm from '@/feature/wines/components/wine-filter/WineFilterForm';
@@ -17,6 +18,26 @@ const WineFilterSection = ({
   initialFilters,
   onOpenModal,
 }: WineFilterSectionProps) => {
+  const [searchValue, setSearchValue] = useState(initialFilters.name);
+
+  useEffect(() => {
+    setSearchValue(initialFilters.name);
+  }, [initialFilters.name]);
+
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value);
+  };
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      onFilterChange({
+        ...initialFilters,
+        name: searchValue,
+      });
+    }
+  };
+
   return (
     <>
       <div className='sticky top-28 hidden h-fit lg:block'>
@@ -37,6 +58,9 @@ const WineFilterSection = ({
           icon={<Search color='#b2ae98' className='size-[2.2rem] lg:hidden' />}
           placeholder='와인 검색'
           className='border-secondary placeholder:text-gray w-full text-[1.6rem] lg:hidden'
+          value={searchValue}
+          onChange={handleSearchChange}
+          onKeyDown={handleKeyDown}
         />
       </div>
     </>
