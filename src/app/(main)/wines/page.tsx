@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 
+import AddWineButton from '@/feature/wines/components/button/AddWineButton';
 import WineFilterModal, {
   WINE_FILTER_MODAL_ID,
 } from '@/feature/wines/components/modal/WineFilterModal';
@@ -13,7 +14,6 @@ import {
   WineFilterFormValues,
 } from '@/feature/wines/schema/wine-filter.schema';
 import InnerContainer from '@/shared/components/container/InnerContainer';
-import { Button } from '@/shared/components/ui/button';
 import { useModalStore } from '@/shared/stores/useModalStore';
 import { devLog } from '@/shared/utils/devLogger';
 
@@ -45,10 +45,8 @@ const WinesPage = () => {
           />
           <WineCardSection filters={filters} />
         </div>
-        <div className='fixed bottom-10 w-full lg:hidden'>
-          <Button size='full' className='w-full px-10'>
-            와인 추가하기
-          </Button>
+        <div className='fixed right-10 bottom-10 lg:hidden'>
+          <AddWineButton onClick={handleOpenFilterModal} />
         </div>
         {isOpen(WINE_FILTER_MODAL_ID) && (
           <WineFilterModal

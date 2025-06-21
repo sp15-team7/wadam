@@ -47,7 +47,7 @@ const CardDropdownMenu = ({
         )}
         {onDeleteClick && (
           <DropdownMenuItem
-            className={cn(DROPDOWN_STYLES.menuItem, 'text-destructive')}
+            className={cn(DROPDOWN_STYLES.menuItem, 'text-primary')}
             onClick={onDeleteClick}
           >
             삭제하기

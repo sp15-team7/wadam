@@ -15,10 +15,12 @@ import {
   wineFilterSchema,
 } from '@/feature/wines/schema/wine-filter.schema';
 import { Input } from '@/shared/components/ui/input';
+import { useDeviceSize } from '@/shared/hooks/useDeviceSize';
 
 export interface WineFilterFormRef {
   submit: () => void;
   reset: () => void;
+  setSearchValue: (value: string) => void;
 }
 
 interface WineFilterFormProps {
@@ -36,6 +38,7 @@ const WineFilterForm = forwardRef<WineFilterFormRef, WineFilterFormProps>(
     },
     ref,
   ) => {
+    const { isMobile, isTablet } = useDeviceSize();
     const form = useForm<WineFilterFormValues>({
       resolver: zodResolver(wineFilterSchema),
       defaultValues: initialValues,
@@ -86,6 +89,9 @@ const WineFilterForm = forwardRef<WineFilterFormRef, WineFilterFormProps>(
       reset: () => {
         form.reset(DEFAULT_WINE_FILTER_VALUES);
       },
+      setSearchValue: (value: string) => {
+        form.setValue('name', value);
+      },
     }));
 
     return (
@@ -96,14 +102,18 @@ const WineFilterForm = forwardRef<WineFilterFormRef, WineFilterFormProps>(
         <Controller
           control={form.control}
           name='name'
-          render={({ field }) => (
-            <Input
-              {...field}
-              icon={<Search color='#b2ae98' className='size-[2.2rem]' />}
-              placeholder='와인 검색'
-              className='border-secondary placeholder:text-gray w-full text-[1.6rem]'
-            />
-          )}
+          render={({ field }) =>
+            isMobile || isTablet ? (
+              <></>
+            ) : (
+              <Input
+                {...field}
+                icon={<Search color='#b2ae98' className='size-[2.2rem]' />}
+                placeholder='와인 검색'
+                className='border-secondary placeholder:text-gray w-full text-[1.6rem]'
+              />
+            )
+          }
         />
         <div className='flex flex-1'>
           <div className='flex w-full flex-col gap-25'>
