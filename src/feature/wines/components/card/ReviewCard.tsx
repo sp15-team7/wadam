@@ -88,7 +88,7 @@ const ReviewCard = ({
             toast.success('리뷰가 삭제되었습니다.');
             onReviewUpdate?.();
           } catch (error) {
-            console.error('리뷰 삭제 실패:', error);
+            console.error(error);
             toast.error('리뷰 삭제에 실패했습니다.');
           }
         },
@@ -181,7 +181,10 @@ const ReviewCard = ({
         </CollapsibleContent>
         {/* 펼치기 버튼 */}
         <CollapsibleTrigger asChild>
-          <button className='flex-center text-gray mt-4 w-full text-center'>
+          <button
+            type='button'
+            className='flex-center text-gray mt-4 w-full text-center'
+          >
             {open ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
           </button>
         </CollapsibleTrigger>
