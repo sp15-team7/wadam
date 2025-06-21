@@ -2,21 +2,26 @@
 
 import Image from 'next/image';
 
-import { cn } from '@/shared/libs/utils/cn';
+import { useLikeReviewMutation } from '@/feature/reviews/hooks/useLikeReviewMutation';
 
 const LikeButton = ({
   isLiked,
-  className,
+  reviewId,
+  wineId,
 }: {
   isLiked: boolean;
-  className?: string;
+  reviewId: number;
+  wineId: number;
 }) => {
+  const { mutate } = useLikeReviewMutation(wineId);
+
   const handleLike = () => {
+    mutate({ reviewId, isLiked });
     console.log('like');
   };
 
   return (
-    <button className={'cursor-pointer'} onClick={handleLike}>
+    <button onClick={handleLike} aria-label='좋아요' className='cursor-pointer'>
       <Image
         src={
           isLiked
@@ -26,12 +31,9 @@ const LikeButton = ({
         alt='heart'
         width={24}
         height={24}
-        className={cn(
-          'transition-all duration-300 active:scale-80 md:size-[3rem]',
-          className,
-        )}
       />
     </button>
   );
 };
+
 export default LikeButton;

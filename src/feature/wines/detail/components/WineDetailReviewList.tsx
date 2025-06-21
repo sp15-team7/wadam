@@ -87,7 +87,11 @@ const WineDetailReviewList = ({
           <>
             {allReviews.map((review) => (
               <li key={review.id}>
-                <ReviewCard review={review} currentUser={currentUserId ?? 0} />
+                <ReviewCard
+                  review={review}
+                  currentUser={currentUserId ?? 0}
+                  wineId={wineId}
+                />
               </li>
             ))}
 
