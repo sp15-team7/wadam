@@ -143,30 +143,13 @@ const WineRegistrationModal = () => {
     // 폼 제출 시 초기 에러 상태 초기화
     setErrors({});
 
-    // 클라이언트 측 유효성 검사 (Zod 스키마를 사용하여 수동 검증)
-    const currentFormData = {
-      name,
-      region,
-      image: imageFile ? 'placeholder_url' : '', // imageFile 유무만 확인하고 실제 URL은 나중에 채움
-      price: Number.parseFloat(price),
-      type,
-    };
+    const parsedPrice = Number.parseFloat(price);
 
-    try {
-      createWineRequestSchema.parse(currentFormData);
-
-      //  이미지 파일 선택 여부 수동 검사
-      if (!imageFile) {
-        setErrors((prev) => ({ ...prev, image: '와인 사진을 선택해주세요.' }));
-        return; // 에러 발생 시 제출 중단
-      }
-    } catch (validationError) {
-      // Zod 유효성 검사 실패 시  필드 옆에 에러 표시
-      await handleSubmissionError(
-        validationError,
-        '입력 데이터 유효성 검사 실패',
-      );
-      return; // 유효성 검사 실패 시 제출 중단
+    // 이미지 파일 선택 여부 수동 검사 (Zod 스키마 검사 전에 먼저 처리)
+    if (!imageFile) {
+      setErrors((prev) => ({ ...prev, image: '와인 사진을 선택해주세요.' }));
+      toast.error('와인 사진을 선택해주세요.');
+      return; // 에러 발생 시 제출 중단
     }
 
     const session = await getSession();
@@ -181,32 +164,41 @@ const WineRegistrationModal = () => {
       const formDataForImage = new FormData();
       formDataForImage.append('image', imageFile as File);
 
+      // 1. 이미지 업로드
       const uploadResponse = await apiClient
         .post('images/upload', {
           body: formDataForImage,
           headers: {
-            'Content-Type': undefined,
+            'Content-Type': undefined, // FormData 사용 시 Next.js에서 자동으로 처리하도록 undefined로 설정
           },
         })
         .json();
 
       const parsedImageResult = imageUploadResponseSchema.parse(uploadResponse);
-      finalImageUrl = parsedImageResult.url;
+      finalImageUrl = parsedImageResult.url; // 업로드된 이미지 URL 확보
+
+      // 이미지 업로드 성공 후에도 'image' 필드의 에러 메시지를 지워줍니다.
+      setErrors((prev) => ({ ...prev, image: undefined }));
     } catch (uploadError) {
+      // 이미지 업로드 실패 시 전역 에러 알림 및 함수 종료
       await handleSubmissionError(uploadError, '이미지 업로드에 실패했습니다.');
       return;
     }
 
+    // 2. 와인 데이터 구성 (확보된 finalImageUrl 사용)
     const formData = {
       name,
       region,
-      image: finalImageUrl,
-      price: Number.parseFloat(price),
+      image: finalImageUrl, // 🚨 이제 유효한 URL이 포함됩니다.
+      price: isNaN(parsedPrice) ? undefined : parsedPrice, // price가 유효하지 않으면 undefined로 넘겨 Zod가 검사하도록 함
       type,
     };
 
     try {
+      // 3. Zod 스키마 유효성 검사 (이제 image 필드에 유효한 URL이 있으므로 통과될 것임)
       const validatedData = createWineRequestSchema.parse(formData);
+
+      // 4. 와인 생성 API 호출
       const response = await createWine(validatedData);
       const newWine = createWineResponseSchema.parse(response);
       const newWineId = newWine.id;
@@ -215,6 +207,7 @@ const WineRegistrationModal = () => {
       close(MODAL_ID);
       router.push(`/wines/${newWineId}`);
     } catch (error) {
+      // 와인 데이터 유효성 검사 또는 와인 생성 API 호출 실패 시
       await handleSubmissionError(error, '와인 등록에 실패했습니다.');
     }
   };
@@ -242,8 +235,8 @@ const WineRegistrationModal = () => {
         noValidate
       >
         {/* 와인 이름 */}
-        <div className='flex flex-col justify-between'>
-          <div className='flex items-center'>
+        <div className='flex flex-col'>
+          <div className='flex items-center justify-between'>
             <label
               htmlFor='wine-name'
               className='mb-4 block text-[1.6rem] font-bold text-gray-800'
@@ -266,8 +259,8 @@ const WineRegistrationModal = () => {
           />
         </div>
         {/* 가격 */}
-        <div className='flex flex-col justify-between'>
-          <div className='flex items-center'>
+        <div className='flex flex-col'>
+          <div className='flex items-center justify-between'>
             <label
               htmlFor='wine-price'
               className='mb-4 block text-[1.6rem] font-bold text-gray-800'
@@ -293,8 +286,8 @@ const WineRegistrationModal = () => {
           />
         </div>
         {/* 원산지 */}
-        <div className='flex flex-col justify-between'>
-          <div className='flex items-center'>
+        <div className='flex flex-col'>
+          <div className='flex items-center justify-between'>
             <label
               htmlFor='wine-region'
               className='mb-4 block text-[1.6rem] font-bold text-gray-800'
@@ -318,8 +311,8 @@ const WineRegistrationModal = () => {
           />
         </div>
         {/* 타입 */}
-        <div className='flex flex-col justify-between'>
-          <div className='flex items-center'>
+        <div className='flex flex-col'>
+          <div className='flex items-center justify-between'>
             <label
               htmlFor='wine-type-dropdown'
               className='mb-4 block text-[1.6rem] font-bold text-gray-800'
@@ -365,19 +358,18 @@ const WineRegistrationModal = () => {
         </div>
         {/* 와인 사진 */}
         <div className='flex flex-col justify-between'>
-          <div className='flex items-center'>
+          <div className='flex items-center justify-between'>
+            {' '}
             <label
-              htmlFor='wine-image'
-              className='mb-6 block text-[1.6rem] font-bold text-gray-800'
+              htmlFor='wine-image-upload' // 🚨 htmlFor 값 변경 (Input과 겹치지 않게)
+              className='mb-4 block text-[1.6rem] font-bold text-gray-800'
             >
               와인 사진
             </label>
-            <FieldError fieldName='image' />
+            <FieldError fieldName='image' /> {/* 이미지 에러 메시지 표시 */}
           </div>
-          {/* Button 컴포넌트를 사용 업로드 박스 구현 */}
           <Button
-            type='button'
-            aria-label='와인 사진 업로드'
+            type='button' // Submit 방지
             variant='secondary'
             className='group !h-[140px] !w-[140px] !rounded-[1.2rem] !border !bg-white !p-0 transition-colors hover:!bg-gray-50'
             onClick={() => fileInputRef.current?.click()}
@@ -397,14 +389,15 @@ const WineRegistrationModal = () => {
               />
             )}
             <input
-              id='wine-image'
+              id='wine-image-upload'
               ref={fileInputRef}
               type='file'
               accept='image/*'
               className='hidden'
               onChange={handleImageChange}
             />
-          </Button>
+          </Button>{' '}
+          {/* Button 태그가 여기서 닫힙니다. */}
         </div>
         {/* 버튼 섹션 */}
         <div className='mt-10 flex w-full gap-4'>
