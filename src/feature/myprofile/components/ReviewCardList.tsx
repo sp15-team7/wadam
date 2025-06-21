@@ -73,15 +73,28 @@ const ReviewCardList = ({ accessToken }: ReviewCardListProps) => {
 
   //리뷰 삭제 모달 관련
   const handleDeleteClick = (reviewId: number) => {
-    deleteReview(reviewId)
-      .then(() => {
-        setReviews((prev) => prev.filter((review) => review.id !== reviewId));
-        toast.success('리뷰가 삭제되었습니다.');
-      })
-      .catch((error) => {
-        console.error('리뷰 삭제 실패:', error);
-        toast.error('리뷰 삭제에 실패했습니다.');
-      });
+    toast('정말로 이 리뷰를 삭제하시겠습니까?', {
+      action: {
+        label: '삭제',
+        onClick: () => {
+          deleteReview(reviewId)
+            .then(() => {
+              setReviews((prev) =>
+                prev.filter((review) => review.id !== reviewId),
+              );
+              toast.success('리뷰가 삭제되었습니다.');
+            })
+            .catch((error) => {
+              console.error('리뷰 삭제 실패:', error);
+              toast.error('리뷰 삭제에 실패했습니다.');
+            });
+        },
+      },
+      cancel: {
+        label: '취소',
+        onClick: () => {},
+      },
+    });
   };
 
   useEffect(() => {

@@ -118,15 +118,26 @@ const WineCardList: React.FC<WineCardListProps> = ({ accessToken }) => {
 
   // 와인 삭제 핸들러 (동작은 추후 구현) 와인 삭제 후 상태 업데이트(filter)
   const handleDeleteWineClick = (wineId: number) => {
-    deleteWine(wineId)
-      .then(() => {
-        setWines((prev) => prev.filter((wine) => wine.id !== wineId));
-        toast.success('와인이 삭제되었습니다.');
-      })
-      .catch((error) => {
-        console.error('와인 삭제 실패:', error);
-        toast.error('와인 삭제에 실패했습니다.');
-      });
+    toast('정말로 이 와인을 삭제하시겠습니까?', {
+      action: {
+        label: '삭제',
+        onClick: () => {
+          deleteWine(wineId)
+            .then(() => {
+              setWines((prev) => prev.filter((wine) => wine.id !== wineId));
+              toast.success('와인이 삭제되었습니다.');
+            })
+            .catch((error) => {
+              console.error('와인 삭제 실패:', error);
+              toast.error('와인 삭제에 실패했습니다.');
+            });
+        },
+      },
+      cancel: {
+        label: '취소',
+        onClick: () => {},
+      },
+    });
   };
 
   useEffect(() => {

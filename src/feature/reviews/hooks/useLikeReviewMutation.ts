@@ -4,9 +4,7 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 
-import {
-  WineDetailReview,
-} from '@/feature/wines/schema/wine.schema';
+import { WineDetailReview } from '@/feature/wines/schema/wine.schema';
 
 import { likeReview, unlikeReview } from '../services/review.service';
 

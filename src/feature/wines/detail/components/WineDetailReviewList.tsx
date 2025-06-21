@@ -1,11 +1,15 @@
 'use client';
 
+import { useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect, useRef } from 'react';
 
 import ReviewForm from '@/feature/reviews/components/review-form/ReviewFormButton';
 import ReviewCard from '@/feature/wines/components/card/ReviewCard';
 import WineDetailTitle from '@/feature/wines/detail/components/WineDetailTitle';
-import { useWineReviewsInfinite } from '@/feature/wines/hooks/useWineDetailsQuery';
+import {
+  useWineDetail,
+  useWineReviewsInfinite,
+} from '@/feature/wines/hooks/useWineDetailsQuery';
 import ErrorDisplay from '@/shared/components/common/error-display';
 import SkeletonCard from '@/shared/components/common/skeleton-card';
 import Spinner from '@/shared/components/common/spinner';
@@ -31,12 +35,26 @@ const WineDetailReviewList = ({
     enabled: !!wineId,
   });
 
+  const { data: wineDetail } = useWineDetail({ wineId, enabled: !!wineId });
+  const queryClient = useQueryClient();
+
   // infinite scroll을 위한 ref
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
   // infinite query의 모든 페이지 데이터를 flat하게 만들기
   const allReviews = data?.pages.flatMap((page) => page.list) ?? [];
   const totalCount = data?.pages[0]?.totalCount ?? 0;
+
+  // 리뷰 업데이트 콜백 (수정/삭제 후 데이터 새로고침)
+  const handleReviewUpdate = useCallback(async () => {
+    // 와인 리뷰 목록 및 상세 정보 쿼리 무효화
+    await queryClient.invalidateQueries({
+      queryKey: ['wine', 'reviews', wineId],
+    });
+    await queryClient.invalidateQueries({
+      queryKey: ['wine', 'detail', wineId],
+    });
+  }, [queryClient, wineId]);
 
   // Intersection Observer를 사용한 무한 스크롤 구현
   const handleIntersection = useCallback(
@@ -91,6 +109,8 @@ const WineDetailReviewList = ({
                   review={review}
                   currentUser={currentUserId ?? 0}
                   wineId={wineId}
+                  wineDetail={wineDetail}
+                  onReviewUpdate={handleReviewUpdate}
                 />
               </li>
             ))}

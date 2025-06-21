@@ -23,6 +23,7 @@ import {
 } from '@/shared/components/common/modal';
 import StarRating from '@/shared/components/common/star-rating';
 import { Button } from '@/shared/components/ui/button';
+import { useModalStore } from '@/shared/stores/useModalStore';
 
 interface EditReviewFormProps {
   review: MyReviewWithWine;
@@ -35,9 +36,18 @@ const EditReviewForm = ({
   onClose,
   onSuccess,
 }: EditReviewFormProps) => {
+  const { open, close } = useModalStore();
   const [selectedAromas, setSelectedAromas] = useState<string[]>(
     review.aroma || [],
   );
+
+  // 컴포넌트가 마운트될 때 모달 열기
+  useEffect(() => {
+    open('EditReviewForm');
+    return () => {
+      close('EditReviewForm');
+    };
+  }, [open, close]);
 
   const {
     register,
