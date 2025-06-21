@@ -113,7 +113,10 @@ export const createWineRequestSchema = z.object({
   region: z.string().min(1, '원산지를 입력해주세요.'),
   image: z.string().min(1, '와인 사진을 업로드해주세요.'),
   price: z
-    .number({ invalid_type_error: '가격을 숫자로 입력해주세요.' })
+    .number({
+      required_error: '가격을 입력해주세요.',
+      invalid_type_error: '가격을 숫자로 입력해주세요.',
+    })
     .positive('가격은 0보다 커야 합니다.')
     .min(1, '가격을 입력해주세요.'),
   type: WineTypeEnumSchema,

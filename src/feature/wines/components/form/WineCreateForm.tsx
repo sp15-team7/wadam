@@ -1,7 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import ImageInput from '@/feature/wines/components/ui/ImageInput';
@@ -41,7 +41,16 @@ const numberInputStyle =
 
 const WineCreateForm = ({ id, onSubmit }: WineCreateFormProps) => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const fileReaderRef = useRef<FileReader | null>(null);
   const uploadImageMutation = useUploadImageMutation();
+
+  useEffect(() => {
+    return () => {
+      if (fileReaderRef.current) {
+        fileReaderRef.current.abort();
+      }
+    };
+  }, []);
 
   const form = useForm<CreateWineRequest>({
     resolver: zodResolver(createWineRequestSchema),
@@ -59,7 +68,8 @@ const WineCreateForm = ({ id, onSubmit }: WineCreateFormProps) => {
   const handleImageSelect = (file: File | null) => {
     if (file) {
       // 미리보기용 Data URL 생성
-      const reader = new FileReader();
+      fileReaderRef.current = new FileReader();
+      const reader = fileReaderRef.current;
       reader.readAsDataURL(file);
       reader.onloadend = () => {
         if (typeof reader.result === 'string') {
