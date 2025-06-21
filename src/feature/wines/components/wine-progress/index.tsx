@@ -45,7 +45,7 @@ const WineProgress = ({ wineId }: WineProgressProps) => {
     <div className='flex flex-col md:flex-row md:justify-between lg:flex-col lg:justify-start'>
       <div className='flex items-center gap-[1.5rem] md:gap-[2rem]'>
         <strong className='text-[3.6rem] leading-none font-extrabold md:text-[5.4rem]'>
-          {wineDetail?.avgRating}
+          {wineDetail?.avgRating ? wineDetail?.avgRating : '0.0'}
         </strong>
         <div>
           <StarRating
@@ -53,8 +53,10 @@ const WineProgress = ({ wineId }: WineProgressProps) => {
             size='md'
             readOnly
           />
-          <p className='txt-md-regular text-gray mt-[0.5rem]'>
-            {reviewCount}개의 후기
+          <p className='txt-sm-regular text-gray md:txt-md-regular mt-[0.5rem]'>
+            {reviewCount > 0
+              ? `${reviewCount}개의 후기`
+              : '등록된 후기가 없어요'}
           </p>
         </div>
       </div>

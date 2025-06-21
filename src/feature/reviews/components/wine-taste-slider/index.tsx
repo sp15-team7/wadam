@@ -32,6 +32,7 @@ interface WineTasteSliderProps {
   className?: string;
   isLoading?: boolean;
   isError?: boolean;
+  isNoData?: boolean;
 }
 
 /**
@@ -45,6 +46,7 @@ const WineTasteSlider = ({
   className,
   isLoading,
   isError,
+  isNoData,
 }: WineTasteSliderProps) => {
   const handleChange = useCallback(
     (type: TasteType, value: number) => {
@@ -66,6 +68,14 @@ const WineTasteSlider = ({
     );
   if (isError)
     return <ErrorDisplay message='맛 정보를 불러올 수 없습니다.' isRetry />;
+
+  if (isNoData) {
+    return (
+      <div className='flex items-center justify-center p-8 text-gray-500'>
+        아직 등록된 맛 정보가 없습니다.
+      </div>
+    );
+  }
 
   return (
     <div className={cn('w-full space-y-6', className)}>

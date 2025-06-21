@@ -77,7 +77,7 @@ const wineBaseSchema = z.object({
   image: urlSchema,
   price: positiveNumberSchema,
   type: WineTypeEnumSchema,
-  avgRating: nonNegativeNumberSchema,
+  avgRating: nonNegativeNumberSchema.nullable(),
   reviewCount: nonNegativeNumberSchema,
   userId: positiveNumberSchema,
   updatedAt: z.string().datetime().optional(),

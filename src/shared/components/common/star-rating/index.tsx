@@ -135,17 +135,17 @@ const StarRating = ({
             className={cn(
               'flex bg-[url("/icons/ui/icon-star-empty.svg")] bg-cover bg-center',
               {
-                sm: 'h-[0.9rem] w-[0.9rem] md:h-[1.3rem] md:w-[1.3rem]',
-                md: 'h-[1.3rem] w-[1.3rem] md:h-[1.7rem] md:w-[1.7rem]',
-                lg: 'h-[1.7rem] w-[1.7rem] md:h-[2.4rem] md:w-[2.4rem]',
+                sm: 'h-[1rem] w-[1rem] md:h-[1.4rem] md:w-[1.4rem]',
+                md: 'h-[1.4rem] w-[1.4rem] md:h-[1.8rem] md:w-[1.8rem]',
+                lg: 'h-[1.8rem] w-[1.8rem] md:h-[2.4rem] md:w-[2.4rem]',
               }[size],
             )}
           >
             {/* 왼쪽 반 (0.5점) */}
-            <div className='relative w-1/2'>
+            <div className='relative w-1/2 flex-shrink-0'>
               <label
                 htmlFor={`star-${i}-left`}
-                className='block h-full'
+                className='block h-full w-full'
                 role={readOnly ? 'presentation' : 'button'}
                 tabIndex={readOnly ? -1 : 0}
                 aria-label={`${leftHalfValue}점 별점`}
@@ -155,7 +155,7 @@ const StarRating = ({
                   alt='0.5점'
                   width={16}
                   height={16}
-                  className={`h-full ${readOnly ? '' : 'cursor-pointer'} ${
+                  className={`block h-full w-full ${readOnly ? '' : 'cursor-pointer'} ${
                     isLeftHalfActive ? 'opacity-100' : 'opacity-0'
                   }`}
                 />
@@ -175,10 +175,10 @@ const StarRating = ({
             </div>
 
             {/* 오른쪽 반 (1점) */}
-            <div className='relative w-1/2'>
+            <div className='relative w-1/2 flex-shrink-0'>
               <label
                 htmlFor={`star-${i}-right`}
-                className='block h-full'
+                className='block h-full w-full'
                 role={readOnly ? 'presentation' : 'button'}
                 tabIndex={readOnly ? -1 : 0}
                 aria-label={`${rightHalfValue}점 별점`}
@@ -191,7 +191,7 @@ const StarRating = ({
                   alt='1점'
                   width={16}
                   height={16}
-                  className={`h-full ${readOnly ? '' : 'cursor-pointer'} ${
+                  className={`block h-full w-full ${readOnly ? '' : 'cursor-pointer'} ${
                     isRightHalfActive ? 'opacity-100' : 'opacity-0'
                   }`}
                 />
