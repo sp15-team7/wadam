@@ -6,16 +6,14 @@ import { useInView } from 'react-intersection-observer';
 
 import WineCard from '@/feature/wines/components/card/WineCard';
 import { useWinesQuery } from '@/feature/wines/hooks/useWinesQuery';
-import { GetWinesResponse } from '@/feature/wines/schema/wine.schema';
 import { WineFilterFormValues } from '@/feature/wines/schema/wine-filter.schema';
 import SkeletonCard from '@/shared/components/common/skeleton-card';
 
 interface WineCardSectionProps {
   filters: WineFilterFormValues;
-  initialWines: GetWinesResponse;
 }
 
-const WineCardSection = ({ filters, initialWines }: WineCardSectionProps) => {
+const WineCardSection = ({ filters }: WineCardSectionProps) => {
   const {
     data,
     status,
@@ -25,7 +23,7 @@ const WineCardSection = ({ filters, initialWines }: WineCardSectionProps) => {
     isFetchingNextPage,
     isFetching,
     isPending,
-  } = useWinesQuery(filters, initialWines);
+  } = useWinesQuery(filters);
   const { ref, inView } = useInView({
     threshold: 0,
     delay: 0,
