@@ -54,7 +54,7 @@ const WineProgress = ({ wineId }: WineProgressProps) => {
             readOnly
           />
           <p className='txt-sm-regular text-gray md:txt-md-regular mt-[0.5rem]'>
-            {wineDetail?.avgRating
+            {reviewCount > 0
               ? `${reviewCount}개의 후기`
               : '등록된 후기가 없어요'}
           </p>
