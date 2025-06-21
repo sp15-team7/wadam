@@ -80,6 +80,7 @@ const wineBaseSchema = z.object({
   avgRating: nonNegativeNumberSchema,
   reviewCount: nonNegativeNumberSchema,
   userId: positiveNumberSchema,
+  updatedAt: z.string().datetime().optional(),
 });
 
 /** 와인 목록에 표시되는 개별 와인 아이템 객체 (간략한 최근 리뷰 포함) */
@@ -157,8 +158,30 @@ export const updateWineRequestSchema = createWineRequestSchema
     message: '최소 하나의 필드를 수정해야 합니다.',
   });
 
+/**
+ * @description [폼] 와인 수정 폼에서 사용하는 스키마입니다.
+ * API 요청과 동일하지만 폼 검증에 최적화되어 있습니다.
+ */
+export const updateWineFormSchema = z
+  .object({
+    name: nonEmptyStringSchema.optional(),
+    region: nonEmptyStringSchema.optional(),
+    price: positiveNumberSchema.optional(),
+    type: WineTypeEnumSchema.optional(),
+  })
+  .refine((obj) => Object.keys(obj).length > 0, {
+    message: '최소 하나의 필드를 수정해야 합니다.',
+  });
+
 // 응답 스키마는 상단의 `wineListItemSchema`를 사용합니다.
-export const updateWineResponseSchema = wineListItemSchema;
+/**
+ * @description [응답] 와인 수정을 요청할 때 Response Body를 검증합니다.
+ */
+export const updateWineResponseSchema = wineBaseSchema.omit({
+  userId: true,
+  reviewCount: true,
+  avgRating: true,
+});
 
 // --- 5. 와인 삭제: DELETE /{teamId}/wines/{id} ---
 

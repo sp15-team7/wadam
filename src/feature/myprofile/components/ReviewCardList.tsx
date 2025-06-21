@@ -8,10 +8,14 @@
  */
 
 import React, { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
-import { getUserReviews } from '@/feature/libs/api/userApi';
+import { deleteReview, getUserReviews } from '@/feature/libs/api/userApi';
 import EditReviewForm from '@/feature/reviews/components/review-form/EditReviewForm';
-import { MyReviewWithWine } from '@/feature/reviews/schemas/reviews.schema';
+import {
+  MyReviewWithWine,
+  UpdateReviewResponse,
+} from '@/feature/reviews/schemas/reviews.schema';
 import MyReviewCard from '@/feature/wines/components/card/MyReviewCard';
 import { useModalStore } from '@/shared/stores/useModalStore';
 
@@ -45,6 +49,41 @@ const ReviewCardList = ({ accessToken }: ReviewCardListProps) => {
     setSelectedReview(null);
   };
 
+  const handleEditSuccess = (updatedReviewData: UpdateReviewResponse) => {
+    setReviews((prevReviews) => {
+      const newReviews = prevReviews.map((review) => {
+        if (review.id === updatedReviewData.id) {
+          // 기존 'wine' 정보를 유지하면서, API 응답으로 받은 새 정보로 덮어쓰기
+          return {
+            ...review,
+            ...updatedReviewData,
+          };
+        }
+        return review;
+      });
+
+      // updatedAt을 기준으로 내림차순 정렬
+      return newReviews.sort(
+        (a, b) =>
+          new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
+      );
+    });
+    handleEditClose();
+  };
+
+  //리뷰 삭제 모달 관련
+  const handleDeleteClick = (reviewId: number) => {
+    deleteReview(reviewId)
+      .then(() => {
+        setReviews((prev) => prev.filter((review) => review.id !== reviewId));
+        toast.success('리뷰가 삭제되었습니다.');
+      })
+      .catch((error) => {
+        console.error('리뷰 삭제 실패:', error);
+        toast.error('리뷰 삭제에 실패했습니다.');
+      });
+  };
+
   useEffect(() => {
     const fetchReviews = async () => {
       if (!accessToken) return;
@@ -54,7 +93,16 @@ const ReviewCardList = ({ accessToken }: ReviewCardListProps) => {
         setError(null);
 
         const { list } = await getUserReviews(accessToken, REVIEWS_LIMIT);
-        setReviews(Array.isArray(list) ? list : []);
+        const reviewsArray = Array.isArray(list) ? list : [];
+
+        // updatedAt을 기준으로 최신순으로 정렬
+        const sortedReviews = reviewsArray.sort((a, b) => {
+          const dateA = new Date(a.updatedAt).getTime();
+          const dateB = new Date(b.updatedAt).getTime();
+          return dateB - dateA; // 내림차순 (최신순)
+        });
+
+        setReviews(sortedReviews);
       } catch (error) {
         console.error('리뷰 로딩 실패:', error);
         setError('리뷰를 불러오는데 실패했습니다.');
@@ -148,13 +196,21 @@ const ReviewCardList = ({ accessToken }: ReviewCardListProps) => {
             className='w-full border-b border-gray-100 pb-4 last:border-b-0 last:pb-0'
           >
             <div className='w-full max-w-[800px] overflow-hidden'>
-              <MyReviewCard review={review} onEdit={handleEditClick} />
+              <MyReviewCard
+                review={review}
+                onEdit={handleEditClick}
+                onDelete={handleDeleteClick}
+              />
             </div>
           </div>
         ))}
       </div>
       {isOpen('EditReviewForm') && selectedReview && (
-        <EditReviewForm review={selectedReview} onClose={handleEditClose} />
+        <EditReviewForm
+          review={selectedReview}
+          onClose={handleEditClose}
+          onSuccess={handleEditSuccess}
+        />
       )}
     </div>
   );
