@@ -16,7 +16,11 @@ const CardPage = async () => {
       <WineCard wine={mockWine} />
       <DetailCard wine={mockWine} currentUser={currentUser!} />
 
-      <ReviewCard review={mockWine.recentReview} currentUser={currentUser!} />
+      <ReviewCard
+        review={mockWine.recentReview}
+        currentUser={currentUser!}
+        wineId={mockWine.id}
+      />
 
       <MyReviewCard review={mockReview.list[0]} />
     </div>
