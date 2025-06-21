@@ -117,8 +117,7 @@ export const createWineRequestSchema = z.object({
   price: z
     .number({ invalid_type_error: '가격을 숫자로 입력해주세요.' })
     .positive('가격은 0보다 커야 합니다.')
-    .min(1, '가격을 입력해주세요.') // 비어있을 때
-    .optional(),
+    .min(1, '가격을 입력해주세요.'),
   type: WineTypeEnumSchema,
 });
 
@@ -126,7 +125,9 @@ export const createWineRequestSchema = z.object({
 /**
  * @description [응답] 와인 생성 API의 응답 객체를 검증합니다.
  */
-export const createWineResponseSchema = wineListItemSchema;
+export const createWineResponseSchema = wineBaseSchema.extend({
+  recentReview: reviewResponseSchema.nullable(),
+});
 
 // --- 2. 와인 목록 조회: GET /{teamId}/wines ---
 

@@ -3,6 +3,9 @@
 import { useState } from 'react';
 
 import AddWineButton from '@/feature/wines/components/button/AddWineButton';
+import WineCreateModal, {
+  WINE_CREATE_MODAL_ID,
+} from '@/feature/wines/components/modal/WineCreateModal';
 import WineFilterModal, {
   WINE_FILTER_MODAL_ID,
 } from '@/feature/wines/components/modal/WineFilterModal';
@@ -32,6 +35,10 @@ const WinesPage = () => {
     open(WINE_FILTER_MODAL_ID);
   };
 
+  const handleOpenCreateModal = () => {
+    open(WINE_CREATE_MODAL_ID);
+  };
+
   return (
     <main className='relative'>
       <InnerContainer>
@@ -42,11 +49,12 @@ const WinesPage = () => {
             onFilterChange={handleFilterChange}
             initialFilters={filters}
             onOpenModal={handleOpenFilterModal}
+            onOpenCreateModal={handleOpenCreateModal}
           />
           <WineCardSection filters={filters} />
         </div>
         <div className='fixed right-10 bottom-10 lg:hidden'>
-          <AddWineButton onClick={handleOpenFilterModal} />
+          <AddWineButton onClick={handleOpenCreateModal} />
         </div>
         {isOpen(WINE_FILTER_MODAL_ID) && (
           <WineFilterModal
@@ -54,6 +62,7 @@ const WinesPage = () => {
             onFilterSubmit={handleFilterChange}
           />
         )}
+        {isOpen(WINE_CREATE_MODAL_ID) && <WineCreateModal />}
       </InnerContainer>
     </main>
   );
