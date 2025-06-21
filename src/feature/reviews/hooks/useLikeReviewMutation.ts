@@ -1,11 +1,20 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  InfiniteData,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
 
 import {
-  GetWineDetailResponse,
   WineDetailReview,
 } from '@/feature/wines/schema/wine.schema';
 
 import { likeReview, unlikeReview } from '../services/review.service';
+
+interface PaginatedReviews {
+  list: WineDetailReview[];
+  totalCount: number;
+  nextCursor: number | null;
+}
 
 export const useLikeReviewMutation = (wineId: number) => {
   const queryClient = useQueryClient();
@@ -20,53 +29,50 @@ export const useLikeReviewMutation = (wineId: number) => {
     }) => (isLiked ? unlikeReview(reviewId) : likeReview(reviewId)),
 
     onMutate: async ({ reviewId, isLiked }) => {
-      await queryClient.cancelQueries({ queryKey: ['wine', wineId] });
+      const queryKey = ['wine', 'reviews', wineId];
 
-      const previousWineDetail =
-        queryClient.getQueryData<GetWineDetailResponse>(['wine', wineId]);
+      await queryClient.cancelQueries({ queryKey });
 
-      if (previousWineDetail) {
-        queryClient.setQueryData<GetWineDetailResponse>(
-          ['wine', wineId],
-          (oldWine) => {
-            if (!oldWine) {
+      const previousReviews =
+        queryClient.getQueryData<InfiniteData<PaginatedReviews>>(queryKey);
+
+      if (previousReviews) {
+        queryClient.setQueryData<InfiniteData<PaginatedReviews>>(
+          queryKey,
+          (oldData) => {
+            if (!oldData) {
               return undefined;
             }
 
-            const newReviews = oldWine.reviews.map(
-              (review: WineDetailReview) => {
-                if (review.id === reviewId) {
-                  return {
-                    ...review,
-                    isLiked: !isLiked,
-                  };
-                }
-                return review;
-              },
-            );
-
             return {
-              ...oldWine,
-              reviews: newReviews,
+              ...oldData,
+              pages: oldData.pages.map((page) => ({
+                ...page,
+                list: page.list.map((review) =>
+                  review.id === reviewId
+                    ? { ...review, isLiked: !isLiked }
+                    : review,
+                ),
+              })),
             };
           },
         );
       }
 
-      return { previousWineDetail };
+      return { previousReviews };
     },
 
-    onError: (context?: { previousWineDetail?: GetWineDetailResponse }) => {
-      if (context?.previousWineDetail) {
-        queryClient.setQueryData<GetWineDetailResponse>(
-          ['wine', wineId],
-          context.previousWineDetail,
-        );
+    onError: (err, variables, context) => {
+      console.error('An error occurred:', err);
+      const queryKey = ['wine', 'reviews', wineId];
+      if (context?.previousReviews) {
+        queryClient.setQueryData(queryKey, context.previousReviews);
       }
     },
 
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['wine', wineId] });
+      const queryKey = ['wine', 'reviews', wineId];
+      queryClient.invalidateQueries({ queryKey });
     },
   });
 };
