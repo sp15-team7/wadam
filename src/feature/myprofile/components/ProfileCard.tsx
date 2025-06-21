@@ -8,6 +8,7 @@
  */
 
 import { Session } from 'next-auth';
+import { useSession } from 'next-auth/react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import {
@@ -47,6 +48,7 @@ const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
 const ProfileCard = ({ session, onProfileUpdate }: ProfileCardProps) => {
   const { profileImg, nickname, updateProfileImg, updateNickname } =
     useUserStore();
+  const { update } = useSession();
 
   const [inputValue, setInputValue] = useState(nickname);
   const [uploadedImgUrl, setUploadedImgUrl] = useState<string | null>(null);
@@ -163,6 +165,18 @@ const ProfileCard = ({ session, onProfileUpdate }: ProfileCardProps) => {
       };
 
       await updateUserProfile(accessToken, updateData);
+
+      // 세션 업데이트
+      const sessionUpdateData: { name?: string; image?: string } = {};
+      if (trimmedNickname && nickname !== trimmedNickname) {
+        sessionUpdateData.name = trimmedNickname;
+      }
+      if (uploadedImgUrl) {
+        sessionUpdateData.image = uploadedImgUrl;
+      }
+      if (Object.keys(sessionUpdateData).length > 0) {
+        await update(sessionUpdateData);
+      }
 
       updateNickname(trimmedNickname); // trim된 값으로 업데이트
       if (uploadedImgUrl) {
