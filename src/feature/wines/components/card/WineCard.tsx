@@ -55,10 +55,10 @@ const WineCard = ({ wine }: { wine: GetWinesResponse['list'][number] }) => {
               aria-label='평점 정보'
             >
               <span className='text-[2.8rem] font-extrabold md:text-[4.8rem]'>
-                {avgRating.toFixed(1)}
+                {avgRating ? avgRating.toFixed(1) : '0.0'}
               </span>
               <div className='flex flex-col items-center gap-2 md:items-start md:justify-start md:gap-4'>
-                <StarRating value={avgRating} readOnly size='md' />
+                <StarRating value={avgRating ?? 0} readOnly size='md' />
                 <span className='text-gray text-[1.2rem] md:text-[1.4rem]'>
                   {reviewCount}개의 후기
                 </span>
