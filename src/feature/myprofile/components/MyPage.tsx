@@ -13,6 +13,8 @@ import { getUserInfo } from '@/feature/libs/api/userApi';
 import ProfileCard from '@/feature/myprofile/components/ProfileCard';
 import ReviewCardList from '@/feature/myprofile/components/ReviewCardList';
 import WineCardList from '@/feature/myprofile/components/WineCardList';
+import InnerContainer from '@/shared/components/container/InnerContainer';
+import { PAGE_STYLES } from '@/shared/constants/styles';
 import { useUserStore } from '@/shared/stores/userStore';
 
 // 탭 타입
@@ -75,29 +77,31 @@ const MyPage = ({ session }: MyPageProps) => {
   };
 
   return (
-    <div className='min-h-screen bg-white px-4 py-8'>
-      <div className='mx-auto flex w-full max-w-none justify-center gap-8'>
-        {/* 프로필 카드 */}
-        <div className='flex-shrink-0'>
-          <ProfileCard
-            session={session}
-            onProfileUpdate={handleProfileUpdate}
-          />
-        </div>
-
-        {/* 콘텐츠 영역 */}
-        <div className='w-[830px] min-w-0'>
-          {/* 탭 네비게이션 */}
-          <div className='mb-8 flex gap-1 border-b border-gray-200'>
-            {renderTabButton('review', '내가 쓴 후기')}
-            {renderTabButton('wine', '내가 등록한 와인')}
+    <main className={PAGE_STYLES.backgroundOverlay}>
+      <InnerContainer>
+        <div className='mx-auto flex w-full max-w-none flex-col justify-center gap-[4rem] lg:flex-row lg:gap-[6rem]'>
+          {/* 프로필 카드 */}
+          <div className='flex-shrink-0'>
+            <ProfileCard
+              session={session}
+              onProfileUpdate={handleProfileUpdate}
+            />
           </div>
 
-          {/* 탭 콘텐츠 */}
-          <div className='w-full rounded-lg bg-white'>{renderTabContent()}</div>
+          {/* 콘텐츠 영역 */}
+          <div className='min-w-0 flex-1'>
+            {/* 탭 네비게이션 */}
+            <div className='mb-8 flex gap-1'>
+              {renderTabButton('review', '내가 쓴 후기')}
+              {renderTabButton('wine', '내가 등록한 와인')}
+            </div>
+
+            {/* 탭 콘텐츠 */}
+            <div className='w-full'>{renderTabContent()}</div>
+          </div>
         </div>
-      </div>
-    </div>
+      </InnerContainer>
+    </main>
   );
 };
 
