@@ -35,6 +35,7 @@ const WineDetailPage = async ({ params }: WineDetailPageProps) => {
         <WineDetailCardSection
           wineId={wineId}
           currentUserId={session?.user?.id}
+          accessToken={session?.accessToken ?? ''}
         />
         <WineFlavorProfileSection wineId={wineId} />
         <section className='mt-[4.8rem] flex flex-col-reverse gap-[6rem] md:mt-[5.8rem] lg:flex-row'>

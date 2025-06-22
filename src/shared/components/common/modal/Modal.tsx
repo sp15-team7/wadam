@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 
 import { cn } from '@/shared/libs/utils/cn';
 import { useModalStore } from '@/shared/stores/useModalStore';
@@ -72,11 +73,11 @@ const Modal = ({
         document.removeEventListener('keydown', onEsc);
       };
     }
-  }, [open, close]);
+  }, [open, close, modalId]);
 
   if (!open) return null;
 
-  return (
+  const modalContent = (
     <div
       role='dialog'
       aria-modal='true'
@@ -104,6 +105,9 @@ const Modal = ({
       </div>
     </div>
   );
+
+  // Portal을 사용하여 body에 직접 렌더링
+  return createPortal(modalContent, document.body);
 };
 
 export default Modal;

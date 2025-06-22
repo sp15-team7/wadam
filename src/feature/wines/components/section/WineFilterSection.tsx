@@ -2,7 +2,7 @@ import { Search } from 'lucide-react';
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
 
 import WineFilterButton from '@/feature/wines/components/button/WineFilterButton';
-import WineFilterForm from '@/feature/wines/components/wine-filter/WineFilterForm';
+import WineFilterForm from '@/feature/wines/components/form/WineFilterForm';
 import { WineFilterFormValues } from '@/feature/wines/schema/wine-filter.schema';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
@@ -11,12 +11,14 @@ interface WineFilterSectionProps {
   onFilterChange: (filters: WineFilterFormValues) => void;
   initialFilters: WineFilterFormValues;
   onOpenModal: () => void;
+  onOpenCreateModal: () => void;
 }
 
 const WineFilterSection = ({
   onFilterChange,
   initialFilters,
   onOpenModal,
+  onOpenCreateModal,
 }: WineFilterSectionProps) => {
   const [searchValue, setSearchValue] = useState(initialFilters.name);
 
@@ -47,7 +49,7 @@ const WineFilterSection = ({
             initialValues={initialFilters}
             submitOnChange
           />
-          <Button size='full' className='w-full'>
+          <Button size='full' className='w-full' onClick={onOpenCreateModal}>
             와인 등록하기
           </Button>
         </div>

@@ -3,7 +3,6 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect, useRef } from 'react';
 
-import ReviewForm from '@/feature/reviews/components/review-form/ReviewFormButton';
 import ReviewCard from '@/feature/wines/components/card/ReviewCard';
 import WineDetailTitle from '@/feature/wines/detail/components/WineDetailTitle';
 import {
@@ -123,9 +122,7 @@ const WineDetailReviewList = ({
             )}
           </>
         ) : (
-          <ErrorDisplay message='작성된 리뷰가 없어요'>
-            <ReviewForm wineId={wineId} />
-          </ErrorDisplay>
+          <ErrorDisplay message='작성된 리뷰가 없어요' />
         )}
       </ul>
     </>
