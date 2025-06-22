@@ -24,7 +24,7 @@ const TodayWineSection = () => {
   return (
     <section
       ref={section2Ref}
-      className='relative mx-auto mb-[30dvh] flex h-[50.8rem] max-w-[34.3rem] justify-center pt-[13rem] md:mt-[10dvh] md:max-w-[42.5rem] md:pt-[15.8rem]'
+      className='relative z-[10] mx-auto mb-[30dvh] flex h-[50.8rem] max-w-[34.3rem] justify-center pt-[13rem] md:mt-[10dvh] md:max-w-[42.5rem] md:pt-[15.8rem]'
     >
       <motion.div
         style={{ rotate: redWineRotate }}
@@ -35,7 +35,8 @@ const TodayWineSection = () => {
           alt='wine-red'
           width={207}
           height={367}
-          className='md:h-auto md:w-[26.9rem]'
+          draggable='false'
+          className='select-none md:h-auto md:w-[26.9rem]'
         />
       </motion.div>
 
@@ -48,7 +49,8 @@ const TodayWineSection = () => {
           alt='wine-white'
           width={375}
           height={364}
-          className='md:h-auto md:w-[60rem]'
+          draggable='false'
+          className='select-none md:h-auto md:w-[60rem]'
         />
       </motion.div>
 
