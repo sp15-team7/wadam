@@ -16,8 +16,11 @@ const FilterMyWineSection = () => {
   });
 
   return (
-    <section ref={filterWineRef} className='relative mt-[10rem] h-[38.2rem]'>
-      <div className='text-center'>
+    <section
+      ref={filterWineRef}
+      className='relative mt-[10rem] h-[38.2rem] xl:mt-0 xl:flex xl:h-[100dvh] xl:flex-row-reverse xl:items-center xl:justify-between'
+    >
+      <div className='text-center xl:text-left'>
         <motion.h2
           className={STYLES.sectionTitle}
           variants={sectionVariants.filterWine.title}
@@ -39,7 +42,7 @@ const FilterMyWineSection = () => {
         </motion.p>
       </div>
 
-      <ul className='mx-auto mt-[0.5rem] grid max-w-[34.3rem] grid-cols-4 md:mt-[4rem] md:max-w-[57.6rem] md:gap-[1rem]'>
+      <ul className='mx-auto mt-[0.5rem] grid max-w-[34.3rem] grid-cols-4 md:mt-[4rem] md:max-w-[57.6rem] md:gap-[1rem] xl:mx-0 xl:mt-0 xl:w-[49rem]'>
         {NOTE_IMAGES.map((name, i) => (
           <motion.li
             key={name}
