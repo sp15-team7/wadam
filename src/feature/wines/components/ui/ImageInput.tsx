@@ -25,6 +25,7 @@ const ImageInput = ({
   };
 
   const displayImageUrl = value || previewUrl;
+  const isSvgPreview = displayImageUrl?.startsWith('data:image/svg+xml');
 
   return (
     <label
@@ -42,13 +43,21 @@ const ImageInput = ({
         disabled={isUploading}
       />
       {displayImageUrl ? (
-        <Image
-          src={displayImageUrl}
-          alt='preview'
-          fill
-          sizes='14rem'
-          className='rounded-2xl object-cover'
-        />
+        isSvgPreview ? (
+          <img
+            src={displayImageUrl}
+            alt='preview'
+            className='h-full w-full rounded-2xl object-cover'
+          />
+        ) : (
+          <Image
+            src={displayImageUrl}
+            alt='preview'
+            fill
+            sizes='14rem'
+            className='rounded-2xl object-cover'
+          />
+        )
       ) : (
         <div className='text-gray flex flex-col items-center justify-center gap-2'>
           <Wine size={40} />

@@ -14,5 +14,5 @@ export const PAGE_STYLES = {
    * - z-index를 이용한 레이어 관리
    */
   backgroundOverlay:
-    'after:content-[""] after:absolute after:top-[-17.4rem] after:left-0 after:w-full after:h-[calc(100%+17.4rem)] after:bg-[#ffffff] after:z-[-1] relative z-[2]',
+    'after:content-[""] after:fixed after:top-[-17.4rem] after:left-0 after:w-full after:h-[calc(100dvh+17.4rem)] after:bg-[#ffffff] after:z-[-1] relative z-[2]',
 } as const;

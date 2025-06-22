@@ -12,4 +12,18 @@ export default {
   bracketSpacing: true,
   endOfLine: 'lf',
   plugins: ['prettier-plugin-tailwindcss'],
+  tailwindConfig: './tailwind.config.ts',
+  tailwindFunctions: ['clsx', 'cn', 'cva'],
+  tailwindAttributes: ['className', 'class'],
+  overrides: [
+    {
+      files: '*.{js,jsx,ts,tsx}',
+      options: {
+        printWidth: 80,
+        proseWrap: 'preserve',
+        htmlWhitespaceSensitivity: 'css',
+        singleAttributePerLine: false,
+      },
+    },
+  ],
 };
