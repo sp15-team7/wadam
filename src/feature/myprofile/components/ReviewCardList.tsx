@@ -8,9 +8,9 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { toast } from 'sonner';
 
-import { deleteReview, getUserReviews } from '@/feature/libs/api/userApi';
+import { getUserReviews } from '@/feature/libs/api/userApi';
+import DeleteForm from '@/feature/reviews/components/form/DeleteForm';
 import EditReviewForm from '@/feature/reviews/components/review-form/EditReviewForm';
 import {
   MyReviewWithWine,
@@ -34,6 +34,7 @@ const ReviewCardList = ({ accessToken }: ReviewCardListProps) => {
   const [selectedReview, setSelectedReview] = useState<MyReviewWithWine | null>(
     null,
   );
+  const [reviewToDelete, setReviewToDelete] = useState<number | null>(null);
 
   const { open, close, isOpen } = useModalStore();
 
@@ -71,30 +72,26 @@ const ReviewCardList = ({ accessToken }: ReviewCardListProps) => {
     handleEditClose();
   };
 
-  //리뷰 삭제 모달 관련
+  //리뷰 삭제 관련
   const handleDeleteClick = (reviewId: number) => {
-    toast('정말로 이 리뷰를 삭제하시겠습니까?', {
-      action: {
-        label: '삭제',
-        onClick: () => {
-          deleteReview(reviewId)
-            .then(() => {
-              setReviews((prev) =>
-                prev.filter((review) => review.id !== reviewId),
-              );
-              toast.success('리뷰가 삭제되었습니다.');
-            })
-            .catch((error) => {
-              console.error('리뷰 삭제 실패:', error);
-              toast.error('리뷰 삭제에 실패했습니다.');
-            });
-        },
-      },
-      cancel: {
-        label: '취소',
-        onClick: () => {},
-      },
-    });
+    setReviewToDelete(reviewId);
+    open(`delete-review-${reviewId}`);
+  };
+
+  const handleDeleteClose = () => {
+    if (reviewToDelete) {
+      close(`delete-review-${reviewToDelete}`);
+    }
+    setReviewToDelete(null);
+  };
+
+  const handleDeleteSuccess = () => {
+    if (!reviewToDelete) return;
+
+    setReviews((prevReviews) =>
+      prevReviews.filter((review) => review.id !== reviewToDelete),
+    );
+    handleDeleteClose();
   };
 
   useEffect(() => {
@@ -223,6 +220,15 @@ const ReviewCardList = ({ accessToken }: ReviewCardListProps) => {
           review={selectedReview}
           onClose={handleEditClose}
           onSuccess={handleEditSuccess}
+        />
+      )}
+      {reviewToDelete !== null && (
+        <DeleteForm
+          reviewId={reviewToDelete}
+          onClose={handleDeleteClose}
+          onReviewUpdate={handleDeleteSuccess}
+          type='review'
+          modalId={`delete-review-${reviewToDelete}`}
         />
       )}
     </div>
