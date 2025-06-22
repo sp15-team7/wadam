@@ -88,16 +88,33 @@ export async function uploadUserImage(
   const formData = new FormData();
   formData.append('image', file);
 
-  const data = await api
-    .post('images/upload', {
-      headers: { Authorization: `Bearer ${accessToken}` },
-      body: formData,
-      timeout: false,
-    })
-    .json<{ url: string }>();
+  try {
+    const data = await apiClient
+      .post('images/upload', {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': undefined, // FormData 사용 시 Content-Type을 undefined로 설정
+        },
+        body: formData,
+        timeout: false,
+        throwHttpErrors: true, // HTTP 에러를 강제로 던지도록 설정
+      })
+      .json<{ url: string }>();
 
-  if (!data.url) throw new Error('이미지 업로드 실패');
-  return data.url;
+    if (!data.url) throw new Error('이미지 업로드 실패');
+    return data.url;
+  } catch (error: unknown) {
+    // ky가 던진 에러를 다시 던지기
+    if (error && typeof error === 'object' && 'response' in error) {
+      const kyError = error as {
+        response: { status: number; statusText: string };
+      };
+      throw new Error(
+        `이미지 업로드 실패: ${kyError.response.status} ${kyError.response.statusText}`,
+      );
+    }
+    throw error;
+  }
 }
 
 // 프로필 정보 수정

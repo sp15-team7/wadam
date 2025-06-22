@@ -10,6 +10,7 @@
 import { Session } from 'next-auth';
 import { useSession } from 'next-auth/react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { toast } from 'sonner';
 
 import {
   getUserReviewCount,
@@ -109,7 +110,7 @@ const ProfileCard = ({ session, onProfileUpdate }: ProfileCardProps) => {
   // 파일 크기 검증 함수
   const validateFileSize = (file: File): boolean => {
     if (file.size > MAX_FILE_SIZE_BYTES) {
-      alert(
+      toast.error(
         `이미지 파일은 최대 ${MAX_FILE_SIZE_MB}MB까지만 업로드할 수 있습니다.`,
       );
       return false;
@@ -120,7 +121,15 @@ const ProfileCard = ({ session, onProfileUpdate }: ProfileCardProps) => {
   // 이미지 업로드 핸들러
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file || !validateFileSize(file)) return;
+
+    // 파일이 선택되지 않은 경우
+    if (!file) {
+      toast.error('이미지 파일을 선택해주세요.');
+      return;
+    }
+
+    // 파일 크기 검증
+    if (!validateFileSize(file)) return;
 
     setLoading((prev) => ({ ...prev, uploading: true }));
 
@@ -130,14 +139,28 @@ const ProfileCard = ({ session, onProfileUpdate }: ProfileCardProps) => {
 
     try {
       const serverImageUrl = await uploadUserImage(accessToken, file);
-      updateProfileImg(serverImageUrl);
-      setUploadedImgUrl(serverImageUrl);
-    } catch (error) {
+
+      // 업로드된 이미지가 실제로 로드 가능한지 확인
+      const img = new Image();
+      img.onload = () => {
+        updateProfileImg(serverImageUrl);
+        setUploadedImgUrl(serverImageUrl);
+        toast.success('이미지가 성공적으로 업로드되었습니다.');
+      };
+      img.onerror = () => {
+        updateProfileImg(previousImg ?? '/icons/ui/icon-default-user.svg');
+        setUploadedImgUrl(null);
+        toast.error('이미지 업로드에 실패했습니다. 다시 시도해주세요.');
+      };
+      img.src = serverImageUrl;
+    } catch (error: unknown) {
       console.error('이미지 업로드 실패:', error);
+
       // 기존 이미지로 롤백 (없으면 기본 이미지)
       updateProfileImg(previousImg ?? '/icons/ui/icon-default-user.svg');
       setUploadedImgUrl(null);
-      alert('이미지 업로드에 실패했습니다. 다시 시도해주세요.');
+
+      toast.error('이미지 업로드에 실패했습니다. 다시 시도해주세요.');
     } finally {
       URL.revokeObjectURL(previewUrl);
       setLoading((prev) => ({ ...prev, uploading: false }));
@@ -153,7 +176,7 @@ const ProfileCard = ({ session, onProfileUpdate }: ProfileCardProps) => {
 
     if (!trimmedNickname && !uploadedImgUrl) return;
     if (trimmedNickname.length < 2) {
-      alert('닉네임은 최소 2자 이상이어야 합니다.');
+      toast.error('닉네임은 최소 2자 이상이어야 합니다.');
       return;
     }
 
@@ -185,11 +208,11 @@ const ProfileCard = ({ session, onProfileUpdate }: ProfileCardProps) => {
         setUploadedImgUrl(null);
       }
 
-      alert('프로필이 성공적으로 업데이트되었습니다.');
+      toast.success('프로필이 성공적으로 업데이트되었습니다.');
       onProfileUpdate();
     } catch (error) {
       console.error('프로필 업데이트 실패:', error);
-      alert('프로필 업데이트에 실패했습니다. 다시 시도해주세요.');
+      toast.error('프로필 업데이트에 실패했습니다. 다시 시도해주세요.');
     } finally {
       setLoading((prev) => ({ ...prev, updating: false }));
     }

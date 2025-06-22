@@ -57,12 +57,16 @@ const Modal = ({
   const handleMouseUp = (e: React.MouseEvent) => {
     if (isMouseDownOnBackdrop.current && e.target === e.currentTarget) {
       close(modalId);
+      onClose?.();
     }
   };
 
   useEffect(() => {
     const onEsc = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') close(modalId);
+      if (e.key === 'Escape') {
+        close(modalId);
+        onClose?.();
+      }
     };
 
     if (open) {
@@ -73,7 +77,7 @@ const Modal = ({
         document.removeEventListener('keydown', onEsc);
       };
     }
-  }, [open, close, modalId]);
+  }, [open, close, modalId, onClose]);
 
   if (!open) return null;
 
