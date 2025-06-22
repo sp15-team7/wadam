@@ -13,7 +13,7 @@ import { HeroVariants } from '../utils/animations';
 
 const Hero = () => {
   return (
-    <section className='flex min-h-[100dvh] flex-col justify-center md:min-h-auto md:py-[20rem] lg:min-h-[100dvh] lg:py-0'>
+    <section className='flex min-h-[100dvh] flex-col justify-center md:mx-auto md:min-h-auto md:max-w-[56.2rem] md:py-[20rem] lg:min-h-[100dvh] lg:max-w-none lg:py-0'>
       <div className='h-full w-full'>
         <motion.div
           initial={{ opacity: 0, filter: 'blur(10px)' }}
@@ -26,7 +26,7 @@ const Hero = () => {
             width={343}
             height={200}
             draggable='false'
-            className='mx-auto select-none xl:w-[50rem]'
+            className='mx-auto select-none xl:w-[60rem]'
           />
         </motion.div>
       </div>

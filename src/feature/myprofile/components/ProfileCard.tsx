@@ -19,6 +19,7 @@ import {
   uploadUserImage,
 } from '@/feature/libs/api/userApi';
 import UserAvatar from '@/shared/components/common/user-avatar';
+import { Button } from '@/shared/components/ui/button';
 import { useUserStore } from '@/shared/stores/userStore';
 
 // 프로필 카드 컴포넌트 속성 타입
@@ -228,57 +229,60 @@ const ProfileCard = ({ session, onProfileUpdate }: ProfileCardProps) => {
     isLoading: boolean;
   }) => (
     <div className='flex justify-between'>
-      <span className='text-[1.4rem] font-bold'>{label}</span>
-      <span className='text-[1.4rem] font-medium'>
+      <span className='txt-md-regular'>{label}</span>
+      <span className='txt-md-regular'>
         {isLoading ? '로딩중...' : `${count}개`}
       </span>
     </div>
   );
 
   return (
-    <div className='sticky top-8 w-80 rounded-2xl border bg-white p-8 shadow-lg'>
+    <div className='relative top-8 w-full rounded-2xl border bg-white px-[2rem] py-[4rem] shadow-lg lg:sticky lg:w-[28rem]'>
       {/* 프로필 이미지 */}
-      <div className='mb-6 flex justify-center'>
-        <div className='relative'>
-          <UserAvatar
-            src={profileImg || '/icons/ui/icon-default-user.svg'}
-            className='h-24 w-24'
-          />
-          <button
-            type='button'
-            className={`absolute right-[-10px] bottom-[-10px] flex h-8 w-8 items-center justify-center rounded-full text-sm text-white transition-colors ${
-              loading.uploading
-                ? 'cursor-not-allowed bg-gray-400'
-                : 'bg-primary hover:bg-red-600'
-            }`}
-            onClick={() => !loading.uploading && fileInputRef.current?.click()}
-            disabled={loading.uploading}
-          >
-            {loading.uploading ? '⏳' : '✎'}
-          </button>
-          <input
-            type='file'
-            accept='image/*'
-            ref={fileInputRef}
-            className='hidden'
-            onChange={handleImageChange}
-            disabled={loading.uploading}
-          />
+      <div className='mb-[3rem] flex items-center gap-[3.2rem] lg:flex-col lg:gap-[6rem]'>
+        <div className='flex justify-center'>
+          <div className='relative'>
+            <UserAvatar
+              src={profileImg || '/icons/ui/icon-default-user.svg'}
+              className='!h-[8.3rem] !w-[8.3rem] lg:!h-[16.4rem] lg:!w-[16.4rem]'
+            />
+            <button
+              type='button'
+              className={`absolute right-0 bottom-0 z-[10] flex h-8 w-8 items-center justify-center rounded-full text-sm text-white transition-colors ${
+                loading.uploading
+                  ? 'cursor-not-allowed bg-gray-400'
+                  : 'bg-primary hover:bg-red-600'
+              }`}
+              onClick={() =>
+                !loading.uploading && fileInputRef.current?.click()
+              }
+              disabled={loading.uploading}
+            >
+              {loading.uploading ? '⏳' : '✎'}
+            </button>
+            <input
+              type='file'
+              accept='image/*'
+              ref={fileInputRef}
+              className='hidden'
+              onChange={handleImageChange}
+              disabled={loading.uploading}
+            />
+          </div>
+        </div>
+
+        {/* 닉네임 표시 */}
+        <div className='text-center'>
+          <h2 className='txt-2xl-bold font-bold text-gray-800'>{nickname}</h2>
         </div>
       </div>
-
-      {/* 닉네임 표시 */}
-      <div className='mb-8 text-center'>
-        <h2 className='text-2xl font-bold text-gray-800'>{nickname}</h2>
-      </div>
-
       {/* 닉네임 변경 폼 */}
-      <form onSubmit={handleSubmit} className='space-y-4'>
-        <div>
-          <label
-            htmlFor='nickname'
-            className='mb-2 block text-[1.2rem] font-bold text-gray-700'
-          >
+      <form
+        onSubmit={handleSubmit}
+        className='flex items-end gap-[1.6rem] lg:flex-col'
+      >
+        <div className='flex-1'>
+          <label htmlFor='nickname' className='txt-lg-bold mb-2 block'>
             닉네임
           </label>
           <input
@@ -286,28 +290,33 @@ const ProfileCard = ({ session, onProfileUpdate }: ProfileCardProps) => {
             type='text'
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            className='focus:ring-primary w-full rounded-lg border border-gray-300 px-4 py-3 text-[1.2rem] transition-all duration-200 focus:border-transparent focus:ring-2 focus:outline-none'
+            className='focus:ring-primary txt-lg-regular h-[4.2rem] w-full rounded-full border border-gray-300 px-[2rem] text-gray-500 transition-all duration-200 focus:border-transparent focus:ring-2 focus:outline-none lg:h-[4.8rem]'
             placeholder='닉네임을 입력하세요'
             disabled={loading.updating}
           />
         </div>
 
-        <button
+        <Button
           type='submit'
-          className={`focus:ring-primary w-full rounded-lg px-4 py-3 text-[1.2rem] font-medium text-white transition-all duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none ${
-            loading.updating
-              ? 'bg-secondary cursor-not-allowed'
-              : 'bg-primary hover:bg-red-600'
+          size='sm'
+          className='tex-bold h-[4.2rem] w-[9.6rem] px-0 text-[1.6rem] whitespace-nowrap lg:ml-auto'
+        >
+          {loading.updating ? '변경 중...' : '변경하기'}
+        </Button>
+        {/* <button
+          type='submit'
+          className={`focus:ring-primary w-full rounded-lg px-4 py-3 font-medium text-white transition-all duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none ${
+            loading.updating ? 'bg-secondary cursor-not-allowed' : 'bg-primary'
           }`}
           disabled={loading.updating}
         >
           {loading.updating ? '변경 중...' : '변경하기'}
-        </button>
+        </button> */}
       </form>
 
       {/* 통계 정보 */}
       <div className='mt-8 border-t border-gray-100 pt-6'>
-        <div className='space-y-3 text-sm text-gray-600'>
+        <div className='space-y-3 md:absolute md:top-[4rem] md:right-[4rem] md:w-[16rem] md:translate-y-[20%] md:space-y-8 lg:static lg:w-full lg:translate-y-0 lg:space-y-3 lg:pl-0'>
           <CountItem
             label='작성한 후기'
             count={counts.reviews}

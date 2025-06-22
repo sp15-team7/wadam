@@ -197,21 +197,16 @@ const ReviewCardList = ({ accessToken }: ReviewCardListProps) => {
   }
 
   return (
-    <div className='w-full p-6'>
+    <div className='w-full'>
       {/* 후기 리스트 - 카드 너비에 맞게 조정 */}
-      <div className='w-full space-y-4'>
+      <div className='flex w-full flex-col gap-[1.6rem]'>
         {reviews.map((review) => (
-          <div
-            key={review.id}
-            className='w-full border-b border-gray-100 pb-4 last:border-b-0 last:pb-0'
-          >
-            <div className='w-full max-w-[800px] overflow-hidden'>
-              <MyReviewCard
-                review={review}
-                onEdit={handleEditClick}
-                onDelete={handleDeleteClick}
-              />
-            </div>
+          <div key={review.id}>
+            <MyReviewCard
+              review={review}
+              onEdit={handleEditClick}
+              onDelete={handleDeleteClick}
+            />
           </div>
         ))}
       </div>

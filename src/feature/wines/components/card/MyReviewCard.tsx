@@ -14,7 +14,7 @@ const MyReviewCard = ({ review, onEdit, onDelete }: MyReviewCardProps) => {
   const { name } = wine;
 
   return (
-    <Card className='w-[34.3rem] px-[1rem] py-[1.6rem] md:w-[70.4rem] md:px-[4rem] md:py-[2.4rem] lg:w-[80rem]'>
+    <Card className='px-[1rem] py-[1.6rem] md:px-[4rem] md:py-[2.4rem]'>
       <CardContent className='flex flex-col gap-4'>
         <div className='flex justify-between'>
           <div className='flex items-center gap-2'>
