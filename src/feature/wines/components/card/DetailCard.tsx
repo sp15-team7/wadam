@@ -27,7 +27,8 @@ const DetailCard = ({
             src={image}
             alt='와인 이미지'
             fill
-            className='!top-auto !bottom-[-1rem] w-full object-contain object-bottom'
+            draggable='false'
+            className='!top-auto !bottom-[-1rem] w-full object-contain object-bottom select-none'
           />
         </figure>
 

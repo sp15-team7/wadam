@@ -32,7 +32,8 @@ const WineAromaCard: React.FC<WineAromaCardProps> = ({ name, imageUrl }) => {
           src={imageSrc}
           alt={name}
           fill
-          className='object-cover'
+          draggable='false'
+          className='object-cover select-none'
           onError={handleImageError}
         />
       </div>
