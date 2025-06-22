@@ -36,7 +36,8 @@ const WineCard = ({ wine }: { wine: GetWinesResponse['list'][number] }) => {
             src={image}
             alt='와인 이미지'
             fill
-            className='!top-auto !bottom-[-1rem] max-h-[100%] w-full object-contain object-bottom'
+            draggable={false}
+            className='!top-auto !bottom-[-1rem] max-h-[100%] w-full object-contain object-bottom select-none'
           />
         </figure>
 
@@ -76,7 +77,8 @@ const WineCard = ({ wine }: { wine: GetWinesResponse['list'][number] }) => {
                 alt='상세 정보 보기'
                 width={32}
                 height={32}
-                className=''
+                draggable={false}
+                className='select-none'
               />
             </Link>
           </footer>

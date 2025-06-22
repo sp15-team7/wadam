@@ -9,7 +9,7 @@ import WineCreateModal, {
 import WineFilterModal, {
   WINE_FILTER_MODAL_ID,
 } from '@/feature/wines/components/modal/WineFilterModal';
-import MonthlyWineSection from '@/feature/wines/components/MonthlyWineSection';
+import MonthlyWineSection from '@/feature/wines/components/section/MonthlyWineSection';
 import WineCardSection from '@/feature/wines/components/section/WineCardSection';
 import WineFilterSection from '@/feature/wines/components/section/WineFilterSection';
 import { useCreateWineQuery } from '@/feature/wines/hooks/useCreateWineQuery';
