@@ -7,9 +7,7 @@ import EditWineReviewForm from '@/feature/reviews/components/wine-review-form/Ed
 import DetailCard from '@/feature/wines/components/card/DetailCard';
 import { useUserWinesQuery } from '@/feature/wines/hooks/useUserWinesQuery';
 import { useWineDetail } from '@/feature/wines/hooks/useWineDetailsQuery';
-import {
-  UpdateWineResponse,
-} from '@/feature/wines/schema/wine.schema';
+import { UpdateWineResponse } from '@/feature/wines/schema/wine.schema';
 import ErrorDisplay from '@/shared/components/common/error-display';
 import SkeletonCard from '@/shared/components/common/skeleton-card';
 import { useModalStore } from '@/shared/stores/useModalStore';

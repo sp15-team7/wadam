@@ -11,13 +11,7 @@ export const HERO_PARAGRAPH_LINES = [
   'research experience.',
 ];
 
-export const TEAM_MEMBERS = [
-  'JAEHYUN',
-  'SUMIN',
-  'YOUNGHYUN',
-  'JINHYUNG',
-  'SARANG',
-];
+export const TEAM_MEMBERS = ['JAEHYUN', 'SUMIN', 'YOUNGHYUN', 'SARANG'];
 
 export const NOTE_IMAGES = [
   'cherry',
