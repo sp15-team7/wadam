@@ -4,7 +4,7 @@ import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
-import { deleteReview } from '@/feature/libs/api/userApi';
+import DeleteForm from '@/feature/reviews/components/form/DeleteForm';
 import EditReviewForm from '@/feature/reviews/components/review-form/EditReviewForm';
 import WineTasteSlider from '@/feature/reviews/components/wine-taste-slider';
 import { MyReviewWithWine } from '@/feature/reviews/schemas/reviews.schema';
@@ -22,6 +22,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/shared/components/ui/collapsible';
+import { useModalStore } from '@/shared/stores/useModalStore';
 
 const ReviewCard = ({
   review,
@@ -36,8 +37,11 @@ const ReviewCard = ({
   wineDetail?: GetWineDetailResponse;
   onReviewUpdate?: () => void;
 }) => {
-  const [open, setOpen] = useState(false);
+  const [collapsibleOpen, setCollapsibleOpen] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const { open, isOpen } = useModalStore();
+
+  const deleteModalId = `delete-review-${review.id}`;
 
   const {
     id: reviewId,
@@ -79,25 +83,12 @@ const ReviewCard = ({
 
   // 리뷰 삭제 핸들러
   const handleDeleteClick = () => {
-    toast('정말로 이 리뷰를 삭제하시겠습니까?', {
-      action: {
-        label: '삭제',
-        onClick: async () => {
-          try {
-            await deleteReview(reviewId);
-            toast.success('리뷰가 삭제되었습니다.');
-            onReviewUpdate?.();
-          } catch (error) {
-            console.error(error);
-            toast.error('리뷰 삭제에 실패했습니다.');
-          }
-        },
-      },
-      cancel: {
-        label: '취소',
-        onClick: () => {},
-      },
-    });
+    open(deleteModalId);
+  };
+
+  // 리뷰 삭제 모달 닫기
+  const handleDeleteClose = () => {
+    // 모달은 DeleteForm에서 닫힘
   };
 
   // WineDetailReview를 MyReviewWithWine 형태로 변환
@@ -127,8 +118,8 @@ const ReviewCard = ({
   return (
     <>
       <Collapsible
-        open={open}
-        onOpenChange={setOpen}
+        open={collapsibleOpen}
+        onOpenChange={setCollapsibleOpen}
         className='border-secondary rounded-4xl border bg-white p-8 md:p-12'
       >
         {/* 요약 정보 */}
@@ -147,11 +138,16 @@ const ReviewCard = ({
 
           {/* 평점, 좋아요, 메뉴 */}
           <div className='flex items-center gap-10'>
-            <LikeButton isLiked={isLiked} reviewId={reviewId} wineId={wineId} />
-            {currentUser === user.id && (
+            {currentUser === user.id ? (
               <CardDropdownMenu
                 onEditClick={handleEditClick}
                 onDeleteClick={handleDeleteClick}
+              />
+            ) : (
+              <LikeButton
+                isLiked={isLiked}
+                reviewId={reviewId}
+                wineId={wineId}
               />
             )}
           </div>
@@ -185,7 +181,11 @@ const ReviewCard = ({
             type='button'
             className='flex-center text-gray mt-4 w-full text-center'
           >
-            {open ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+            {collapsibleOpen ? (
+              <ChevronUp size={20} />
+            ) : (
+              <ChevronDown size={20} />
+            )}
           </button>
         </CollapsibleTrigger>
       </Collapsible>
@@ -196,6 +196,17 @@ const ReviewCard = ({
           review={reviewForEdit}
           onClose={handleEditClose}
           onSuccess={handleEditSuccess}
+        />
+      )}
+
+      {/* 리뷰 삭제 모달 */}
+      {isOpen(deleteModalId) && (
+        <DeleteForm
+          reviewId={reviewId}
+          onReviewUpdate={onReviewUpdate || (() => {})}
+          onClose={handleDeleteClose}
+          type='review'
+          modalId={deleteModalId}
         />
       )}
     </>

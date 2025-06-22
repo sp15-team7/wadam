@@ -72,6 +72,7 @@ const ReviewForm = ({ wineId }: ReviewFormProps) => {
       await queryClient.invalidateQueries({
         queryKey: ['wine', 'detail', wineId],
       });
+      await queryClient.invalidateQueries({ queryKey: ['wines', 'infinite'] });
     } catch (error) {
       console.error('리뷰 등록 실패:', error);
       toast.error('리뷰 등록에 실패했습니다.');

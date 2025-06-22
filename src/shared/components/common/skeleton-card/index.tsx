@@ -7,14 +7,14 @@ const skeletonCardVariants = cva('flex flex-col', {
   variants: {
     variant: {
       recommend:
-        'h-[16rem] p-[2.4rem] pb-0 bg-white border-secondary border-1 md:px-[3rem] md:h-[18.5rem] rounded-[3rem]',
-      list: 'w-full p-[3rem] pr-[2rem] pl-[2rem] bg-white border-secondary border-1 md:p-[4rem] rounded-[3rem]',
+        'border-secondary h-[16rem] rounded-[3rem] border-1 bg-white p-[2.4rem] pb-0 md:h-[18.5rem] md:px-[3rem]',
+      list: 'border-secondary w-full rounded-[3rem] border-1 bg-white p-[3rem] pr-[2rem] pl-[2rem] md:p-[4rem]',
       detailTop:
-        'w-full h-[20.9rem] p-[2.4rem] py-0 md:h-[30.6rem] rounded-[3rem] md:px-[6rem] lg:px-[8rem] lg:mt-[-4.8rem]',
+        'h-[20.9rem] w-full rounded-[3rem] p-[2.4rem] py-0 md:h-[30.6rem] md:px-[6rem] lg:mt-[-4.8rem] lg:px-[8rem]',
       detailList:
-        'w-full p-[2rem] bg-white border-secondary border-1 rounded-[1.6rem]',
+        'border-secondary w-full rounded-[1.6rem] border-1 bg-white p-[2rem]',
       myReview:
-        'w-full px-[2rem] py-[1.6rem] bg-white border-secondary border-1 rounded-[3rem]',
+        'border-secondary w-full rounded-[3rem] border-1 bg-white px-[2rem] py-[1.6rem]',
     },
   },
   defaultVariants: {

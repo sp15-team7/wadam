@@ -29,7 +29,7 @@ import { cn } from '@/shared/libs/utils/cn';
 
 // Input Variants 정의
 const inputVariants = cva(
-  'border-secondary focus-visible:border-ring focus-visible:ring-primary aria-invalid:border-primary aria-invalid:ring-primary placeholder:text-gray flex w-full min-w-0 rounded-full border txt-black transition-all outline-none focus-visible:ring-[0.1rem] bg-white',
+  'border-secondary focus-visible:border-ring focus-visible:ring-primary aria-invalid:border-primary aria-invalid:ring-primary placeholder:text-gray txt-black flex w-full min-w-0 rounded-full border bg-white transition-all outline-none focus-visible:ring-[0.1rem]',
   {
     variants: {
       variant: {
@@ -38,8 +38,8 @@ const inputVariants = cva(
         disabled: 'bg-secondary/40 !text-gray cursor-not-allowed opacity-60',
       },
       size: {
-        md: 'h-[4.8rem] py-[1.1rem] text-[1.6rem] leading-[2.6rem] w-[40rem]',
-        sm: 'h-[3.8rem] py-[0.7rem] text-[1.4rem] leading-[2.4rem] w-[21rem]',
+        md: 'h-[4.8rem] w-[40rem] py-[1.1rem] text-[1.6rem] leading-[2.6rem]',
+        sm: 'h-[3.8rem] w-[21rem] py-[0.7rem] text-[1.4rem] leading-[2.4rem]',
       },
       hasIcon: {
         true: '',
