@@ -6,7 +6,7 @@ import { Search } from 'lucide-react';
 import { forwardRef, useEffect, useImperativeHandle, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
-import RatingInput from '@/feature/wines/components/wine-filter/RatingInput';
+import RatingInput from '@/feature/wines/components/ui/RatingInput';
 import WinePriceSlider from '@/feature/wines/components/wine-price-slider';
 import { WineType, WineTypes } from '@/feature/wines/components/wine-types';
 import {
