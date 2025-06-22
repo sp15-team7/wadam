@@ -67,6 +67,7 @@ const WineCreateForm = ({ id, onSubmit }: WineCreateFormProps) => {
 
   const handleImageSelect = (file: File | null) => {
     if (file) {
+      setValue('image', '');
       // 미리보기용 Data URL 생성
       fileReaderRef.current = new FileReader();
       const reader = fileReaderRef.current;

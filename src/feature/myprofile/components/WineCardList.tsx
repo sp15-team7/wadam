@@ -201,7 +201,7 @@ const WineCardList: React.FC<WineCardListProps> = ({ accessToken }) => {
               wine={wine as unknown as GetWineDetailResponse}
               currentUser={wine.userId}
               onEditClick={() => handleEditClick(wine.id)}
-              onDeleteClick={() => handleDeleteWineClick(wine.id)}
+              onDeleteSuccess={() => handleDeleteWineClick(wine.id)}
             />
           </div>
         ))}

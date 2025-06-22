@@ -31,6 +31,8 @@ const LikeButton = ({
         alt='heart'
         width={24}
         height={24}
+        draggable={false}
+        className='select-none'
       />
     </button>
   );

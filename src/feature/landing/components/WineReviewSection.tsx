@@ -30,7 +30,7 @@ const WineReviewSection = () => {
   return (
     <section
       ref={section4Ref}
-      className='relative mt-[5rem] md:mt-[20dvh] lg:mt-[30dvh] xl:mt-[40dvh]'
+      className='relative z-[10] mt-[15rem] md:mt-[20dvh] lg:mt-[30dvh] xl:mt-[40dvh]'
     >
       <motion.div
         variants={sectionVariants.wineReview.image}
@@ -44,7 +44,8 @@ const WineReviewSection = () => {
           alt='wine'
           width={375}
           height={498}
-          className='md:h-[auto] md:w-[60rem]'
+          draggable='false'
+          className='select-none md:h-[auto] md:w-[60rem]'
         />
       </motion.div>
 
@@ -74,9 +75,8 @@ const WineReviewSection = () => {
           animate={isInView4 ? 'visible' : 'hidden'}
           className={STYLES.sectionSubTitle}
         >
-          와인의 종류만 수 만가지가 넘죠. <br />
-          타입, 가격대, 평점 등의 필터로 <br />
-          나를 더 기쁘게 할 와인을 찾아보세요.
+          와인은 취향의 언어죠. <br />
+          다른 사람들의 솔직한 한 잔의 이야기에서 <br />내 취향을 발견해보세요.
         </motion.p>
       </div>
 

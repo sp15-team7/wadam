@@ -8,9 +8,9 @@ import { Card, CardContent, CardFooter } from '@/shared/components/ui/card';
 
 const wineCardVariants = {
   card: cva(
-    'h-[34.3rem] md:max-h-[37.5rem] rounded-[3rem] border-secondary bg-white gap-0 flex justify-center',
+    'border-secondary flex h-[34.3rem] justify-center gap-0 rounded-[3rem] bg-white md:max-h-[37.5rem]',
   ),
-  content: cva('flex gap-4 md:gap-[8rem] md:px-[6rem] px-[2rem]'),
+  content: cva('flex gap-4 px-[2rem] md:gap-[8rem] md:px-[6rem]'),
   footer: cva('border-primary border-t-2 p-6 md:px-24 md:pt-12'),
 };
 
@@ -36,7 +36,8 @@ const WineCard = ({ wine }: { wine: GetWinesResponse['list'][number] }) => {
             src={image}
             alt='와인 이미지'
             fill
-            className='!top-auto !bottom-[-1rem] max-h-[100%] w-full object-contain object-bottom'
+            draggable={false}
+            className='!top-auto !bottom-[-1rem] max-h-[100%] w-full object-contain object-bottom select-none'
           />
         </figure>
 
@@ -76,7 +77,8 @@ const WineCard = ({ wine }: { wine: GetWinesResponse['list'][number] }) => {
                 alt='상세 정보 보기'
                 width={32}
                 height={32}
-                className=''
+                draggable={false}
+                className='select-none'
               />
             </Link>
           </footer>
