@@ -122,7 +122,7 @@ const WineDetailCardSection = ({
         wine={wineDetail}
         currentUser={currentUserId}
         onEditClick={currentWine ? handleEditClick : undefined}
-        onDeleteClick={currentWine ? handleDeleteWineClick : undefined}
+        onDeleteSuccess={currentWine ? handleDeleteWineClick : undefined}
       />
       {isOpen('EditWineReviewForm') && selectedWine && (
         <EditWineReviewForm

@@ -45,7 +45,10 @@ export const authConfig: NextAuthConfig = {
       }
 
       // Case 2: 로그인하지 않은 사용자가 보호된 경로 접근 시 /signin으로 리다이렉트
-      if (!isLoggedIn && pathname.startsWith('/myprofile')) {
+      if (
+        !isLoggedIn &&
+        (pathname.startsWith('/myprofile') || pathname.startsWith('/wines/'))
+      ) {
         return Response.redirect(new URL('/signin', nextUrl));
       }
 
