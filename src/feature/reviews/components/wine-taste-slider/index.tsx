@@ -71,7 +71,7 @@ const WineTasteSlider = ({
 
   if (isNoData) {
     return (
-      <div className='flex items-center justify-center p-8 text-gray-500'>
+      <div className='txt-md-regular flex items-center justify-center p-8 text-gray-500'>
         아직 등록된 맛 정보가 없습니다.
       </div>
     );

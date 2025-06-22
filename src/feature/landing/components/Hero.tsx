@@ -25,7 +25,8 @@ const Hero = () => {
             alt='logo'
             width={343}
             height={200}
-            className='mx-auto xl:w-[50rem]'
+            draggable='false'
+            className='mx-auto select-none xl:w-[50rem]'
           />
         </motion.div>
       </div>
@@ -64,7 +65,8 @@ const Hero = () => {
           <Image
             src='/icons/ui/icon-arrow-right.svg'
             alt='arrow'
-            className='h-[2.3rem] w-[2.3rem] transition-all duration-100 group-hover:animate-[flowArrow_0.8s_ease-in-out_2] md:h-[3.2rem] md:w-[3.2rem]'
+            draggable='false'
+            className='h-[2.3rem] w-[2.3rem] transition-all duration-100 select-none group-hover:animate-[flowArrow_0.8s_ease-in-out_2] md:h-[3.2rem] md:w-[3.2rem]'
             width={23}
             height={23}
           />
@@ -86,7 +88,8 @@ const Hero = () => {
                 alt='oak'
                 width={24}
                 height={24}
-                className='w-auto md:h-[4rem] xl:h-[5rem]'
+                draggable='false'
+                className='w-auto select-none md:h-[4rem] xl:h-[5rem]'
               />
             </motion.li>
             <motion.li variants={HeroVariants.icon}>
@@ -95,7 +98,8 @@ const Hero = () => {
                 alt='grape'
                 width={24}
                 height={24}
-                className='w-auto md:h-[4rem] xl:h-[5rem]'
+                draggable='false'
+                className='w-auto select-none md:h-[4rem] xl:h-[5rem]'
               />
             </motion.li>
             <motion.li variants={HeroVariants.icon}>
@@ -104,7 +108,8 @@ const Hero = () => {
                 alt='wine'
                 width={24}
                 height={24}
-                className='w-auto md:h-[4rem] xl:h-[5rem]'
+                draggable='false'
+                className='w-auto select-none md:h-[4rem] xl:h-[5rem]'
               />
             </motion.li>
           </motion.ul>

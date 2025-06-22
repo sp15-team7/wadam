@@ -53,7 +53,8 @@ const FilterMyWineSection = () => {
               alt={name}
               width={85}
               height={85}
-              className='md:h-[auto] md:w-full'
+              draggable='false'
+              className='select-none md:h-[auto] md:w-full'
             />
           </motion.li>
         ))}
