@@ -147,8 +147,13 @@ const WineCardList: React.FC<WineCardListProps> = ({ accessToken }) => {
   // 로딩 상태 표시 - 임시적으로 개발 (추후 개발된 스피너로 대체예정)
   if (loading) {
     return (
-      <div className='py-12 text-center text-gray-500'>
-        와인을 불러오는 중...
+      <div className='w-full p-6'>
+        <div className='flex items-center justify-center py-12'>
+          <div className='text-center'>
+            <div className='mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-2 border-gray-300 border-t-blue-600'></div>
+            <p className='text-gray-600'>와인을 불러오는 중...</p>
+          </div>
+        </div>
       </div>
     );
   }

@@ -78,8 +78,6 @@ const ReviewForm = ({ wineId }: ReviewFormProps) => {
     }
   };
 
-  if (isError) return null;
-
   return (
     <>
       <Button
@@ -91,16 +89,18 @@ const ReviewForm = ({ wineId }: ReviewFormProps) => {
       <Modal modalId='ReviewForm' title='리뷰 등록' showCloseButton>
         <ModalContent>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className='mb-5 flex items-center gap-4'>
-              <Image
-                src={wineDetail?.image ?? '/icons/ui/icon-default-wine.svg'}
-                alt='와인 이미지'
-                width={32}
-                height={32}
-                className='mr-2'
-              />
-              <div className='flex flex-col'>
-                <p className='txt-md-bold md:txt-lg-bold mb-2.5'>
+            <div className='mb-3 flex items-center gap-3 md:mb-5 md:gap-4'>
+              <div className='flex-shrink-0'>
+                <Image
+                  src={wineDetail?.image ?? '/icons/ui/icon-default-wine.svg'}
+                  alt='와인 이미지'
+                  width={32}
+                  height={32}
+                  className='h-12 w-12 object-contain md:h-16 md:w-16 lg:h-20 lg:w-20'
+                />
+              </div>
+              <div className='flex flex-col justify-center'>
+                <p className='txt-md-bold md:txt-lg-bold mb-1.5 md:mb-2.5'>
                   {wineDetail?.name}
                 </p>
                 <StarRating
@@ -109,7 +109,6 @@ const ReviewForm = ({ wineId }: ReviewFormProps) => {
                   readOnly={false}
                   size='md'
                 />
-                {/* 에러 메시지 추가 (추후 삭제 가능) */}
                 {errors.rating && (
                   <span className='text-primary text-xs'>
                     {errors.rating.message}
@@ -119,16 +118,15 @@ const ReviewForm = ({ wineId }: ReviewFormProps) => {
             </div>
             <textarea
               {...register('content')}
-              className='border-secondary placeholder:txt-sm-regular txt-sm-regular md:txt-md-regular h-[10rem] w-full resize-none rounded-2xl border p-4 md:h-[12rem]'
+              className='border-secondary placeholder:txt-md-regular txt-md-regular md:txt-lg-regular h-[8rem] w-full resize-none rounded-2xl border p-3 md:h-[12rem] md:p-4'
               placeholder='후기를 작성해주세요.'
             />
-            {/* 에러 메시지 추가 (추후 삭제 가능) */}
             {errors.content && (
               <span className='text-primary text-xs'>
                 {errors.content.message}
               </span>
             )}
-            <p className='txt-lg-bold md:txt-2lg-bold mt-10 mb-7'>
+            <p className='txt-md-bold md:txt-2lg-bold mt-6 mb-4 md:mt-10 md:mb-7'>
               와인의 맛은 어땠나요?
             </p>
             <WineTasteSlider
@@ -146,7 +144,7 @@ const ReviewForm = ({ wineId }: ReviewFormProps) => {
               }}
             />
 
-            <p className='txt-lg-bold md:txt-2lg-bold mt-10 mb-7'>
+            <p className='txt-md-bold md:txt-2lg-bold mt-6 mb-4 md:mt-10 md:mb-7'>
               기억에 남는 향이 있나요?
             </p>
             <WineFlavors
