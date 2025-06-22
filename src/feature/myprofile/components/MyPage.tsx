@@ -79,7 +79,7 @@ const MyPage = ({ session }: MyPageProps) => {
   return (
     <main className={PAGE_STYLES.backgroundOverlay}>
       <InnerContainer>
-        <div className='mx-auto flex w-full max-w-none justify-center gap-[6rem]'>
+        <div className='mx-auto flex w-full max-w-none flex-col justify-center gap-[4rem] lg:flex-row lg:gap-[6rem]'>
           {/* 프로필 카드 */}
           <div className='flex-shrink-0'>
             <ProfileCard

@@ -214,45 +214,51 @@ const ProfileCard = ({ session, onProfileUpdate }: ProfileCardProps) => {
   );
 
   return (
-    <div className='sticky top-8 w-[28rem] rounded-2xl border bg-white px-[2rem] py-[4rem] shadow-lg'>
+    <div className='relative top-8 w-full rounded-2xl border bg-white px-[2rem] py-[4rem] shadow-lg lg:sticky lg:w-[28rem]'>
       {/* 프로필 이미지 */}
-      <div className='mb-[3.2rem] flex justify-center'>
-        <div className='relative'>
-          <UserAvatar
-            src={profileImg || '/icons/ui/icon-default-user.svg'}
-            className='!h-[16.4rem] !w-[16.4rem]'
-          />
-          <button
-            type='button'
-            className={`absolute right-0 bottom-0 flex h-8 w-8 items-center justify-center rounded-full text-sm text-white transition-colors ${
-              loading.uploading
-                ? 'cursor-not-allowed bg-gray-400'
-                : 'bg-primary hover:bg-red-600'
-            }`}
-            onClick={() => !loading.uploading && fileInputRef.current?.click()}
-            disabled={loading.uploading}
-          >
-            {loading.uploading ? '⏳' : '✎'}
-          </button>
-          <input
-            type='file'
-            accept='image/*'
-            ref={fileInputRef}
-            className='hidden'
-            onChange={handleImageChange}
-            disabled={loading.uploading}
-          />
+      <div className='mb-[3rem] flex items-center gap-[3.2rem] lg:flex-col lg:gap-[6rem]'>
+        <div className='flex justify-center'>
+          <div className='relative'>
+            <UserAvatar
+              src={profileImg || '/icons/ui/icon-default-user.svg'}
+              className='!h-[8.3rem] !w-[8.3rem] lg:!h-[16.4rem] lg:!w-[16.4rem]'
+            />
+            <button
+              type='button'
+              className={`absolute right-0 bottom-0 z-[10] flex h-8 w-8 items-center justify-center rounded-full text-sm text-white transition-colors ${
+                loading.uploading
+                  ? 'cursor-not-allowed bg-gray-400'
+                  : 'bg-primary hover:bg-red-600'
+              }`}
+              onClick={() =>
+                !loading.uploading && fileInputRef.current?.click()
+              }
+              disabled={loading.uploading}
+            >
+              {loading.uploading ? '⏳' : '✎'}
+            </button>
+            <input
+              type='file'
+              accept='image/*'
+              ref={fileInputRef}
+              className='hidden'
+              onChange={handleImageChange}
+              disabled={loading.uploading}
+            />
+          </div>
+        </div>
+
+        {/* 닉네임 표시 */}
+        <div className='text-center'>
+          <h2 className='txt-2xl-bold font-bold text-gray-800'>{nickname}</h2>
         </div>
       </div>
-
-      {/* 닉네임 표시 */}
-      <div className='mb-[6rem] text-center'>
-        <h2 className='txt-2xl-bold font-bold text-gray-800'>{nickname}</h2>
-      </div>
-
       {/* 닉네임 변경 폼 */}
-      <form onSubmit={handleSubmit} className='space-y-4'>
-        <div>
+      <form
+        onSubmit={handleSubmit}
+        className='flex items-end gap-[1.6rem] lg:flex-col'
+      >
+        <div className='flex-1'>
           <label htmlFor='nickname' className='txt-lg-bold mb-2 block'>
             닉네임
           </label>
@@ -261,7 +267,7 @@ const ProfileCard = ({ session, onProfileUpdate }: ProfileCardProps) => {
             type='text'
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            className='focus:ring-primary txt-lg-regular h-[4.8rem] w-full rounded-full border border-gray-300 px-[2rem] text-gray-500 transition-all duration-200 focus:border-transparent focus:ring-2 focus:outline-none'
+            className='focus:ring-primary txt-lg-regular h-[4.2rem] w-full rounded-full border border-gray-300 px-[2rem] text-gray-500 transition-all duration-200 focus:border-transparent focus:ring-2 focus:outline-none lg:h-[4.8rem]'
             placeholder='닉네임을 입력하세요'
             disabled={loading.updating}
           />
@@ -270,7 +276,7 @@ const ProfileCard = ({ session, onProfileUpdate }: ProfileCardProps) => {
         <Button
           type='submit'
           size='sm'
-          className='tex-bold ml-auto h-[4.2rem] w-[9.6rem] text-[1.6rem] whitespace-nowrap'
+          className='tex-bold h-[4.2rem] w-[9.6rem] px-0 text-[1.6rem] whitespace-nowrap lg:ml-auto'
         >
           {loading.updating ? '변경 중...' : '변경하기'}
         </Button>
@@ -287,7 +293,7 @@ const ProfileCard = ({ session, onProfileUpdate }: ProfileCardProps) => {
 
       {/* 통계 정보 */}
       <div className='mt-8 border-t border-gray-100 pt-6'>
-        <div className='space-y-3'>
+        <div className='space-y-3 md:absolute md:top-[4rem] md:right-[4rem] md:w-[16rem] md:translate-y-[20%] md:space-y-8 lg:static lg:w-full lg:translate-y-0 lg:space-y-3 lg:pl-0'>
           <CountItem
             label='작성한 후기'
             count={counts.reviews}
