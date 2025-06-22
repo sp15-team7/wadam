@@ -78,8 +78,6 @@ const ReviewForm = ({ wineId }: ReviewFormProps) => {
     }
   };
 
-  if (isError) return null;
-
   return (
     <>
       <Button
