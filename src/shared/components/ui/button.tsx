@@ -4,14 +4,14 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/shared/libs/utils/cn';
 
 const buttonVariants = cva(
-  'flex-center rounded-full cursor-pointer h-[5rem] py-[1.4rem]has-[>svg]:px-3 text-2xl font-medium',
+  'flex-center py-[1.4rem]has-[>svg]:px-3 h-[5rem] cursor-pointer rounded-full text-2xl font-medium',
   {
     variants: {
       variant: {
-        primary: 'bg-primary !text-white hover:bg-primary/80 transition-all',
+        primary: 'bg-primary hover:bg-primary/80 !text-white transition-all',
         secondary:
           'bg-secondary !text-primary hover:bg-secondary/60 transition-all',
-        disabled: 'bg-secondary !text-white cursor-not-allowed opacity-40',
+        disabled: 'bg-secondary cursor-not-allowed !text-white opacity-40',
       },
       size: {
         xs: 'px-[4.8rem]',
