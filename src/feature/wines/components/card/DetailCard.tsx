@@ -42,7 +42,7 @@ const DetailCard = ({
       <Card className='h-[19rem] md:h-[26rem]'>
         <CardContent className='flex h-full items-end gap-[2rem] px-[2rem] md:gap-[6rem] md:px-[6rem] lg:gap-[8rem] lg:px-[8rem]'>
           <figure
-            className='relative h-[20.9rem] w-[5.8rem] overflow-hidden md:h-[30.6rem] md:w-[10rem]'
+            className='relative h-[20.9rem] w-[5.8rem] flex-shrink-0 overflow-hidden md:h-[30.6rem] md:w-[10rem]'
             aria-label='와인 이미지'
           >
             <Image
