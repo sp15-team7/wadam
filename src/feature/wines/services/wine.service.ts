@@ -195,7 +195,10 @@ export const deleteWine = async (
  */
 export const uploadWineImage = async (file: File): Promise<string> => {
   const formData = new FormData();
-  formData.append('image', file);
+  const fileExtension = file.name.split('.').pop();
+  const newFileName = `${crypto.randomUUID()}.${fileExtension}`;
+  const newFile = new File([file], newFileName, { type: file.type });
+  formData.append('image', newFile);
 
   const response = await apiClient
     .post('images/upload', {
