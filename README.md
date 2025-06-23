@@ -35,7 +35,7 @@ WADAM은 와인 애호가들을 위한 포괄적인 와인 아카이브 및 리�
 **CODEIT SPRINT FRONTEND PART3 TEAM7**
 
 
-| [![GitHub Profile](https://avatars.githubusercontent.com/u/justhighway?s=80&v=4)](https://github.com/justhighway) | [![GitHub Profile](https://avatars.githubusercontent.com/u/ddumini?s=80&v=4)](https://github.com/ddumini) | [![GitHub Profile](https://avatars.githubusercontent.com/u/Hyunbara?s=80&v=4)](https://github.com/Hyunbara) |
+| [![GitHub Profile](https://github.com/justhighway.png?size=200)](https://github.com/justhighway) | [![GitHub Profile](https://github.com/ddumini.png?size=200)](https://github.com/ddumini) | [![GitHub Profile](https://github.com/Hyunbara.png?size=200)](https://github.com/Hyunbara) |
 |---|---|---|
 | 박재현 | 김수민 | 김영현 |
 
