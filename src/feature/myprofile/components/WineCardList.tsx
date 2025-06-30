@@ -9,7 +9,7 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { getUserWines, Wine } from '@/feature/libs/api/userApi';
+import { getUserWines, Wine } from '@/feature/myprofile/services/user.service';
 import EditWineReviewForm from '@/feature/reviews/components/wine-review-form/EditWineReviewForm';
 import DetailCard from '@/feature/wines/components/card/DetailCard';
 import {
@@ -19,10 +19,10 @@ import {
 import { useModalStore } from '@/shared/stores/useModalStore';
 
 interface WineCardListProps {
-  accessToken: string;
+  onDeleteSuccess?: () => void; // 삭제 성공 시 호출할 콜백 추가
 }
 
-const WineCardList: React.FC<WineCardListProps> = ({ accessToken }) => {
+const WineCardList: React.FC<WineCardListProps> = ({ onDeleteSuccess }) => {
   const [wines, setWines] = useState<Wine[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -51,13 +51,11 @@ const WineCardList: React.FC<WineCardListProps> = ({ accessToken }) => {
   }, []);
 
   const fetchUserWines = useCallback(async () => {
-    if (!accessToken) return;
-
     try {
       setLoading(true);
       setError(null);
 
-      const data = await getUserWines(accessToken);
+      const data = await getUserWines();
       const wineList = Array.isArray(data.list) ? data.list : [];
 
       // 정렬 함수 사용
@@ -71,7 +69,7 @@ const WineCardList: React.FC<WineCardListProps> = ({ accessToken }) => {
     } finally {
       setLoading(false);
     }
-  }, [accessToken, sortWinesByUpdatedAt]);
+  }, [sortWinesByUpdatedAt]);
 
   // 와인 수정 핸들러 (동작은 추후 구현)
   const handleEditClick = (wineId: number) => {
@@ -80,10 +78,10 @@ const WineCardList: React.FC<WineCardListProps> = ({ accessToken }) => {
   };
 
   // 와인 수정 모달 닫기
-  const handleEditClose = () => {
+  const handleEditClose = useCallback(() => {
     close('EditWineReviewForm');
     setSelectedWine(null);
-  };
+  }, [close]);
 
   // 와인 수정 완료 후 콜백 함수
   const handleEditSuccess = useCallback(
@@ -118,6 +116,9 @@ const WineCardList: React.FC<WineCardListProps> = ({ accessToken }) => {
   // 와인 삭제 핸들러 (동작은 추후 구현) 와인 삭제 후 상태 업데이트(filter)
   const handleDeleteWineClick = (wineId: number) => {
     setWines((prev) => prev.filter((wine) => wine.id !== wineId));
+
+    // 삭제 성공 시 상위 컴포넌트에 알림
+    onDeleteSuccess?.();
   };
 
   useEffect(() => {

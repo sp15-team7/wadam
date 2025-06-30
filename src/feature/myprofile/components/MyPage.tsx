@@ -6,13 +6,12 @@
  * @description: 마이페이지 컴포넌트 (프로필 카드, 탭 네비게이션, 탭 콘텐츠)
  */
 
-import { Session } from 'next-auth';
 import { useCallback, useEffect, useState } from 'react';
 
-import { getUserInfo } from '@/feature/libs/api/userApi';
 import ProfileCard from '@/feature/myprofile/components/ProfileCard';
 import ReviewCardList from '@/feature/myprofile/components/ReviewCardList';
 import WineCardList from '@/feature/myprofile/components/WineCardList';
+import { getUserInfo } from '@/feature/myprofile/services/user.service';
 import InnerContainer from '@/shared/components/container/InnerContainer';
 import { PAGE_STYLES } from '@/shared/constants/styles';
 import { useUserStore } from '@/shared/stores/userStore';
@@ -20,26 +19,22 @@ import { useUserStore } from '@/shared/stores/userStore';
 // 탭 타입
 type TabType = 'review' | 'wine';
 
-// 마이페이지 컴포넌트 속성 타입
-interface MyPageProps {
-  session: Session;
-}
-
 // 마이페이지 컴포넌트
-const MyPage = ({ session }: MyPageProps) => {
+const MyPage = () => {
   const [activeTab, setActiveTab] = useState<TabType>('review');
   const { updateProfileImg, updateNickname } = useUserStore();
+  const [countUpdateTrigger, setCountUpdateTrigger] = useState(0);
 
   // 유저 정보 가져오기
   const fetchUserInfo = useCallback(async () => {
     try {
-      const data = await getUserInfo(session.accessToken);
+      const data = await getUserInfo();
       updateNickname(data.nickname);
       updateProfileImg(data.image);
     } catch (error) {
       console.error('Failed to fetch user info:', error);
     }
-  }, [session.accessToken, updateNickname, updateProfileImg]);
+  }, [updateNickname, updateProfileImg]);
 
   // 유저 정보 가져오기 후 닉네임, 프로필 이미지 업데이트
   useEffect(() => {
@@ -50,6 +45,11 @@ const MyPage = ({ session }: MyPageProps) => {
   const handleProfileUpdate = useCallback(() => {
     fetchUserInfo();
   }, [fetchUserInfo]);
+
+  // 카운트 업데이트 핸들러
+  const handleCountUpdate = useCallback(() => {
+    setCountUpdateTrigger((prev) => prev + 1);
+  }, []);
 
   // 탭 버튼 렌더링 함수
   const renderTabButton = (tab: TabType, label: string) => (
@@ -67,12 +67,10 @@ const MyPage = ({ session }: MyPageProps) => {
 
   // 탭 콘텐츠 렌더링 함수
   const renderTabContent = () => {
-    const props = { accessToken: session.accessToken };
-
     return activeTab === 'review' ? (
-      <ReviewCardList {...props} />
+      <ReviewCardList onDeleteSuccess={handleCountUpdate} />
     ) : (
-      <WineCardList {...props} />
+      <WineCardList onDeleteSuccess={handleCountUpdate} />
     );
   };
 
@@ -83,8 +81,8 @@ const MyPage = ({ session }: MyPageProps) => {
           {/* 프로필 카드 */}
           <div className='flex-shrink-0'>
             <ProfileCard
-              session={session}
               onProfileUpdate={handleProfileUpdate}
+              onCountUpdate={countUpdateTrigger}
             />
           </div>
 

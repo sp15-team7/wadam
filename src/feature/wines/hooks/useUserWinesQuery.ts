@@ -5,7 +5,7 @@ import {
   deleteWine as deleteWineApi,
   getUserWines,
   Wine,
-} from '@/feature/libs/api/userApi';
+} from '@/feature/myprofile/services/user.service';
 import {
   GetWineDetailResponse,
   UpdateWineResponse,
@@ -39,7 +39,7 @@ export const useUserWinesQuery = ({
   const query = useQuery({
     queryKey: ['user', 'wines', accessToken],
     queryFn: async () => {
-      const data = await getUserWines(accessToken);
+      const data = await getUserWines();
       const wineList = Array.isArray(data.list) ? data.list : [];
       return sortWinesByUpdatedAt(wineList);
     },
