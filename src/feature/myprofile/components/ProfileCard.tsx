@@ -7,7 +7,6 @@
  * 반복되는 코드는 함수 형태로 빼서 재사용성 증가 (추후 리팩토링 예정) (예: 파일 크기 검증 함수, 로딩 상태 타입, 카운트 상태 타입, 프로필 카드 컴포넌트 속성 타입)
  */
 
-import { Session } from 'next-auth';
 import { useSession } from 'next-auth/react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
@@ -17,15 +16,15 @@ import {
   getUserWineCount,
   updateUserProfile,
   uploadUserImage,
-} from '@/feature/libs/api/userApi';
+} from '@/feature/myprofile/services/user.service';
 import UserAvatar from '@/shared/components/common/user-avatar';
 import { Button } from '@/shared/components/ui/button';
 import { useUserStore } from '@/shared/stores/userStore';
 
 // 프로필 카드 컴포넌트 속성 타입
 interface ProfileCardProps {
-  session: Session;
   onProfileUpdate: () => void;
+  onCountUpdate?: number;
 }
 
 // 카운트 상태 타입 (리뷰개수, 등록한 와인개수)
@@ -47,7 +46,7 @@ const MAX_FILE_SIZE_MB = 5;
 const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
 
 // 프로필 카드 컴포넌트
-const ProfileCard = ({ session, onProfileUpdate }: ProfileCardProps) => {
+const ProfileCard = ({ onProfileUpdate, onCountUpdate }: ProfileCardProps) => {
   const { profileImg, nickname, updateProfileImg, updateNickname } =
     useUserStore();
   const { update } = useSession();
@@ -63,7 +62,6 @@ const ProfileCard = ({ session, onProfileUpdate }: ProfileCardProps) => {
   });
 
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { accessToken } = session;
 
   // nickname 동기화
   useEffect(() => {
@@ -81,12 +79,8 @@ const ProfileCard = ({ session, onProfileUpdate }: ProfileCardProps) => {
 
     try {
       const [reviewsPromise, winesPromise] = [
-        getUserReviewCount(accessToken).finally(() =>
-          updateLoading('reviews', false),
-        ),
-        getUserWineCount(accessToken).finally(() =>
-          updateLoading('wines', false),
-        ),
+        getUserReviewCount().finally(() => updateLoading('reviews', false)),
+        getUserWineCount().finally(() => updateLoading('wines', false)),
       ];
 
       const [reviewCount, wineCount] = await Promise.allSettled([
@@ -101,11 +95,13 @@ const ProfileCard = ({ session, onProfileUpdate }: ProfileCardProps) => {
     } catch (error) {
       console.error('카운트 정보 조회 실패:', error);
     }
-  }, [accessToken]);
+  }, []);
 
   useEffect(() => {
-    fetchCounts();
-  }, [fetchCounts]);
+    if (onCountUpdate !== undefined) {
+      fetchCounts();
+    }
+  }, [onCountUpdate, fetchCounts]);
 
   // 파일 크기 검증 함수
   const validateFileSize = (file: File): boolean => {
@@ -138,7 +134,7 @@ const ProfileCard = ({ session, onProfileUpdate }: ProfileCardProps) => {
     updateProfileImg(previewUrl);
 
     try {
-      const serverImageUrl = await uploadUserImage(accessToken, file);
+      const serverImageUrl = await uploadUserImage(file);
 
       // 업로드된 이미지가 실제로 로드 가능한지 확인
       const img = new Image();
@@ -188,7 +184,7 @@ const ProfileCard = ({ session, onProfileUpdate }: ProfileCardProps) => {
         ...(uploadedImgUrl && { image: uploadedImgUrl }),
       };
 
-      await updateUserProfile(accessToken, updateData);
+      await updateUserProfile(updateData);
 
       // 세션 업데이트
       const sessionUpdateData: { name?: string; image?: string } = {};

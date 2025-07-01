@@ -9,7 +9,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { getUserReviews } from '@/feature/libs/api/userApi';
+import { getUserReviews } from '@/feature/myprofile/services/user.service';
 import DeleteForm from '@/feature/reviews/components/form/DeleteForm';
 import EditReviewForm from '@/feature/reviews/components/review-form/EditReviewForm';
 import {
@@ -20,12 +20,12 @@ import MyReviewCard from '@/feature/wines/components/card/MyReviewCard';
 import { useModalStore } from '@/shared/stores/useModalStore';
 
 interface ReviewCardListProps {
-  accessToken: string;
+  onDeleteSuccess?: () => void; // 삭제 성공 시 호출할 콜백 추가
 }
 
 const REVIEWS_LIMIT = 100;
 
-const ReviewCardList = ({ accessToken }: ReviewCardListProps) => {
+const ReviewCardList = ({ onDeleteSuccess }: ReviewCardListProps) => {
   const [reviews, setReviews] = useState<MyReviewWithWine[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -92,17 +92,18 @@ const ReviewCardList = ({ accessToken }: ReviewCardListProps) => {
       prevReviews.filter((review) => review.id !== reviewToDelete),
     );
     handleDeleteClose();
+
+    // 삭제 성공 시 상위 컴포넌트에 알림
+    onDeleteSuccess?.();
   };
 
   useEffect(() => {
     const fetchReviews = async () => {
-      if (!accessToken) return;
-
       try {
         setLoading(true);
         setError(null);
 
-        const { list } = await getUserReviews(accessToken, REVIEWS_LIMIT);
+        const { list } = await getUserReviews(REVIEWS_LIMIT);
         const reviewsArray = Array.isArray(list) ? list : [];
 
         // updatedAt을 기준으로 최신순으로 정렬
@@ -123,7 +124,7 @@ const ReviewCardList = ({ accessToken }: ReviewCardListProps) => {
     };
 
     fetchReviews();
-  }, [accessToken]);
+  }, []);
 
   // 로딩 상태 표시 - 임시적으로 개발 (추후 개발된 스피너로 대체예정)
   if (loading) {

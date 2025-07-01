@@ -10,7 +10,6 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import Image from 'next/image';
 import { JSX, useActionState, useEffect, useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -23,7 +22,6 @@ import {
 import Logo from '@/shared/components/common/logo';
 import Spinner from '@/shared/components/common/spinner';
 
-import { Button } from '../../../shared/components/ui/button';
 import AuthLink from './AuthLink';
 import SubmitButton from './buttons/SubmitButton';
 import FormField from './FormField';
@@ -115,7 +113,7 @@ const SignInForm: () => JSX.Element = () => {
         </div>
         <div className='flex w-full flex-col gap-8'>
           <SubmitButton>로그인</SubmitButton>
-          <Button
+          {/* <Button
             size='full'
             className='mt-[-1rem] bg-[#FFDB00] !text-black hover:bg-[#FFDB00]/60'
           >
@@ -129,7 +127,7 @@ const SignInForm: () => JSX.Element = () => {
               />
               카카오로 시작하기
             </div>
-          </Button>
+          </Button> */}
 
           <AuthLink
             label='계정이 없으신가요?'

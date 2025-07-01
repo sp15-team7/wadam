@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { Wine } from '@/feature/libs/api/userApi';
+import { Wine } from '@/feature/myprofile/services/user.service';
 import {
   CreateWineRequest,
   createWineRequestSchema,

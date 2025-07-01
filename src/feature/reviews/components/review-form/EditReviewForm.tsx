@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { updateReview } from '@/feature/libs/api/userApi';
+import { updateReview } from '@/feature/myprofile/services/user.service';
 import WineTasteSlider from '@/feature/reviews/components/wine-taste-slider';
 import {
   MyReviewWithWine,

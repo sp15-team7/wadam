@@ -2,7 +2,7 @@
 import React, { useCallback, useState } from 'react';
 import { toast } from 'sonner';
 
-import { Wine } from '@/feature/libs/api/userApi';
+import { Wine } from '@/feature/myprofile/services/user.service';
 import EditWineReviewForm from '@/feature/reviews/components/wine-review-form/EditWineReviewForm';
 import DetailCard from '@/feature/wines/components/card/DetailCard';
 import { useUserWinesQuery } from '@/feature/wines/hooks/useUserWinesQuery';

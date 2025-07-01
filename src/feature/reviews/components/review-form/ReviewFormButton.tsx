@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { createReview } from '@/feature/libs/api/userApi';
+import { createReview } from '@/feature/myprofile/services/user.service';
 import WineTasteSlider from '@/feature/reviews/components/wine-taste-slider';
 import {
   CreateReviewRequest,

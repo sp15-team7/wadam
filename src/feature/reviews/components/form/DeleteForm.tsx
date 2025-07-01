@@ -1,6 +1,9 @@
 import { toast } from 'sonner';
 
-import { deleteReview, deleteWine } from '@/feature/libs/api/userApi';
+import {
+  deleteReview,
+  deleteWine,
+} from '@/feature/myprofile/services/user.service';
 import {
   Modal,
   ModalContent,
